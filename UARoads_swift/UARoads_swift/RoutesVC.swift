@@ -30,19 +30,13 @@ class RoutesVC: BaseVC {
         setupConstraints()
         setupInterface()
         setupRx()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
         HUDManager.sharedInstance.show(from: self)
         let urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
         webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
     }
     
-    override func setupConstraints() {
-        super.setupConstraints()
-        
+    func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
         view.addSubview(lineView)
@@ -91,12 +85,8 @@ class RoutesVC: BaseVC {
         }
     }
     
-    override func setupInterface() {
-        super.setupInterface()
-        
+    func setupInterface() {
         title = NSLocalizedString("Build route", comment: "title")
-        
-        view.backgroundColor = UIColor.white
         
         lineView.backgroundColor = UIColor.lightGray
         lineView.alpha = 0.5
@@ -130,9 +120,7 @@ class RoutesVC: BaseVC {
         buildBtn.alpha = 0.0
     }
     
-    override func setupRx() {
-        super.setupRx()
-        
+    func setupRx() {    
         buildBtn
             .rx
             .tap
@@ -176,6 +164,8 @@ class RoutesVC: BaseVC {
             .rx
             .tap
             .bindNext { [weak self] in
+                self?.toModel = nil
+                self?.fromModel = nil
                 self?.fromTF.text = ""
                 self?.toTF.text = ""
                 self?.dataSource = []

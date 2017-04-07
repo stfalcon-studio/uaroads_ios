@@ -13,7 +13,7 @@ import RxCocoa
 import SnapKit
 import Moya
 
-class BaseVC: UIViewController {
+class BaseVC: UIViewController, MainVCProtocol {
 
     let disposeBag = DisposeBag()
     
@@ -27,8 +27,8 @@ class BaseVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        view.backgroundColor = UIColor.white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,16 +45,16 @@ class BaseVC: UIViewController {
     }
 }
 
-extension BaseVC: MainVCProtocol {
-    func setupConstraints() {
-        //
-    }
-    
-    func setupInterface() {
-        //
-    }
-    
-    func setupRx() {
-        //
-    }
-}
+//extension BaseVC: MainVCProtocol {
+//    func setupConstraints() {
+//        //
+//    }
+//    
+//    func setupInterface() {
+//        //
+//    }
+//    
+//    func setupRx() {
+//        //
+//    }
+//}

@@ -23,21 +23,18 @@ class RouteBuidVC: BaseVC {
         setupRx()
     }
     
-    override func setupConstraints() {
-        super.setupConstraints()
-        
+    func setupConstraints() {
         //
     }
     
-    override func setupInterface() {
-        super.setupInterface()
-        
+    func setupInterface() {
         title = NSLocalizedString("Route", comment: "title")
+        
+        cancelBtn.tintColor = UIColor.white
+        navigationItem.leftBarButtonItem = cancelBtn
     }
     
-    override func setupRx() {
-        super.setupRx()
-        
+    func setupRx() {
         cancelBtn
             .rx
             .tap

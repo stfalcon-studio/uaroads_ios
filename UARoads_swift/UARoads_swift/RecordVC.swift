@@ -18,21 +18,15 @@ class RecordVC: BaseVC {
         setupRx()
     }
     
-    override func setupConstraints() {
-        super.setupConstraints()
-        
+    func setupConstraints() {
         //
     }
     
-    override func setupInterface() {
-        super.setupInterface()
-        
+    func setupInterface() {
         title = NSLocalizedString("Record", comment: "title")
     }
     
-    override func setupRx() {
-        super.setupRx()
-        
+    func setupRx() {
         //
     }
 }
