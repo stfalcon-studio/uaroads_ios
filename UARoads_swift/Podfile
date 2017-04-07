@@ -1,0 +1,36 @@
+#platform :ios, '10.0'
+
+target 'UARoads_swift' do
+use_frameworks!
+
+#Constraints
+pod 'SnapKit'
+
+#Crashlytics
+pod 'Fabric'
+pod 'Crashlytics'
+
+#Realm
+pod 'RealmSwift'
+
+#Rx stuff
+pod 'RxSwift'
+pod 'RxCocoa'
+pod 'Moya/RxSwift'
+pod 'RxKeyboard'
+
+#JSON
+pod 'Moya-Gloss/RxSwift'
+pod 'SwiftyJSON'
+
+#Images loading
+pod 'SDWebImage'
+
+#Connection
+pod 'UHBConnectivityManager'
+
+#UI elements
+pod 'JGProgressHUD'
+pod 'UIViewController+ODStatusBar'
+
+end

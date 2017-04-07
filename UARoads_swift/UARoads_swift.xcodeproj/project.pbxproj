@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
+		F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D92DF1E97768B00647D5E /* AppDelegate.swift */; };
+		F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E61E97768B00647D5E /* Assets.xcassets */; };
+		F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */; };
+		F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* YandexManager.swift */; };
+		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
+		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
+		F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C551E97D3460076C224 /* RouteBuidVC.swift */; };
+		F47F19F11E9778AD00E47849 /* MainVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */; };
+		F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F21E9778DE00E47849 /* BaseVC.swift */; };
+		F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F41E9779BD00E47849 /* TabBarVC.swift */; };
+		F47F19F71E977B2B00E47849 /* RoutesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F61E977B2B00E47849 /* RoutesVC.swift */; };
+		F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F81E977C6200E47849 /* RecordVC.swift */; };
+		F47F19FB1E977C9E00E47849 /* TracksVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19FA1E977C9E00E47849 /* TracksVC.swift */; };
+		F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19FC1E977CCA00E47849 /* SettingsVC.swift */; };
+		F47F19FF1E97823600E47849 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19FE1E97823600E47849 /* Color.swift */; };
+		F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F1A021E97943D00E47849 /* HUDManaged.swift */; };
+		F47F1A061E979AA700E47849 /* UARoadsSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F1A051E979AA700E47849 /* UARoadsSDK.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
+		F40D92DC1E97768B00647D5E /* UA Roads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UA Roads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F40D92DF1E97768B00647D5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F40D92E61E97768B00647D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F40D92E91E97768B00647D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F40D92EB1E97768B00647D5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4163C4E1E97AED50076C224 /* YandexManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YandexManager.swift; sourceTree = "<group>"; };
+		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
+		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
+		F4163C551E97D3460076C224 /* RouteBuidVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuidVC.swift; sourceTree = "<group>"; };
+		F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVCProtocol.swift; sourceTree = "<group>"; };
+		F47F19F21E9778DE00E47849 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
+		F47F19F41E9779BD00E47849 /* TabBarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		F47F19F61E977B2B00E47849 /* RoutesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesVC.swift; sourceTree = "<group>"; };
+		F47F19F81E977C6200E47849 /* RecordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordVC.swift; sourceTree = "<group>"; };
+		F47F19FA1E977C9E00E47849 /* TracksVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TracksVC.swift; sourceTree = "<group>"; };
+		F47F19FC1E977CCA00E47849 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		F47F19FE1E97823600E47849 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		F47F1A021E97943D00E47849 /* HUDManaged.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDManaged.swift; sourceTree = "<group>"; };
+		F47F1A051E979AA700E47849 /* UARoadsSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARoadsSDK.swift; sourceTree = "<group>"; };
+		FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F40D92D91E97768B00647D5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		42D986232EBAE9E22E7F020E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		45FD89D2077CF18946219311 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */,
+				FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F40D92D31E97768B00647D5E = {
+			isa = PBXGroup;
+			children = (
+				F40D92DE1E97768B00647D5E /* UARoads_swift */,
+				F40D92DD1E97768B00647D5E /* Products */,
+				45FD89D2077CF18946219311 /* Pods */,
+				42D986232EBAE9E22E7F020E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F40D92DD1E97768B00647D5E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F40D92DC1E97768B00647D5E /* UA Roads.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F40D92DE1E97768B00647D5E /* UARoads_swift */ = {
+			isa = PBXGroup;
+			children = (
+				F40D92DF1E97768B00647D5E /* AppDelegate.swift */,
+				F47F19F41E9779BD00E47849 /* TabBarVC.swift */,
+				F47F19F21E9778DE00E47849 /* BaseVC.swift */,
+				F4163C521E97C9E40076C224 /* Models */,
+				F47F1A041E97999B00E47849 /* Library */,
+				F47F1A001E97938400E47849 /* ViewControllers */,
+				F47F1A011E97941000E47849 /* Managers */,
+				F47F19EF1E97788500E47849 /* Extensions_protocols */,
+				F40D92E61E97768B00647D5E /* Assets.xcassets */,
+				F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */,
+				F40D92EB1E97768B00647D5E /* Info.plist */,
+			);
+			path = UARoads_swift;
+			sourceTree = "<group>";
+		};
+		F4163C521E97C9E40076C224 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F4163C531E97C9F30076C224 /* SearchResultModel.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		F47F19EF1E97788500E47849 /* Extensions_protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */,
+				F4163C501E97AF720076C224 /* Closures.swift */,
+				F47F19FE1E97823600E47849 /* Color.swift */,
+			);
+			name = Extensions_protocols;
+			sourceTree = "<group>";
+		};
+		F47F1A001E97938400E47849 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F47F19F61E977B2B00E47849 /* RoutesVC.swift */,
+				F4163C551E97D3460076C224 /* RouteBuidVC.swift */,
+				F47F19F81E977C6200E47849 /* RecordVC.swift */,
+				F47F19FA1E977C9E00E47849 /* TracksVC.swift */,
+				F47F19FC1E977CCA00E47849 /* SettingsVC.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		F47F1A011E97941000E47849 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F47F1A021E97943D00E47849 /* HUDManaged.swift */,
+				F4163C4E1E97AED50076C224 /* YandexManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		F47F1A041E97999B00E47849 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				F47F1A051E979AA700E47849 /* UARoadsSDK.swift */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F40D92DB1E97768B00647D5E /* UARoads_swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F40D92EE1E97768B00647D5E /* Build configuration list for PBXNativeTarget "UARoads_swift" */;
+			buildPhases = (
+				EAC6F73C418CC5A94D0B3B1D /* [CP] Check Pods Manifest.lock */,
+				F40D92D81E97768B00647D5E /* Sources */,
+				F40D92D91E97768B00647D5E /* Frameworks */,
+				F40D92DA1E97768B00647D5E /* Resources */,
+				AE83F917CB5E2AC416B6383B /* [CP] Embed Pods Frameworks */,
+				09792A97201CE18B522BD7EA /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UARoads_swift;
+			productName = UARoads_swift;
+			productReference = F40D92DC1E97768B00647D5E /* UA Roads.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F40D92D41E97768B00647D5E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Victor Amelin";
+				TargetAttributes = {
+					F40D92DB1E97768B00647D5E = {
+						CreatedOnToolsVersion = 8.3;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = F40D92D71E97768B00647D5E /* Build configuration list for PBXProject "UARoads_swift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F40D92D31E97768B00647D5E;
+			productRefGroup = F40D92DD1E97768B00647D5E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F40D92DB1E97768B00647D5E /* UARoads_swift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F40D92DA1E97768B00647D5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */,
+				F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		09792A97201CE18B522BD7EA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE83F917CB5E2AC416B6383B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EAC6F73C418CC5A94D0B3B1D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F40D92D81E97768B00647D5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47F19F11E9778AD00E47849 /* MainVCProtocol.swift in Sources */,
+				F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */,
+				F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */,
+				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
+				F47F19FB1E977C9E00E47849 /* TracksVC.swift in Sources */,
+				F47F1A061E979AA700E47849 /* UARoadsSDK.swift in Sources */,
+				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
+				F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */,
+				F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */,
+				F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */,
+				F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */,
+				F47F19F71E977B2B00E47849 /* RoutesVC.swift in Sources */,
+				F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */,
+				F47F19FF1E97823600E47849 /* Color.swift in Sources */,
+				F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F40D92E91E97768B00647D5E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F40D92EC1E97768B00647D5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F40D92ED1E97768B00647D5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F40D92EF1E97768B00647D5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = UARoads_swift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stfalcon.UARoads-swift";
+				PRODUCT_NAME = "UA Roads";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F40D92F01E97768B00647D5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = UARoads_swift/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stfalcon.UARoads-swift";
+				PRODUCT_NAME = "UA Roads";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F40D92D71E97768B00647D5E /* Build configuration list for PBXProject "UARoads_swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F40D92EC1E97768B00647D5E /* Debug */,
+				F40D92ED1E97768B00647D5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F40D92EE1E97768B00647D5E /* Build configuration list for PBXNativeTarget "UARoads_swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F40D92EF1E97768B00647D5E /* Debug */,
+				F40D92F01E97768B00647D5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F40D92D41E97768B00647D5E /* Project object */;
+}
