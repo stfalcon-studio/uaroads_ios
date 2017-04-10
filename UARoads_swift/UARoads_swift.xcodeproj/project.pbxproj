@@ -25,6 +25,7 @@
 		F47F19FF1E97823600E47849 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19FE1E97823600E47849 /* Color.swift */; };
 		F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F1A021E97943D00E47849 /* HUDManaged.swift */; };
 		F47F1A061E979AA700E47849 /* UARoadsSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F1A051E979AA700E47849 /* UARoadsSDK.swift */; };
+		F4FD7BE01E9B6AF700E5488C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		F47F19FE1E97823600E47849 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		F47F1A021E97943D00E47849 /* HUDManaged.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDManaged.swift; sourceTree = "<group>"; };
 		F47F1A051E979AA700E47849 /* UARoadsSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARoadsSDK.swift; sourceTree = "<group>"; };
+		F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +154,7 @@
 			children = (
 				F47F1A021E97943D00E47849 /* HUDManaged.swift */,
 				F4163C4E1E97AED50076C224 /* YandexManager.swift */,
+				F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -199,7 +202,13 @@
 				TargetAttributes = {
 					F40D92DB1E97768B00647D5E = {
 						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = HU8ZS7UX2R;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -290,6 +299,7 @@
 				F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */,
 				F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
+				F4FD7BE01E9B6AF700E5488C /* LocationManager.swift in Sources */,
 				F47F19FB1E977C9E00E47849 /* TracksVC.swift in Sources */,
 				F47F1A061E979AA700E47849 /* UARoadsSDK.swift in Sources */,
 				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
@@ -416,12 +426,14 @@
 			baseConfigurationReference = 4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
+				DEVELOPMENT_TEAM = HU8ZS7UX2R;
 				INFOPLIST_FILE = UARoads_swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.stfalcon.UARoads-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "0871e570-def3-4bd7-a315-42e8b25fb881";
+				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -432,12 +444,14 @@
 			baseConfigurationReference = FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
+				DEVELOPMENT_TEAM = HU8ZS7UX2R;
 				INFOPLIST_FILE = UARoads_swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.stfalcon.UARoads-swift";
+				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "0871e570-def3-4bd7-a315-42e8b25fb881";
+				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

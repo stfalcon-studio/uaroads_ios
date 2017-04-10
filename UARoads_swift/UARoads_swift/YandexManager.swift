@@ -16,12 +16,13 @@ class YandexManager {
     static let sharedInstance = YandexManager()
     
     func searchResults(location: String, handler: @escaping SearchLocationHandler) {
-            let params = [
-                "lang":"uk_UA",
-                "format":"json",
-                "ll":"", //TODO: location coord!
-                "geocode":"Україна, \(location)"
-            ]
+        let coord = LocationManager.sharedInstance.lastLocationCoord ?? CLLocationCoordinate2DMake(0.0, 0.0)
+        let params = [
+            "lang":"uk_UA",
+            "format":"json",
+            "ll":"\(coord.latitude), \(coord.longitude)",
+            "geocode":"Україна, \(location)"
+        ]
         
         Alamofire.request("https://geocode-maps.yandex.ru/1.x/", method: .get, parameters: params, encoding: URLEncoding(), headers: nil).responseJSON(queue: nil, options: JSONSerialization.ReadingOptions.allowFragments) { response in
             switch response.result {
