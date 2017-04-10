@@ -9,17 +9,16 @@
 import UIKit
 import RxKeyboard
 
-class RoutesVC: BaseVC {
+class RoutesVC: BaseTVC {
     fileprivate let fromTF = UITextField()
     fileprivate let toTF = UITextField()
     fileprivate let lineView = UIView()
     fileprivate let webView = UIWebView()
     fileprivate let fromLocationBtn = UIButton()
     fileprivate let toLocationBtn = UIButton()
-    fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-pressed"), style: .plain, target: nil, action: nil)
+    fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     fileprivate let buildBtn = UIButton()
     
-    fileprivate let tableView = UITableView()
     fileprivate var dataSource = [SearchResultModel]()
     fileprivate var fromModel: SearchResultModel?
     fileprivate var toModel: SearchResultModel?
@@ -85,7 +84,9 @@ class RoutesVC: BaseVC {
         }
     }
     
-    func setupInterface() {
+    override func setupInterface() {
+        super.setupInterface()
+        
         title = NSLocalizedString("Build route", comment: "title")
         
         lineView.backgroundColor = UIColor.lightGray
@@ -120,7 +121,9 @@ class RoutesVC: BaseVC {
         checkFields()
     }
     
-    func setupRx() {    
+    override func setupRx() {
+        super.setupRx()
+        
         buildBtn
             .rx
             .tap
@@ -129,16 +132,6 @@ class RoutesVC: BaseVC {
                 let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
                 self?.present(navVC, animated: true, completion: nil)
             }
-            .addDisposableTo(disposeBag)
-        
-        tableView
-            .rx
-            .setDataSource(self)
-            .addDisposableTo(disposeBag)
-        
-        tableView
-            .rx
-            .setDelegate(self)
             .addDisposableTo(disposeBag)
         
         tableView
@@ -182,7 +175,13 @@ class RoutesVC: BaseVC {
             .rx
             .tap
             .bindNext { [weak self] in
-                self?.fromTF.text = "Khmelnitsky" //TODO:
+                LocationManager.sharedInstance.manager.requestLocation()
+                if let coord = LocationManager.sharedInstance.lastLocationCoord {
+                    self?.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
+                    self?.fromTF.resignFirstResponder()
+                    self?.fromModel = SearchResultModel(locationCoordianate: coord, locationName: self?.fromTF.text, locationDescription: nil)
+                }
+                self?.checkFields()
             }
             .addDisposableTo(disposeBag)
         
@@ -190,7 +189,13 @@ class RoutesVC: BaseVC {
             .rx
             .tap
             .bindNext { [weak self] in
-                self?.toTF.text = "Khmelnitsky" //TODO:
+                LocationManager.sharedInstance.manager.requestLocation()
+                if let coord = LocationManager.sharedInstance.lastLocationCoord {
+                    self?.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
+                    self?.toTF.resignFirstResponder()
+                    self?.toModel = SearchResultModel(locationCoordianate: coord, locationName: self?.toTF.text, locationDescription: nil)
+                }
+                self?.checkFields()
             }
             .addDisposableTo(disposeBag)
         
@@ -311,16 +316,12 @@ class RoutesVC: BaseVC {
     }
 }
 
-extension RoutesVC: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension RoutesVC {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44.0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var searchCell: UITableViewCell!
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
             searchCell = cell

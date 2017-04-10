@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
+final class LocationManager: NSObject, CLLocationManagerDelegate {
     private override init() {}
     static let sharedInstance = LocationManager()
     override func copy() -> Any {
@@ -22,8 +22,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //========================
     
-    fileprivate let manager = CLLocationManager()
-    
+    let manager = CLLocationManager()
     var lastLocationCoord: CLLocationCoordinate2D?
     
     func start() {
@@ -40,7 +39,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations.last as Any)
         lastLocationCoord = locations.last?.coordinate
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR: \(error.localizedDescription)")
     }
 }
 

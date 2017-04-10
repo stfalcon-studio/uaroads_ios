@@ -9,7 +9,7 @@
 import UIKit
 
 class RecordVC: BaseVC {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,3 +30,11 @@ class RecordVC: BaseVC {
         //
     }
 }
+
+
+
+
+
+
+
+

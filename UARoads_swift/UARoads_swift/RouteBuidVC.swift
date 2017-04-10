@@ -133,7 +133,8 @@ class RouteBuidVC: BaseVC {
             .rx
             .tap
             .bindNext { [weak self] in
-                print("GO!")
+                let navVC = UINavigationController(rootViewController: NavigatorVC())
+                self?.present(navVC, animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
         

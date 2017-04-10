@@ -44,17 +44,3 @@ class BaseVC: UIViewController, MainVCProtocol {
         // Dispose of any resources that can be recreated.
     }
 }
-
-//extension BaseVC: MainVCProtocol {
-//    func setupConstraints() {
-//        //
-//    }
-//    
-//    func setupInterface() {
-//        //
-//    }
-//    
-//    func setupRx() {
-//        //
-//    }
-//}
