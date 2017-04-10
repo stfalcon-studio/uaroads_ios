@@ -39,8 +39,8 @@ class YandexManager {
                         let name = geoObject?["name"]?.string
                         let pos = geoObject?["Point"]?.dictionary?["pos"]?.string
                         let coordArr = pos?.components(separatedBy: " ")
-                        let locationCoord = CLLocationCoordinate2DMake(CLLocationDegrees(Float(coordArr![0])!),
-                                                                       CLLocationDegrees(Float(coordArr![1])!))
+                        let locationCoord = CLLocationCoordinate2DMake(CLLocationDegrees(Float(coordArr![1])!),
+                                                                       CLLocationDegrees(Float(coordArr![0])!))
                         let model = SearchResultModel(locationCoordianate: locationCoord, locationName: name, locationDescription: description)
                         
                         result.append(model)

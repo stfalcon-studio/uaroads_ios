@@ -117,7 +117,7 @@ class RoutesVC: BaseVC {
         
         //hidden by default
         tableView.alpha = 0.0
-        buildBtn.alpha = 0.0
+        checkFields()
     }
     
     func setupRx() {    
@@ -232,7 +232,7 @@ class RoutesVC: BaseVC {
         //all touches
         fromTF
             .rx
-            .controlEvent(.allTouchEvents)
+            .controlEvent(.editingDidBegin)
             .bindNext { [weak self] in
                 UIView.animate(withDuration: 0.2, animations: {
                     self?.buildBtn.alpha = 0.0
@@ -242,7 +242,7 @@ class RoutesVC: BaseVC {
         
         toTF
             .rx
-            .controlEvent(.allTouchEvents)
+            .controlEvent(.editingDidBegin)
             .bindNext { [weak self] in
                 UIView.animate(withDuration: 0.2, animations: {
                     self?.buildBtn.alpha = 0.0
@@ -305,6 +305,8 @@ class RoutesVC: BaseVC {
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.buildBtn.alpha = 1.0
             })
+        } else {
+            buildBtn.alpha = 0.0
         }
     }
 }
