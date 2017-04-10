@@ -12,7 +12,9 @@ class RouteBuidVC: BaseVC {
     fileprivate let cancelBtn = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: "cancelBtn"), style: .plain, target: nil, action: nil)
     fileprivate let webView = UIWebView()
     fileprivate let fromLbl = UILabel()
+    fileprivate let fromDetailLbl = UILabel()
     fileprivate let toLbl = UILabel()
+    fileprivate let toDetailLbl = UILabel()
     fileprivate let goBtn = UIButton()
     
     fileprivate var fromModel: SearchResultModel!
@@ -35,6 +37,10 @@ class RouteBuidVC: BaseVC {
         setupConstraints()
         setupInterface()
         setupRx()
+        
+        HUDManager.sharedInstance.show(from: self)
+        let urlStr = "http://uaroads.com/routing/\(fromModel.locationCoordianate!.latitude),\(fromModel.locationCoordianate!.longitude)/\(toModel.locationCoordianate!.latitude),\(toModel.locationCoordianate!.longitude)?mob=true"
+        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
     }
     
     func setupConstraints() {
@@ -42,6 +48,8 @@ class RouteBuidVC: BaseVC {
         view.addSubview(fromLbl)
         view.addSubview(toLbl)
         view.addSubview(goBtn)
+        view.addSubview(fromDetailLbl)
+        view.addSubview(toDetailLbl)
         
         goBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -53,8 +61,15 @@ class RouteBuidVC: BaseVC {
         toLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
             make.right.equalTo(-15.0)
-            make.bottom.equalTo(goBtn.snp.top)
+            make.bottom.equalTo(goBtn.snp.top).offset(-10.0)
             make.height.equalTo(30.0)
+        }
+        
+        toDetailLbl.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(60.0)
+            make.centerY.equalTo(toLbl)
+            make.right.equalTo(toLbl)
+            make.height.equalTo(toLbl)
         }
         
         fromLbl.snp.makeConstraints { (make) in
@@ -62,6 +77,13 @@ class RouteBuidVC: BaseVC {
             make.right.equalTo(toLbl)
             make.height.equalTo(toLbl)
             make.bottom.equalTo(toLbl.snp.top)
+        }
+        
+        fromDetailLbl.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(60.0)
+            make.height.equalTo(fromLbl)
+            make.right.equalTo(fromLbl)
+            make.centerY.equalTo(fromLbl)
         }
         
         webView.snp.makeConstraints { (make) in
@@ -78,23 +100,24 @@ class RouteBuidVC: BaseVC {
         cancelBtn.tintColor = UIColor.white
         navigationItem.leftBarButtonItem = cancelBtn
         
-        let attrFrom = NSMutableAttributedString(string: NSLocalizedString("from", comment: "from") + " ",
-                                          attributes: [NSForegroundColorAttributeName:UIColor.lightGray])
-        let attrFromName = NSAttributedString(string: fromModel.locationName!, attributes: [NSForegroundColorAttributeName:UIColor.black])
-        attrFrom.insert(attrFromName, at: attrFrom.length)
-        fromLbl.attributedText = attrFrom
+        fromLbl.text = NSLocalizedString("from", comment: "from") + " "
+        toLbl.text = NSLocalizedString("to", comment: "to") + " "
         
-        let attrTo = NSMutableAttributedString(string: NSLocalizedString("to", comment: "to") + " ", attributes: [NSForegroundColorAttributeName:UIColor.lightGray])
-        let attrToName = NSAttributedString(string: toModel.locationName!, attributes: [NSForegroundColorAttributeName:UIColor.black])
-        attrTo.insert(attrToName, at: attrTo.length)
-        toLbl.attributedText = attrTo
-        
-        goBtn.setTitle(NSLocalizedString("GO!", comment: "goBtn"), for: .normal)
-        goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        goBtn.backgroundColor = UIColor.buildBtn
+        fromLbl.textColor = UIColor.lightGray
+        toLbl.textColor = UIColor.lightGray
         
         fromLbl.font = UIFont.systemFont(ofSize: 14.0)
         toLbl.font = UIFont.systemFont(ofSize: 14.0)
+        
+        fromDetailLbl.text = fromModel.locationName
+        toDetailLbl.text = toModel.locationName
+        
+        fromDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
+        toDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
+        
+        goBtn.setTitle(NSLocalizedString("GO!", comment: "goBtn").uppercased(), for: .normal)
+        goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        goBtn.backgroundColor = UIColor.buildBtn
     }
     
     func setupRx() {
@@ -111,6 +134,14 @@ class RouteBuidVC: BaseVC {
             .tap
             .bindNext { [weak self] in
                 print("GO!")
+            }
+            .addDisposableTo(disposeBag)
+        
+        webView
+            .rx
+            .didFinishLoad
+            .bindNext {
+                HUDManager.sharedInstance.hide()
             }
             .addDisposableTo(disposeBag)
     }

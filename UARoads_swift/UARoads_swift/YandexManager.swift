@@ -40,7 +40,6 @@ class YandexManager {
                         let coordArr = pos?.components(separatedBy: " ")
                         let locationCoord = CLLocationCoordinate2DMake(CLLocationDegrees(Float(coordArr![0])!),
                                                                        CLLocationDegrees(Float(coordArr![1])!))
-                        
                         let model = SearchResultModel(locationCoordianate: locationCoord, locationName: name, locationDescription: description)
                         
                         result.append(model)
