@@ -125,7 +125,8 @@ class RoutesVC: BaseVC {
             .rx
             .tap
             .bindNext { [weak self] in
-                let navVC = UINavigationController(rootViewController: RouteBuidVC())
+                guard let from = self?.fromModel, let to = self?.toModel else { return }
+                let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
                 self?.present(navVC, animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
