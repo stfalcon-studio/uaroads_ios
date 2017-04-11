@@ -15,7 +15,6 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     override func copy() -> Any {
         fatalError("don`t use copy!")
     }
-    
     override func mutableCopy() -> Any {
         fatalError("don`t use copy!")
     }
@@ -34,7 +33,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.delegate = self
         manager.requestAlwaysAuthorization()
         
-        manager.startUpdatingLocation()
+//        manager.startUpdatingLocation()
     }
     
     //MARK: CLLocationManagerDelegate
