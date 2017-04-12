@@ -6,7 +6,6 @@
 //  Copyright © 2017 Victor Amelin. All rights reserved.
 //
 
-import Foundation
 import CoreLocation
 
 struct SearchResultModel {

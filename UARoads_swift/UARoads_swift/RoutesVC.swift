@@ -127,7 +127,7 @@ class RoutesVC: BaseTVC {
         buildBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 guard let from = self?.fromModel, let to = self?.toModel else { return }
                 let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
                 self?.present(navVC, animated: true, completion: nil)
@@ -137,7 +137,7 @@ class RoutesVC: BaseTVC {
         tableView
             .rx
             .itemSelected
-            .bindNext { [weak self] ip in
+            .bind { [weak self] ip in
                 if let strongSelf = self {
                     let selectedItem = strongSelf.dataSource[ip.row]
                     if strongSelf.fromTF.isFirstResponder {
@@ -157,7 +157,7 @@ class RoutesVC: BaseTVC {
         clearBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 self?.toModel = nil
                 self?.fromModel = nil
                 self?.fromTF.text = ""
@@ -174,7 +174,7 @@ class RoutesVC: BaseTVC {
         fromLocationBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 LocationManager.sharedInstance.manager.requestLocation()
                 if let coord = LocationManager.sharedInstance.lastLocationCoord {
                     self?.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
@@ -188,7 +188,7 @@ class RoutesVC: BaseTVC {
         toLocationBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 LocationManager.sharedInstance.manager.requestLocation()
                 if let coord = LocationManager.sharedInstance.lastLocationCoord {
                     self?.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
@@ -203,7 +203,7 @@ class RoutesVC: BaseTVC {
         fromTF
             .rx
             .controlEvent(.editingChanged)
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 if self?.navigationItem.rightBarButtonItem == nil {
                     self?.navigationItem.rightBarButtonItem = self?.clearBtn
                 }
@@ -220,7 +220,7 @@ class RoutesVC: BaseTVC {
         toTF
             .rx
             .controlEvent(.editingChanged)
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 if self?.navigationItem.rightBarButtonItem == nil {
                     self?.navigationItem.rightBarButtonItem = self?.clearBtn
                 }
@@ -238,7 +238,7 @@ class RoutesVC: BaseTVC {
         fromTF
             .rx
             .controlEvent(.editingDidBegin)
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 UIView.animate(withDuration: 0.2, animations: {
                     self?.buildBtn.alpha = 0.0
                 })
@@ -248,7 +248,7 @@ class RoutesVC: BaseTVC {
         toTF
             .rx
             .controlEvent(.editingDidBegin)
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 UIView.animate(withDuration: 0.2, animations: {
                     self?.buildBtn.alpha = 0.0
                 })
@@ -259,7 +259,7 @@ class RoutesVC: BaseTVC {
         toTF
             .rx
             .controlEvent(.editingDidEndOnExit)
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 self?.hideTableView()
                 self?.checkFields()
             }
@@ -268,7 +268,7 @@ class RoutesVC: BaseTVC {
         fromTF
             .rx
             .controlEvent(.editingDidEndOnExit)
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 self?.hideTableView()
                 self?.checkFields()
             }
@@ -285,7 +285,7 @@ class RoutesVC: BaseTVC {
         webView
             .rx
             .didFinishLoad
-            .bindNext {
+            .bind {
                 HUDManager.sharedInstance.hide()
             }
             .addDisposableTo(disposeBag)

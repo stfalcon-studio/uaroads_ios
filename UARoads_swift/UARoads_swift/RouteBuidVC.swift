@@ -124,7 +124,7 @@ class RouteBuidVC: BaseVC {
         cancelBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
@@ -132,7 +132,7 @@ class RouteBuidVC: BaseVC {
         goBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 let navVC = UINavigationController(rootViewController: NavigatorVC())
                 self?.present(navVC, animated: true, completion: nil)
             }
@@ -141,7 +141,7 @@ class RouteBuidVC: BaseVC {
         webView
             .rx
             .didFinishLoad
-            .bindNext {
+            .bind {
                 HUDManager.sharedInstance.hide()
             }
             .addDisposableTo(disposeBag)

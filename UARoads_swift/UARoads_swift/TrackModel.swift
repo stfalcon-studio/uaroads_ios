@@ -6,7 +6,6 @@
 //  Copyright © 2017 Victor Amelin. All rights reserved.
 //
 
-import UIKit
 import RealmSwift
 
 enum TrackStatus: Int {
@@ -30,13 +29,20 @@ class TrackModel: Object {
         set { status = newValue.rawValue }
     }
     
-    dynamic var pits: [Any] = [Any]()
     dynamic var autoRecord: Bool = false
     dynamic var debug: Bool = false
     dynamic var trackFileName: String = ""
+    var pits: [String] {
+        get { return self.pits }
+        set { self.pits = newValue }
+    }
     
     override static func primaryKey() -> String? {
         return "trackID"
+    }
+    
+    override static func ignoredProperties() -> [String] {
+        return ["pits"]
     }
 }
 

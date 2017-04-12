@@ -19,6 +19,9 @@
 		F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40ED4B21E9B898500D72324 /* BaseCell.swift */; };
 		F40ED4B51E9B8A4500D72324 /* RecordedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40ED4B41E9B8A4500D72324 /* RecordedCell.swift */; };
 		F40ED4B71E9BA59D00D72324 /* BaseTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40ED4B61E9BA59D00D72324 /* BaseTVC.swift */; };
+		F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */; };
+		F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = F41441C31E9E63A500F3A7C3 /* GZIP.m */; };
+		F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */; };
 		F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* YandexManager.swift */; };
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
 		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
@@ -52,6 +55,11 @@
 		F40ED4B21E9B898500D72324 /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		F40ED4B41E9B8A4500D72324 /* RecordedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordedCell.swift; sourceTree = "<group>"; };
 		F40ED4B61E9BA59D00D72324 /* BaseTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTVC.swift; sourceTree = "<group>"; };
+		F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitModel.swift; sourceTree = "<group>"; };
+		F41441C11E9E63A400F3A7C3 /* UARoads_swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UARoads_swift-Bridging-Header.h"; sourceTree = "<group>"; };
+		F41441C21E9E63A500F3A7C3 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
+		F41441C31E9E63A500F3A7C3 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
+		F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePitModel.swift; sourceTree = "<group>"; };
 		F4163C4E1E97AED50076C224 /* YandexManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YandexManager.swift; sourceTree = "<group>"; };
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
@@ -133,15 +141,17 @@
 				F47F19F41E9779BD00E47849 /* TabBarVC.swift */,
 				F47F19F21E9778DE00E47849 /* BaseVC.swift */,
 				F40ED4B61E9BA59D00D72324 /* BaseTVC.swift */,
-				F4163C521E97C9E40076C224 /* Models */,
 				F47F1A041E97999B00E47849 /* Library */,
+				F4163C521E97C9E40076C224 /* Models */,
 				F47F1A001E97938400E47849 /* ViewControllers */,
 				F47F1A011E97941000E47849 /* Managers */,
 				F40ED4B11E9B896200D72324 /* CustomViews */,
 				F47F19EF1E97788500E47849 /* Extensions_protocols */,
+				F41441C51E9E63AC00F3A7C3 /* ZIP */,
 				F40D92E61E97768B00647D5E /* Assets.xcassets */,
 				F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */,
 				F40D92EB1E97768B00647D5E /* Info.plist */,
+				F41441C11E9E63A400F3A7C3 /* UARoads_swift-Bridging-Header.h */,
 			);
 			path = UARoads_swift;
 			sourceTree = "<group>";
@@ -155,11 +165,22 @@
 			name = CustomViews;
 			sourceTree = "<group>";
 		};
+		F41441C51E9E63AC00F3A7C3 /* ZIP */ = {
+			isa = PBXGroup;
+			children = (
+				F41441C21E9E63A500F3A7C3 /* GZIP.h */,
+				F41441C31E9E63A500F3A7C3 /* GZIP.m */,
+			);
+			name = ZIP;
+			sourceTree = "<group>";
+		};
 		F4163C521E97C9E40076C224 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				F4163C531E97C9F30076C224 /* SearchResultModel.swift */,
 				F404C6401E9CFCAD001D63A5 /* TrackModel.swift */,
+				F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */,
+				F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -243,6 +264,7 @@
 					F40D92DB1E97768B00647D5E = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = HU8ZS7UX2R;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -341,12 +363,14 @@
 				F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */,
 				F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */,
 				F40ED4B01E9B84A300D72324 /* NavigatorVC.swift in Sources */,
+				F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */,
 				F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
 				F4FD7BE01E9B6AF700E5488C /* LocationManager.swift in Sources */,
 				F47F19FB1E977C9E00E47849 /* TracksVC.swift in Sources */,
 				F47F1A061E979AA700E47849 /* UARoadsSDK.swift in Sources */,
 				F40ED4B51E9B8A4500D72324 /* RecordedCell.swift in Sources */,
+				F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */,
 				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
 				F404C6461E9D1246001D63A5 /* DateManager.swift in Sources */,
 				F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */,
@@ -356,6 +380,7 @@
 				F404C6441E9D01D1001D63A5 /* GraphView.swift in Sources */,
 				F47F19F71E977B2B00E47849 /* RoutesVC.swift in Sources */,
 				F40ED4B71E9BA59D00D72324 /* BaseTVC.swift in Sources */,
+				F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */,
 				F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */,
 				F47F19FF1E97823600E47849 /* Color.swift in Sources */,
 				F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */,
@@ -474,6 +499,7 @@
 			baseConfigurationReference = 4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				DEVELOPMENT_TEAM = HU8ZS7UX2R;
 				INFOPLIST_FILE = UARoads_swift/Info.plist;
@@ -483,6 +509,8 @@
 				PRODUCT_NAME = "UA Roads";
 				PROVISIONING_PROFILE = "0871e570-def3-4bd7-a315-42e8b25fb881";
 				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
+				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/UARoads_swift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -493,6 +521,7 @@
 			baseConfigurationReference = FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				DEVELOPMENT_TEAM = HU8ZS7UX2R;
 				INFOPLIST_FILE = UARoads_swift/Info.plist;
@@ -502,6 +531,7 @@
 				PRODUCT_NAME = "UA Roads";
 				PROVISIONING_PROFILE = "0871e570-def3-4bd7-a315-42e8b25fb881";
 				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
+				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/UARoads_swift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

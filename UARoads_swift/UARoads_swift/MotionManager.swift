@@ -12,6 +12,7 @@ import CallKit
 import CoreMotion
 import UserNotifications
 import StfalconSwiftExtensions
+import UHBConnectivityManager
 
 enum MotionStatus {
     case notActive
@@ -67,8 +68,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     fileprivate var timerPit: Timer?
     fileprivate var timerMaxPit: Timer?
     fileprivate var timerMotion: Timer?
-    fileprivate var currentPit: CGFloat = 0.0
-    fileprivate var maxPit: CGFloat = 0.0
+    fileprivate var currentPit: Double = 0.0
+    fileprivate var maxPit: Double = 0.0
     fileprivate var currentPitTime: Date?
     fileprivate var maxSpeed: CGFloat?
     fileprivate var dataToSave: Date?
@@ -115,14 +116,13 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func completeActiveTracks() {
-        let result = RealmHelper.objects(type: TrackModel.self)?.filter("statusEnum = 0")
-        if let result = result {
-            if result.count > 0 {
-                for item in result {
-                    if Date().timeIntervalSince(item.date) > 10 {
-                        track?.statusEnum = TrackStatus.waitingForUpload
+        let pred = NSPredicate(format: "statusEnum == 0")
+        let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
+        if let result = result, result.count > 0 {
+            for item in result {
+                if Date().timeIntervalSince(item.date) > 10 {
+                    track?.statusEnum = TrackStatus.waitingForUpload
 //                        [UaroadsSession sharedSession].totalDistance += track.distance;
-                    }
                 }
             }
         }
@@ -130,7 +130,16 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func sendDataActivity() {
-        //
+        let pred = NSPredicate(format: "(statusEnum == 2) OR (statusEnum == 3)")
+        let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
+        if let result = result, result.count > 0 {
+            if UHBConnectivityManager.shared().isConnected() == true {
+                let track = result.first
+                UARoadsSDK.sharedInstance.send(track: track!, handler: { [weak self] val in
+                    print(val)
+                })
+            }
+        }
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {
@@ -186,7 +195,38 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     @objc fileprivate func timerMotionAction() {
-        //
+        if let accelerometerData = motionManager.accelerometerData {
+            let accX = accelerometerData.acceleration.x
+            let accY = accelerometerData.acceleration.y
+            let accZ = accelerometerData.acceleration.z
+            
+            var f: Double = fabs(sqrt(accX * accX + accY * accY + accZ * accZ) - 1)
+            
+            //Pit simulator
+            if f == 1.0 {
+                if arc4random() % 20 == 0 {
+                    f = pow(Double((arc4random() % 800) / 1000), 2.0)
+                } else {
+                    f = pow(Double((arc4random() % 100) / 1000), 2.0)
+                }
+            }
+            
+            var filtered = true
+            
+            let minRecValue: Double = 0.0
+            if f > minRecValue {
+                if f > currentPit {
+                    currentPit = f
+                    currentPitTime = Date()
+                }
+                
+                filtered = false
+            }
+            
+            if (graphView != nil) && !(graphView?.isHidden)! {
+                graphView?.addValue(CGFloat(f), isFiltered: filtered)
+            }
+        }
     }
     
     @objc fileprivate func timerMaxPitAction() {

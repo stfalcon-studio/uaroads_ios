@@ -144,11 +144,16 @@ class RecordVC: BaseVC {
             .rx
             .tap
             .bind { [weak self] in
-                self?.lastSessionLbl.text = NSLocalizedString("Current session", comment: "lastSessionLbl")
-                self?.allSessionsLbl.text = NSLocalizedString("Shaking force", comment: "allSessionsLbl")
-                self?.pauseBtn.isHidden = false
-                self?.stopBtn.isHidden = false
-                self?.startBtn.isHidden = true
+                if UIApplication.shared.backgroundRefreshStatus == .available {
+                    MotionManager.sharedInstance.startRecording()
+                    self?.lastSessionLbl.text = NSLocalizedString("Current session", comment: "lastSessionLbl")
+                    self?.allSessionsLbl.text = NSLocalizedString("Shaking force", comment: "allSessionsLbl")
+                    self?.pauseBtn.isHidden = false
+                    self?.stopBtn.isHidden = false
+                    self?.startBtn.isHidden = true
+                } else {
+                    self?.showAlert(title: "Background Refresh Disabled", text: NSLocalizedString("You need to enable background location updates", comment: ""), controller: self, handler: nil)
+                }
             }
             .addDisposableTo(disposeBag)
         

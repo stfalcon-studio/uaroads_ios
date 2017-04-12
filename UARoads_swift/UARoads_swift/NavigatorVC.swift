@@ -31,7 +31,7 @@ class NavigatorVC: BaseVC {
         closeBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
