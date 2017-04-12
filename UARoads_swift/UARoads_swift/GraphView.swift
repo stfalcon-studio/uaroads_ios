@@ -9,9 +9,21 @@
 import UIKit
 
 class GraphView: UIView {
-    fileprivate var valuesList = [CGFloat]()
-    fileprivate var filteredValuesList = [CGFloat]()
-    fileprivate var maxValue: CGFloat = 2.5
+    fileprivate var valuesList: [CGFloat]!
+    fileprivate var filteredValuesList: [CGFloat]!
+    fileprivate var maxValue: CGFloat!
+    
+    init() {
+        super.init(frame: CGRect.zero)
+        maxValue = 2.5
+        valuesList = [CGFloat]()
+        filteredValuesList = [CGFloat]()
+        backgroundColor = UIColor.clear
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func addValue(_ value: CGFloat, isFiltered: Bool) {
         var val = value
@@ -34,55 +46,53 @@ class GraphView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        var middleY = self.frame.size.height - 10.0
-        var zoomY = (self.frame.size.height - 20) / maxValue
+        let middleY = self.frame.size.height - 10.0
+        let zoomY = (self.frame.size.height - 20) / maxValue
         
         let context = UIGraphicsGetCurrentContext()
         
         if valuesList.count > 0 && maxValue > 0.0 {
-            var startPos: CGFloat = self.frame.size.width
-            let zoomX: CGFloat = 5.0
+            var startPos: Int = Int(self.frame.size.width)
+            let zoomX = 5
             
             context?.setLineWidth(2.0)
             
-            if CGFloat(valuesList.count) * zoomX < self.frame.size.width {
-                startPos = CGFloat(valuesList.count) * zoomX;
+            if valuesList.count * zoomX < Int(self.frame.size.width) {
+                startPos = valuesList.count * zoomX;
             }
             
-            for i in 0..<valuesList.count { //(int i = 0; i < valuesList.count && i*zoomX < self.frame.size.width; i++) {
+            var i = 0
+            while i < valuesList.count && i*zoomX < Int(self.frame.size.width) {
+                i += 1
                 if i > 0 && i < valuesList.count - 1 {
-                    let valueX1 = startPos - i*zoomX;
-                    let valueY1 = middleY - [valuesList[i] floatValue] * zoomY;
-                    let valueX2 = startPos - (i+1)*zoomX;
-                    let valueY2 = middleY - [valuesList[i+1] floatValue] * zoomY;
+                    let valueX1: CGFloat = CGFloat(startPos - i*zoomX)
+                    let valueY1: CGFloat = middleY - valuesList[i] * zoomY
+                    let valueX2: CGFloat = CGFloat(startPos - (i+1)*zoomX)
+                    let valueY2: CGFloat = middleY - valuesList[i+1] * zoomY
                     
-                    CGContextSetStrokeColorWithColor(context, [UIColor greenColor].CGColor);
-                    CGContextMoveToPoint(context, valueX1, valueY1);
-                    CGContextAddLineToPoint(context, valueX2, valueY2);
+                    context?.setStrokeColor(UIColor.green.cgColor)
+                    context?.move(to: CGPoint(x: valueX1, y: valueY1))
+                    context?.addLine(to: CGPoint(x: valueX2, y: valueY2))
                 }
+            }
+            context?.strokePath()
             
+            i = 0
+            while i < valuesList.count && i*zoomX < Int(self.frame.size.width) {
+                i += 1
+                if i > 0 && i < valuesList.count - 1 && i < filteredValuesList.count - 1 {
+                    let valueX1: CGFloat = CGFloat(startPos - i*zoomX)
+                    let valueY1: CGFloat = middleY - filteredValuesList[i] * zoomY
+                    let valueX2: CGFloat = CGFloat(startPos - (i+1)*zoomX)
+                    let valueY2: CGFloat = middleY - filteredValuesList[i+1] * zoomY
+                    
+                    context?.setStrokeColor(UIColor.red.cgColor)
+                    context?.move(to: CGPoint(x: valueX1, y: valueY1))
+                    context?.addLine(to: CGPoint(x: valueX2, y: valueY2))
+                }
             }
             context?.strokePath()
         }
-    }
-    
-    convenience init() {
-        self.init(frame: CGRect.zero)
-        self.setup()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        self.setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setup() {
-        //
     }
 }
 

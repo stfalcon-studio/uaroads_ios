@@ -477,6 +477,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				DEVELOPMENT_TEAM = HU8ZS7UX2R;
 				INFOPLIST_FILE = UARoads_swift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
 				PRODUCT_NAME = "UA Roads";
@@ -495,6 +496,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				DEVELOPMENT_TEAM = HU8ZS7UX2R;
 				INFOPLIST_FILE = UARoads_swift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
 				PRODUCT_NAME = "UA Roads";

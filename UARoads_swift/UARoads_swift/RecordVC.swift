@@ -13,7 +13,7 @@ class RecordVC: BaseVC {
     fileprivate let allSessionDetailLbl = UILabel()
     fileprivate let lastSessionLbl = UILabel()
     fileprivate let allSessionsLbl = UILabel()
-    fileprivate let graphView = UIView() //TODO: 
+    fileprivate let graphView = GraphView()
     fileprivate let startBtn = UIButton()
     fileprivate let pauseBtn = UIButton()
     fileprivate let stopBtn = UIButton()
@@ -90,8 +90,6 @@ class RecordVC: BaseVC {
         title = NSLocalizedString("Record", comment: "title")
         
         view.backgroundColor = UIColor.navBar
-        
-//        graphView.backgroundColor = UIColor.red
         
         allSessionsLbl.text = NSLocalizedString("All sessions", comment: "All sessions")
         allSessionsLbl.textAlignment = .center
@@ -170,6 +168,9 @@ class RecordVC: BaseVC {
                 self?.startBtn.isHidden = false
             }
             .addDisposableTo(disposeBag)
+        
+        MotionManager.sharedInstance.delegate = self
+        MotionManager.sharedInstance.graphView = graphView
     }
 }
 
