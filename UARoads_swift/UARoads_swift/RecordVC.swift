@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class RecordVC: BaseVC {
     fileprivate let lastSessionDetailLbl = UILabel()
@@ -106,7 +107,7 @@ class RecordVC: BaseVC {
         allSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         allSessionDetailLbl.textAlignment = .center
         
-        lastSessionDetailLbl.text = "0.76"
+        lastSessionDetailLbl.text = "0.00"
         lastSessionDetailLbl.textColor = UIColor.white
         lastSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         lastSessionDetailLbl.textAlignment = .center
@@ -142,7 +143,9 @@ class RecordVC: BaseVC {
         startBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
+                self?.lastSessionLbl.text = NSLocalizedString("Current session", comment: "lastSessionLbl")
+                self?.allSessionsLbl.text = NSLocalizedString("Shaking force", comment: "allSessionsLbl")
                 self?.pauseBtn.isHidden = false
                 self?.stopBtn.isHidden = false
                 self?.startBtn.isHidden = true
@@ -152,7 +155,7 @@ class RecordVC: BaseVC {
         pauseBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
                 if let strongSelf = self {
                     strongSelf.pauseBtn.isSelected = !strongSelf.pauseBtn.isSelected
                 }
@@ -162,7 +165,9 @@ class RecordVC: BaseVC {
         stopBtn
             .rx
             .tap
-            .bindNext { [weak self] in
+            .bind { [weak self] in
+                self?.allSessionsLbl.text = NSLocalizedString("All sessions", comment: "All sessions")
+                self?.lastSessionLbl.text = NSLocalizedString("Last session", comment: "Last session")
                 self?.pauseBtn.isHidden = true
                 self?.stopBtn.isHidden = true
                 self?.startBtn.isHidden = false
@@ -171,6 +176,23 @@ class RecordVC: BaseVC {
         
         MotionManager.sharedInstance.delegate = self
         MotionManager.sharedInstance.graphView = graphView
+    }
+}
+
+extension RecordVC: MotionManagerDelegate {
+    func locationUpdated(location: CLLocation, trackDist: CGFloat) {
+        allSessionDetailLbl.text = "\(trackDist/1000.0)" + " " + NSLocalizedString("km", comment: "km")
+
+//        MKCoordinateRegion region = MKCoordinateRegionMake(location.coordinate, MKCoordinateSpanMake(0.002, 0.002));
+//        [self.mapView setRegion:region animated:YES];
+    }
+    
+    func maxPitUpdated(maxPit: CGFloat) {
+        lastSessionDetailLbl.text = "\(maxPit)"
+    }
+    
+    func statusChanged(newStatus: MotionStatus) {
+        //
     }
 }
 

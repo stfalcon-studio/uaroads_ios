@@ -11,6 +11,7 @@ import CoreLocation
 import CallKit
 import CoreMotion
 import UserNotifications
+import StfalconSwiftExtensions
 
 enum MotionStatus {
     case notActive
@@ -19,7 +20,7 @@ enum MotionStatus {
     case pausedForCall
 }
 
-protocol MotionDelegate {
+protocol MotionManagerDelegate {
     func locationUpdated(location: CLLocation, trackDist: CGFloat)
     func maxPitUpdated(maxPit: CGFloat)
     func statusChanged(newStatus: MotionStatus)
@@ -37,7 +38,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         self.motionManager.deviceMotionUpdateInterval = 0.02777
         self.reloadSettings()
         
-        self.callObserver.setDelegate(self, queue: nil)
+        self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
     }
     static let sharedInstance = MotionManager()
     override func copy() -> Any {
@@ -47,7 +48,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         fatalError("don`t use copy!")
     }
     
-    var delegate: MotionDelegate?
+    //=======================
+    
+    var delegate: MotionManagerDelegate?
     var status: MotionStatus?
     var track: TrackModel?
     weak var graphView: GraphView?
@@ -69,6 +72,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     fileprivate var currentPitTime: Date?
     fileprivate var maxSpeed: CGFloat?
     fileprivate var dataToSave: Date?
+    fileprivate var currentLocation: CLLocation?
     fileprivate var lastAccX: CGFloat?
     fileprivate var lastAccY: CGFloat?
     fileprivate var lastAccZ: CGFloat?
@@ -81,7 +85,17 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     func stopRecording(autostart: Bool = false) {
-        //
+        UIApplication.shared.isIdleTimerDisabled = false
+        status = .notActive
+        motionManager.stopDeviceMotionUpdates()
+        LocationManager.sharedInstance.manager.stopUpdatingLocation()
+        stopTimers()
+        
+        completeActiveTracks()
+        
+        graphView?.clear()
+        currentLocation = nil
+        pitBuffer.removeAll()
     }
 
     func pauseRecording() {
@@ -100,30 +114,42 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
 //        [UIApplication sharedApplication].idleTimerDisabled = NO;
     }
     
+    fileprivate func completeActiveTracks() {
+        let result = RealmHelper.objects(type: TrackModel.self)?.filter("statusEnum = 0")
+        if let result = result {
+            if result.count > 0 {
+                for item in result {
+                    if Date().timeIntervalSince(item.date) > 10 {
+                        track?.statusEnum = TrackStatus.waitingForUpload
+//                        [UaroadsSession sharedSession].totalDistance += track.distance;
+                    }
+                }
+            }
+        }
+        sendDataActivity()
+    }
+    
+    fileprivate func sendDataActivity() {
+        //
+    }
+    
     fileprivate func startRecording(title: String, autostart: Bool = false) {
         if self.status == .notActive {
-            //if (autostart) {
-            //  [[UaroadsAnalyticManager sharedManager] reportEventWithCategory:@"Record" action:@"startAutoRecord" label:nil value:nil];
-            //} else {
-            //  [[UaroadsAnalyticManager sharedManager] reportEventWithCategory:@"Record" action:@"startManualRecord" label:nil value:nil];
-            //            }
-            self.track = TrackModel(trackID: nil, title: title, date: nil, status: nil, distance: nil, maxPit: nil, pits: nil, autoRecord: autostart, debug: nil, trackFileName: nil)
+            track = TrackModel()
+            track?.autoRecord = autostart
+            track?.title = title
+            track?.add()
         }
 
-//            if ([Uaroads session].settingsPreventLock)
-//            [UIApplication sharedApplication].idleTimerDisabled = YES;
-//            self.track = [UaroadsTrack trackWithTitle:title autoRecord:autostart];
-//            currentLocation = nil;
-//            skipLocationPoints = 3;
-//            self.status = MotionListenerStatusActive;
-//            [self.motionManager startDeviceMotionUpdates];
-//            [self.motionManager startAccelerometerUpdates];
-//            
-//            [self.locationManager startUpdatingLocation];
-//            
-//            [self restartTimers];
-//            [self reloadSettings];
-//        }
+        currentLocation = nil
+        skipLocationPoints = 3
+        status = .active
+        motionManager.startDeviceMotionUpdates()
+        motionManager.startAccelerometerUpdates()
+        LocationManager.sharedInstance.manager.startUpdatingLocation()
+        
+        restartTimers()
+        reloadSettings()
     }
     
     fileprivate func stopTimers() {

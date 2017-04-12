@@ -33,4 +33,7 @@ pod 'UHBConnectivityManager'
 pod 'JGProgressHUD'
 pod 'UIViewController+ODStatusBar'
 
+#extensions
+pod 'StfalconSwiftExtensions'
+
 end

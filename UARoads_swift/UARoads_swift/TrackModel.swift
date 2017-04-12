@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import RealmSwift
 
-enum TrackStatus {
+enum TrackStatus: Int {
     case active
     case saved
     case waitingForUpload
@@ -16,18 +17,27 @@ enum TrackStatus {
     case uploaded
 }
 
-struct TrackModel {
-    var trackID: String?
-    var title: String?
-    var date: Date?
-    var status: TrackStatus?
-    var distance: CGFloat?
-    var maxPit: CGFloat?
+class TrackModel: Object {
+    dynamic var trackID: String = ""
+    dynamic var title: String = ""
+    dynamic var date: Date = Date()
+    dynamic var distance: CGFloat = 0.0
+    dynamic var maxPit: CGFloat = 0.0
     
-    var pits: [Any]?
-    var autoRecord: Bool?
-    var debug: Bool?
-    var trackFileName: String?
+    dynamic var status = TrackStatus.active.rawValue
+    var statusEnum: TrackStatus {
+        get { return TrackStatus(rawValue: status)! }
+        set { status = newValue.rawValue }
+    }
+    
+    dynamic var pits: [Any] = [Any]()
+    dynamic var autoRecord: Bool = false
+    dynamic var debug: Bool = false
+    dynamic var trackFileName: String = ""
+    
+    override static func primaryKey() -> String? {
+        return "trackID"
+    }
 }
 
 
