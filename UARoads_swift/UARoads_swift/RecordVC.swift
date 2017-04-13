@@ -163,6 +163,11 @@ class RecordVC: BaseVC {
             .bind { [weak self] in
                 if let strongSelf = self {
                     strongSelf.pauseBtn.isSelected = !strongSelf.pauseBtn.isSelected
+                    if MotionManager.sharedInstance.status == .active {
+                        MotionManager.sharedInstance.pauseRecording()
+                    } else {
+                        MotionManager.sharedInstance.resumeRecording()
+                    }
                 }
             }
             .addDisposableTo(disposeBag)
@@ -176,6 +181,7 @@ class RecordVC: BaseVC {
                 self?.pauseBtn.isHidden = true
                 self?.stopBtn.isHidden = true
                 self?.startBtn.isHidden = false
+                MotionManager.sharedInstance.stopRecording()
             }
             .addDisposableTo(disposeBag)
         
@@ -185,15 +191,12 @@ class RecordVC: BaseVC {
 }
 
 extension RecordVC: MotionManagerDelegate {
-    func locationUpdated(location: CLLocation, trackDist: CGFloat) {
-        allSessionDetailLbl.text = "\(trackDist/1000.0)" + " " + NSLocalizedString("km", comment: "km")
-
-//        MKCoordinateRegion region = MKCoordinateRegionMake(location.coordinate, MKCoordinateSpanMake(0.002, 0.002));
-//        [self.mapView setRegion:region animated:YES];
+    func locationUpdated(location: CLLocation, trackDist: Double) {
+        allSessionDetailLbl.text = NSString(format: "%.2f km", trackDist/1000.0) as String
     }
     
-    func maxPitUpdated(maxPit: CGFloat) {
-        lastSessionDetailLbl.text = "\(maxPit)"
+    func maxPitUpdated(maxPit: Double) {
+        lastSessionDetailLbl.text = NSString(format: "%.2f", maxPit) as String
     }
     
     func statusChanged(newStatus: MotionStatus) {

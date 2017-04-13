@@ -22,8 +22,8 @@ enum MotionStatus {
 }
 
 protocol MotionManagerDelegate {
-    func locationUpdated(location: CLLocation, trackDist: CGFloat)
-    func maxPitUpdated(maxPit: CGFloat)
+    func locationUpdated(location: CLLocation, trackDist: Double)
+    func maxPitUpdated(maxPit: Double)
     func statusChanged(newStatus: MotionStatus)
 }
 
@@ -100,11 +100,19 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
 
     func pauseRecording() {
-        //
+        UIApplication.shared.isIdleTimerDisabled = false
+        status = .paused
+        motionManager.stopDeviceMotionUpdates()
+        stopTimers()
     }
     
     func resumeRecording() {
-        //
+        currentLocation = nil
+        status = .active
+        motionManager.startDeviceMotionUpdates()
+        LocationManager.sharedInstance.manager.startUpdatingLocation()
+        restartTimers()
+        reloadSettings()
     }
     
     func reloadSettings() {
@@ -116,7 +124,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func completeActiveTracks() {
-        let pred = NSPredicate(format: "statusEnum == 0")
+        let pred = NSPredicate(format: "status == 0")
         let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
             for item in result {
@@ -130,7 +138,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func sendDataActivity() {
-        let pred = NSPredicate(format: "(statusEnum == 2) OR (statusEnum == 3)")
+        let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
         let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
             if UHBConnectivityManager.shared().isConnected() == true {
@@ -230,8 +238,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     @objc fileprivate func timerMaxPitAction() {
-//        [self.delegate motionListenerController:self maxPitUpdated:maxPit];
-//        maxPit = 0;
+        delegate?.maxPitUpdated(maxPit: maxPit)
+        maxPit = 0.0
     }
     
     @objc fileprivate func timerPitAction() {
@@ -254,7 +262,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
 //                
 //                
 //            }
-//            currentPit = 0;
+            currentPit = 0.0
     }
     
     fileprivate func pauseRecordingForCall() {
