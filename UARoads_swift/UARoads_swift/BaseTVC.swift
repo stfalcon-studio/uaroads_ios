@@ -9,7 +9,7 @@
 import UIKit
 
 class BaseTVC: BaseVC {
-    let tableView = UITableView()
+    var tableView = UITableView()
     
     func setupInterface() {
         tableView.estimatedRowHeight = 50.0

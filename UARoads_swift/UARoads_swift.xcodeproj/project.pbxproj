@@ -37,6 +37,10 @@
 		F47F19FF1E97823600E47849 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19FE1E97823600E47849 /* Color.swift */; };
 		F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F1A021E97943D00E47849 /* HUDManaged.swift */; };
 		F47F1A061E979AA700E47849 /* UARoadsSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F1A051E979AA700E47849 /* UARoadsSDK.swift */; };
+		F4BAD6211E9FAD7800FE59B9 /* SettingsSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BAD6201E9FAD7800FE59B9 /* SettingsSwitchCell.swift */; };
+		F4BAD6231E9FB16F00FE59B9 /* SettingsTFCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BAD6221E9FB16F00FE59B9 /* SettingsTFCell.swift */; };
+		F4BAD6261E9FB47900FE59B9 /* FooterSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BAD6251E9FB47900FE59B9 /* FooterSignIn.swift */; };
+		F4BAD6281E9FB48700FE59B9 /* FooterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BAD6271E9FB48700FE59B9 /* FooterText.swift */; };
 		F4FD7BE01E9B6AF700E5488C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +81,10 @@
 		F47F19FE1E97823600E47849 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		F47F1A021E97943D00E47849 /* HUDManaged.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDManaged.swift; sourceTree = "<group>"; };
 		F47F1A051E979AA700E47849 /* UARoadsSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARoadsSDK.swift; sourceTree = "<group>"; };
+		F4BAD6201E9FAD7800FE59B9 /* SettingsSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSwitchCell.swift; sourceTree = "<group>"; };
+		F4BAD6221E9FB16F00FE59B9 /* SettingsTFCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTFCell.swift; sourceTree = "<group>"; };
+		F4BAD6251E9FB47900FE59B9 /* FooterSignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterSignIn.swift; sourceTree = "<group>"; };
+		F4BAD6271E9FB48700FE59B9 /* FooterText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterText.swift; sourceTree = "<group>"; };
 		F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +123,8 @@
 			children = (
 				F40ED4B21E9B898500D72324 /* BaseCell.swift */,
 				F40ED4B41E9B8A4500D72324 /* RecordedCell.swift */,
+				F4BAD6201E9FAD7800FE59B9 /* SettingsSwitchCell.swift */,
+				F4BAD6221E9FB16F00FE59B9 /* SettingsTFCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -163,6 +173,7 @@
 		F40ED4B11E9B896200D72324 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				F4BAD6241E9FB44B00FE59B9 /* Footers */,
 				F404C6421E9D01B6001D63A5 /* Cells */,
 				F404C6431E9D01D1001D63A5 /* GraphView.swift */,
 			);
@@ -239,6 +250,15 @@
 				F47F1A051E979AA700E47849 /* UARoadsSDK.swift */,
 			);
 			name = Library;
+			sourceTree = "<group>";
+		};
+		F4BAD6241E9FB44B00FE59B9 /* Footers */ = {
+			isa = PBXGroup;
+			children = (
+				F4BAD6251E9FB47900FE59B9 /* FooterSignIn.swift */,
+				F4BAD6271E9FB48700FE59B9 /* FooterText.swift */,
+			);
+			name = Footers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,9 +394,11 @@
 				F404C63F1E9CFB3E001D63A5 /* MotionManager.swift in Sources */,
 				F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */,
 				F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */,
+				F4BAD6211E9FAD7800FE59B9 /* SettingsSwitchCell.swift in Sources */,
 				F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */,
 				F40ED4B01E9B84A300D72324 /* NavigatorVC.swift in Sources */,
 				F41413961E9F60E400D58941 /* NSString+MD5.m in Sources */,
+				F4BAD6261E9FB47900FE59B9 /* FooterSignIn.swift in Sources */,
 				F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */,
 				F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
@@ -387,6 +409,7 @@
 				F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */,
 				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
 				F404C6461E9D1246001D63A5 /* DateManager.swift in Sources */,
+				F4BAD6231E9FB16F00FE59B9 /* SettingsTFCell.swift in Sources */,
 				F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */,
 				F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */,
 				F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */,
@@ -398,6 +421,7 @@
 				F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */,
 				F47F19FF1E97823600E47849 /* Color.swift in Sources */,
 				F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */,
+				F4BAD6281E9FB48700FE59B9 /* FooterText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
