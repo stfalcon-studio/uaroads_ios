@@ -47,11 +47,17 @@ final class UARoadsSDK {
     }
     
     private func fullTrackData(track: TrackModel) -> Data? {
-        var data = Data()
+        var data: Data?
         var pitsDataList = [String]()
 
-//        let pitsArray = track.pits
-        
+//        let pitsArray = track.pits?.sorted(by: { (A, B) -> Bool in
+//            print("A: \(A.time)")
+//            print("B: \(B.time)")
+//            return A.time > B.time
+//        })
+//        for item in pitsArray! {
+//            pitsDataList.append(pitDataString(pit: item))
+//        }
         
         let pitsDataString = pitsDataList.joined(separator: "#")
         data = pitsDataString.data(using: String.Encoding.utf8)!

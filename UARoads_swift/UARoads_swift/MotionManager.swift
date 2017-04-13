@@ -151,9 +151,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 try? realm?.write {
                     track?.status = TrackStatus.uploading.rawValue
                 }
-                UARoadsSDK.sharedInstance.send(track: track!, handler: { [weak self] val in
-                    print(val)
-                })
+//                UARoadsSDK.sharedInstance.send(track: track!, handler: { [weak self] val in
+//                    print(val)
+//                })
             }
         }
     }

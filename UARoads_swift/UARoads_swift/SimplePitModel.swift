@@ -16,10 +16,6 @@ struct SimplePitModel {
     var value: Double?
     var tag: String?
     var debug: Bool?
-
-    func pitDataString() -> String {
-        return "TODO" //TODO:
-    }
 }
 
 

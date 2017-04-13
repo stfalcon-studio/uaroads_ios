@@ -36,17 +36,10 @@ class TrackModel: Object {
     dynamic var autoRecord: Bool = false
     dynamic var debug: Bool = false
     dynamic var trackFileName: String = ""
-    var pits: [String] {
-        get { return self.pits }
-        set { self.pits = newValue }
-    }
+//    dynamic var pits: [PitModel]?
     
     override static func primaryKey() -> String? {
         return "trackID"
-    }
-    
-    override static func ignoredProperties() -> [String] {
-        return ["pits"]
     }
 }
 
