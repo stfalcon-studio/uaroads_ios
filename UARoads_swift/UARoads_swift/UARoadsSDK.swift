@@ -17,8 +17,6 @@ final class UARoadsSDK {
     static let baseURL = "http://api.uaroads.com"
     
     func send(track: TrackModel, handler: @escaping SuccessHandler) {
-        track.statusEnum = TrackStatus.uploading
-        
         let data = fullTrackData(track: track)
         let base64DataString = data?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
@@ -49,14 +47,14 @@ final class UARoadsSDK {
     }
     
     private func fullTrackData(track: TrackModel) -> Data? {
-        var data: Data?
+        var data = Data()
         var pitsDataList = [String]()
-//        let pitsArray = track.pits.sorted(byKeyPath: "time", ascending: true)
-//        for item in pitsArray {
-//            pitsDataList.append(pitDataString(pit: item))
-//        }
+
+//        let pitsArray = track.pits
+        
+        
         let pitsDataString = pitsDataList.joined(separator: "#")
-        data = pitsDataString.data(using: String.Encoding.utf8)
+        data = pitsDataString.data(using: String.Encoding.utf8)!
         
         if let data = data {
             return gzippedData(data)

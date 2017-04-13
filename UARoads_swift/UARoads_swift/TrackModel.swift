@@ -14,6 +14,16 @@ enum TrackStatus: Int {
     case waitingForUpload
     case uploading
     case uploaded
+    
+    func title() -> String {
+        switch self {
+        case .active: return "Active"
+        case .saved: return "Saved"
+        case .waitingForUpload: return "WaitingForUpload"
+        case .uploading: return "Uploading"
+        case .uploaded: return "Uploaded"
+        }
+    }
 }
 
 class TrackModel: Object {
@@ -22,13 +32,7 @@ class TrackModel: Object {
     dynamic var date: Date = Date()
     dynamic var distance: CGFloat = 0.0
     dynamic var maxPit: CGFloat = 0.0
-    
     dynamic var status = TrackStatus.active.rawValue
-    var statusEnum: TrackStatus {
-        get { return TrackStatus(rawValue: status)! }
-        set { status = newValue.rawValue }
-    }
-    
     dynamic var autoRecord: Bool = false
     dynamic var debug: Bool = false
     dynamic var trackFileName: String = ""

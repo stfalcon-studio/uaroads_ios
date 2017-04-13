@@ -13,6 +13,7 @@ import CoreMotion
 import UserNotifications
 import StfalconSwiftExtensions
 import UHBConnectivityManager
+import RealmSwift
 
 enum MotionStatus {
     case notActive
@@ -28,6 +29,8 @@ protocol MotionManagerDelegate {
 }
 
 final class MotionManager: NSObject, CXCallObserverDelegate {
+    fileprivate let realm = try? Realm()
+    
     private override init() {
         super.init()
         
@@ -127,10 +130,12 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         let pred = NSPredicate(format: "status == 0")
         let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
-            for item in result {
-                if Date().timeIntervalSince(item.date) > 10 {
-                    track?.statusEnum = TrackStatus.waitingForUpload
+            try? realm?.write{
+                for item in result {
+                    if Date().timeIntervalSince(item.date) > 10 {
+                        item.status = TrackStatus.waitingForUpload.rawValue
 //                        [UaroadsSession sharedSession].totalDistance += track.distance;
+                    }
                 }
             }
         }
@@ -143,6 +148,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         if let result = result, result.count > 0 {
             if UHBConnectivityManager.shared().isConnected() == true {
                 let track = result.first
+                try? realm?.write {
+                    track?.status = TrackStatus.uploading.rawValue
+                }
                 UARoadsSDK.sharedInstance.send(track: track!, handler: { [weak self] val in
                     print(val)
                 })
@@ -151,11 +159,17 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {
-        if self.status == .notActive {
-            track = TrackModel()
-            track?.autoRecord = autostart
-            track?.title = title
-            track?.add()
+        track = TrackModel()
+        track?.autoRecord = autostart
+        track?.title = title
+        track?.date = Date()
+        track?.status = TrackStatus.active.rawValue
+        track?.distance = 0.0
+        DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
+        let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
+        track?.trackID = id.md5()
+        try? realm?.write {
+            realm?.add(track!, update: true)
         }
 
         currentLocation = nil

@@ -3,3 +3,4 @@
 //
 
 #import "GZIP.h"
+#import "NSString+MD5.h"

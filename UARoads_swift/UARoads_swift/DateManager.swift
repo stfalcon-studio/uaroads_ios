@@ -9,7 +9,11 @@
 import Foundation
 
 final class DateManager {
-    private init() {}
+    private init() {
+        dateFormatter.dateStyle = .long
+        dateFormatter.locale = Locale.current
+        dateFormatter.timeZone = TimeZone.current
+    }
     static let sharedInstance = DateManager()
     
     private let dateFormatter = DateFormatter()
