@@ -81,9 +81,9 @@ final class UARoadsSDK {
         var data: Data?
         var pitsDataList = [String]()
 
-        let pitsArray = RealmHelper.objects(type: PitModel.self)
+        let pitsArray = track.pits.sorted(byKeyPath: "time", ascending: true)
         print(pitsArray as Any)
-        for item in pitsArray! {
+        for item in pitsArray {
             pitsDataList.append(pitDataString(pit: item))
         }
         

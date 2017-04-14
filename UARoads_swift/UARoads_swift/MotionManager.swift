@@ -282,7 +282,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             pit.tag = "origin"
             pit.add()
             
-            track?.pits.append(pit)
+            try? realm?.write {
+                track?.pits.append(pit)
+                realm?.add(track!, update: true)
+            }
         }
 
         currentPit = 0.0
