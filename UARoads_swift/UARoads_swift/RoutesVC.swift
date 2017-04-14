@@ -208,7 +208,7 @@ class RoutesVC: BaseTVC {
                     self?.navigationItem.rightBarButtonItem = self?.clearBtn
                 }
                 if let text = self?.fromTF.text {
-                    YandexManager.sharedInstance.searchResults(location: text, handler: { results in
+                    NetworkManager.sharedInstance.searchResults(location: text, handler: { results in
                         self?.dataSource = results
                         self?.tableView.reloadData()
                         self?.showTableView()
@@ -225,7 +225,7 @@ class RoutesVC: BaseTVC {
                     self?.navigationItem.rightBarButtonItem = self?.clearBtn
                 }
                 if let text = self?.toTF.text {
-                    YandexManager.sharedInstance.searchResults(location: text, handler: { results in
+                    NetworkManager.sharedInstance.searchResults(location: text, handler: { results in
                         self?.dataSource = results
                         self?.tableView.reloadData()
                         self?.showTableView()

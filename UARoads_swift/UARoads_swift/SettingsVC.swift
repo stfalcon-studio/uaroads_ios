@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import StfalconSwiftExtensions
 
 class SettingsVC: BaseTVC {
     fileprivate let dataSourceTitle = [
@@ -40,12 +42,6 @@ class SettingsVC: BaseTVC {
         tableView.register(SettingsSwitchCell.self, forCellReuseIdentifier: "SettingsSwitchCell")
         tableView.register(SettingsTFCell.self, forCellReuseIdentifier: "SettingsTFCell")
     }
-    
-    override func setupRx() {
-        super.setupRx()
-        
-        //
-    }
 }
 
 extension SettingsVC {
@@ -69,19 +65,41 @@ extension SettingsVC {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 0 {
-            let view = FooterSignIn()
-            view.action = { [weak self] in
-                print("DFJSFSDFS") //TODO:
+            let footer = FooterSignIn()
+            footer.action = { [weak self] in
+                let cell = self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
+                if cell.mainTF.text?.characters.count == 0 || cell.mainTF.textColor == UIColor.red {
+                    self?.showAlert(text: NSLocalizedString("Check your email", comment: "emailWarning"), handler: nil)
+                    return
+                }
+                
+                if let email = cell.mainTF.text {
+                    //authorize user
+                    HUDManager.sharedInstance.show(from: self!)
+                    UARoadsSDK.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
+                        if !val {
+                            self?.showAlert(text: NSLocalizedString("Registration error!", comment: "regError"), handler: nil)
+                        } else {
+                            //save email to Defaults
+                            SettingsManager.sharedInstance.email = email
+                            
+                            //update UI
+                            self?.tableView.reloadData()
+                        }
+                        HUDManager.sharedInstance.hide()
+                    })
+                }
             }
-            view.textLbl.text = NSLocalizedString("Authorized users can view their site statistics, get in TOP, gain reward for their achievements.", comment: "footerTitle")
+            footer.textLbl.text = NSLocalizedString("Authorized users can view their site statistics, get in TOP, gain reward for their achievements.", comment: "footerTitle")
             
-            return view
+            return footer
+            
         } else {
-            let view = FooterText()
-            view.versionLbl.text = NSLocalizedString("Version: ", comment: "version") + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
-            view.uidLbl.text = "UID: " + (UIDevice.current.identifierForVendor?.uuidString ?? "")
+            let footer = FooterText()
+            footer.versionLbl.text = NSLocalizedString("Version: ", comment: "version") + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
+            footer.uidLbl.text = "UID: " + (UIDevice.current.identifierForVendor?.uuidString ?? "")
             
-            return view
+            return footer
         }
     }
     
@@ -105,6 +123,8 @@ extension SettingsVC {
                     self?.view.endEditing(true)
                 }
                 .addDisposableTo(disposeBag)
+            
+            cellEmail.update(email: SettingsManager.sharedInstance.email)
             
             return cellEmail
             

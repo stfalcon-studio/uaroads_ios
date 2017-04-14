@@ -29,6 +29,7 @@ pod 'UHBConnectivityManager'
 #UI elements
 pod 'JGProgressHUD'
 pod 'UIViewController+ODStatusBar'
+pod 'TSValidatedTextField'
 
 #extensions
 pod 'StfalconSwiftExtensions'

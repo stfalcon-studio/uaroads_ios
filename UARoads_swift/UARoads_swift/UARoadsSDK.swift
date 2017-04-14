@@ -14,13 +14,39 @@ final class UARoadsSDK {
     static let sharedInstance = UARoadsSDK()
     
     //============
-    static let baseURL = "http://api.uaroads.com"
+    private static let baseURL = "http://api.uaroads.com"
     
-    func send(track: TrackModel, handler: @escaping SuccessHandler) {
+    func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
+        let deviceName = "\(UIDevice.current.model) - \(UIDevice.current.name)"
+        let osVersion = UIDevice.current.systemVersion
+        let uid = UIDevice.current.identifierForVendor?.uuidString
+        let params = [
+            "os":"ios",
+            "device_name":deviceName,
+            "os_version":osVersion,
+            "email":email,
+            "uid":uid!
+        ]
+        
+        Alamofire.request("\(UARoadsSDK.baseURL)/register-device", method: .post, parameters: params, encoding: URLEncoding(), headers: nil).responseJSON { response in
+            if let data = response.data {
+                let result = String(data: data, encoding: String.Encoding.utf8)
+                if result == "OK" {
+                    handler(true)
+                } else {
+                    handler(false)
+                }
+            } else {
+                handler(false)
+            }
+        }
+    }
+    
+    func send(track: TrackModel, handler: @escaping (_ success: Bool) -> ()) {
         let data = fullTrackData(track: track)
         let base64DataString = data?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
-        let params: [AnyHashable:Any] = [
+        let params = [
             "uid":self.getUUID(),
             "comment":track.title,
             "routeId":track.trackID,
@@ -28,9 +54,9 @@ final class UARoadsSDK {
             "app_ver":version as! String,
             "auto_record":track.autoRecord ? "1" : "0",
             "date":track.date.timeIntervalSince1970
-        ]
+        ] as [String : Any]
         
-//        Alamofire.request(UARoadsSDK.baseURL + "/add", method: HTTPMethod.post, parameters: params, encoding: URLEncoding(), headers: nil).responseJSON(queue: nil, options: JSONSerialization.ReadingOptions.allowFragments) { response in
+//        Alamofire.request("\(UARoadsSDK.baseURL)/add", method: HTTPMethod.post, parameters: params, encoding: URLEncoding(), headers: nil).responseJSON(queue: nil, options: JSONSerialization.ReadingOptions.allowFragments) { response in
 //            switch response.result {
 //            case .success(let obj):
 //                print("JSON: \(obj)")

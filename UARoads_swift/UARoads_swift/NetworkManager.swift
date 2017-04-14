@@ -11,9 +11,9 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 
-class YandexManager {
+class NetworkManager {
     private init() {}
-    static let sharedInstance = YandexManager()
+    static let sharedInstance = NetworkManager()
     
     func searchResults(location: String, handler: @escaping SearchLocationHandler) {
         let coord = LocationManager.sharedInstance.lastLocationCoord ?? CLLocationCoordinate2DMake(0.0, 0.0)
@@ -54,3 +54,25 @@ class YandexManager {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -23,7 +23,7 @@
 		F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */; };
 		F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = F41441C31E9E63A500F3A7C3 /* GZIP.m */; };
 		F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */; };
-		F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* YandexManager.swift */; };
+		F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* NetworkManager.swift */; };
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
 		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
 		F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C551E97D3460076C224 /* RouteBuidVC.swift */; };
@@ -68,7 +68,7 @@
 		F41441C21E9E63A500F3A7C3 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		F41441C31E9E63A500F3A7C3 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePitModel.swift; sourceTree = "<group>"; };
-		F4163C4E1E97AED50076C224 /* YandexManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YandexManager.swift; sourceTree = "<group>"; };
+		F4163C4E1E97AED50076C224 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
 		F4163C551E97D3460076C224 /* RouteBuidVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuidVC.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				F47F1A021E97943D00E47849 /* HUDManaged.swift */,
-				F4163C4E1E97AED50076C224 /* YandexManager.swift */,
+				F4163C4E1E97AED50076C224 /* NetworkManager.swift */,
 				F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */,
 				F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */,
 				F404C6451E9D1246001D63A5 /* DateManager.swift */,
@@ -414,7 +414,7 @@
 				F404C6461E9D1246001D63A5 /* DateManager.swift in Sources */,
 				F4BAD6231E9FB16F00FE59B9 /* SettingsTFCell.swift in Sources */,
 				F44785E31E9FC31C00BF10F4 /* SettingsManager.swift in Sources */,
-				F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */,
+				F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */,
 				F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */,
 				F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */,
 				F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */,
