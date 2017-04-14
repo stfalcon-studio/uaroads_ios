@@ -14,7 +14,7 @@ final class UARoadsSDK {
     static let sharedInstance = UARoadsSDK()
     
     //============
-    private static let baseURL = "http://api.uaroads.com"
+    private static let baseURL = "http://uaroads.com"
     
     func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
         let deviceName = "\(UIDevice.current.model) - \(UIDevice.current.name)"
@@ -27,8 +27,9 @@ final class UARoadsSDK {
             "email":email,
             "uid":uid!
         ]
-        
-        Alamofire.request("\(UARoadsSDK.baseURL)/register-device", method: .post, parameters: params, encoding: URLEncoding(), headers: nil).responseJSON { response in
+        print(params)
+        print("\(UARoadsSDK.baseURL)/register-device")
+        Alamofire.request("\(UARoadsSDK.baseURL)/register-device", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
             if let data = response.data {
                 let result = String(data: data, encoding: String.Encoding.utf8)
                 if result == "OK" {

@@ -10,7 +10,7 @@ import UIKit
 import TSValidatedTextField
 
 class SettingsTFCell: BaseCell {
-    fileprivate let signOut = UIButton()
+    fileprivate let signOutBtn = UIButton()
     let mainTF = TSValidatedTextField()
     var action: EmptyHandler?
     
@@ -19,19 +19,20 @@ class SettingsTFCell: BaseCell {
         
         //setup constraints
         addSubview(mainTF)
-        addSubview(signOut)
+        addSubview(signOutBtn)
         
         mainTF.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
-            make.right.equalTo(signOut.snp.left).offset(-10.0)
+            make.right.equalTo(signOutBtn.snp.left).offset(-10.0)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
         
-        signOut.snp.makeConstraints { (make) in
+        signOutBtn.snp.makeConstraints { (make) in
             make.right.equalTo(-15.0)
             make.top.equalTo(5.0)
             make.bottom.equalTo(-5.0)
+            make.width.equalTo(75.0)
         }
         
         //setup interface
@@ -44,13 +45,14 @@ class SettingsTFCell: BaseCell {
         mainTF.autocorrectionType = .no
         mainTF.autocapitalizationType = .none
         
-        signOut.setTitle(NSLocalizedString("Sign Out", comment: "signOutBtn"), for: .normal)
-        signOut.setTitleColor(UIColor.navBar, for: .normal)
-        signOut.layer.borderColor = UIColor.navBar.cgColor
-        signOut.layer.borderWidth = 1.0
-        signOut.layer.cornerRadius = 4.0
-        signOut.layer.masksToBounds = true
-        signOut
+        signOutBtn.setTitle(NSLocalizedString("Sign Out", comment: "signOutBtn"), for: .normal)
+        signOutBtn.setTitleColor(UIColor.navBar, for: .normal)
+        signOutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        signOutBtn.layer.borderColor = UIColor.navBar.cgColor
+        signOutBtn.layer.borderWidth = 1.0
+        signOutBtn.layer.cornerRadius = 4.0
+        signOutBtn.layer.masksToBounds = true
+        signOutBtn
             .rx
             .tap
             .bind { [weak self] in
@@ -67,9 +69,9 @@ class SettingsTFCell: BaseCell {
         if let email = email {
             mainTF.isUserInteractionEnabled = false
             mainTF.text = email
-            signOut.isHidden = false
+            signOutBtn.isHidden = false
         } else {
-            signOut.isHidden = true
+            signOutBtn.isHidden = true
             mainTF.isUserInteractionEnabled = true
             mainTF.text = ""
         }

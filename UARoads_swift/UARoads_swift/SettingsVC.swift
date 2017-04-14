@@ -65,6 +65,10 @@ extension SettingsVC {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 0 {
+            if SettingsManager.sharedInstance.email != nil {
+                return nil
+            }
+            
             let footer = FooterSignIn()
             footer.action = { [weak self] in
                 let cell = self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
@@ -104,7 +108,11 @@ extension SettingsVC {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 100.0
+        let height: CGFloat = 100.0
+        if section == 0 {
+            return SettingsManager.sharedInstance.email != nil ? 0.0 : height
+        }
+        return height
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -123,6 +131,11 @@ extension SettingsVC {
                     self?.view.endEditing(true)
                 }
                 .addDisposableTo(disposeBag)
+            
+            cellEmail.action = { [weak self] in
+                SettingsManager.sharedInstance.email = nil
+                self?.tableView.reloadData()
+            }
             
             cellEmail.update(email: SettingsManager.sharedInstance.email)
             
