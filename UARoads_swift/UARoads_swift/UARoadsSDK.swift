@@ -28,8 +28,10 @@ final class UARoadsSDK {
             "email":email,
             "uid":uid!
         ]
+        
         print("\(UARoadsSDK.baseURL)/register-device")
         print(params)
+        
         Alamofire.request("\(UARoadsSDK.baseURL)/register-device", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
             if let data = response.data {
                 let result = String(data: data, encoding: String.Encoding.utf8)
@@ -57,8 +59,10 @@ final class UARoadsSDK {
             "auto_record":track.autoRecord ? "1" : "0",
             "date":track.date.timeIntervalSince1970
         ] as [String : Any]
+        
         print("\(UARoadsSDK.baseURL)/add")
         print(params)
+        
         Alamofire.request("\(UARoadsSDK.baseURL)/add", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
             if let data = response.data {
                 let result = String(data: data, encoding: String.Encoding.utf8)

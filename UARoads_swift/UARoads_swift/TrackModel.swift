@@ -36,7 +36,7 @@ class TrackModel: Object {
     dynamic var autoRecord: Bool = false
     dynamic var debug: Bool = false
     dynamic var trackFileName: String = ""
-//    dynamic var pits: [PitModel]?
+    let pits = List<PitModel>()
     
     override static func primaryKey() -> String? {
         return "trackID"

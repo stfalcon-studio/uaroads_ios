@@ -279,8 +279,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             pit.track = track
             pit.value = currentPit
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-            pit.tag = "cp"
+            pit.tag = "origin"
             pit.add()
+            
+            track?.pits.append(pit)
         }
 
         currentPit = 0.0
