@@ -31,12 +31,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     //========================
     
     let manager = CLLocationManager()
-    var lastLocationCoord: CLLocationCoordinate2D?
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(locations.last as Any)
-        lastLocationCoord = locations.last?.coordinate
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

@@ -176,7 +176,7 @@ class RoutesVC: BaseTVC {
             .tap
             .bind { [weak self] in
                 LocationManager.sharedInstance.manager.requestLocation()
-                if let coord = LocationManager.sharedInstance.lastLocationCoord {
+                if let coord = LocationManager.sharedInstance.manager.location?.coordinate {
                     self?.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
                     self?.fromTF.resignFirstResponder()
                     self?.fromModel = SearchResultModel(locationCoordianate: coord, locationName: self?.fromTF.text, locationDescription: nil)
@@ -190,7 +190,7 @@ class RoutesVC: BaseTVC {
             .tap
             .bind { [weak self] in
                 LocationManager.sharedInstance.manager.requestLocation()
-                if let coord = LocationManager.sharedInstance.lastLocationCoord {
+                if let coord = LocationManager.sharedInstance.manager.location?.coordinate {
                     self?.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
                     self?.toTF.resignFirstResponder()
                     self?.toModel = SearchResultModel(locationCoordianate: coord, locationName: self?.toTF.text, locationDescription: nil)

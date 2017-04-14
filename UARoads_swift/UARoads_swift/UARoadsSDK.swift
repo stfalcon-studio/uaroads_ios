@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import StfalconSwiftExtensions
 
 final class UARoadsSDK {
     private init() {}
@@ -27,8 +28,8 @@ final class UARoadsSDK {
             "email":email,
             "uid":uid!
         ]
-        print(params)
         print("\(UARoadsSDK.baseURL)/register-device")
+        print(params)
         Alamofire.request("\(UARoadsSDK.baseURL)/register-device", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
             if let data = response.data {
                 let result = String(data: data, encoding: String.Encoding.utf8)
@@ -56,35 +57,31 @@ final class UARoadsSDK {
             "auto_record":track.autoRecord ? "1" : "0",
             "date":track.date.timeIntervalSince1970
         ] as [String : Any]
-        
-//        Alamofire.request("\(UARoadsSDK.baseURL)/add", method: HTTPMethod.post, parameters: params, encoding: URLEncoding(), headers: nil).responseJSON(queue: nil, options: JSONSerialization.ReadingOptions.allowFragments) { response in
-//            switch response.result {
-//            case .success(let obj):
-//                print("JSON: \(obj)")
-//                
-//                //                                    let json = JSON(obj)
-//                
-//                handler(true)
-//                
-//            case .failure(let error):
-//                print("ERROR: \(error.localizedDescription)")
-//                handler(false)
-//            }
-//        }
+        print("\(UARoadsSDK.baseURL)/add")
+        print(params)
+        Alamofire.request("\(UARoadsSDK.baseURL)/add", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
+            if let data = response.data {
+                let result = String(data: data, encoding: String.Encoding.utf8)
+                if result == "OK" {
+                    handler(true)
+                } else {
+                    handler(false)
+                }
+            } else {
+                handler(false)
+            }
+        }
     }
     
     private func fullTrackData(track: TrackModel) -> Data? {
         var data: Data?
         var pitsDataList = [String]()
 
-//        let pitsArray = track.pits?.sorted(by: { (A, B) -> Bool in
-//            print("A: \(A.time)")
-//            print("B: \(B.time)")
-//            return A.time > B.time
-//        })
-//        for item in pitsArray! {
-//            pitsDataList.append(pitDataString(pit: item))
-//        }
+        let pitsArray = RealmHelper.objects(type: PitModel.self)
+        print(pitsArray as Any)
+        for item in pitsArray! {
+            pitsDataList.append(pitDataString(pit: item))
+        }
         
         let pitsDataString = pitsDataList.joined(separator: "#")
         data = pitsDataString.data(using: String.Encoding.utf8)!

@@ -12,11 +12,11 @@ class PitModel: Object {
     dynamic var latitude: Double = 0.0
     dynamic var longitude: Double = 0.0
     dynamic var time: String = ""
-    dynamic var value: CGFloat = 0.0
+    dynamic var value: Double = 0.0
     dynamic var tag: String = ""
     dynamic var track: TrackModel?
     
     override static func primaryKey() -> String? {
-        return "tag"
+        return "time"
     }
 }

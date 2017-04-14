@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import StfalconSwiftExtensions
+import UHBConnectivityManager
 
 class SettingsVC: BaseTVC {
     fileprivate let dataSourceTitle = [
@@ -79,19 +80,21 @@ extension SettingsVC {
                 
                 if let email = cell.mainTF.text {
                     //authorize user
-                    HUDManager.sharedInstance.show(from: self!)
-                    UARoadsSDK.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
-                        if !val {
-                            self?.showAlert(text: NSLocalizedString("Registration error!", comment: "regError"), handler: nil)
-                        } else {
-                            //save email to Defaults
-                            SettingsManager.sharedInstance.email = email
-                            
-                            //update UI
-                            self?.tableView.reloadData()
-                        }
-                        HUDManager.sharedInstance.hide()
-                    })
+                    if UHBConnectivityManager.shared().isConnected() == true {
+                        HUDManager.sharedInstance.show(from: self!)
+                        UARoadsSDK.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
+                            if !val {
+                                self?.showAlert(text: NSLocalizedString("Registration error!", comment: "regError"), handler: nil)
+                            } else {
+                                //save email to Defaults
+                                SettingsManager.sharedInstance.email = email
+                                
+                                //update UI
+                                self?.tableView.reloadData()
+                            }
+                            HUDManager.sharedInstance.hide()
+                        })
+                    }
                 }
             }
             footer.textLbl.text = NSLocalizedString("Authorized users can view their site statistics, get in TOP, gain reward for their achievements.", comment: "footerTitle")

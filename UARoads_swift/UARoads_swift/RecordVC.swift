@@ -28,6 +28,12 @@ class RecordVC: BaseVC {
         setupRx()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        graphView.isHidden = !SettingsManager.sharedInstance.showGraph
+    }
+    
     func setupConstraints() {
         view.addSubview(mainLbl)
         view.addSubview(lastSessionDetailLbl)

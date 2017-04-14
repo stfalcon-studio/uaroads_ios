@@ -151,9 +151,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 try? realm?.write {
                     track?.status = TrackStatus.uploading.rawValue
                 }
-//                UARoadsSDK.sharedInstance.send(track: track!, handler: { [weak self] val in
-//                    print(val)
-//                })
+                UARoadsSDK.sharedInstance.send(track: track!, handler: { val in
+                    print(val)
+                })
             }
         }
     }
@@ -262,7 +262,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         }
         if currentPit > 0.0 {
             //
-        }
+        
 //            if (currentPit > 0) {
 //                if ([Uaroads session].settingsAllowSound) {
 //                    int pitN = (int)(currentPit / 0.3);
@@ -272,11 +272,18 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
 //                        [self playSound:pitSound type:@"aiff"];
 //                    }
 //                }
-//                [UaroadsSimplePit addPitToTrack:self.track location:nil acceleration:nil value:currentPit time:currentPitTime];
-//                
-//                
-//            }
-            currentPit = 0.0
+
+            let pit = PitModel()
+            pit.latitude = LocationManager.sharedInstance.manager.location?.coordinate.latitude ?? 0.0
+            pit.longitude = LocationManager.sharedInstance.manager.location?.coordinate.longitude ?? 0.0
+            pit.track = track
+            pit.value = currentPit
+            pit.time = "\(Date().timeIntervalSince1970 * 1000)"
+            pit.tag = "cp"
+            pit.add()
+        }
+
+        currentPit = 0.0
     }
     
     fileprivate func pauseRecordingForCall() {
