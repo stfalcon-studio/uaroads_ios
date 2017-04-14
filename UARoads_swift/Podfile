@@ -1,10 +1,11 @@
-#platform :ios, '10.0'
-
 target 'UARoads_swift' do
 use_frameworks!
 
 #Constraints
 pod 'SnapKit'
+
+#Network
+pod 'Alamofire'
 
 #Crashlytics
 pod 'Fabric'
@@ -16,15 +17,11 @@ pod 'RealmSwift'
 #Rx stuff
 pod 'RxSwift'
 pod 'RxCocoa'
-pod 'Moya/RxSwift'
+#pod 'Moya/RxSwift'
 pod 'RxKeyboard'
 
 #JSON
-pod 'Moya-Gloss/RxSwift'
 pod 'SwiftyJSON'
-
-#Images loading
-pod 'SDWebImage'
 
 #Connection
 pod 'UHBConnectivityManager'

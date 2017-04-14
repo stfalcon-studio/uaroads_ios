@@ -27,6 +27,7 @@
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
 		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
 		F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C551E97D3460076C224 /* RouteBuidVC.swift */; };
+		F44785E31E9FC31C00BF10F4 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44785E21E9FC31C00BF10F4 /* SettingsManager.swift */; };
 		F47F19F11E9778AD00E47849 /* MainVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */; };
 		F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F21E9778DE00E47849 /* BaseVC.swift */; };
 		F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F19F41E9779BD00E47849 /* TabBarVC.swift */; };
@@ -71,6 +72,7 @@
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
 		F4163C551E97D3460076C224 /* RouteBuidVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuidVC.swift; sourceTree = "<group>"; };
+		F44785E21E9FC31C00BF10F4 /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVCProtocol.swift; sourceTree = "<group>"; };
 		F47F19F21E9778DE00E47849 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		F47F19F41E9779BD00E47849 /* TabBarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */,
 				F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */,
 				F404C6451E9D1246001D63A5 /* DateManager.swift */,
+				F44785E21E9FC31C00BF10F4 /* SettingsManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
 				F404C6461E9D1246001D63A5 /* DateManager.swift in Sources */,
 				F4BAD6231E9FB16F00FE59B9 /* SettingsTFCell.swift in Sources */,
+				F44785E31E9FC31C00BF10F4 /* SettingsManager.swift in Sources */,
 				F4163C4F1E97AED50076C224 /* YandexManager.swift in Sources */,
 				F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */,
 				F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */,

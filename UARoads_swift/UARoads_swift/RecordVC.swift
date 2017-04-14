@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 
 class RecordVC: BaseVC {
+    fileprivate let mainLbl = UILabel()
     fileprivate let lastSessionDetailLbl = UILabel()
     fileprivate let allSessionDetailLbl = UILabel()
     fileprivate let lastSessionLbl = UILabel()
@@ -28,6 +29,7 @@ class RecordVC: BaseVC {
     }
     
     func setupConstraints() {
+        view.addSubview(mainLbl)
         view.addSubview(lastSessionDetailLbl)
         view.addSubview(lastSessionLbl)
         view.addSubview(allSessionDetailLbl)
@@ -38,6 +40,12 @@ class RecordVC: BaseVC {
         view.addSubview(stopBtn)
         
         view.sendSubview(toBack: graphView)
+        
+        mainLbl.snp.makeConstraints { (make) in
+            make.top.equalTo(70.0)
+            make.left.equalTo(15.0)
+            make.right.equalTo(-15.0)
+        }
         
         lastSessionDetailLbl.snp.makeConstraints { (make) in
             make.left.equalTo(60.0)
@@ -92,6 +100,12 @@ class RecordVC: BaseVC {
         
         view.backgroundColor = UIColor.navBar
         
+        mainLbl.text = NSLocalizedString("Press \"START RECORDING\" to start collecting data about road quality", comment: "mainLbl")
+        mainLbl.numberOfLines = 0
+        mainLbl.textColor = UIColor.white
+        mainLbl.font = UIFont.systemFont(ofSize: 20.0)
+        mainLbl.textAlignment = .center
+        
         allSessionsLbl.text = NSLocalizedString("All sessions", comment: "All sessions")
         allSessionsLbl.textAlignment = .center
         allSessionsLbl.font = UIFont.systemFont(ofSize: 12.0)
@@ -102,12 +116,12 @@ class RecordVC: BaseVC {
         lastSessionLbl.font = UIFont.systemFont(ofSize: 12.0)
         lastSessionLbl.textColor = UIColor.lightGray
         
-        allSessionDetailLbl.text = "0.0 km"
+        allSessionDetailLbl.text = "0.00"
         allSessionDetailLbl.textColor = UIColor.white
         allSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         allSessionDetailLbl.textAlignment = .center
         
-        lastSessionDetailLbl.text = "0.00"
+        lastSessionDetailLbl.text = "0.0 km"
         lastSessionDetailLbl.textColor = UIColor.white
         lastSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         lastSessionDetailLbl.textAlignment = .center
@@ -137,6 +151,10 @@ class RecordVC: BaseVC {
         
         pauseBtn.isHidden = true
         stopBtn.isHidden = true
+        lastSessionLbl.isHidden = true
+        lastSessionDetailLbl.isHidden = true
+        allSessionsLbl.isHidden = true
+        allSessionDetailLbl.isHidden = true
     }
     
     func setupRx() {
@@ -151,6 +169,11 @@ class RecordVC: BaseVC {
                     self?.pauseBtn.isHidden = false
                     self?.stopBtn.isHidden = false
                     self?.startBtn.isHidden = true
+                    self?.mainLbl.isHidden = true
+                    self?.allSessionsLbl.isHidden = false
+                    self?.allSessionDetailLbl.isHidden = false
+                    self?.lastSessionLbl.isHidden = false
+                    self?.lastSessionDetailLbl.isHidden = false
                 } else {
                     self?.showAlert(title: "Background Refresh Disabled", text: NSLocalizedString("You need to enable background location updates", comment: ""), controller: self, handler: nil)
                 }
@@ -181,6 +204,11 @@ class RecordVC: BaseVC {
                 self?.pauseBtn.isHidden = true
                 self?.stopBtn.isHidden = true
                 self?.startBtn.isHidden = false
+                self?.mainLbl.isHidden = false
+                self?.allSessionsLbl.isHidden = true
+                self?.allSessionDetailLbl.isHidden = true
+                self?.lastSessionLbl.isHidden = true
+                self?.lastSessionDetailLbl.isHidden = true
                 MotionManager.sharedInstance.stopRecording()
             }
             .addDisposableTo(disposeBag)
@@ -192,11 +220,11 @@ class RecordVC: BaseVC {
 
 extension RecordVC: MotionManagerDelegate {
     func locationUpdated(location: CLLocation, trackDist: Double) {
-        allSessionDetailLbl.text = NSString(format: "%.2f km", trackDist/1000.0) as String
+        lastSessionDetailLbl.text = NSString(format: "%.2f km", trackDist/1000.0) as String
     }
     
     func maxPitUpdated(maxPit: Double) {
-        lastSessionDetailLbl.text = NSString(format: "%.2f", maxPit) as String
+        allSessionDetailLbl.text = NSString(format: "%.2f", maxPit) as String
     }
     
     func statusChanged(newStatus: MotionStatus) {

@@ -11,7 +11,6 @@ import UIViewController_ODStatusBar
 import RxSwift
 import RxCocoa
 import SnapKit
-import Moya
 
 class BaseVC: UIViewController, MainVCProtocol {
 

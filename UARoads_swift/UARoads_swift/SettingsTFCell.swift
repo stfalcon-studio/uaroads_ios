@@ -21,7 +21,7 @@ class SettingsTFCell: BaseCell {
             make.left.equalTo(15.0)
             make.right.equalToSuperview()
             make.top.equalToSuperview()
-            make.height.equalTo(50.0)
+            make.bottom.equalToSuperview()
         }
         
         //setup interface

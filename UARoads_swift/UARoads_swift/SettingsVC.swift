@@ -71,7 +71,7 @@ extension SettingsVC {
         if section == 0 {
             let view = FooterSignIn()
             view.action = { [weak self] in
-                print("DFJSFSDFS")
+                print("DFJSFSDFS") //TODO:
             }
             view.textLbl.text = NSLocalizedString("Authorized users can view their site statistics, get in TOP, gain reward for their achievements.", comment: "footerTitle")
             
@@ -94,7 +94,8 @@ extension SettingsVC {
         let cellEmail = tableView.dequeueReusableCell(withIdentifier: "SettingsTFCell") as! SettingsTFCell
         
         let section = indexPath.section
-        let item = dataSourceTitle[indexPath.row]
+        let row = indexPath.row
+        let item = dataSourceTitle[row]
         
         if section == 0 {
             cellEmail.mainTF
@@ -109,7 +110,38 @@ extension SettingsVC {
             
         } else if section == 1 {
             cell.mainTitleLbl.text = item
-            cell.switcher.setOn(true, animated: false)
+            switch row {
+            case 0:
+                cell.switcher.setOn(SettingsManager.sharedInstance.sendDataOnlyWiFi, animated: false)
+                cell.switcher
+                    .rx
+                    .value
+                    .bind(onNext: { val in
+                        SettingsManager.sharedInstance.sendDataOnlyWiFi = val
+                    })
+                    .addDisposableTo(disposeBag)
+            case 1:
+                cell.switcher.setOn(SettingsManager.sharedInstance.routeRecordingAutostart, animated: false)
+                cell.switcher
+                    .rx
+                    .value
+                    .bind(onNext: { val in
+                        SettingsManager.sharedInstance.routeRecordingAutostart = val
+                    })
+                    .addDisposableTo(disposeBag)
+                
+            case 2:
+                cell.switcher.setOn(SettingsManager.sharedInstance.showGraph, animated: false)
+                cell.switcher
+                    .rx
+                    .value
+                    .bind(onNext: { val in
+                        SettingsManager.sharedInstance.showGraph = val
+                    })
+                    .addDisposableTo(disposeBag)
+                
+            default: break
+            }
             return cell
         }
         
