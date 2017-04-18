@@ -139,23 +139,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 }
             }
         }
-        sendDataActivity()
-    }
-    
-    fileprivate func sendDataActivity() {
-        let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
-        let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
-        if let result = result, result.count > 0 {
-            if UHBConnectivityManager.shared().isConnected() == true {
-                let track = result.first
-                try? realm?.write {
-                    track?.status = TrackStatus.uploading.rawValue
-                }
-                UARoadsSDK.sharedInstance.send(track: track!, handler: { val in
-                    print(val)
-                })
-            }
-        }
+        UARoadsSDK.sharedInstance.sendDataActivity()
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {
@@ -276,11 +260,11 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             let pit = PitModel()
             pit.latitude = LocationManager.sharedInstance.manager.location?.coordinate.latitude ?? 0.0
             pit.longitude = LocationManager.sharedInstance.manager.location?.coordinate.longitude ?? 0.0
-            pit.track = track
+//            pit.track = track
             pit.value = currentPit
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.tag = "origin"
-            pit.add()
+//            pit.add()
             
             try? realm?.write {
                 track?.pits.append(pit)

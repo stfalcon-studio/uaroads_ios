@@ -8,13 +8,23 @@
 
 import UIKit
 import UHBConnectivityManager
+import StfalconSwiftExtensions
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    private var fetchCompletionHandler: ((UIBackgroundFetchResult) -> Void)?
+    private var backgroundTrackSendingCompleted: Bool = false
+    
+    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        //background task
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        
+        deleteOldTracks()
         
         interfaceAppearance()
         
@@ -28,19 +38,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UHBConnectivityManager.shared().registerCallBack({ (status: ConnectivityManagerConnectionStatus) in
             if status == ConnectivityManagerConnectionStatusConnected {
                 print("Internet connected")
-                //                SocketManager.sharedInstance.reconnect()
-                //                HUDManager.sharedInstance.hide()
-                //                self?.popUpVC.dismiss()
-                
             } else {
                 print("No connection")
-                //                SocketManager.sharedInstance.closeConnection()
             }
         }, forIdentifier: self.memoryAddress())
         
         return true
     }
     
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        fetchCompletionHandler = completionHandler
+        
+        backgroundTrackSendingCompleted = false
+        if MotionManager.sharedInstance.status == .notActive {
+            sendDataActivity()
+        } else {
+            completeBackgroundTrackSending(false)
+        }
+    }
+    
+    //MARK: Helpers
     private func interfaceAppearance() {
         //navigation bar appearance
         let navBar = UINavigationBar.appearance()
@@ -52,29 +70,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBar = UITabBar.appearance()
         tabBar.isTranslucent = false
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    
+    private func sendDataActivity() {
+        UARoadsSDK.sharedInstance.sendDataActivity()
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    func completeBackgroundTrackSending(_ val: Bool) {
+        backgroundTrackSendingCompleted = val
+        fetchCompletion(val)
     }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    
+    private func fetchCompletion(_ val: Bool) {
+        if backgroundTrackSendingCompleted == true && fetchCompletionHandler != nil {
+            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+            if val {
+                fetchCompletionHandler?(.newData)
+            } else {
+                fetchCompletionHandler?(.noData)
+            }
+            fetchCompletionHandler = nil
+        }
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    private func deleteOldTracks() {
+        //check connection first
+        if UHBConnectivityManager.shared().isConnected() == true {
+            let pred = NSPredicate(format: "status == 4")
+            let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
+            if let result = result {
+                for item in result {
+                    item.delete()
+                }
+            }
+        }
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

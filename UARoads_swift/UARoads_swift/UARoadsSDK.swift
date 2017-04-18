@@ -9,13 +9,17 @@
 import Foundation
 import Alamofire
 import StfalconSwiftExtensions
+import UHBConnectivityManager
+import RealmSwift
 
 final class UARoadsSDK {
     private init() {}
     static let sharedInstance = UARoadsSDK()
     
     //============
+    private static let realm = try? Realm()
     private static let baseURL = "http://uaroads.com"
+    private var sendingInProcess = false
     
     func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
         let deviceName = "\(UIDevice.current.model) - \(UIDevice.current.name)"
@@ -46,7 +50,45 @@ final class UARoadsSDK {
         }
     }
     
-    func send(track: TrackModel, handler: @escaping (_ success: Bool) -> ()) {
+    func sendDataActivity() {
+        let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
+        let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
+        
+        if !sendingInProcess {
+            if let result = result, result.count > 0 {
+                if UHBConnectivityManager.shared().isConnected() == true {
+                    sendingInProcess = true
+                    
+                    let track = result.first
+                    try? UARoadsSDK.realm?.write {
+                        track?.status = TrackStatus.uploading.rawValue
+                    }
+                    UARoadsSDK.sharedInstance.tryToSend(track: track!, handler: { [weak self] val in
+                        self?.sendingInProcess = false
+                        
+                        if result.count > 1 && val {
+                            self?.sendDataActivity()
+                        } else {
+                            (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
+                        }
+                        
+                        try? UARoadsSDK.realm?.write {
+                            if val == true {
+                                track?.status = TrackStatus.uploaded.rawValue
+                            } else {
+                                track?.status = TrackStatus.waitingForUpload.rawValue
+                            }
+                        }
+                    })
+                }
+            }
+        }
+        if !sendingInProcess {
+            (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(false)
+        }
+    }
+    
+    private func tryToSend(track: TrackModel, handler: @escaping (_ success: Bool) -> ()) {
         let data = fullTrackData(track: track)
         let base64DataString = data?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
