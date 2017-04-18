@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import CallKit
 import CoreMotion
-import UserNotifications
 import StfalconSwiftExtensions
 import UHBConnectivityManager
 import RealmSwift
@@ -291,18 +290,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .pausedForCall {
                     
-                    //create and add local user notification
-                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Date().addingTimeInterval(2.0).timeIntervalSinceNow,
-                                                                    repeats: false)
+                    self.addNotification(text: "Track recording resumed.", time: 2.0)
                     
-                    let content = UNMutableNotificationContent()
-                    content.body = NSLocalizedString("Track recording resumed.", comment: "noteBody")
-                    content.title = NSLocalizedString("UARoads", comment: "noteTitle")
-                    content.userInfo = ["resume":"action"]
-                    
-                    let request = UNNotificationRequest(identifier: "uaroads", content: content, trigger: trigger)
-                    
-                    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+                    //TODO:
+//                    content.userInfo = ["resume":"action"]
                     
                     self.resumeRecording()
                 }

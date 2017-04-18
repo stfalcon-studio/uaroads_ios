@@ -43,6 +43,7 @@
 		F4BAD6261E9FB47900FE59B9 /* FooterSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BAD6251E9FB47900FE59B9 /* FooterSignIn.swift */; };
 		F4BAD6281E9FB48700FE59B9 /* FooterText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BAD6271E9FB48700FE59B9 /* FooterText.swift */; };
 		F4E0FF2F1EA6484600652FD2 /* AutostartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0FF2E1EA6484600652FD2 /* AutostartManager.swift */; };
+		F4E0FF331EA676E000652FD2 /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E0FF321EA676E000652FD2 /* NSObject.swift */; };
 		F4FD7BE01E9B6AF700E5488C /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		F4BAD6251E9FB47900FE59B9 /* FooterSignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterSignIn.swift; sourceTree = "<group>"; };
 		F4BAD6271E9FB48700FE59B9 /* FooterText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterText.swift; sourceTree = "<group>"; };
 		F4E0FF2E1EA6484600652FD2 /* AutostartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutostartManager.swift; sourceTree = "<group>"; };
+		F4E0FF321EA676E000652FD2 /* NSObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
 		F4FD7BDF1E9B6AF700E5488C /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FDC58852CDCE387B891356DF /* Pods-UARoads_swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */,
+				F4E0FF321EA676E000652FD2 /* NSObject.swift */,
 				F4163C501E97AF720076C224 /* Closures.swift */,
 				F47F19FE1E97823600E47849 /* Color.swift */,
 			);
@@ -421,6 +424,7 @@
 				F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */,
 				F4E0FF2F1EA6484600652FD2 /* AutostartManager.swift in Sources */,
 				F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */,
+				F4E0FF331EA676E000652FD2 /* NSObject.swift in Sources */,
 				F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */,
 				F404C6441E9D01D1001D63A5 /* GraphView.swift in Sources */,
 				F47F19F71E977B2B00E47849 /* RoutesVC.swift in Sources */,

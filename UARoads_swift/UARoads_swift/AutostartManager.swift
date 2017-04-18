@@ -7,11 +7,19 @@
 //
 
 import Foundation
-import UserNotifications
 
-final class AutostartManager {
-    private init() {}
+final class AutostartManager: NSObject {
+    private override init() {
+        super.init()
+    }
+    override func copy() -> Any {
+        fatalError("don`t use copy!")
+    }
+    override func mutableCopy() -> Any {
+        fatalError("don`t use copy!")
+    }
     static let sharedInstance = AutostartManager()
+    
     
     //=================
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h)
@@ -28,7 +36,7 @@ final class AutostartManager {
         if status == 1 {
             status = 0
             LocationManager.sharedInstance.manager.stopUpdatingLocation()
-            notifyText(NSLocalizedString("Track recording automaticaly stoped.", comment: ""), sound: "stop-rec-uk.m4a")
+            addNotification(text: "Track recording automaticaly stoped.", time: 1.0, sound: "stop-rec-uk.m4a")
             startNotified = false
         } else {
             autostartTimer?.invalidate()
@@ -57,7 +65,7 @@ final class AutostartManager {
             
             if startNotified == false {
                 startNotified = true
-                notifyText(NSLocalizedString("Track recording automaticaly started.", comment: ""), sound: "start-rec-uk.m4a")
+                addNotification(text: "Track recording automaticaly started.", time: 1.0, sound: "start-rec-uk.m4a")
             }
         }
     }
@@ -95,21 +103,6 @@ final class AutostartManager {
         autostartTimer = Timer.scheduledTimer(timeInterval: autostartTimeoutInterval, target: AutostartManager.sharedInstance, selector: #selector(autostartTimeoutTimerCheck), userInfo: nil, repeats: false)
         
         LocationManager.sharedInstance.manager.startUpdatingLocation()
-    }
-    
-    private func notifyText(_ text: String, sound: String) {
-        //create and add local user notification
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: Date().addingTimeInterval(1.0).timeIntervalSinceNow,
-                                                        repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        content.body = text
-        content.title = NSLocalizedString("UARoads", comment: "noteTitle")
-        content.sound = UNNotificationSound(named: sound)
-        
-        let request = UNNotificationRequest(identifier: "uaroads", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }
 
