@@ -34,7 +34,33 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations.last as Any)
+        
+        if let lastLocation = locations.last {
+            let autoManager = AutostartManager.sharedInstance
+            
+            let speed = lastLocation.speed
+            let hAccuracy = lastLocation.horizontalAccuracy
+            
+            if MotionManager.sharedInstance.status == .notActive || autoManager.status == 2 {
+                switch autoManager.status {
+                case 0:
+                    autoManager.beginCheckForAutostart()
+                    
+                case 1:
+                    if speed > autoManager.Min_speed_to_start_recording && hAccuracy < 20 {
+                        autoManager.lastMaxSpeed = lastLocation.speed
+                        autoManager.startRecording()
+                    }
+                    
+                case 2:
+                    if speed > autoManager.lastMaxSpeed && hAccuracy < 20 {
+                        autoManager.lastMaxSpeed = lastLocation.speed
+                    }
+                    
+                default: break
+                }
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

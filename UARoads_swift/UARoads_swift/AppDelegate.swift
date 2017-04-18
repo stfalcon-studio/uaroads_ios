@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private var fetchCompletionHandler: ((UIBackgroundFetchResult) -> Void)?
     private var backgroundTrackSendingCompleted: Bool = false
+    private let sendDataActivityTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { (_) in
+        UARoadsSDK.sharedInstance.sendDataActivity()
+    }
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var window: UIWindow?
