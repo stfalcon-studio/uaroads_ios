@@ -24,6 +24,7 @@
 		F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = F41441C31E9E63A500F3A7C3 /* GZIP.m */; };
 		F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */; };
 		F41579481EA7810D00AB2E65 /* TutorialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41579471EA7810D00AB2E65 /* TutorialVC.swift */; };
+		F415794A1EA7AC6B00AB2E65 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41579491EA7AC6B00AB2E65 /* Notifications.swift */; };
 		F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* NetworkManager.swift */; };
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
 		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
@@ -85,6 +86,7 @@
 		F41441C31E9E63A500F3A7C3 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePitModel.swift; sourceTree = "<group>"; };
 		F41579471EA7810D00AB2E65 /* TutorialVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialVC.swift; sourceTree = "<group>"; };
+		F41579491EA7AC6B00AB2E65 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		F4163C4E1E97AED50076C224 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */,
 				F4E0FF321EA676E000652FD2 /* GFunctions.swift */,
 				F4163C501E97AF720076C224 /* Closures.swift */,
+				F41579491EA7AC6B00AB2E65 /* Notifications.swift */,
 				F47F19FE1E97823600E47849 /* Color.swift */,
 			);
 			name = Extensions_protocols;
@@ -467,6 +470,7 @@
 				F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */,
 				F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */,
 				F4BAD6211E9FAD7800FE59B9 /* SettingsSwitchCell.swift in Sources */,
+				F415794A1EA7AC6B00AB2E65 /* Notifications.swift in Sources */,
 				F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */,
 				F40ED4B01E9B84A300D72324 /* NavigatorVC.swift in Sources */,
 				F41413961E9F60E400D58941 /* NSString+MD5.m in Sources */,

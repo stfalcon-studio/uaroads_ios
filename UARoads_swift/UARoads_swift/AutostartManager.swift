@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import CoreLocation
 
 final class AutostartManager: NSObject {
     private override init() {
         super.init()
+        
+        NotificationCenter.default.addObserver(MotionManager.sharedInstance, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
     }
     override func copy() -> Any {
         fatalError("don`t use copy!")
@@ -20,6 +23,9 @@ final class AutostartManager: NSObject {
     }
     static let sharedInstance = AutostartManager()
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     //=================
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h) //TODO: change it back!!!
@@ -113,6 +119,33 @@ final class AutostartManager: NSObject {
         autostartTimer = Timer.scheduledTimer(timeInterval: autostartTimeoutInterval, target: AutostartManager.sharedInstance, selector: #selector(autostartTimeoutTimerCheck), userInfo: nil, repeats: false)
         
         LocationManager.sharedInstance.manager.startUpdatingLocation()
+    }
+    
+    @objc fileprivate func locationUpdate(note: NSNotification) {
+        if let lastLocation = (note.object as? [CLLocation])?.last {
+            let speed = lastLocation.speed
+            let hAccuracy = lastLocation.horizontalAccuracy
+            
+            if MotionManager.sharedInstance.status == .notActive || status == 2 {
+                switch status {
+                case 0:
+                    beginCheckForAutostart()
+                    
+                case 1:
+                    if speed > Min_speed_to_start_recording && hAccuracy < 20 {
+                        lastMaxSpeed = lastLocation.speed
+                        startRecording()
+                    }
+                    
+                case 2:
+                    if speed > lastMaxSpeed && hAccuracy < 20 {
+                        lastMaxSpeed = lastLocation.speed
+                    }
+                    
+                default: break
+                }
+            }
+        }
     }
 }
 

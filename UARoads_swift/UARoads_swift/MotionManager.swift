@@ -43,6 +43,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         self.reloadSettings()
         
         self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
+        
+        NotificationCenter.default.addObserver(MotionManager.sharedInstance, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
     }
     static let sharedInstance = MotionManager()
     override func copy() -> Any {
@@ -51,7 +53,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     override func mutableCopy() -> Any {
         fatalError("don`t use copy!")
     }
-    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     //=======================
     
     var delegate: MotionManagerDelegate?
@@ -75,14 +79,14 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     fileprivate let motionManager = CMMotionManager()
     
     fileprivate var pointCount: Int = 0
-    fileprivate var skipLocationPoints: Int?
+    fileprivate var skipLocationPoints: Int = 0
     fileprivate var timerPit: Timer?
     fileprivate var timerMaxPit: Timer?
     fileprivate var timerMotion: Timer?
     fileprivate var currentPit: Double = 0.0
     fileprivate var maxPit: Double = 0.0
     fileprivate var currentPitTime: Date?
-    fileprivate var maxSpeed: CGFloat?
+    fileprivate var maxSpeed: Double = 0.0
     fileprivate var dataToSave: Date?
     fileprivate var currentLocation: CLLocation?
     fileprivate var lastAccX: CGFloat?
@@ -293,6 +297,55 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         if let soundURL = Bundle.main.url(forResource: soundName, withExtension: "aiff") {
             AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
             AudioServicesPlaySystemSound(sound)
+        }
+    }
+    
+    @objc fileprivate func locationUpdate(note: NSNotification) {
+        if skipLocationPoints > 0 {
+            skipLocationPoints -= 1
+            return
+        }
+        
+        if let newLocation = (note.object as? [CLLocation])?.first {
+            var locationUpdate = false
+            if currentLocation != nil {
+                let lastDistance = newLocation.distance(from: currentLocation!)
+                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation!.timestamp.timeIntervalSinceReferenceDate
+                
+                if lastDistance > currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
+                    try? realm?.write {
+                        self.track?.distance += CGFloat(lastDistance)
+                        realm?.add(track!, update: true)
+                    }
+                    locationUpdate = true
+                }
+            } else {
+                locationUpdate = false
+            }
+            
+            if locationUpdate == true {
+                let pit = PitModel()
+                pit.latitude = newLocation.coordinate.latitude
+                pit.longitude = newLocation.coordinate.longitude
+                pit.time = "\(Date().timeIntervalSince1970 * 1000)"
+                pit.tag = "origin"
+                pit.value = 0.0
+                
+                try? realm?.write {
+                    track?.pits.append(pit)
+                    realm?.add(track!, update: true)
+                }
+                
+                currentLocation = newLocation
+                delegate?.locationUpdated(location: currentLocation!, trackDist: Double(track!.distance))
+            }
+            
+            // Calculate maximum speed for last 5 minutes
+            if newLocation.horizontalAccuracy <= 10 {
+                if maxSpeed < newLocation.speed {
+                    maxSpeed = newLocation.speed
+                }
+            }
         }
     }
     

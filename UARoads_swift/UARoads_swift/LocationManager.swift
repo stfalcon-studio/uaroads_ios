@@ -30,38 +30,13 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //========================
     
-    var completionHandler: EmptyHandler?
+//    var completionHandler: EmptyHandler?
     let manager = CLLocationManager()
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let lastLocation = locations.last {
-            let autoManager = AutostartManager.sharedInstance
-            let speed = lastLocation.speed
-            let hAccuracy = lastLocation.horizontalAccuracy
-            
-            completionHandler?()
-            
-            if MotionManager.sharedInstance.status == .notActive || autoManager.status == 2 {
-                switch autoManager.status {
-                case 0:
-                    autoManager.beginCheckForAutostart()
-                    
-                case 1:
-                    if speed > autoManager.Min_speed_to_start_recording && hAccuracy < 20 {
-                        autoManager.lastMaxSpeed = lastLocation.speed
-                        autoManager.startRecording()
-                    }
-                    
-                case 2:
-                    if speed > autoManager.lastMaxSpeed && hAccuracy < 20 {
-                        autoManager.lastMaxSpeed = lastLocation.speed
-                    }
-                    
-                default: break
-                }
-            }
-        }
+//        completionHandler?() //TODO: check this!
+        NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
