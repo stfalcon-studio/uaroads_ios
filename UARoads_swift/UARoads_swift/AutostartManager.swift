@@ -22,7 +22,7 @@ final class AutostartManager: NSObject {
     
     
     //=================
-    let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h)
+    let Min_speed_to_start_recording: Double = 0.1//5.56 /// m/s ( 20 km/h) //TODO: change it back!!!
     let Max_speed_to_stop_recording: Double = 4.67 /// m/s (15 km/h)
     var status: Int = 2 //TODO: give some understandable name!
     var lastMaxSpeed: Double = 0.0

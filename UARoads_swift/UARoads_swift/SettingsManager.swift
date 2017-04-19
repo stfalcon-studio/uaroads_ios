@@ -13,6 +13,7 @@ enum Constants: String {
     case routeRecordingAutostart = "routeRecordingAutostartKey"
     case showGraph = "showGraphKey"
     case email = "emailKey"
+    case firstLaunch = "firstLaunchKey"
 }
 
 final class SettingsManager {
@@ -21,6 +22,7 @@ final class SettingsManager {
     
     private let defaults = UserDefaults.standard
     
+    //TODO: how to check this?
     var sendDataOnlyWiFi: Bool {
         get { return defaults.bool(forKey: Constants.sendDataOnlyWiFi.rawValue) }
         set { defaults.set(newValue, forKey: Constants.sendDataOnlyWiFi.rawValue); defaults.synchronize() }
@@ -38,6 +40,15 @@ final class SettingsManager {
     
     var email: String? {
         get { return defaults.string(forKey: Constants.email.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.email.rawValue) }
+        set { defaults.set(newValue, forKey: Constants.email.rawValue); defaults.synchronize()  }
+    }
+    
+    var firstLaunch: String? {
+        get { return defaults.string(forKey: Constants.firstLaunch.rawValue) }
+        set { defaults.set(newValue, forKey: Constants.firstLaunch.rawValue); defaults.synchronize()  }
     }
 }
+
+
+
+

@@ -34,7 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
-            window.rootViewController = TabBarVC()
+            if SettingsManager.sharedInstance.firstLaunch != nil {
+                window.rootViewController = TabBarVC()
+            } else {
+                window.rootViewController = TutorialVC()
+            }
             window.makeKeyAndVisible()
         }
         

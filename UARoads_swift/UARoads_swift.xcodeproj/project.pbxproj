@@ -23,6 +23,7 @@
 		F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */; };
 		F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = F41441C31E9E63A500F3A7C3 /* GZIP.m */; };
 		F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */; };
+		F41579481EA7810D00AB2E65 /* TutorialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41579471EA7810D00AB2E65 /* TutorialVC.swift */; };
 		F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* NetworkManager.swift */; };
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
 		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
@@ -83,6 +84,7 @@
 		F41441C21E9E63A500F3A7C3 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		F41441C31E9E63A500F3A7C3 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePitModel.swift; sourceTree = "<group>"; };
+		F41579471EA7810D00AB2E65 /* TutorialVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialVC.swift; sourceTree = "<group>"; };
 		F4163C4E1E97AED50076C224 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 		F47F1A001E97938400E47849 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F41579471EA7810D00AB2E65 /* TutorialVC.swift */,
 				F47F19F61E977B2B00E47849 /* RoutesVC.swift */,
 				F4163C551E97D3460076C224 /* RouteBuidVC.swift */,
 				F40ED4AF1E9B84A300D72324 /* NavigatorVC.swift */,
@@ -483,6 +486,7 @@
 				F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */,
 				F47F19FD1E977CCA00E47849 /* SettingsVC.swift in Sources */,
 				F4E0FF2F1EA6484600652FD2 /* AutostartManager.swift in Sources */,
+				F41579481EA7810D00AB2E65 /* TutorialVC.swift in Sources */,
 				F47F19F31E9778DE00E47849 /* BaseVC.swift in Sources */,
 				F4E0FF331EA676E000652FD2 /* GFunctions.swift in Sources */,
 				F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */,
