@@ -37,14 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.makeKeyAndVisible()
         }
         
-        //connection check
-        UHBConnectivityManager.shared().registerCallBack({ (status: ConnectivityManagerConnectionStatus) in
-            if status == ConnectivityManagerConnectionStatusConnected {
-                print("Internet connected")
-            } else {
-                print("No connection")
-            }
-        }, forIdentifier: self.memoryAddress())
+//        //connection check
+//        UHBConnectivityManager.shared().registerCallBack({ (status: ConnectivityManagerConnectionStatus) in
+//            if status == ConnectivityManagerConnectionStatusConnected {
+//                print("Internet connected")
+//            } else {
+//                print("No connection")
+//            }
+//        }, forIdentifier: self.memoryAddress())
         
         return true
     }
