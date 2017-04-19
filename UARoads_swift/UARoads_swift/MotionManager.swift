@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import AudioToolbox
 import CallKit
 import CoreMotion
 import StfalconSwiftExtensions
@@ -54,7 +55,15 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     //=======================
     
     var delegate: MotionManagerDelegate?
-    var status: MotionStatus?
+    var status: MotionStatus {
+        set {
+            self.status = newValue
+            self.delegate?.statusChanged(newStatus: newValue)
+        }
+        get {
+            return self.status
+        }
+    }
     var track: TrackModel?
     weak var graphView: GraphView?
     var pitBuffer = [Any]()
@@ -142,28 +151,30 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {
-        track = TrackModel()
-        track?.autoRecord = autostart
-        track?.title = title
-        track?.date = Date()
-        track?.status = TrackStatus.active.rawValue
-        track?.distance = 0.0
-        DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
-        let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
-        track?.trackID = id.md5()
-        try? realm?.write {
-            realm?.add(track!, update: true)
+        if status == .notActive {
+            track = TrackModel()
+            track?.autoRecord = autostart
+            track?.title = title
+            track?.date = Date()
+            track?.status = TrackStatus.active.rawValue
+            track?.distance = 0.0
+            DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
+            let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
+            track?.trackID = id.md5()
+            try? realm?.write {
+                realm?.add(track!, update: true)
+            }
+            
+            currentLocation = nil
+            skipLocationPoints = 3
+            status = .active
+            motionManager.startDeviceMotionUpdates()
+            motionManager.startAccelerometerUpdates()
+            LocationManager.sharedInstance.manager.startUpdatingLocation()
+            
+            restartTimers()
+            reloadSettings()
         }
-
-        currentLocation = nil
-        skipLocationPoints = 3
-        status = .active
-        motionManager.startDeviceMotionUpdates()
-        motionManager.startAccelerometerUpdates()
-        LocationManager.sharedInstance.manager.startUpdatingLocation()
-        
-        restartTimers()
-        reloadSettings()
     }
     
     fileprivate func stopTimers() {
@@ -244,38 +255,45 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             maxPit = currentPit
         }
         if currentPit > 0.0 {
-            //
-        
-//            if (currentPit > 0) {
-//                if ([Uaroads session].settingsAllowSound) {
-//                    int pitN = (int)(currentPit / 0.3);
-//                    if (pitN > 0) {
-//                        if (pitN>5) pitN = 5;
-//                        NSString * pitSound = [NSString stringWithFormat:@"pit-%d", pitN];
-//                        [self playSound:pitSound type:@"aiff"];
-//                    }
-//                }
+            var pitN = Int(currentPit/0.3)
+            if pitN > 5 {
+                pitN = 5
+            }
+            let pitSound = "pit-\(pitN)"
+            print(pitSound)
+            print(currentPit)
+            print(maxPit)
+            
+            playSound(pitSound)
 
             let pit = PitModel()
             pit.latitude = LocationManager.sharedInstance.manager.location?.coordinate.latitude ?? 0.0
             pit.longitude = LocationManager.sharedInstance.manager.location?.coordinate.longitude ?? 0.0
-//            pit.track = track
             pit.value = currentPit
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.tag = "origin"
-//            pit.add()
             
             try? realm?.write {
                 track?.pits.append(pit)
                 realm?.add(track!, update: true)
             }
         }
-
         currentPit = 0.0
     }
     
     fileprivate func pauseRecordingForCall() {
-        //
+        UIApplication.shared.isIdleTimerDisabled = false
+        status = .pausedForCall
+        motionManager.stopDeviceMotionUpdates()
+        stopTimers()
+    }
+    
+    fileprivate func playSound(_ soundName: String) {
+        var sound: SystemSoundID = 0
+        if let soundURL = Bundle.main.url(forResource: soundName, withExtension: "aiff") {
+            AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
+            AudioServicesPlaySystemSound(sound)
+        }
     }
     
     //MARK: CXCallObserverDelegate
@@ -289,12 +307,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         } else {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .pausedForCall {
-                    
                     addNotification(text: "Track recording resumed.", time: 2.0)
-                    
-                    //TODO:
-//                    content.userInfo = ["resume":"action"]
-                    
                     self.resumeRecording()
                 }
             }

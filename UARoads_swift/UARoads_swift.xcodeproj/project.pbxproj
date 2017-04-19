@@ -34,7 +34,7 @@
 		F43EA2C41EA73E1100A113BE /* pit-3.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B71EA73E1100A113BE /* pit-3.aiff */; };
 		F43EA2C51EA73E1100A113BE /* pit-4.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B81EA73E1100A113BE /* pit-4.aiff */; };
 		F43EA2C61EA73E1100A113BE /* pit-5.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B91EA73E1100A113BE /* pit-5.aiff */; };
-		F43EA2C71EA73E1100A113BE /* pit.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2BA1EA73E1100A113BE /* pit.m4a */; };
+		F43EA2C71EA73E1100A113BE /* pit-0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2BA1EA73E1100A113BE /* pit-0.m4a */; };
 		F43EA2C81EA73E1100A113BE /* start-rec-en.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2BB1EA73E1100A113BE /* start-rec-en.m4a */; };
 		F43EA2C91EA73E1100A113BE /* start-rec-uk.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2BC1EA73E1100A113BE /* start-rec-uk.m4a */; };
 		F43EA2CA1EA73E1100A113BE /* start-rec.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2BD1EA73E1100A113BE /* start-rec.m4a */; };
@@ -95,7 +95,7 @@
 		F43EA2B71EA73E1100A113BE /* pit-3.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-3.aiff"; sourceTree = "<group>"; };
 		F43EA2B81EA73E1100A113BE /* pit-4.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-4.aiff"; sourceTree = "<group>"; };
 		F43EA2B91EA73E1100A113BE /* pit-5.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-5.aiff"; sourceTree = "<group>"; };
-		F43EA2BA1EA73E1100A113BE /* pit.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = pit.m4a; sourceTree = "<group>"; };
+		F43EA2BA1EA73E1100A113BE /* pit-0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pit-0.m4a"; sourceTree = "<group>"; };
 		F43EA2BB1EA73E1100A113BE /* start-rec-en.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "start-rec-en.m4a"; sourceTree = "<group>"; };
 		F43EA2BC1EA73E1100A113BE /* start-rec-uk.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "start-rec-uk.m4a"; sourceTree = "<group>"; };
 		F43EA2BD1EA73E1100A113BE /* start-rec.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "start-rec.m4a"; sourceTree = "<group>"; };
@@ -253,7 +253,7 @@
 				F43EA2B71EA73E1100A113BE /* pit-3.aiff */,
 				F43EA2B81EA73E1100A113BE /* pit-4.aiff */,
 				F43EA2B91EA73E1100A113BE /* pit-5.aiff */,
-				F43EA2BA1EA73E1100A113BE /* pit.m4a */,
+				F43EA2BA1EA73E1100A113BE /* pit-0.m4a */,
 				F43EA2BB1EA73E1100A113BE /* start-rec-en.m4a */,
 				F43EA2BC1EA73E1100A113BE /* start-rec-uk.m4a */,
 				F43EA2BD1EA73E1100A113BE /* start-rec.m4a */,
@@ -389,7 +389,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F43EA2C71EA73E1100A113BE /* pit.m4a in Resources */,
+				F43EA2C71EA73E1100A113BE /* pit-0.m4a in Resources */,
 				F43EA2C81EA73E1100A113BE /* start-rec-en.m4a in Resources */,
 				F43EA2C51EA73E1100A113BE /* pit-4.aiff in Resources */,
 				F43EA2C91EA73E1100A113BE /* start-rec-uk.m4a in Resources */,
