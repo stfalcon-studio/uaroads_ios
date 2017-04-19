@@ -163,6 +163,7 @@ extension SettingsVC {
                     .value
                     .bind(onNext: { val in
                         SettingsManager.sharedInstance.routeRecordingAutostart = val
+                        AutostartManager.sharedInstance.setAutostartActive(val)
                     })
                     .addDisposableTo(disposeBag)
                 
