@@ -22,7 +22,6 @@ class SettingsSwitchCell: BaseCell {
         mainTitleLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
             make.top.equalTo(15.0)
-            make.bottom.equalTo(-15.0)
         }
         
         switcher.snp.makeConstraints { (make) in

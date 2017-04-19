@@ -12,16 +12,16 @@ import StfalconSwiftExtensions
 import UHBConnectivityManager
 import RealmSwift
 
-final class UARoadsSDK {
+public final class UARoadsSDK {
     private init() {}
-    static let sharedInstance = UARoadsSDK()
+    public static let sharedInstance = UARoadsSDK()
     
     //============
     private static let realm = try? Realm()
     private static let baseURL = "http://uaroads.com"
     private var sendingInProcess = false
     
-    func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
+    public func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
         let deviceName = "\(UIDevice.current.model) - \(UIDevice.current.name)"
         let osVersion = UIDevice.current.systemVersion
         let uid = UIDevice.current.identifierForVendor?.uuidString
@@ -50,7 +50,7 @@ final class UARoadsSDK {
         }
     }
     
-    func sendDataActivity() {
+    public func sendDataActivity() {
         let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
         let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
         
@@ -139,8 +139,8 @@ final class UARoadsSDK {
         }
     }
     
-    private func gzippedData(_ data: Data) -> Data {
-        return (data as NSData).gzippedData(withCompressionLevel: -1.0)
+    private func gzippedData(_ data: Data) -> Data? {
+        return (data as NSData).gzippedData(withCompressionLevel: -1.0) ?? nil
     }
     
     private func pitDataString(pit: PitModel) -> String {

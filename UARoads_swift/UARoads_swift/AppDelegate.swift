@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 import UHBConnectivityManager
 import StfalconSwiftExtensions
 
@@ -36,6 +37,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.rootViewController = TabBarVC()
             window.makeKeyAndVisible()
         }
+        
+        //notifications
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.requestAuthorization(options: [.alert, .sound, .badge], completionHandler: { (granted, _) in
+            if granted {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        })
         
 //        //connection check
 //        UHBConnectivityManager.shared().registerCallBack({ (status: ConnectivityManagerConnectionStatus) in
@@ -107,7 +117,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let note = notification.request.content.userInfo
+        
+        print(note)
+        
+        completionHandler([.sound, .alert, .badge])
+    }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        print(response.notification.request.content.userInfo)
+    }
 }
 
 
