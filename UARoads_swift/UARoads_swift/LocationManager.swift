@@ -30,6 +30,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //========================
     
+    var completionHandler: EmptyHandler?
     let manager = CLLocationManager()
     
     //MARK: CLLocationManagerDelegate
@@ -38,6 +39,8 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             let autoManager = AutostartManager.sharedInstance
             let speed = lastLocation.speed
             let hAccuracy = lastLocation.horizontalAccuracy
+            
+            completionHandler?()
             
             if MotionManager.sharedInstance.status == .notActive || autoManager.status == 2 {
                 switch autoManager.status {

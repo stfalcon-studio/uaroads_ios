@@ -31,8 +31,16 @@ class RoutesVC: BaseTVC {
         setupRx()
         
         HUDManager.sharedInstance.show(from: self)
-        let urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
+        LocationManager.sharedInstance.manager.requestLocation()
+        LocationManager.sharedInstance.completionHandler = { [weak self] in
+            var urlStr: String!
+            if let coord = LocationManager.sharedInstance.manager.location?.coordinate {
+                urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
+            } else {
+                urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
+            }
+            self?.webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
+        }
     }
     
     func setupConstraints() {
