@@ -69,10 +69,6 @@ class TracksVC: BaseTVC {
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
         tableView.tableFooterView = UIView()
     }
-    
-    func test() {
-        //
-    }
 }
 
 extension TracksVC {
