@@ -34,10 +34,8 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
         if let lastLocation = locations.last {
             let autoManager = AutostartManager.sharedInstance
-            
             let speed = lastLocation.speed
             let hAccuracy = lastLocation.horizontalAccuracy
             

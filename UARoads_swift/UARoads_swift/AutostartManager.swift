@@ -45,25 +45,35 @@ final class AutostartManager: NSObject {
     }
     
     @objc private func autostopTimerCheck() {
-        //
+        if status == 2 {
+            if lastMaxSpeed < Max_speed_to_stop_recording {
+                stopRecording()
+            }
+        }
+        autostopTimer?.invalidate()
+        lastMaxSpeed = 0.0
     }
     
     func startRecording() {
         let autostopCheckInterval: TimeInterval = 120
         
-        if autostopTimer != nil {
-            autostopTimer?.invalidate()
-            autostopTimer = nil
+        if autostartTimer != nil {
+            autostartTimer?.invalidate()
+            autostartTimer = nil
         }
         
         if MotionManager.sharedInstance.status == .notActive {
             status = 2
+            if autostartTimer != nil {
+                autostartTimer?.invalidate()
+                autostartTimer = nil
+            }
             
             autostopTimer = Timer.scheduledTimer(timeInterval: autostopCheckInterval, target: AutostartManager.sharedInstance, selector: #selector(autostopTimerCheck), userInfo: nil, repeats: true)
             
             MotionManager.sharedInstance.startRecording(autostart: true)
             
-            if startNotified == false {
+            if !startNotified {
                 startNotified = true
                 addNotification(text: "Track recording automaticaly started.", time: 1.0, sound: "start-rec-uk.m4a")
             }
