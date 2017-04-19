@@ -8,6 +8,7 @@
 
 import UIKit
 import RxKeyboard
+import CoreLocation
 
 class RoutesVC: BaseTVC {
     fileprivate let fromTF = UITextField()
@@ -30,17 +31,14 @@ class RoutesVC: BaseTVC {
         setupInterface()
         setupRx()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
+        
         HUDManager.sharedInstance.show(from: self)
         LocationManager.sharedInstance.manager.requestLocation()
-        LocationManager.sharedInstance.completionHandler = { [weak self] in
-            var urlStr: String!
-            if let coord = LocationManager.sharedInstance.manager.location?.coordinate {
-                urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
-            } else {
-                urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-            }
-            self?.webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func setupConstraints() {
@@ -321,6 +319,17 @@ class RoutesVC: BaseTVC {
         } else {
             buildBtn.alpha = 0.0
         }
+    }
+    
+    //MARK: Actions
+    @objc fileprivate func locationUpdate(note: NSNotification) {
+        var urlStr: String!
+        if let coord = (note.object as? [CLLocation])?.last {
+            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
+        } else {
+            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
+        }
+        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
     }
 }
 

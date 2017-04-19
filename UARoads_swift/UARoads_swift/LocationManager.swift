@@ -29,13 +29,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     //========================
-    
-//    var completionHandler: EmptyHandler?
     let manager = CLLocationManager()
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        completionHandler?() //TODO: check this!
         NotificationCenter.default.post(name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: locations)
     }
     

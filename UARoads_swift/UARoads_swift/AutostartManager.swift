@@ -13,7 +13,7 @@ final class AutostartManager: NSObject {
     private override init() {
         super.init()
         
-        NotificationCenter.default.addObserver(MotionManager.sharedInstance, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
+        NotificationCenter.default.addObserver(AutostartManager.sharedInstance, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
     }
     override func copy() -> Any {
         fatalError("don`t use copy!")
