@@ -9,6 +9,7 @@
 import UIKit
 import StfalconSwiftExtensions
 import RealmSwift
+import DZNEmptyDataSet
 
 class TracksVC: BaseTVC {
     fileprivate let dataSource = RealmHelper.objects(type: TrackModel.self)
@@ -51,6 +52,9 @@ class TracksVC: BaseTVC {
                 break
             }
         }
+        
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
     }
     
     deinit {
@@ -63,6 +67,11 @@ class TracksVC: BaseTVC {
         title = NSLocalizedString("Recorded tracks", comment: "title")
         
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
+        tableView.tableFooterView = UIView()
+    }
+    
+    func test() {
+        //
     }
 }
 
@@ -98,6 +107,48 @@ extension TracksVC {
         return cell
     }
 }
+
+extension TracksVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSMutableAttributedString(string: NSLocalizedString("You have no tracks yet", comment: ""), attributes: [NSForegroundColorAttributeName:UIColor.gray, NSFontAttributeName:UIFont.systemFont(ofSize: 18.0)])
+    }
+    
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
+        return NSMutableAttributedString(string: NSLocalizedString("start", comment: "").uppercased(), attributes: [NSForegroundColorAttributeName:UIColor.green, NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)])
+    }
+    
+    func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {
+        (tabBarController as? TabBarVC)?.selectedIndex = 1
+    }
+    
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+    
+    func emptyDataSetShouldFade(in scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+    
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+    
+    func emptyDataSetShouldAllowTouch(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
