@@ -290,7 +290,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .pausedForCall {
                     
-                    self.addNotification(text: "Track recording resumed.", time: 2.0)
+                    addNotification(text: "Track recording resumed.", time: 2.0)
                     
                     //TODO:
 //                    content.userInfo = ["resume":"action"]
