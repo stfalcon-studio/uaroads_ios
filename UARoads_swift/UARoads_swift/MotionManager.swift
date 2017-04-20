@@ -268,7 +268,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             print(currentPit)
             print(maxPit)
             
-            playSound(pitSound)
+            if SettingsManager.sharedInstance.enableSound == true {
+                playSound(pitSound)
+            }
 
             let pit = PitModel()
             pit.latitude = LocationManager.sharedInstance.manager.location?.coordinate.latitude ?? 0.0

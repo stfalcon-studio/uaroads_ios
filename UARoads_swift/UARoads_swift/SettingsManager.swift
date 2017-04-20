@@ -13,6 +13,7 @@ enum Constants: String {
     case routeRecordingAutostart = "routeRecordingAutostartKey"
     case showGraph = "showGraphKey"
     case email = "emailKey"
+    case enableSound = "enableSoundKey"
     case firstLaunch = "firstLaunchKey"
 }
 
@@ -36,6 +37,11 @@ final class SettingsManager {
     var showGraph: Bool {
         get { return defaults.bool(forKey: Constants.showGraph.rawValue) }
         set { defaults.set(newValue, forKey: Constants.showGraph.rawValue); defaults.synchronize() }
+    }
+    
+    var enableSound: Bool {
+        get { return defaults.bool(forKey: Constants.enableSound.rawValue) }
+        set { defaults.set(newValue, forKey: Constants.enableSound.rawValue); defaults.synchronize() }
     }
     
     var email: String? {

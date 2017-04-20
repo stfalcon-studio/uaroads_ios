@@ -15,7 +15,8 @@ class SettingsVC: BaseTVC {
     fileprivate let dataSourceTitle = [
         NSLocalizedString("Send data only via WiFi", comment: "title"),
         NSLocalizedString("Route recording autostart", comment: "title"),
-        NSLocalizedString("Show map / graph", comment: "title")
+        NSLocalizedString("Show map / graph", comment: "title"),
+        NSLocalizedString("Enable pit sounds", comment: "title")
     ]
     
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ extension SettingsVC {
         if section == 0 {
             return 1
         }
-        return 3
+        return dataSourceTitle.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -177,6 +178,17 @@ extension SettingsVC {
                     .bind(onNext: { val in
                         SettingsManager.sharedInstance.showGraph = val
                         AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Show Map")
+                    })
+                    .addDisposableTo(disposeBag)
+                
+            case 3:
+                cell.switcher.setOn(SettingsManager.sharedInstance.enableSound, animated: false)
+                cell.switcher
+                    .rx
+                    .value
+                    .bind(onNext: { val in
+                        SettingsManager.sharedInstance.enableSound = val
+                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Pit Sound")
                     })
                     .addDisposableTo(disposeBag)
                 
