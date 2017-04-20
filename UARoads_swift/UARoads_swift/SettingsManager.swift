@@ -23,7 +23,6 @@ final class SettingsManager {
     
     private let defaults = UserDefaults.standard
     
-    //TODO: how to check this?
     var sendDataOnlyWiFi: Bool {
         get { return defaults.bool(forKey: Constants.sendDataOnlyWiFi.rawValue) }
         set { defaults.set(newValue, forKey: Constants.sendDataOnlyWiFi.rawValue); defaults.synchronize() }

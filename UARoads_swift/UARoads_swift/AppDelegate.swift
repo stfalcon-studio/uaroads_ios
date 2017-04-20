@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private var fetchCompletionHandler: ((UIBackgroundFetchResult) -> Void)?
     private var backgroundTrackSendingCompleted: Bool = false
     private let sendDataActivityTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { (_) in
-        UARoadsSDK.sharedInstance.sendDataActivity()
+        (UIApplication.shared.delegate as? AppDelegate)?.sendDataActivity()
     }
     
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
@@ -67,9 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
         fetchCompletionHandler = completionHandler
-        
         backgroundTrackSendingCompleted = false
         if MotionManager.sharedInstance.status == .notActive {
             sendDataActivity()
@@ -91,7 +89,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.isTranslucent = false
     }
     
-    private func sendDataActivity() {
+    func sendDataActivity() {
+        //check settings
+        if SettingsManager.sharedInstance.sendDataOnlyWiFi == true {
+            //check wifi connection
+            if UHBConnectivityManager.shared().isConnectedOverMobileData() == false {
+                UARoadsSDK.sharedInstance.sendDataActivity()
+                return
+            }
+        }
         UARoadsSDK.sharedInstance.sendDataActivity()
     }
     

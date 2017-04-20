@@ -147,7 +147,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 }
             }
         }
-        UARoadsSDK.sharedInstance.sendDataActivity()
+        (UIApplication.shared.delegate as? AppDelegate)?.sendDataActivity()
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {
