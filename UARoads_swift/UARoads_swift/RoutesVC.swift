@@ -137,13 +137,22 @@ class RoutesVC: BaseTVC {
                 UARoadsSDK.sharedInstance.checkRouteAvailability(coord1: (self?.fromModel?.locationCoordianate)!,
                                                                  coord2: (self?.toModel?.locationCoordianate)!,
                                                                  handler: { status in
-                                                                    print(status)
-                                                                    print("===========")
+                                                                    switch status {
+                                                                    case 200:
+                                                                        guard let from = self?.fromModel, let to = self?.toModel else { return }
+                                                                        AnalyticManager.sharedInstance.reportEvent(category: "Navigation", action: "search")
+                                                                        let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
+                                                                        self?.present(navVC, animated: true, completion: nil)
+                                                                        
+                                                                    case 404:
+                                                                        self?.showAlert(title: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Server connection error", comment: ""), controller: self, handler: nil)
+                                                                        
+                                                                    case 207:
+                                                                        self?.showAlert(title: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Cannot find route between points", comment: ""), controller: self, handler: nil)
+                                                                        
+                                                                    default: break
+                                                                    }
                 })
-                guard let from = self?.fromModel, let to = self?.toModel else { return }
-                AnalyticManager.sharedInstance.reportEvent(category: "Navigation", action: "search")
-                let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
-                self?.present(navVC, animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
         
