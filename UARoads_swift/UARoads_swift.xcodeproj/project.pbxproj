@@ -29,6 +29,7 @@
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
 		F4163C541E97C9F30076C224 /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C531E97C9F30076C224 /* SearchResultModel.swift */; };
 		F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C551E97D3460076C224 /* RouteBuidVC.swift */; };
+		F418248C1EA889250075872C /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418248B1EA889250075872C /* RealmManager.swift */; };
 		F43EA2C11EA73E1100A113BE /* error.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B41EA73E1100A113BE /* error.m4a */; };
 		F43EA2C21EA73E1100A113BE /* pit-1.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B51EA73E1100A113BE /* pit-1.aiff */; };
 		F43EA2C31EA73E1100A113BE /* pit-2.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B61EA73E1100A113BE /* pit-2.aiff */; };
@@ -91,6 +92,7 @@
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		F4163C531E97C9F30076C224 /* SearchResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
 		F4163C551E97D3460076C224 /* RouteBuidVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBuidVC.swift; sourceTree = "<group>"; };
+		F418248B1EA889250075872C /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F43EA2B41EA73E1100A113BE /* error.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.m4a; sourceTree = "<group>"; };
 		F43EA2B51EA73E1100A113BE /* pit-1.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-1.aiff"; sourceTree = "<group>"; };
 		F43EA2B61EA73E1100A113BE /* pit-2.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-2.aiff"; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				F404C6451E9D1246001D63A5 /* DateManager.swift */,
 				F44785E21E9FC31C00BF10F4 /* SettingsManager.swift */,
 				F4E0FF2E1EA6484600652FD2 /* AutostartManager.swift */,
+				F418248B1EA889250075872C /* RealmManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				F41413961E9F60E400D58941 /* NSString+MD5.m in Sources */,
 				F4BAD6261E9FB47900FE59B9 /* FooterSignIn.swift in Sources */,
 				F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */,
+				F418248C1EA889250075872C /* RealmManager.swift in Sources */,
 				F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
 				F4FD7BE01E9B6AF700E5488C /* LocationManager.swift in Sources */,

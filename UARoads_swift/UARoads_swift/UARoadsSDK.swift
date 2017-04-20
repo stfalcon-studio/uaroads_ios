@@ -8,16 +8,14 @@
 
 import Foundation
 import Alamofire
-import StfalconSwiftExtensions
+//import StfalconSwiftExtensions
 import UHBConnectivityManager
-import RealmSwift
 
 public final class UARoadsSDK {
     private init() {}
     public static let sharedInstance = UARoadsSDK()
     
     //============
-    private static let realm = try? Realm()
     private static let baseURL = "http://uaroads.com"
     private var sendingInProcess = false
     
@@ -52,7 +50,7 @@ public final class UARoadsSDK {
     
     public func sendDataActivity() {
         let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
-        let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
+        let result = RealmManager.sharedInstance.objects(type: TrackModel.self)?.filter(pred)
         
         if !sendingInProcess {
             if let result = result, result.count > 0 {
@@ -60,7 +58,7 @@ public final class UARoadsSDK {
                     sendingInProcess = true
                     
                     let track = result.first
-                    try? UARoadsSDK.realm?.write {
+                    RealmManager.sharedInstance.update {
                         track?.status = TrackStatus.uploading.rawValue
                     }
                     UARoadsSDK.sharedInstance.tryToSend(track: track!, handler: { [weak self] val in
@@ -72,7 +70,7 @@ public final class UARoadsSDK {
                             (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
                         }
                         
-                        try? UARoadsSDK.realm?.write {
+                        RealmManager.sharedInstance.update {
                             if val == true {
                                 track?.status = TrackStatus.uploaded.rawValue
                             } else {

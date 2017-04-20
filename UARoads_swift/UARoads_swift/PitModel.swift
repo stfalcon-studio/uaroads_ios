@@ -14,7 +14,6 @@ class PitModel: Object {
     dynamic var time: String = ""
     dynamic var value: Double = 0.0
     dynamic var tag: String = ""
-//    dynamic var track: TrackModel?
     
     override static func primaryKey() -> String? {
         return "time"

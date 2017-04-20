@@ -13,7 +13,6 @@ import CallKit
 import CoreMotion
 import StfalconSwiftExtensions
 import UHBConnectivityManager
-import RealmSwift
 
 enum MotionStatus {
     case notActive
@@ -29,8 +28,6 @@ protocol MotionManagerDelegate {
 }
 
 final class MotionManager: NSObject, CXCallObserverDelegate {
-    fileprivate let realm = try? Realm()
-    
     private override init() {
         super.init()
         
@@ -44,7 +41,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         
         self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
         
-        NotificationCenter.default.addObserver(MotionManager.sharedInstance, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
     }
     static let sharedInstance = MotionManager()
     override func copy() -> Any {
@@ -59,15 +56,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     //=======================
     
     var delegate: MotionManagerDelegate?
-    var status: MotionStatus {
-        set {
-            self.status = newValue
-            self.delegate?.statusChanged(newStatus: newValue)
-        }
-        get {
-            return self.status
-        }
-    }
+    var status: MotionStatus = .notActive
     var track: TrackModel?
     weak var graphView: GraphView?
     var pitBuffer = [Any]()
@@ -142,11 +131,11 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         let pred = NSPredicate(format: "status == 0")
         let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
-            try? realm?.write{
+            RealmManager.sharedInstance.update {
                 for item in result {
                     if Date().timeIntervalSince(item.date) > 10 {
                         item.status = TrackStatus.waitingForUpload.rawValue
-//                        [UaroadsSession sharedSession].totalDistance += track.distance;
+                        //                        [UaroadsSession sharedSession].totalDistance += track.distance;
                     }
                 }
             }
@@ -165,9 +154,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
             let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
             track?.trackID = id.md5()
-            try? realm?.write {
-                realm?.add(track!, update: true)
-            }
+            RealmManager.sharedInstance.add(track)
             
             currentLocation = nil
             skipLocationPoints = 3
@@ -277,10 +264,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.tag = "origin"
             
-            try? realm?.write {
+            RealmManager.sharedInstance.update {
                 track?.pits.append(pit)
-                realm?.add(track!, update: true)
             }
+            RealmManager.sharedInstance.add(track)
         }
         currentPit = 0.0
     }
@@ -313,10 +300,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation!.timestamp.timeIntervalSinceReferenceDate
                 
                 if lastDistance > currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
-                    try? realm?.write {
+                    RealmManager.sharedInstance.update {
                         self.track?.distance += CGFloat(lastDistance)
-                        realm?.add(track!, update: true)
                     }
+                    RealmManager.sharedInstance.add(track)
                     locationUpdate = true
                 }
             } else {
@@ -331,10 +318,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 pit.tag = "origin"
                 pit.value = 0.0
                 
-                try? realm?.write {
+                RealmManager.sharedInstance.update {
                     track?.pits.append(pit)
-                    realm?.add(track!, update: true)
                 }
+                RealmManager.sharedInstance.add(track)
                 
                 currentLocation = newLocation
                 delegate?.locationUpdated(location: currentLocation!, trackDist: Double(track!.distance))

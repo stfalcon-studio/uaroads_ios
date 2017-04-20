@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UIViewController_ODStatusBar
 
 class TutorialVC: BaseVC {
     fileprivate let scrollView = UIScrollView()
@@ -27,6 +28,13 @@ class TutorialVC: BaseVC {
         setupConstraints()
         setupInterface()
         setupRx()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        od_setStatusBarStyle(.default)
+        od_updateStatusBarAppearance(animated: true)
     }
     
     override func viewDidLayoutSubviews() {
