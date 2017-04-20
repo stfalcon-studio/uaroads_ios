@@ -28,9 +28,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //background task
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
-        deleteOldTracks()
-        
         interfaceAppearance()
+        
+        //analytics
+        AnalyticManager.sharedInstance.startAnalytics()
+        if let email = SettingsManager.sharedInstance.email {
+            AnalyticManager.sharedInstance.identifyUser(email: email, name: nil)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch completeActiveTracks", label: nil, value: nil)
+            MotionManager.sharedInstance.completeActiveTracks()
+            self?.deleteOldTracks()
+            
+            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch after completeActiveTracks", label: nil, value: nil)
+        }
         
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
@@ -50,15 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIApplication.shared.registerForRemoteNotifications()
             }
         })
-        
-//        //connection check
-//        UHBConnectivityManager.shared().registerCallBack({ (status: ConnectivityManagerConnectionStatus) in
-//            if status == ConnectivityManagerConnectionStatusConnected {
-//                print("Internet connected")
-//            } else {
-//                print("No connection")
-//            }
-//        }, forIdentifier: self.memoryAddress())
         
         return true
     }
@@ -110,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func deleteOldTracks() {
+        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Before old tracks delete", label: nil, value: nil)
         //check connection first
         if UHBConnectivityManager.shared().isConnected() == true {
             let pred = NSPredicate(format: "status == 4")
@@ -120,6 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Old tracks deleted", label: nil, value: nil)
     }
 }
 

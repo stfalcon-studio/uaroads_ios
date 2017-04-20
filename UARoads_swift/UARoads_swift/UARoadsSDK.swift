@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-//import StfalconSwiftExtensions
+import CoreLocation
 import UHBConnectivityManager
 
 public final class UARoadsSDK {
@@ -18,6 +18,16 @@ public final class UARoadsSDK {
     //============
     private static let baseURL = "http://uaroads.com"
     private var sendingInProcess = false
+    
+    public func checkRouteAvailability(coord1: CLLocationCoordinate2D, coord2: CLLocationCoordinate2D, handler: @escaping (_ status: Int) -> ()) {
+        Alamofire.request("http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)", method: .get, parameters: nil, encoding: JSONEncoding(), headers: nil).responseJSON { response in
+            if let code = response.response?.statusCode {
+                handler(code)
+            } else {
+                handler(404)
+            }
+        }
+    }
     
     public func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
         let deviceName = "\(UIDevice.current.model) - \(UIDevice.current.name)"
@@ -49,6 +59,8 @@ public final class UARoadsSDK {
     }
     
     public func sendDataActivity() {
+        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendDataActivity Start")
+        
         let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
         let result = RealmManager.sharedInstance.objects(type: TrackModel.self)?.filter(pred)
         
@@ -84,9 +96,12 @@ public final class UARoadsSDK {
         if !sendingInProcess {
             (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(false)
         }
+        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "sendDataActivity End")
     }
     
     private func tryToSend(track: TrackModel, handler: @escaping (_ success: Bool) -> ()) {
+        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "sendDataActivity End")
+        
         let data = fullTrackData(track: track)
         let base64DataString = data?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
@@ -114,6 +129,15 @@ public final class UARoadsSDK {
             } else {
                 handler(false)
             }
+            
+            var code: NSNumber?
+            if let number = response.response?.statusCode {
+                code = NSNumber(integerLiteral: number)
+            }
+            
+            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendTrack Complete",
+                                                       label: "code",
+                                                       value: code)
         }
     }
     

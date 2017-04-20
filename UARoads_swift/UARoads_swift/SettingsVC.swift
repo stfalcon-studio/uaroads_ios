@@ -154,6 +154,7 @@ extension SettingsVC {
                     .value
                     .bind(onNext: { val in
                         SettingsManager.sharedInstance.sendDataOnlyWiFi = val
+                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Send Only WiFi")
                     })
                     .addDisposableTo(disposeBag)
             case 1:
@@ -164,6 +165,7 @@ extension SettingsVC {
                     .bind(onNext: { val in
                         SettingsManager.sharedInstance.routeRecordingAutostart = val
                         AutostartManager.sharedInstance.setAutostartActive(val)
+                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
                     })
                     .addDisposableTo(disposeBag)
                 
@@ -174,6 +176,7 @@ extension SettingsVC {
                     .value
                     .bind(onNext: { val in
                         SettingsManager.sharedInstance.showGraph = val
+                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Show Map")
                     })
                     .addDisposableTo(disposeBag)
                 

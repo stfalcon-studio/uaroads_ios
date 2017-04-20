@@ -30,7 +30,13 @@ final class AutostartManager: NSObject {
     //=================
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h) //TODO: change it back!!!
     let Max_speed_to_stop_recording: Double = 4.67 /// m/s (15 km/h)
-    var status: Int = 2 //TODO: give some understandable name!
+    var status: Int = 2 {
+        willSet {
+            AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart",
+                                                           action: "UpdateAutostartStatus",
+                                                           properties: ["OldStatus":self.status, "NewStatus":newValue])
+        }
+    }//TODO: give some understandable name!
     var lastMaxSpeed: Double = 0.0
     
     private var startNotified: Bool = false
@@ -39,6 +45,9 @@ final class AutostartManager: NSObject {
     private var autostopTimer: Timer?
     
     @objc private func autostartTimeoutTimerCheck() {
+        AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart",
+                                                       action: "Timeout",
+                                                       properties: ["Status":status,"LastMaxSpeed":lastMaxSpeed])
         if status == 1 {
             status = 0
             LocationManager.sharedInstance.manager.stopUpdatingLocation()
@@ -51,6 +60,9 @@ final class AutostartManager: NSObject {
     }
     
     @objc private func autostopTimerCheck() {
+        AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart",
+                                                       action: "Autostop Timeout",
+                                                       properties: ["Status":status,"LastMaxSpeed":lastMaxSpeed])
         if status == 2 {
             if lastMaxSpeed < Max_speed_to_stop_recording {
                 stopRecording()
@@ -69,6 +81,7 @@ final class AutostartManager: NSObject {
         }
         
         if MotionManager.sharedInstance.status == .notActive {
+            AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart", action: "Start recording", properties: nil)
             status = 2
             if autostartTimer != nil {
                 autostartTimer?.invalidate()
@@ -88,6 +101,7 @@ final class AutostartManager: NSObject {
     
     func stopRecording() {
         if status == 2 {
+            AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart", action: "Stop recording", properties: nil)
             if MotionManager.sharedInstance.status != .notActive {
                 MotionManager.sharedInstance.stopRecording(autostart: true)
             }

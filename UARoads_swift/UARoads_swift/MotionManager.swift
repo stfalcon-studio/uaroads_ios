@@ -90,6 +90,12 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     func stopRecording(autostart: Bool = false) {
+        if autostart {
+            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "stopAutoRecord", label: nil, value: nil)
+        } else {
+            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "stopManualRecord", label: nil, value: nil)
+        }
+        
         UIApplication.shared.isIdleTimerDisabled = false
         status = .notActive
         motionManager.stopDeviceMotionUpdates()
@@ -104,6 +110,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
 
     func pauseRecording() {
+        AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "pauseManualRecord", label: nil, value: nil)
         UIApplication.shared.isIdleTimerDisabled = false
         status = .paused
         motionManager.stopDeviceMotionUpdates()
@@ -127,7 +134,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
 //        [UIApplication sharedApplication].idleTimerDisabled = NO;
     }
     
-    fileprivate func completeActiveTracks() {
+    func completeActiveTracks() {
         let pred = NSPredicate(format: "status == 0")
         let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
@@ -144,6 +151,12 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {
+        if autostart {
+            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startAutoRecord", label: nil, value: nil)
+        } else {
+            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startManualRecord", label: nil, value: nil)
+        }
+        
         if status == .notActive {
             track = TrackModel()
             track?.autoRecord = autostart
@@ -341,12 +354,14 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         if call.hasConnected {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .active {
+                    AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "pauseForCall", label: nil, value: nil)
                     self.pauseRecordingForCall()
                 }
             }
         } else {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .pausedForCall {
+                    AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "resumeAfterCall", label: nil, value: nil)
                     addNotification(text: "Track recording resumed.", time: 2.0)
                     self.resumeRecording()
                 }

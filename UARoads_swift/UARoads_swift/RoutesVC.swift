@@ -134,7 +134,14 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
+                UARoadsSDK.sharedInstance.checkRouteAvailability(coord1: (self?.fromModel?.locationCoordianate)!,
+                                                                 coord2: (self?.toModel?.locationCoordianate)!,
+                                                                 handler: { status in
+                                                                    print(status)
+                                                                    print("===========")
+                })
                 guard let from = self?.fromModel, let to = self?.toModel else { return }
+                AnalyticManager.sharedInstance.reportEvent(category: "Navigation", action: "search")
                 let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
                 self?.present(navVC, animated: true, completion: nil)
             }

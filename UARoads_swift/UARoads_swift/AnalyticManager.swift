@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 class AnalyticManager {
     private init() {}
@@ -17,9 +19,9 @@ class AnalyticManager {
     public func startAnalytics() {
         GAI.sharedInstance().tracker(withTrackingId: "UA-44978148-13")
 
-        //TODO: why?
-//        [Heap setAppId:@"3518989590"];
-//        [Fabric with:@[[Crashlytics class]]];
+        Heap.setAppId("3518989590")
+        
+        Fabric.with([Crashlytics.self])
         
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
@@ -32,8 +34,10 @@ class AnalyticManager {
         gai.logger.logLevel = GAILogLevel.verbose  //TODO: remove before app release
     }
     
-    public func identifyUser(email: String, name: String) {
-        //
+    public func identifyUser(email: String, name: String?) {
+        Heap.identify("\(email) \(name ?? "")")
+        Crashlytics.sharedInstance().setUserName(name)
+        Crashlytics.sharedInstance().setUserEmail(email)
     }
     
     public func reportScreen(_ screenName: String) {
@@ -44,14 +48,21 @@ class AnalyticManager {
         tracker.send(builder.build() as [NSObject : AnyObject])
     }
     
-    public func reportHEAPEvent(category: String, action: String, properties: [AnyHashable:Any]) {
-        //
+    public func reportHEAPEvent(category: String, action: String, properties: [AnyHashable:Any]?) {
+        let event = "\(category) \(action)"
+        Heap.track(event, withProperties: properties)
     }
     
     public func reportEvent(category: String, action: String, label: String? = nil, value: NSNumber? = nil) {
         guard let tracker = GAI.sharedInstance().defaultTracker else { return }
         guard let event = GAIDictionaryBuilder.createEvent(withCategory: category, action: action, label: label, value: value) else { return }
         tracker.send(event.build() as [NSObject : AnyObject])
+        
+        if let value = value, let label = label {
+            let properties = [label:value]
+            let event = "\(category) \(action)"
+            Heap.track(event, withProperties: properties)
+        }
     }
 }
 

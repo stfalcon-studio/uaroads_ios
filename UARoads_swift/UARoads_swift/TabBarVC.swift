@@ -24,6 +24,8 @@ class TabBarVC: UITabBarController {
         selectedIndex = 0
         
         setupInterface()
+        
+        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "UaroadsTabBarController viewDidLoad")
     }
     
     func setupInterface() {
