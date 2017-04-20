@@ -31,7 +31,7 @@ class AnalyticManager {
             assert(false, "Google Analytics not configured correctly")
         }
         gai.trackUncaughtExceptions = true
-        gai.logger.logLevel = GAILogLevel.verbose  //TODO: remove before app release
+        gai.logger.logLevel = GAILogLevel.none
     }
     
     public func identifyUser(email: String, name: String?) {
