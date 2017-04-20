@@ -4,9 +4,6 @@ use_frameworks!
 #Constraints
 pod 'SnapKit'
 
-#Network
-pod 'Alamofire'
-
 #Crashlytics and Analytics
 pod 'Fabric'
 pod 'Crashlytics'

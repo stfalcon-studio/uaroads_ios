@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import CoreLocation
 
 public final class UARoadsSDK {
@@ -17,16 +16,21 @@ public final class UARoadsSDK {
     //============
     private static let baseURL = "http://uaroads.com"
     private var sendingInProcess = false
-//    private let session = URLSession(configuration: .background(withIdentifier: "UARoadsSDK"))
+    private let session = URLSession.shared
     
     public func checkRouteAvailability(coord1: CLLocationCoordinate2D, coord2: CLLocationCoordinate2D, handler: @escaping (_ status: Int) -> ()) {
-        Alamofire.request("http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)", method: .get, parameters: nil, encoding: JSONEncoding(), headers: nil).responseJSON { response in
-            if let code = response.response?.statusCode {
-                handler(code)
-            } else {
-                handler(404)
+        var request = URLRequest(url: URL(string: "http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)")!)
+        request.httpMethod = "GET"
+        
+        session.dataTask(with: request) { (_, response, _) in
+            DispatchQueue.main.async {
+                if let status = (response as? HTTPURLResponse)?.statusCode {
+                    handler(status)
+                } else {
+                    handler(404)
+                }
             }
-        }
+        }.resume()
     }
     
     public func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
@@ -44,18 +48,22 @@ public final class UARoadsSDK {
         print("\(UARoadsSDK.baseURL)/register-device")
         print(params)
         
-        Alamofire.request("\(UARoadsSDK.baseURL)/register-device", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
-            if let data = response.data {
-                let result = String(data: data, encoding: String.Encoding.utf8)
-                if result == "OK" {
-                    handler(true)
+        var request = URLRequest(url: URL(string: "\(UARoadsSDK.baseURL)/register-device")!)
+        request.httpMethod = "POST"
+        session.dataTask(with: request) { (data, _, _) in
+            DispatchQueue.main.async {
+                if let data = data {
+                    let result = String(data: data, encoding: String.Encoding.utf8)
+                    if result == "OK" {
+                        handler(true)
+                    } else {
+                        handler(false)
+                    }
                 } else {
                     handler(false)
                 }
-            } else {
-                handler(false)
             }
-        }
+        }.resume()
     }
     
     public func sendDataActivity() {
@@ -116,27 +124,32 @@ public final class UARoadsSDK {
         print("\(UARoadsSDK.baseURL)/add")
         print(params)
         
-        Alamofire.request("\(UARoadsSDK.baseURL)/add", method: .post, parameters: params, encoding: JSONEncoding(), headers: nil).responseJSON { response in
-            if let data = response.data {
-                let result = String(data: data, encoding: String.Encoding.utf8)
-                if result == "OK" {
-                    handler(true)
+        //TODO: the endpoint doesn`t work
+        var request = URLRequest(url: URL(string: "\(UARoadsSDK.baseURL)/add")!)
+        request.httpMethod = "POST"
+        session.dataTask(with: request) { (data, response, _) in
+            DispatchQueue.main.async {
+                if let data = data {
+                    let result = String(data: data, encoding: String.Encoding.utf8)
+                    if result == "OK" {
+                        handler(true)
+                    } else {
+                        handler(false)
+                    }
                 } else {
                     handler(false)
                 }
-            } else {
-                handler(false)
+                
+                var code: NSNumber?
+                if let number = (response as? HTTPURLResponse)?.statusCode {
+                    code = NSNumber(integerLiteral: number)
+                }
+                
+                AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendTrack Complete",
+                                                           label: "code",
+                                                           value: code)
             }
-            
-            var code: NSNumber?
-            if let number = response.response?.statusCode {
-                code = NSNumber(integerLiteral: number)
-            }
-            
-            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendTrack Complete",
-                                                       label: "code",
-                                                       value: code)
-        }
+        }.resume()
     }
     
     private func fullTrackData(track: TrackModel) -> Data? {
