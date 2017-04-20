@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 import CoreLocation
-import UHBConnectivityManager
 
 public final class UARoadsSDK {
     private init() {}
@@ -18,6 +17,7 @@ public final class UARoadsSDK {
     //============
     private static let baseURL = "http://uaroads.com"
     private var sendingInProcess = false
+//    private let session = URLSession(configuration: .background(withIdentifier: "UARoadsSDK"))
     
     public func checkRouteAvailability(coord1: CLLocationCoordinate2D, coord2: CLLocationCoordinate2D, handler: @escaping (_ status: Int) -> ()) {
         Alamofire.request("http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)", method: .get, parameters: nil, encoding: JSONEncoding(), headers: nil).responseJSON { response in
@@ -66,31 +66,29 @@ public final class UARoadsSDK {
         
         if !sendingInProcess {
             if let result = result, result.count > 0 {
-                if UHBConnectivityManager.shared().isConnected() == true {
-                    sendingInProcess = true
-                    
-                    let track = result.first
-                    RealmManager.sharedInstance.update {
-                        track?.status = TrackStatus.uploading.rawValue
-                    }
-                    UARoadsSDK.sharedInstance.tryToSend(track: track!, handler: { [weak self] val in
-                        self?.sendingInProcess = false
-                        
-                        if result.count > 1 && val {
-                            self?.sendDataActivity()
-                        } else {
-                            (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
-                        }
-                        
-                        RealmManager.sharedInstance.update {
-                            if val == true {
-                                track?.status = TrackStatus.uploaded.rawValue
-                            } else {
-                                track?.status = TrackStatus.waitingForUpload.rawValue
-                            }
-                        }
-                    })
+                sendingInProcess = true
+                
+                let track = result.first
+                RealmManager.sharedInstance.update {
+                    track?.status = TrackStatus.uploading.rawValue
                 }
+                UARoadsSDK.sharedInstance.tryToSend(track: track!, handler: { [weak self] val in
+                    self?.sendingInProcess = false
+                    
+                    if result.count > 1 && val {
+                        self?.sendDataActivity()
+                    } else {
+                        (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
+                    }
+                    
+                    RealmManager.sharedInstance.update {
+                        if val == true {
+                            track?.status = TrackStatus.uploaded.rawValue
+                        } else {
+                            track?.status = TrackStatus.waitingForUpload.rawValue
+                        }
+                    }
+                })
             }
         }
         if !sendingInProcess {

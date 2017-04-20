@@ -90,15 +90,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func sendDataActivity() {
-        //check settings
-        if SettingsManager.sharedInstance.sendDataOnlyWiFi == true {
-            //check wifi connection
-            if UHBConnectivityManager.shared().isConnectedOverMobileData() == false {
-                UARoadsSDK.sharedInstance.sendDataActivity()
-                return
+        //check any connection
+        if UHBConnectivityManager.shared().isConnected() == true {
+            //check settings
+            if SettingsManager.sharedInstance.sendDataOnlyWiFi == true {
+                //check wifi connection
+                if UHBConnectivityManager.shared().isConnectedOverMobileData() == false {
+                    UARoadsSDK.sharedInstance.sendDataActivity()
+                    return
+                }
             }
+            UARoadsSDK.sharedInstance.sendDataActivity()
         }
-        UARoadsSDK.sharedInstance.sendDataActivity()
     }
     
     func completeBackgroundTrackSending(_ val: Bool) {
