@@ -303,7 +303,6 @@
 				F42A6F7E1EAA09A100ED368C /* RecordService.swift */,
 				F47F1A021E97943D00E47849 /* HUDManaged.swift */,
 				F4163C4E1E97AED50076C224 /* NetworkManager.swift */,
-				F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */,
 				F404C6451E9D1246001D63A5 /* DateManager.swift */,
 				F44785E21E9FC31C00BF10F4 /* SettingsManager.swift */,
 				F4E0FF2E1EA6484600652FD2 /* AutostartManager.swift */,
@@ -319,6 +318,7 @@
 				F41441C51E9E63AC00F3A7C3 /* ZIP */,
 				F41413931E9F60D400D58941 /* MD5 */,
 				F47F1A051E979AA700E47849 /* UARoadsSDK.swift */,
+				F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */,
 			);
 			name = Library;
 			sourceTree = "<group>";

@@ -165,6 +165,16 @@ class RecordVC: BaseVC {
     }
     
     func setupRx() {
+        RecordService.sharedInstance.onMotionStart = { [unowned self] point, filtered in
+            if self.graphView.isHidden == false {
+                self.graphView.addValue(CGFloat(point), isFiltered: filtered)
+            }
+        }
+        
+        RecordService.sharedInstance.onMotionStop = { [unowned self] in
+            self.graphView.clear()
+        }
+        
         startBtn
             .rx
             .tap
@@ -194,9 +204,9 @@ class RecordVC: BaseVC {
                 if let strongSelf = self {
                     strongSelf.pauseBtn.isSelected = !strongSelf.pauseBtn.isSelected
                     if RecordService.sharedInstance.motionManager.status == .active {
-                        RecordService.sharedInstance.motionManager.pauseRecording()
+                        RecordService.sharedInstance.pauseRecording()
                     } else {
-                        RecordService.sharedInstance.motionManager.resumeRecording()
+                        RecordService.sharedInstance.resumeRecording()
                     }
                 }
             }
@@ -216,12 +226,11 @@ class RecordVC: BaseVC {
                 self?.allSessionDetailLbl.isHidden = true
                 self?.lastSessionLbl.isHidden = true
                 self?.lastSessionDetailLbl.isHidden = true
-                RecordService.sharedInstance.motionManager.stopRecording()
+                RecordService.sharedInstance.stop()
             }
             .addDisposableTo(disposeBag)
         
         RecordService.sharedInstance.motionManager.delegate = self
-        RecordService.sharedInstance.motionManager.graphView = graphView
     }
 }
 

@@ -32,7 +32,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         super.init()
         
         self.motionManager.deviceMotionUpdateInterval = 0.02777
-        self.reloadSettings()
         
         self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
         
@@ -53,9 +52,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     var delegate: MotionManagerDelegate?
     var status: MotionStatus = .notActive
     var track: TrackModel?
-    weak var graphView: GraphView?
     var pitBuffer = [Any]()
-    fileprivate let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
     
     fileprivate let MaxPitValue = 5.4
     fileprivate let PitInterval = 0.5
@@ -71,9 +69,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     fileprivate var currentPit: Double = 0.0
     fileprivate var maxPit: Double = 0.0
     fileprivate var currentPitTime: Date?
-    var maxSpeed: Double = 0.0
+    fileprivate var maxSpeed: Double = 0.0
     fileprivate var dataToSave: Date?
-    var currentLocation: CLLocation?
+    fileprivate var currentLocation: CLLocation?
     fileprivate var lastAccX: CGFloat?
     fileprivate var lastAccY: CGFloat?
     fileprivate var lastAccZ: CGFloat?
@@ -100,7 +98,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         
         completeActiveTracks()
         
-        graphView?.clear()
         currentLocation = nil
         pitBuffer.removeAll()
     }
@@ -119,15 +116,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         motionManager.startDeviceMotionUpdates()
         locationManager.startUpdatingLocation()
         restartTimers()
-        reloadSettings()
-    }
-    
-    func reloadSettings() {
-        //TODO:
-//        if ([Uaroads session].settingsPreventLock)
-//        [UIApplication sharedApplication].idleTimerDisabled = YES;
-//        else
-//        [UIApplication sharedApplication].idleTimerDisabled = NO;
     }
     
     func completeActiveTracks() {
@@ -138,7 +126,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
                 for item in result {
                     if Date().timeIntervalSince(item.date) > 10 {
                         item.status = TrackStatus.waitingForUpload.rawValue
-                        //                        [UaroadsSession sharedSession].totalDistance += track.distance;
+                        
+                        print(RecordService.sharedInstance.motionCallback?(Array(item.pits)))
                     }
                 }
             }
@@ -173,7 +162,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
             locationManager.startUpdatingLocation()
             
             restartTimers()
-            reloadSettings()
         }
     }
     
@@ -239,7 +227,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
                 filtered = false
             }
             
-            RecordService.sharedInstance.onMotion(f, filtered)
+            RecordService.sharedInstance.onMotionStart?(f, filtered)
         }
     }
     
@@ -253,30 +241,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
             maxPit = currentPit
         }
         if currentPit > 0.0 {
-            var pitN = Int(currentPit/0.3)
-            if pitN > 5 {
-                pitN = 5
-            }
-            let pitSound = "pit-\(pitN)"
-            print(pitSound)
-            print(currentPit)
-            print(maxPit)
-            
-            if SettingsManager.sharedInstance.enableSound == true {
-                playSound(pitSound)
-            }
-
-            let pit = PitModel()
-            pit.latitude = locationManager.location?.coordinate.latitude ?? 0.0
-            pit.longitude = locationManager.location?.coordinate.longitude ?? 0.0
-            pit.value = currentPit
-            pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-            pit.tag = "origin"
-            
-            RecordService.sharedInstance.dbManager.update {
-                track?.pits.append(pit)
-            }
-            RecordService.sharedInstance.dbManager.add(track)
+            RecordService.sharedInstance.onPit?(currentPit)
         }
         currentPit = 0.0
     }
@@ -288,7 +253,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         stopTimers()
     }
     
-    fileprivate func playSound(_ soundName: String) {
+    func playSound(_ soundName: String) {
         var sound: SystemSoundID = 0
         if let soundURL = Bundle.main.url(forResource: soundName, withExtension: "aiff") {
             AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
@@ -324,7 +289,45 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         }
         
         if let newLocation = locations.first {
-            RecordService.sharedInstance.onLocation(newLocation)
+            var locationUpdate = false
+            if currentLocation != nil {
+                let lastDistance = newLocation.distance(from: currentLocation!)
+                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation!.timestamp.timeIntervalSinceReferenceDate
+                
+                if lastDistance > currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
+                    RecordService.sharedInstance.dbManager.update {
+                        track?.distance += CGFloat(lastDistance)
+                    }
+                    RecordService.sharedInstance.dbManager.add(track)
+                    locationUpdate = true
+                }
+            } else {
+                locationUpdate = false
+            }
+            
+            if locationUpdate == true {
+                let pit = PitModel()
+                pit.latitude = newLocation.coordinate.latitude
+                pit.longitude = newLocation.coordinate.longitude
+                pit.time = "\(Date().timeIntervalSince1970 * 1000)"
+                pit.tag = "origin"
+                pit.value = 0.0
+                
+                RecordService.sharedInstance.dbManager.update {
+                    track?.pits.append(pit)
+                }
+                RecordService.sharedInstance.dbManager.add(track)
+                
+                currentLocation = newLocation
+                delegate?.locationUpdated(location: currentLocation!, trackDist: Double(track!.distance))
+            }
+            
+            // Calculate maximum speed for last 5 minutes
+            if newLocation.horizontalAccuracy <= 10 {
+                if maxSpeed < newLocation.speed {
+                    maxSpeed = newLocation.speed
+                }
+            }
         }
     }
     

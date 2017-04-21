@@ -11,55 +11,31 @@ import CoreLocation
 
 class RecordService {
     private init() {
-        //init events
-        self.onMotion = { point, filtered in
-            let manager = RecordService.sharedInstance.motionManager
-            if (manager.graphView != nil) && !(manager.graphView?.isHidden)! {
-                manager.graphView?.addValue(CGFloat(point), isFiltered: filtered)
+        onPit = { [unowned self] currentPit in
+            var pitN = Int(currentPit/0.3)
+            if pitN > 5 {
+                pitN = 5
             }
+            let pitSound = "pit-\(pitN)"
+            if SettingsManager.sharedInstance.enableSound == true {
+                self.motionManager.playSound(pitSound)
+            }
+            
+            let pit = PitModel()
+            pit.latitude = self.motionManager.locationManager.location?.coordinate.latitude ?? 0.0
+            pit.longitude = self.motionManager.locationManager.location?.coordinate.longitude ?? 0.0
+            pit.value = currentPit
+            pit.time = "\(Date().timeIntervalSince1970 * 1000)"
+            pit.tag = "origin"
+            
+            RecordService.sharedInstance.dbManager.update {
+                self.motionManager.track?.pits.append(pit)
+            }
+            RecordService.sharedInstance.dbManager.add(self.motionManager.track)
         }
         
-        self.onLocation = { newLocation in
-            let manager = RecordService.sharedInstance.motionManager
-            var locationUpdate = false
-            if manager.currentLocation != nil {
-                let lastDistance = newLocation.distance(from: manager.currentLocation!)
-                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - manager.currentLocation!.timestamp.timeIntervalSinceReferenceDate
-                
-                if lastDistance > manager.currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
-                    RecordService.sharedInstance.dbManager.update {
-                        manager.track?.distance += CGFloat(lastDistance)
-                    }
-                    RecordService.sharedInstance.dbManager.add(manager.track)
-                    locationUpdate = true
-                }
-            } else {
-                locationUpdate = false
-            }
-            
-            if locationUpdate == true {
-                let pit = PitModel()
-                pit.latitude = newLocation.coordinate.latitude
-                pit.longitude = newLocation.coordinate.longitude
-                pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-                pit.tag = "origin"
-                pit.value = 0.0
-                
-                RecordService.sharedInstance.dbManager.update {
-                    manager.track?.pits.append(pit)
-                }
-                RecordService.sharedInstance.dbManager.add(manager.track)
-                
-                manager.currentLocation = newLocation
-                manager.delegate?.locationUpdated(location: manager.currentLocation!, trackDist: Double(manager.track!.distance))
-            }
-            
-            // Calculate maximum speed for last 5 minutes
-            if newLocation.horizontalAccuracy <= 10 {
-                if manager.maxSpeed < newLocation.speed {
-                    manager.maxSpeed = newLocation.speed
-                }
-            }
+        motionCallback = { points in
+            return (points as NSArray).componentsJoined(by: "+")
         }
     }
     static let sharedInstance = RecordService()
@@ -69,14 +45,17 @@ class RecordService {
     public let dbManager = RealmManager()
     public let motionManager = MotionManager()
     
-    let onLocation: ((_ newLocation: CLLocation) -> ())
-    let onMotion: ((_ point: Double, _ filtered: Bool) -> ())
+    var onPit: ((_ currentPit: Double) -> ())?
+    var onMotionStart: ((_ point: Double, _ filtered: Bool) -> ())?
+    var onMotionStop: (() -> ())?
+    var motionCallback: ((_ points: [PitModel]) -> String)?
     
     func start() {
         motionManager.startRecording()
     }
     
     func stop() {
+        onMotionStop?()
         motionManager.stopRecording()
     }
     
