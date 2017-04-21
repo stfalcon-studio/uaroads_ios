@@ -104,59 +104,57 @@ class RecordVC: BaseVC {
     func setupInterface() {
         title = NSLocalizedString("Record", comment: "title")
         
-        view.backgroundColor = UIColor.colorAccent
-        
         mainLbl.text = NSLocalizedString("Press \"START RECORDING\" to start collecting data about road quality", comment: "mainLbl")
         mainLbl.numberOfLines = 0
-        mainLbl.textColor = UIColor.white
+        mainLbl.textColor = UIColor.colorPrimaryDark
         mainLbl.font = UIFont.systemFont(ofSize: 20.0)
         mainLbl.textAlignment = .center
         
         allSessionsLbl.text = NSLocalizedString("All sessions", comment: "All sessions")
         allSessionsLbl.textAlignment = .center
-        allSessionsLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
-        allSessionsLbl.textColor = UIColor.white
+        allSessionsLbl.font = UIFont.systemFont(ofSize: 12.0)
+        allSessionsLbl.textColor = UIColor.colorPrimaryDark
         
         lastSessionLbl.text = NSLocalizedString("Last session", comment: "Last session")
         lastSessionLbl.textAlignment = .center
-        lastSessionLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
-        lastSessionLbl.textColor = UIColor.white
+        lastSessionLbl.font = UIFont.systemFont(ofSize: 12.0)
+        lastSessionLbl.textColor = UIColor.colorPrimaryDark
         
         allSessionDetailLbl.text = "0.00"
-        allSessionDetailLbl.textColor = UIColor.white
+        allSessionDetailLbl.textColor = UIColor.colorPrimaryDark
         allSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         allSessionDetailLbl.textAlignment = .center
         
         lastSessionDetailLbl.text = "0.0 km"
-        lastSessionDetailLbl.textColor = UIColor.white
+        lastSessionDetailLbl.textColor = UIColor.colorPrimaryDark
         lastSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         lastSessionDetailLbl.textAlignment = .center
         
-        startBtn.tintColor = UIColor.colorPrimaryDark
+        startBtn.tintColor = UIColor.colorAccent
         startBtn.setBackgroundImage(UIImage(named: "btn_start_normal"), for: .normal)
         startBtn.setBackgroundImage(UIImage(named: "btn_start_pressed"), for: .highlighted)
         startBtn.setTitle(NSLocalizedString("start recording", comment: "startBtn").uppercased(), for: .normal)
         startBtn.titleLabel?.font = UIFont.systemFont(ofSize: 30.0)
         startBtn.titleLabel?.numberOfLines = 2
         startBtn.titleLabel?.textAlignment = .center
-        startBtn.setTitleColor(UIColor.white, for: .normal)
+        startBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         
-        pauseBtn.tintColor = UIColor.colorPrimaryDark
+        pauseBtn.tintColor = UIColor.colorAccent
         pauseBtn.setBackgroundImage(UIImage(named: "btn_pause_normal"), for: .normal)
         pauseBtn.setBackgroundImage(UIImage(named: "btn_pause_pressed"), for: .highlighted)
         pauseBtn.setTitle(NSLocalizedString("pause", comment: "pause").uppercased(), for: .normal)
         pauseBtn.setTitle(NSLocalizedString("resume", comment: "resume").uppercased(), for: .selected)
         pauseBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20.0)
         pauseBtn.titleLabel?.textAlignment = .center
-        pauseBtn.setTitleColor(UIColor.white, for: .normal)
+        pauseBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         
-        stopBtn.tintColor = UIColor.colorPrimaryDark
+        stopBtn.tintColor = UIColor.colorAccent
         stopBtn.setBackgroundImage(UIImage(named: "btn_stop_normal"), for: .normal)
         stopBtn.setBackgroundImage(UIImage(named: "btn_stop_pressed"), for: .highlighted)
         stopBtn.setTitle(NSLocalizedString("stop", comment: "pause").uppercased(), for: .normal)
         stopBtn.titleLabel?.font = UIFont.systemFont(ofSize: 20.0)
         stopBtn.titleLabel?.textAlignment = .center
-        stopBtn.setTitleColor(UIColor.white, for: .normal)
+        stopBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         
         pauseBtn.isHidden = true
         stopBtn.isHidden = true
