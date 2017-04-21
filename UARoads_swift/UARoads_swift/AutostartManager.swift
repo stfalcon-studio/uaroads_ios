@@ -9,11 +9,21 @@
 import Foundation
 import CoreLocation
 
-final class AutostartManager: NSObject {
+final class AutostartManager: NSObject, CLLocationManagerDelegate {
     private override init() {
         super.init()
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        self.locationManager.distanceFilter = 0
+        self.locationManager.activityType = .automotiveNavigation
+        self.locationManager.allowsBackgroundLocationUpdates = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
+        if SettingsManager.sharedInstance.routeRecordingAutostart == true {
+            self.locationManager.startMonitoringSignificantLocationChanges()
+        } else {
+            self.locationManager.stopUpdatingLocation()
+            self.locationManager.stopMonitoringSignificantLocationChanges()
+        }
     }
     override func copy() -> Any {
         fatalError("don`t use copy!")
@@ -23,11 +33,9 @@ final class AutostartManager: NSObject {
     }
     static let sharedInstance = AutostartManager()
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     //=================
+    fileprivate let locationManager = CLLocationManager()
+    
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h) //TODO: change it back!!!
     let Max_speed_to_stop_recording: Double = 4.67 /// m/s (15 km/h)
     var status: Int = 2 {
@@ -50,7 +58,7 @@ final class AutostartManager: NSObject {
                                                        properties: ["Status":status,"LastMaxSpeed":lastMaxSpeed])
         if status == 1 {
             status = 0
-            LocationManager.sharedInstance.manager.stopUpdatingLocation()
+            locationManager.stopUpdatingLocation()
             addNotification(text: "Track recording automaticaly stoped.", time: 1.0, sound: "stop-rec-uk.m4a")
             startNotified = false
         } else {
@@ -112,11 +120,11 @@ final class AutostartManager: NSObject {
     
     func setAutostartActive(_ val: Bool) {
         if val {
-            LocationManager.sharedInstance.manager.startMonitoringSignificantLocationChanges()
+            locationManager.startMonitoringSignificantLocationChanges()
         } else {
             status = 0
-            LocationManager.sharedInstance.manager.stopUpdatingLocation()
-            LocationManager.sharedInstance.manager.stopMonitoringSignificantLocationChanges()
+            locationManager.stopUpdatingLocation()
+            locationManager.stopMonitoringSignificantLocationChanges()
         }
     }
     
@@ -132,11 +140,12 @@ final class AutostartManager: NSObject {
         
         autostartTimer = Timer.scheduledTimer(timeInterval: autostartTimeoutInterval, target: AutostartManager.sharedInstance, selector: #selector(autostartTimeoutTimerCheck), userInfo: nil, repeats: false)
         
-        LocationManager.sharedInstance.manager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
     }
     
-    @objc fileprivate func locationUpdate(note: NSNotification) {
-        if let lastLocation = (note.object as? [CLLocation])?.last {
+    //MARK: CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let lastLocation = locations.last {
             let speed = lastLocation.speed
             let hAccuracy = lastLocation.horizontalAccuracy
             
@@ -160,6 +169,10 @@ final class AutostartManager: NSObject {
                 }
             }
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR: \(error.localizedDescription)")
     }
 }
 

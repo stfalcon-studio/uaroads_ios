@@ -20,6 +20,8 @@ class RoutesVC: BaseTVC {
     fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     fileprivate let buildBtn = UIButton()
     
+    fileprivate var updateLocationTimer: Timer?
+    fileprivate let locationManager = CLLocationManager()
     fileprivate var dataSource = [SearchResultModel]()
     fileprivate var fromModel: SearchResultModel?
     fileprivate var toModel: SearchResultModel?
@@ -31,18 +33,8 @@ class RoutesVC: BaseTVC {
         setupInterface()
         setupRx()
         
+        updateLocation()
         HUDManager.sharedInstance.show(from: self)
-        LocationManager.sharedInstance.manager.requestLocation()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
     
     func setupConstraints() {
@@ -203,8 +195,8 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                LocationManager.sharedInstance.manager.requestLocation()
-                if let coord = LocationManager.sharedInstance.manager.location?.coordinate {
+                self?.locationManager.requestLocation()
+                if let coord = self?.locationManager.location?.coordinate {
                     self?.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
                     self?.fromTF.resignFirstResponder()
                     self?.fromModel = SearchResultModel(locationCoordianate: coord, locationName: self?.fromTF.text, locationDescription: nil)
@@ -217,8 +209,8 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                LocationManager.sharedInstance.manager.requestLocation()
-                if let coord = LocationManager.sharedInstance.manager.location?.coordinate {
+                self?.locationManager.requestLocation()
+                if let coord = self?.locationManager.location?.coordinate {
                     self?.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
                     self?.toTF.resignFirstResponder()
                     self?.toModel = SearchResultModel(locationCoordianate: coord, locationName: self?.toTF.text, locationDescription: nil)
@@ -235,8 +227,8 @@ class RoutesVC: BaseTVC {
                 if self?.navigationItem.rightBarButtonItem == nil {
                     self?.navigationItem.rightBarButtonItem = self?.clearBtn
                 }
-                if let text = self?.fromTF.text {
-                    NetworkManager.sharedInstance.searchResults(location: text, handler: { results in
+                if let text = self?.fromTF.text, let coord = self?.locationManager.location?.coordinate {
+                    NetworkManager.sharedInstance.searchResults(location: text, coord: coord, handler: { results in
                         self?.dataSource = results
                         self?.tableView.reloadData()
                         self?.showTableView()
@@ -252,8 +244,8 @@ class RoutesVC: BaseTVC {
                 if self?.navigationItem.rightBarButtonItem == nil {
                     self?.navigationItem.rightBarButtonItem = self?.clearBtn
                 }
-                if let text = self?.toTF.text {
-                    NetworkManager.sharedInstance.searchResults(location: text, handler: { results in
+                if let text = self?.toTF.text, let coord = self?.locationManager.location?.coordinate {
+                    NetworkManager.sharedInstance.searchResults(location: text, coord: coord, handler: { results in
                         self?.dataSource = results
                         self?.tableView.reloadData()
                         self?.showTableView()
@@ -320,6 +312,32 @@ class RoutesVC: BaseTVC {
     }
     
     //MARK: Helpers
+    fileprivate func updateLocation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.activityType = .automotiveNavigation
+        locationManager.requestWhenInUseAuthorization()
+        
+        locationManager.requestLocation()
+        
+        if updateLocationTimer != nil {
+            updateLocationTimer?.invalidate()
+            updateLocationTimer = nil
+        }
+        
+        updateLocationTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: { [weak self] _ in
+            self?.stopUpdatingLocation()
+        })
+    }
+    
+    fileprivate func stopUpdatingLocation() {
+        if updateLocationTimer != nil {
+            updateLocationTimer?.invalidate()
+            updateLocationTimer = nil
+        }
+        locationManager.stopUpdatingLocation()
+    }
+    
     fileprivate func showTableView() {
         UIView.animate(withDuration: 0.2, animations: { [weak self] in
             self?.tableView.alpha = 1.0
@@ -342,17 +360,6 @@ class RoutesVC: BaseTVC {
             buildBtn.alpha = 0.0
         }
     }
-    
-    //MARK: Actions
-    @objc fileprivate func locationUpdate(note: NSNotification) {
-        var urlStr: String!
-        if let coord = (note.object as? [CLLocation])?.last {
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
-        } else {
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-        }
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-    }
 }
 
 extension RoutesVC {
@@ -374,6 +381,22 @@ extension RoutesVC {
         searchCell.textLabel?.text = item.locationName
         
         return searchCell
+    }
+}
+
+extension RoutesVC: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var urlStr: String!
+        if let coord = locations.last {
+            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
+        } else {
+            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
+        }
+        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR: \(error.localizedDescription)")
     }
 }
 

@@ -27,21 +27,19 @@ protocol MotionManagerDelegate {
     func statusChanged(newStatus: MotionStatus)
 }
 
-final class MotionManager: NSObject, CXCallObserverDelegate {
+final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDelegate {
     override init() {
         super.init()
-        
-        LocationManager.sharedInstance.manager.pausesLocationUpdatesAutomatically = true
-        LocationManager.sharedInstance.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        LocationManager.sharedInstance.manager.allowsBackgroundLocationUpdates = true
-        LocationManager.sharedInstance.manager.requestAlwaysAuthorization()
         
         self.motionManager.deviceMotionUpdateInterval = 0.02777
         self.reloadSettings()
         
         self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
+        self.locationManager.delegate = self
+        self.locationManager.pausesLocationUpdatesAutomatically = false
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        self.locationManager.allowsBackgroundLocationUpdates = true
     }
     
     override func copy() -> Any {
@@ -50,9 +48,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     override func mutableCopy() -> Any {
         fatalError("don`t use copy!")
     }
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     //=======================
     
     var delegate: MotionManagerDelegate?
@@ -60,6 +55,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     var track: TrackModel?
     weak var graphView: GraphView?
     var pitBuffer = [Any]()
+    fileprivate let locationManager = CLLocationManager()
     
     fileprivate let MaxPitValue = 5.4
     fileprivate let PitInterval = 0.5
@@ -75,9 +71,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     fileprivate var currentPit: Double = 0.0
     fileprivate var maxPit: Double = 0.0
     fileprivate var currentPitTime: Date?
-    fileprivate var maxSpeed: Double = 0.0
+    var maxSpeed: Double = 0.0
     fileprivate var dataToSave: Date?
-    fileprivate var currentLocation: CLLocation?
+    var currentLocation: CLLocation?
     fileprivate var lastAccX: CGFloat?
     fileprivate var lastAccY: CGFloat?
     fileprivate var lastAccZ: CGFloat?
@@ -99,7 +95,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         UIApplication.shared.isIdleTimerDisabled = false
         status = .notActive
         motionManager.stopDeviceMotionUpdates()
-        LocationManager.sharedInstance.manager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
         stopTimers()
         
         completeActiveTracks()
@@ -121,7 +117,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         currentLocation = nil
         status = .active
         motionManager.startDeviceMotionUpdates()
-        LocationManager.sharedInstance.manager.startUpdatingLocation()
+        locationManager.startUpdatingLocation()
         restartTimers()
         reloadSettings()
     }
@@ -174,7 +170,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             status = .active
             motionManager.startDeviceMotionUpdates()
             motionManager.startAccelerometerUpdates()
-            LocationManager.sharedInstance.manager.startUpdatingLocation()
+            locationManager.startUpdatingLocation()
             
             restartTimers()
             reloadSettings()
@@ -243,9 +239,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 filtered = false
             }
             
-            if (graphView != nil) && !(graphView?.isHidden)! {
-                graphView?.addValue(CGFloat(f), isFiltered: filtered)
-            }
+            RecordService.sharedInstance.onMotion(f, filtered)
         }
     }
     
@@ -273,8 +267,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             }
 
             let pit = PitModel()
-            pit.latitude = LocationManager.sharedInstance.manager.location?.coordinate.latitude ?? 0.0
-            pit.longitude = LocationManager.sharedInstance.manager.location?.coordinate.longitude ?? 0.0
+            pit.latitude = locationManager.location?.coordinate.latitude ?? 0.0
+            pit.longitude = locationManager.location?.coordinate.longitude ?? 0.0
             pit.value = currentPit
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.tag = "origin"
@@ -302,55 +296,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         }
     }
     
-    @objc fileprivate func locationUpdate(note: NSNotification) {
-        if skipLocationPoints > 0 {
-            skipLocationPoints -= 1
-            return
-        }
-        
-        if let newLocation = (note.object as? [CLLocation])?.first {
-            var locationUpdate = false
-            if currentLocation != nil {
-                let lastDistance = newLocation.distance(from: currentLocation!)
-                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation!.timestamp.timeIntervalSinceReferenceDate
-                
-                if lastDistance > currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
-                    RecordService.sharedInstance.dbManager.update {
-                        self.track?.distance += CGFloat(lastDistance)
-                    }
-                    RecordService.sharedInstance.dbManager.add(track)
-                    locationUpdate = true
-                }
-            } else {
-                locationUpdate = false
-            }
-            
-            if locationUpdate == true {
-                let pit = PitModel()
-                pit.latitude = newLocation.coordinate.latitude
-                pit.longitude = newLocation.coordinate.longitude
-                pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-                pit.tag = "origin"
-                pit.value = 0.0
-                
-                RecordService.sharedInstance.dbManager.update {
-                    track?.pits.append(pit)
-                }
-                RecordService.sharedInstance.dbManager.add(track)
-                
-                currentLocation = newLocation
-                delegate?.locationUpdated(location: currentLocation!, trackDist: Double(track!.distance))
-            }
-            
-            // Calculate maximum speed for last 5 minutes
-            if newLocation.horizontalAccuracy <= 10 {
-                if maxSpeed < newLocation.speed {
-                    maxSpeed = newLocation.speed
-                }
-            }
-        }
-    }
-    
     //MARK: CXCallObserverDelegate
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         if call.hasConnected {
@@ -369,6 +314,22 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 }
             }
         }
+    }
+    
+    //MARK: CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if skipLocationPoints > 0 {
+            skipLocationPoints -= 1
+            return
+        }
+        
+        if let newLocation = locations.first {
+            RecordService.sharedInstance.onLocation(newLocation)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("ERROR: \(error.localizedDescription)")
     }
 }
 

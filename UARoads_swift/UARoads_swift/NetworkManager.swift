@@ -14,8 +14,7 @@ class NetworkManager {
     private init() {}
     static let sharedInstance = NetworkManager()
     
-    func searchResults(location: String, handler: @escaping SearchLocationHandler) {
-        let coord = LocationManager.sharedInstance.manager.location?.coordinate ?? CLLocationCoordinate2DMake(0.0, 0.0)
+    func searchResults(location: String, coord: CLLocationCoordinate2D, handler: @escaping SearchLocationHandler) {
         let params = [
             "lang":"uk_UA",
             "format":"json",
