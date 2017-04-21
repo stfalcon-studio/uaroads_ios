@@ -9,12 +9,11 @@
 import RealmSwift
 
 class RealmManager {
-    private init() {}
+    init() {
+        self.realm = try? Realm()
+    }
     
-    public static let sharedInstance = RealmManager()
-    
-    //===================
-    private let realm = try? Realm()
+    public let realm: Realm?
     
     public func objects<T: Object>(type: T.Type) -> Results<T>? {
         return realm?.objects(type)

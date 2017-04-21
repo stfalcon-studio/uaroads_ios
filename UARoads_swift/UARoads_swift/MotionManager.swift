@@ -28,7 +28,7 @@ protocol MotionManagerDelegate {
 }
 
 final class MotionManager: NSObject, CXCallObserverDelegate {
-    private override init() {
+    override init() {
         super.init()
         
         LocationManager.sharedInstance.manager.pausesLocationUpdatesAutomatically = true
@@ -43,7 +43,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
     }
-    static let sharedInstance = MotionManager()
+    
     override func copy() -> Any {
         fatalError("don`t use copy!")
     }
@@ -136,9 +136,9 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     func completeActiveTracks() {
         let pred = NSPredicate(format: "status == 0")
-        let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
+        let result = RecordService.sharedInstance.dbManager.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
-            RealmManager.sharedInstance.update {
+            RecordService.sharedInstance.dbManager.update {
                 for item in result {
                     if Date().timeIntervalSince(item.date) > 10 {
                         item.status = TrackStatus.waitingForUpload.rawValue
@@ -167,7 +167,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
             let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
             track?.trackID = id.md5()
-            RealmManager.sharedInstance.add(track)
+            RecordService.sharedInstance.dbManager.add(track)
             
             currentLocation = nil
             skipLocationPoints = 3
@@ -279,10 +279,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.tag = "origin"
             
-            RealmManager.sharedInstance.update {
+            RecordService.sharedInstance.dbManager.update {
                 track?.pits.append(pit)
             }
-            RealmManager.sharedInstance.add(track)
+            RecordService.sharedInstance.dbManager.add(track)
         }
         currentPit = 0.0
     }
@@ -315,10 +315,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation!.timestamp.timeIntervalSinceReferenceDate
                 
                 if lastDistance > currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
-                    RealmManager.sharedInstance.update {
+                    RecordService.sharedInstance.dbManager.update {
                         self.track?.distance += CGFloat(lastDistance)
                     }
-                    RealmManager.sharedInstance.add(track)
+                    RecordService.sharedInstance.dbManager.add(track)
                     locationUpdate = true
                 }
             } else {
@@ -333,10 +333,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                 pit.tag = "origin"
                 pit.value = 0.0
                 
-                RealmManager.sharedInstance.update {
+                RecordService.sharedInstance.dbManager.update {
                     track?.pits.append(pit)
                 }
-                RealmManager.sharedInstance.add(track)
+                RecordService.sharedInstance.dbManager.add(track)
                 
                 currentLocation = newLocation
                 delegate?.locationUpdated(location: currentLocation!, trackDist: Double(track!.distance))

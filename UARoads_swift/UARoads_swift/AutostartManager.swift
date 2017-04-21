@@ -80,7 +80,7 @@ final class AutostartManager: NSObject {
             autostartTimer = nil
         }
         
-        if MotionManager.sharedInstance.status == .notActive {
+        if RecordService.sharedInstance.motionManager.status == .notActive {
             AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart", action: "Start recording", properties: nil)
             status = 2
             if autostartTimer != nil {
@@ -90,7 +90,7 @@ final class AutostartManager: NSObject {
             
             autostopTimer = Timer.scheduledTimer(timeInterval: autostopCheckInterval, target: AutostartManager.sharedInstance, selector: #selector(autostopTimerCheck), userInfo: nil, repeats: true)
             
-            MotionManager.sharedInstance.startRecording(autostart: true)
+            RecordService.sharedInstance.motionManager.startRecording(autostart: true)
             
             if !startNotified {
                 startNotified = true
@@ -102,8 +102,8 @@ final class AutostartManager: NSObject {
     func stopRecording() {
         if status == 2 {
             AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart", action: "Stop recording", properties: nil)
-            if MotionManager.sharedInstance.status != .notActive {
-                MotionManager.sharedInstance.stopRecording(autostart: true)
+            if RecordService.sharedInstance.motionManager.status != .notActive {
+                RecordService.sharedInstance.motionManager.stopRecording(autostart: true)
             }
             status = 0
             beginCheckForAutostart()
@@ -140,7 +140,7 @@ final class AutostartManager: NSObject {
             let speed = lastLocation.speed
             let hAccuracy = lastLocation.horizontalAccuracy
             
-            if MotionManager.sharedInstance.status == .notActive || status == 2 {
+            if RecordService.sharedInstance.motionManager.status == .notActive || status == 2 {
                 switch status {
                 case 0:
                     beginCheckForAutostart()

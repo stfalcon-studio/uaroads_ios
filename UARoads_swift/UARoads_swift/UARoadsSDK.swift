@@ -71,14 +71,14 @@ public final class UARoadsSDK {
         AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendDataActivity Start")
         
         let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
-        let result = RealmManager.sharedInstance.objects(type: TrackModel.self)?.filter(pred)
+        let result = RecordService.sharedInstance.dbManager.objects(type: TrackModel.self)?.filter(pred)
         
         if !sendingInProcess {
             if let result = result, result.count > 0 {
                 sendingInProcess = true
                 
                 let track = result.first
-                RealmManager.sharedInstance.update {
+                RecordService.sharedInstance.dbManager.update {
                     track?.status = TrackStatus.uploading.rawValue
                 }
                 UARoadsSDK.sharedInstance.tryToSend(track: track!, handler: { [weak self] val in
@@ -90,7 +90,7 @@ public final class UARoadsSDK {
                         (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
                     }
                     
-                    RealmManager.sharedInstance.update {
+                    RecordService.sharedInstance.dbManager.update {
                         if val == true {
                             track?.status = TrackStatus.uploaded.rawValue
                         } else {

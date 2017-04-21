@@ -170,7 +170,7 @@ class RecordVC: BaseVC {
             .tap
             .bind { [weak self] in
                 if UIApplication.shared.backgroundRefreshStatus == .available {
-                    MotionManager.sharedInstance.startRecording()
+                    RecordService.sharedInstance.motionManager.startRecording()
                     self?.lastSessionLbl.text = NSLocalizedString("Current session", comment: "lastSessionLbl")
                     self?.allSessionsLbl.text = NSLocalizedString("Shaking force", comment: "allSessionsLbl")
                     self?.pauseBtn.isHidden = false
@@ -193,10 +193,10 @@ class RecordVC: BaseVC {
             .bind { [weak self] in
                 if let strongSelf = self {
                     strongSelf.pauseBtn.isSelected = !strongSelf.pauseBtn.isSelected
-                    if MotionManager.sharedInstance.status == .active {
-                        MotionManager.sharedInstance.pauseRecording()
+                    if RecordService.sharedInstance.motionManager.status == .active {
+                        RecordService.sharedInstance.motionManager.pauseRecording()
                     } else {
-                        MotionManager.sharedInstance.resumeRecording()
+                        RecordService.sharedInstance.motionManager.resumeRecording()
                     }
                 }
             }
@@ -216,12 +216,12 @@ class RecordVC: BaseVC {
                 self?.allSessionDetailLbl.isHidden = true
                 self?.lastSessionLbl.isHidden = true
                 self?.lastSessionDetailLbl.isHidden = true
-                MotionManager.sharedInstance.stopRecording()
+                RecordService.sharedInstance.motionManager.stopRecording()
             }
             .addDisposableTo(disposeBag)
         
-        MotionManager.sharedInstance.delegate = self
-        MotionManager.sharedInstance.graphView = graphView
+        RecordService.sharedInstance.motionManager.delegate = self
+        RecordService.sharedInstance.motionManager.graphView = graphView
     }
 }
 

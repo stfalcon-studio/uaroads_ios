@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch completeActiveTracks", label: nil, value: nil)
-            MotionManager.sharedInstance.completeActiveTracks()
+            RecordService.sharedInstance.motionManager.completeActiveTracks()
             self?.deleteOldTracks()
             
             AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch after completeActiveTracks", label: nil, value: nil)
@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         fetchCompletionHandler = completionHandler
         backgroundTrackSendingCompleted = false
-        if MotionManager.sharedInstance.status == .notActive {
+        if RecordService.sharedInstance.motionManager.status == .notActive {
             sendDataActivity()
         } else {
             completeBackgroundTrackSending(false)
