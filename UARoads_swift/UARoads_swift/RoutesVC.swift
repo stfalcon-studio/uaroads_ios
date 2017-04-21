@@ -318,7 +318,7 @@ class RoutesVC: BaseTVC {
         locationManager.activityType = .automotiveNavigation
         locationManager.requestWhenInUseAuthorization()
         
-        locationManager.requestLocation()
+        locationManager.startUpdatingLocation()
         
         if updateLocationTimer != nil {
             updateLocationTimer?.invalidate()
