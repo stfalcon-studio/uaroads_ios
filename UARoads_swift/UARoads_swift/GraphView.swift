@@ -86,7 +86,7 @@ class GraphView: UIView {
                     let valueX2: CGFloat = CGFloat(startPos - (i+1)*zoomX)
                     let valueY2: CGFloat = middleY - filteredValuesList[i+1] * zoomY
                     
-                    context?.setStrokeColor(UIColor.red.cgColor)
+                    context?.setStrokeColor(UIColor.colorPrimaryDark.cgColor)
                     context?.move(to: CGPoint(x: valueX1, y: valueY1))
                     context?.addLine(to: CGPoint(x: valueX2, y: valueY2))
                 }

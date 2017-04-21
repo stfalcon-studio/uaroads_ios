@@ -38,7 +38,7 @@ class FooterSignIn: UIView {
         //setup interface
         signInBtn.setTitle(NSLocalizedString("Sign In", comment: "signInTitle"), for: .normal)
         signInBtn.setTitleColor(UIColor.white, for: .normal)
-        signInBtn.backgroundColor = UIColor.navBar
+        signInBtn.backgroundColor = UIColor.colorPrimaryDark
         signInBtn.layer.cornerRadius = 4.0
         signInBtn.layer.masksToBounds = true
         signInBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)

@@ -117,7 +117,7 @@ class RouteBuidVC: BaseVC {
         
         goBtn.setTitle(NSLocalizedString("GO!", comment: "goBtn").uppercased(), for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        goBtn.backgroundColor = UIColor.buildBtn
+        goBtn.backgroundColor = UIColor.colorAccent
     }
     
     func setupRx() {

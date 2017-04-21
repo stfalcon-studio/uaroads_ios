@@ -104,7 +104,7 @@ class RecordVC: BaseVC {
     func setupInterface() {
         title = NSLocalizedString("Record", comment: "title")
         
-        view.backgroundColor = UIColor.navBar
+        view.backgroundColor = UIColor.colorAccent
         
         mainLbl.text = NSLocalizedString("Press \"START RECORDING\" to start collecting data about road quality", comment: "mainLbl")
         mainLbl.numberOfLines = 0
@@ -114,13 +114,13 @@ class RecordVC: BaseVC {
         
         allSessionsLbl.text = NSLocalizedString("All sessions", comment: "All sessions")
         allSessionsLbl.textAlignment = .center
-        allSessionsLbl.font = UIFont.systemFont(ofSize: 12.0)
-        allSessionsLbl.textColor = UIColor.lightGray
+        allSessionsLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
+        allSessionsLbl.textColor = UIColor.white
         
         lastSessionLbl.text = NSLocalizedString("Last session", comment: "Last session")
         lastSessionLbl.textAlignment = .center
-        lastSessionLbl.font = UIFont.systemFont(ofSize: 12.0)
-        lastSessionLbl.textColor = UIColor.lightGray
+        lastSessionLbl.font = UIFont.boldSystemFont(ofSize: 12.0)
+        lastSessionLbl.textColor = UIColor.white
         
         allSessionDetailLbl.text = "0.00"
         allSessionDetailLbl.textColor = UIColor.white
@@ -132,6 +132,7 @@ class RecordVC: BaseVC {
         lastSessionDetailLbl.font = UIFont.systemFont(ofSize: 25.0)
         lastSessionDetailLbl.textAlignment = .center
         
+        startBtn.tintColor = UIColor.colorPrimaryDark
         startBtn.setBackgroundImage(UIImage(named: "btn_start_normal"), for: .normal)
         startBtn.setBackgroundImage(UIImage(named: "btn_start_pressed"), for: .highlighted)
         startBtn.setTitle(NSLocalizedString("start recording", comment: "startBtn").uppercased(), for: .normal)
@@ -140,6 +141,7 @@ class RecordVC: BaseVC {
         startBtn.titleLabel?.textAlignment = .center
         startBtn.setTitleColor(UIColor.white, for: .normal)
         
+        pauseBtn.tintColor = UIColor.colorPrimaryDark
         pauseBtn.setBackgroundImage(UIImage(named: "btn_pause_normal"), for: .normal)
         pauseBtn.setBackgroundImage(UIImage(named: "btn_pause_pressed"), for: .highlighted)
         pauseBtn.setTitle(NSLocalizedString("pause", comment: "pause").uppercased(), for: .normal)
@@ -148,6 +150,7 @@ class RecordVC: BaseVC {
         pauseBtn.titleLabel?.textAlignment = .center
         pauseBtn.setTitleColor(UIColor.white, for: .normal)
         
+        stopBtn.tintColor = UIColor.colorPrimaryDark
         stopBtn.setBackgroundImage(UIImage(named: "btn_stop_normal"), for: .normal)
         stopBtn.setBackgroundImage(UIImage(named: "btn_stop_pressed"), for: .highlighted)
         stopBtn.setTitle(NSLocalizedString("stop", comment: "pause").uppercased(), for: .normal)

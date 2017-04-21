@@ -58,8 +58,8 @@ class TabBarVC: UITabBarController {
         
         //set font style
         for item in tabBar.items! {
-            item.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.tabItemActive], for: .selected)
-            item.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.tabItemNormal], for: .normal)
+            item.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.colorPrimaryDark], for: .selected)
+            item.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.gray], for: .normal)
         }
     }
 }

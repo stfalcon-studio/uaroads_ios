@@ -43,7 +43,7 @@ class RecordedCell: BaseCell {
         stateLbl.textColor = UIColor.lightGray
         stateLbl.font = UIFont.systemFont(ofSize: 12.0)
         
-        distLbl.textColor = UIColor.green
+        distLbl.textColor = UIColor.colorPrimaryDark
     }
     
     required init?(coder aDecoder: NSCoder) {

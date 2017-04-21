@@ -42,9 +42,9 @@ class TracksVC: BaseTVC {
                 
             case .update(_, let deletions, let insertions, let modifications):
                 self?.tableView.beginUpdates()
-                self?.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-                self?.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
-                self?.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+                self?.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .fade)
+                self?.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .fade)
+                self?.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .fade)
                 self?.tableView.endUpdates()
                 break
             case .error(let error):
@@ -106,11 +106,15 @@ extension TracksVC {
 
 extension TracksVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSMutableAttributedString(string: NSLocalizedString("You have no tracks yet", comment: ""), attributes: [NSForegroundColorAttributeName:UIColor.gray, NSFontAttributeName:UIFont.systemFont(ofSize: 18.0)])
+        return NSMutableAttributedString(string: NSLocalizedString("You have no tracks yet", comment: ""), attributes: [NSForegroundColorAttributeName:UIColor.colorPrimaryDark, NSFontAttributeName:UIFont.systemFont(ofSize: 18.0)])
     }
     
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
-        return NSMutableAttributedString(string: NSLocalizedString("start", comment: "").uppercased(), attributes: [NSForegroundColorAttributeName:UIColor.green, NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)])
+        return NSMutableAttributedString(string: NSLocalizedString("start", comment: "").uppercased(), attributes: [NSForegroundColorAttributeName:UIColor.colorAccent, NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)])
+    }
+    
+    func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
+        return UIColor.white
     }
     
     func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {

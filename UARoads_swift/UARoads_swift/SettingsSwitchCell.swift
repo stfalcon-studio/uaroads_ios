@@ -34,7 +34,7 @@ class SettingsSwitchCell: BaseCell {
         
         mainTitleLbl.font = UIFont.systemFont(ofSize: 14.0)
         
-        switcher.onTintColor = UIColor.navBar
+        switcher.onTintColor = UIColor.colorAccent
     }
     
     required init?(coder aDecoder: NSCoder) {

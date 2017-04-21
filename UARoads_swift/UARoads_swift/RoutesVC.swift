@@ -31,13 +31,17 @@ class RoutesVC: BaseTVC {
         setupInterface()
         setupRx()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
-        
         HUDManager.sharedInstance.show(from: self)
         LocationManager.sharedInstance.manager.requestLocation()
     }
     
-    deinit {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdate(note:)), name: NSNotification.Name.init(rawValue: Note.locationUpdate.rawValue), object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -120,7 +124,7 @@ class RoutesVC: BaseTVC {
         
         buildBtn.setTitle(NSLocalizedString("Build", comment: "buildBtn"), for: .normal)
         buildBtn.titleLabel?.textColor = UIColor.white
-        buildBtn.backgroundColor = UIColor.buildBtn
+        buildBtn.backgroundColor = UIColor.colorAccent
         
         //hidden by default
         tableView.alpha = 0.0

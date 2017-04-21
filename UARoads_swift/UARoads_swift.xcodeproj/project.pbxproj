@@ -202,8 +202,6 @@
 				F47F1A011E97941000E47849 /* Managers */,
 				F40ED4B11E9B896200D72324 /* CustomViews */,
 				F47F19EF1E97788500E47849 /* Extensions_protocols */,
-				F41413931E9F60D400D58941 /* MD5 */,
-				F41441C51E9E63AC00F3A7C3 /* ZIP */,
 				F40D92E61E97768B00647D5E /* Assets.xcassets */,
 				F43EA2B31EA73DFF00A113BE /* Audio */,
 				F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */,
@@ -318,6 +316,8 @@
 		F47F1A041E97999B00E47849 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				F41441C51E9E63AC00F3A7C3 /* ZIP */,
+				F41413931E9F60D400D58941 /* MD5 */,
 				F47F1A051E979AA700E47849 /* UARoadsSDK.swift */,
 			);
 			name = Library;
@@ -466,7 +466,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		F418248F1EA8A0A30075872C /* ShellScript */ = {

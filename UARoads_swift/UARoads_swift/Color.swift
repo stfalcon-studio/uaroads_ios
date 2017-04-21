@@ -9,19 +9,15 @@
 import UIKit
 
 extension UIColor {
-    class var tabItemActive: UIColor {
-        return UIColor(red: 15 / 255.0, green: 86 / 255.0, blue: 233 / 255.0, alpha: 1.0)
+    class var colorPrimary: UIColor {
+        return UIColor(red: 26 / 255.0, green: 135 / 255.0, blue: 247 / 255.0, alpha: 1.0)
     }
     
-    class var tabItemNormal: UIColor {
-        return UIColor(red: 139 / 255.0, green: 151 / 255.0, blue: 162 / 255.0, alpha: 1.0)
+    class var colorPrimaryDark: UIColor {
+        return UIColor(red: 12 / 255.0, green: 86 / 255.0, blue: 194 / 255.0, alpha: 1.0)
     }
     
-    class var navBar: UIColor {
-        return UIColor(red: 57 / 255.0, green: 72 / 255.0, blue: 79 / 255.0, alpha: 1.0)
-    }
-    
-    class var buildBtn: UIColor {
-        return UIColor.blue
-    }
+    class var colorAccent: UIColor {
+        return UIColor(red: 252 / 255.0, green: 91 / 255.0, blue: 34 / 255.0, alpha: 1.0)
+    }    
 }

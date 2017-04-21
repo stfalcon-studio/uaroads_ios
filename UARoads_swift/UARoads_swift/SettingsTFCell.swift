@@ -46,9 +46,9 @@ class SettingsTFCell: BaseCell {
         mainTF.autocapitalizationType = .none
         
         signOutBtn.setTitle(NSLocalizedString("Sign Out", comment: "signOutBtn"), for: .normal)
-        signOutBtn.setTitleColor(UIColor.navBar, for: .normal)
+        signOutBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         signOutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
-        signOutBtn.layer.borderColor = UIColor.navBar.cgColor
+        signOutBtn.layer.borderColor = UIColor.colorPrimaryDark.cgColor
         signOutBtn.layer.borderWidth = 1.0
         signOutBtn.layer.cornerRadius = 4.0
         signOutBtn.layer.masksToBounds = true
