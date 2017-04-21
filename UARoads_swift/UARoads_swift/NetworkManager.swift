@@ -22,7 +22,7 @@ class NetworkManager {
             "ll":"\(coord.latitude), \(coord.longitude)",
             "geocode":"Україна, \(location)"
         ]
-        let url = URL(string: "https://geocode-maps.yandex.ru/1.x"+buildQueryString(fromDictionary: params))
+        let url = URL(string: "https://geocode-maps.yandex.ru/1.x" + String.buildQueryString(fromDictionary: params))
         let request = URLRequest(url: url!)
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -50,17 +50,6 @@ class NetworkManager {
                 }
             }
         }.resume()
-    }
-    
-    //MARK: Helpers
-    private func buildQueryString(fromDictionary parameters: [String:String]) -> String {
-        var urlVars:[String] = []
-        for (k, value) in parameters {
-            if let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                urlVars.append(k + "=" + encodedValue)
-            }
-        }
-        return urlVars.isEmpty ? "" : "?" + urlVars.joined(separator: "&")
     }
 }
 

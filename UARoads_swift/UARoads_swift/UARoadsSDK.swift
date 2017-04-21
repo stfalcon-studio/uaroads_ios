@@ -49,6 +49,7 @@ public final class UARoadsSDK {
         print(params)
         
         var request = URLRequest(url: URL(string: "\(UARoadsSDK.baseURL)/register-device")!)
+        request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
         session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
@@ -118,19 +119,22 @@ public final class UARoadsSDK {
             "data":base64DataString ?? "",
             "app_ver":version as! String,
             "auto_record":track.autoRecord ? "1" : "0",
-            "date":track.date.timeIntervalSince1970
-        ] as [String : Any]
+            "date":"\(track.date.timeIntervalSince1970)"
+        ] as [String : String]
         
         print("\(UARoadsSDK.baseURL)/add")
         print(params)
         
         //TODO: the endpoint doesn`t work
-        var request = URLRequest(url: URL(string: "\(UARoadsSDK.baseURL)/add")!)
+        var request = URLRequest(url: URL(string: "\(UARoadsSDK.baseURL)/add" + String.buildQueryString(fromDictionary: params))!)
         request.httpMethod = "POST"
         session.dataTask(with: request) { (data, response, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
+                    
+                    print("RESULT: \(String(describing: result))")
+                    
                     if result == "OK" {
                         handler(true)
                     } else {

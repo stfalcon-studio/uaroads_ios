@@ -32,6 +32,7 @@
 		F418248C1EA889250075872C /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418248B1EA889250075872C /* RealmManager.swift */; };
 		F418248E1EA896730075872C /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418248D1EA896730075872C /* AnalyticManager.swift */; };
 		F41824951EA8BA220075872C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41824941EA8BA220075872C /* GoogleService-Info.plist */; };
+		F42A6F7D1EAA06C200ED368C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A6F7C1EAA06C200ED368C /* String.swift */; };
 		F43EA2C11EA73E1100A113BE /* error.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B41EA73E1100A113BE /* error.m4a */; };
 		F43EA2C21EA73E1100A113BE /* pit-1.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B51EA73E1100A113BE /* pit-1.aiff */; };
 		F43EA2C31EA73E1100A113BE /* pit-2.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B61EA73E1100A113BE /* pit-2.aiff */; };
@@ -97,6 +98,7 @@
 		F418248B1EA889250075872C /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F418248D1EA896730075872C /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
 		F41824941EA8BA220075872C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F42A6F7C1EAA06C200ED368C /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		F43EA2B41EA73E1100A113BE /* error.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.m4a; sourceTree = "<group>"; };
 		F43EA2B51EA73E1100A113BE /* pit-1.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-1.aiff"; sourceTree = "<group>"; };
 		F43EA2B61EA73E1100A113BE /* pit-2.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-2.aiff"; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				F47F19F01E9778AD00E47849 /* MainVCProtocol.swift */,
 				F4E0FF321EA676E000652FD2 /* GFunctions.swift */,
+				F42A6F7C1EAA06C200ED368C /* String.swift */,
 				F4163C501E97AF720076C224 /* Closures.swift */,
 				F41579491EA7AC6B00AB2E65 /* Notifications.swift */,
 				F47F19FE1E97823600E47849 /* Color.swift */,
@@ -511,6 +514,7 @@
 				F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */,
 				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
 				F404C6461E9D1246001D63A5 /* DateManager.swift in Sources */,
+				F42A6F7D1EAA06C200ED368C /* String.swift in Sources */,
 				F4BAD6231E9FB16F00FE59B9 /* SettingsTFCell.swift in Sources */,
 				F44785E31E9FC31C00BF10F4 /* SettingsManager.swift in Sources */,
 				F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */,
