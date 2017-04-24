@@ -111,6 +111,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     
     func completeActiveTracks() {
         RecordService.sharedInstance.motionCallback?()
+        RecordService.sharedInstance.onSend?()
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {

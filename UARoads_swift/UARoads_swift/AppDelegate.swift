@@ -96,11 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if SettingsManager.sharedInstance.sendDataOnlyWiFi == true {
                 //check wifi connection
                 if UHBConnectivityManager.shared().isConnectedOverMobileData() == false {
-                    RecordService.sharedInstance.motionCallback?()
+                    RecordService.sharedInstance.onSend?()
                     return
                 }
             }
-            RecordService.sharedInstance.motionCallback?()
+            RecordService.sharedInstance.onSend?()
         }
     }
     

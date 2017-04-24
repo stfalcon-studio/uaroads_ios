@@ -14,48 +14,7 @@ class NetworkManager {
     private init() {}
     static let sharedInstance = NetworkManager()
     
-    private var sendingInProcess = false
-    
-    func sendPits(params: [String:String], handler: @escaping SuccessHandler) {
-        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendDataActivity Start")
-        
-        let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
-        let result = RecordService.sharedInstance.dbManager.objects(type: TrackModel.self)?.filter(pred)
-        
-        if !sendingInProcess {
-            if let result = result, result.count > 0 {
-                sendingInProcess = true
-                
-                let track = result.first
-                RecordService.sharedInstance.dbManager.update {
-                    track?.status = TrackStatus.uploading.rawValue
-                }
-                self.tryToSend(params: params, handler: { val in
-                    self.sendingInProcess = false
-                    
-                    if result.count > 1 && val {
-                        self.sendPits(params: params, handler: handler) //recursion
-                    } else {
-                        (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
-                    }
-                    
-                    RecordService.sharedInstance.dbManager.update {
-                        if val == true {
-                            track?.status = TrackStatus.uploaded.rawValue
-                        } else {
-                            track?.status = TrackStatus.waitingForUpload.rawValue
-                        }
-                    }
-                })
-            }
-        }
-        if !sendingInProcess {
-            (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(false)
-        }
-        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "sendDataActivity End")
-    }
-    
-    private func tryToSend(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
+    func tryToSendData(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
         var request = URLRequest(url: URL(string: "http://uaroads.com/add" + String.buildQueryString(fromDictionary: params))!)
         request.httpMethod = "POST"
         URLSession.shared.dataTask(with: request) { (data, response, _) in

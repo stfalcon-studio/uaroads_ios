@@ -83,28 +83,61 @@ class RecordService {
             }
         }
         
-        onSend = { points, track in
-            //prepare params for sending
-            let data64 = UARoadsSDK.sharedInstance.encodePoints(points)
-            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
-            let params = [
-                "uid":NSUUID().uuidString,
-                "comment":track.title,
-                "routeId":track.trackID,
-                "data":data64 ?? "",
-                "app_ver":version as! String,
-                "auto_record":track.autoRecord ? "1" : "0",
-                "date":"\(track.date.timeIntervalSince1970)"
-                ] as [String : String]
+        onSend = { [unowned self] in
+            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendDataActivity Start")
             
-            //try to send data
-            NetworkManager.sharedInstance.sendPits(params: params, handler: { success in
-                if success {
-                    print("SUCCESS")
-                } else {
-                    print("NOT SUCCESS")
+            var sendingInProcess = false
+            
+            let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
+            let result = self.dbManager.objects(type: TrackModel.self)?.filter(pred)
+            
+            if sendingInProcess == false {
+                if let result = result, result.count > 0 {
+                    sendingInProcess = true
+                    
+                    if let track = result.first {
+                        self.dbManager.update {
+                            track.status = TrackStatus.uploading.rawValue
+                        }
+                        
+                        //prepare params for sending
+                        let data64 = UARoadsSDK.sharedInstance.encodePoints(Array(track.pits))
+                        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
+                        let params = [
+                            "uid":NSUUID().uuidString,
+                            "comment":track.title,
+                            "routeId":track.trackID,
+                            "data":data64 ?? "",
+                            "app_ver":version as! String,
+                            "auto_record":track.autoRecord ? "1" : "0",
+                            "date":"\(track.date.timeIntervalSince1970)"
+                            ] as [String : String]
+                        
+                        NetworkManager.sharedInstance.tryToSendData(params: params, handler: { val in
+                            sendingInProcess = false
+                            
+                            if result.count > 1 && val  {
+                                self.onSend?() //recursion
+                            } else {
+                                (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
+                            }
+                            
+                            self.dbManager.update {
+                                if val == true {
+                                    track.status = TrackStatus.uploaded.rawValue
+                                } else {
+                                    track.status = TrackStatus.waitingForUpload.rawValue
+                                }
+                            }
+                        })
+                    }
                 }
-            })
+            }
+            if !sendingInProcess {
+                (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(false)
+            }
+            
+            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "sendDataActivity End")
         }
         
         motionCallback = { [unowned self] in
@@ -115,9 +148,6 @@ class RecordService {
                     for item in result {
                         if Date().timeIntervalSince(item.date) > 10 {
                             item.status = TrackStatus.waitingForUpload.rawValue
-                            
-                            //send data ERROR!!!!!!!!!!!!!!!!
-//                            self.onSend?(Array(item.pits), item)
                         }
                     }
                 }
@@ -138,7 +168,7 @@ class RecordService {
     var onMotionStop: (() -> ())?
     var onLocation: ((_ locations: [CLLocation]) -> ())?
     var motionCallback: (() -> ())?
-    var onSend: ((_ points: [PitModel], _ track: TrackModel) -> ())?
+    var onSend: (() -> ())?
     
     func startRecording() {
         locationManager.requestLocation()
