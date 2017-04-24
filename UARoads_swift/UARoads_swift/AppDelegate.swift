@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch completeActiveTracks", label: nil, value: nil)
-            RecordService.sharedInstance.motionManager.completeActiveTracks()
+            self?.sendDataActivity()
             self?.deleteOldTracks()
             
             AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch after completeActiveTracks", label: nil, value: nil)
@@ -96,11 +96,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if SettingsManager.sharedInstance.sendDataOnlyWiFi == true {
                 //check wifi connection
                 if UHBConnectivityManager.shared().isConnectedOverMobileData() == false {
-                    UARoadsSDK.sharedInstance.sendDataActivity()
+                    RecordService.sharedInstance.motionCallback?()
                     return
                 }
             }
-            UARoadsSDK.sharedInstance.sendDataActivity()
+            RecordService.sharedInstance.motionCallback?()
         }
     }
     

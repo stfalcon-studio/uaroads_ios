@@ -83,7 +83,7 @@ extension SettingsVC {
                     //authorize user
                     if UHBConnectivityManager.shared().isConnected() == true {
                         HUDManager.sharedInstance.show(from: self!)
-                        UARoadsSDK.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
+                        NetworkManager.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
                             if !val {
                                 self?.showAlert(text: NSLocalizedString("Registration error!", comment: "regError"), handler: nil)
                             } else {

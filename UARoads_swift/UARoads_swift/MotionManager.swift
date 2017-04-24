@@ -110,19 +110,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     }
     
     func completeActiveTracks() {
-        let pred = NSPredicate(format: "status == 0")
-        let result = RecordService.sharedInstance.dbManager.objects(type: TrackModel.self)?.filter(pred)
-        if let result = result, result.count > 0 {
-            RecordService.sharedInstance.dbManager.update {
-                for item in result {
-                    if Date().timeIntervalSince(item.date) > 10 {
-                        item.status = TrackStatus.waitingForUpload.rawValue
-                        print(RecordService.sharedInstance.motionCallback?(Array(item.pits)))
-                    }
-                }
-            }
-        }
-        (UIApplication.shared.delegate as? AppDelegate)?.sendDataActivity()
+        RecordService.sharedInstance.motionCallback?()
     }
     
     fileprivate func startRecording(title: String, autostart: Bool = false) {

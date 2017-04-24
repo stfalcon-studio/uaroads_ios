@@ -130,7 +130,7 @@ class RoutesVC: BaseTVC {
             .tap
             .bind { [weak self] in
                 HUDManager.sharedInstance.show(from: self!)
-                UARoadsSDK.sharedInstance.checkRouteAvailability(coord1: (self?.fromModel?.locationCoordianate)!,
+                NetworkManager.sharedInstance.checkRouteAvailability(coord1: (self?.fromModel?.locationCoordianate)!,
                                                                  coord2: (self?.toModel?.locationCoordianate)!,
                                                                  handler: { status in
                                                                     switch status {
