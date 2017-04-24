@@ -180,7 +180,7 @@ class RecordVC: BaseVC {
             .tap
             .bind { [weak self] in
                 if UIApplication.shared.backgroundRefreshStatus == .available {
-                    RecordService.sharedInstance.motionManager.startRecording()
+                    RecordService.sharedInstance.startRecording()
                     self?.lastSessionLbl.text = NSLocalizedString("Current session", comment: "lastSessionLbl")
                     self?.allSessionsLbl.text = NSLocalizedString("Shaking force", comment: "allSessionsLbl")
                     self?.pauseBtn.isHidden = false
@@ -226,7 +226,7 @@ class RecordVC: BaseVC {
                 self?.allSessionDetailLbl.isHidden = true
                 self?.lastSessionLbl.isHidden = true
                 self?.lastSessionDetailLbl.isHidden = true
-                RecordService.sharedInstance.stop()
+                RecordService.sharedInstance.stopRecording()
             }
             .addDisposableTo(disposeBag)
         

@@ -20,7 +20,6 @@ class RoutesVC: BaseTVC {
     fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     fileprivate let buildBtn = UIButton()
     
-    fileprivate var updateLocationTimer: Timer?
     fileprivate let locationManager = CLLocationManager()
     fileprivate var dataSource = [SearchResultModel]()
     fileprivate var fromModel: SearchResultModel?
@@ -319,22 +318,9 @@ class RoutesVC: BaseTVC {
         locationManager.requestWhenInUseAuthorization()
         
         locationManager.startUpdatingLocation()
-        
-        if updateLocationTimer != nil {
-            updateLocationTimer?.invalidate()
-            updateLocationTimer = nil
-        }
-        
-        updateLocationTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: false, block: { [weak self] _ in
-            self?.stopUpdatingLocation()
-        })
     }
     
     fileprivate func stopUpdatingLocation() {
-        if updateLocationTimer != nil {
-            updateLocationTimer?.invalidate()
-            updateLocationTimer = nil
-        }
         locationManager.stopUpdatingLocation()
     }
     
@@ -389,6 +375,7 @@ extension RoutesVC: CLLocationManagerDelegate {
         var urlStr: String!
         if let coord = locations.last {
             urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
+            stopUpdatingLocation()
         } else {
             urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
         }

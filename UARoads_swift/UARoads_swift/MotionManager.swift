@@ -34,11 +34,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         self.motionManager.deviceMotionUpdateInterval = 0.02777
         
         self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
-        
-        self.locationManager.delegate = self
-        self.locationManager.pausesLocationUpdatesAutomatically = false
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        self.locationManager.allowsBackgroundLocationUpdates = true
     }
     
     override func copy() -> Any {
@@ -53,7 +48,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     var status: MotionStatus = .notActive
     var track: TrackModel?
     var pitBuffer = [Any]()
-    let locationManager = CLLocationManager()
     
     fileprivate let MaxPitValue = 5.4
     fileprivate let PitInterval = 0.5
@@ -62,16 +56,16 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     fileprivate let motionManager = CMMotionManager()
     
     fileprivate var pointCount: Int = 0
-    fileprivate var skipLocationPoints: Int = 0
+//    var skipLocationPoints: Int = 0
     fileprivate var timerPit: Timer?
     fileprivate var timerMaxPit: Timer?
     fileprivate var timerMotion: Timer?
     fileprivate var currentPit: Double = 0.0
     fileprivate var maxPit: Double = 0.0
     fileprivate var currentPitTime: Date?
-    fileprivate var maxSpeed: Double = 0.0
+    var maxSpeed: Double = 0.0
     fileprivate var dataToSave: Date?
-    fileprivate var currentLocation: CLLocation?
+    var currentLocation: CLLocation?
     fileprivate var lastAccX: CGFloat?
     fileprivate var lastAccY: CGFloat?
     fileprivate var lastAccZ: CGFloat?
@@ -93,7 +87,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         UIApplication.shared.isIdleTimerDisabled = false
         status = .notActive
         motionManager.stopDeviceMotionUpdates()
-        locationManager.stopUpdatingLocation()
         stopTimers()
         
         completeActiveTracks()
@@ -114,7 +107,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         currentLocation = nil
         status = .active
         motionManager.startDeviceMotionUpdates()
-        locationManager.startUpdatingLocation()
         restartTimers()
     }
     
@@ -155,11 +147,10 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
             RecordService.sharedInstance.dbManager.add(track)
             
             currentLocation = nil
-            skipLocationPoints = 3
+//            skipLocationPoints = 3
             status = .active
             motionManager.startDeviceMotionUpdates()
             motionManager.startAccelerometerUpdates()
-            locationManager.startUpdatingLocation()
             
             restartTimers()
         }
@@ -279,60 +270,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
                 }
             }
         }
-    }
-    
-    //MARK: CLLocationManagerDelegate
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if skipLocationPoints > 0 {
-            skipLocationPoints -= 1
-            return
-        }
-        
-        if let newLocation = locations.first {
-            var locationUpdate = false
-            if currentLocation != nil {
-                let lastDistance = newLocation.distance(from: currentLocation!)
-                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation!.timestamp.timeIntervalSinceReferenceDate
-                
-                if lastDistance > currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
-                    RecordService.sharedInstance.dbManager.update {
-                        track?.distance += CGFloat(lastDistance)
-                    }
-                    RecordService.sharedInstance.dbManager.add(track)
-                    locationUpdate = true
-                }
-            } else {
-                locationUpdate = false
-            }
-            
-            if locationUpdate == true {
-                let pit = PitModel()
-                pit.latitude = newLocation.coordinate.latitude
-                pit.longitude = newLocation.coordinate.longitude
-                pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-                pit.tag = "origin"
-                pit.value = 0.0
-                
-                RecordService.sharedInstance.dbManager.update {
-                    track?.pits.append(pit)
-                }
-                RecordService.sharedInstance.dbManager.add(track)
-                
-                currentLocation = newLocation
-                delegate?.locationUpdated(location: currentLocation!, trackDist: Double(track!.distance))
-            }
-            
-            // Calculate maximum speed for last 5 minutes
-            if newLocation.horizontalAccuracy <= 10 {
-                if maxSpeed < newLocation.speed {
-                    maxSpeed = newLocation.speed
-                }
-            }
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("ERROR: \(error.localizedDescription)")
     }
 }
 
