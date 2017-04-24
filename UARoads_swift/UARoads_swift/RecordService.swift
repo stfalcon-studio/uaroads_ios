@@ -40,51 +40,45 @@ class RecordService {
         
         locationManager.onLocationUpdate = { [unowned self] locations in
             let manager = self.motionManager
-//            if manager.skipLocationPoints > 0 {
-//                manager.skipLocationPoints -= 1
-//                return
-//            }
-            
             if let newLocation = locations.first {
-                var locationUpdate = false
-                if manager.currentLocation != nil {
-                    let lastDistance = newLocation.distance(from: manager.currentLocation!)
-                    let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - manager.currentLocation!.timestamp.timeIntervalSinceReferenceDate
+                if let currentLocation = manager.currentLocation {
+                    var locationUpdate = false
+                    let lastDistance = newLocation.distance(from: currentLocation)
+                    let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - currentLocation.timestamp.timeIntervalSinceReferenceDate
                     
-                    if lastDistance > manager.currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
+                    if lastDistance > currentLocation.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
                         self.dbManager.update {
                             manager.track?.distance += CGFloat(lastDistance)
                         }
                         self.dbManager.add(manager.track)
                         locationUpdate = true
                     }
-                } else {
-                    locationUpdate = false
-                }
-                
-                if locationUpdate == true {
-                    let pit = PitModel()
-                    pit.latitude = newLocation.coordinate.latitude
-                    pit.longitude = newLocation.coordinate.longitude
-                    pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-                    pit.tag = "origin"
-                    pit.value = 0.0
                     
-                    self.dbManager.update {
-                        manager.track?.pits.append(pit)
+                    if locationUpdate == true {
+                        let pit = PitModel()
+                        pit.latitude = newLocation.coordinate.latitude
+                        pit.longitude = newLocation.coordinate.longitude
+                        pit.time = "\(Date().timeIntervalSince1970 * 1000)"
+                        pit.tag = "origin"
+                        pit.value = 0.0
+                        
+                        self.dbManager.update {
+                            manager.track?.pits.append(pit)
+                        }
+                        self.dbManager.add(manager.track)
+                        
+                        manager.delegate?.locationUpdated(location: currentLocation, trackDist: Double(manager.track!.distance))
                     }
-                    self.dbManager.add(manager.track)
                     
-                    manager.currentLocation = newLocation
-                    manager.delegate?.locationUpdated(location: manager.currentLocation!, trackDist: Double(manager.track!.distance))
-                }
-                
-                // Calculate maximum speed for last 5 minutes
-                if newLocation.horizontalAccuracy <= 10 {
-                    if manager.maxSpeed < newLocation.speed {
-                        manager.maxSpeed = newLocation.speed
+                    // Calculate maximum speed for last 5 minutes
+                    if newLocation.horizontalAccuracy <= 10 {
+                        if manager.maxSpeed < newLocation.speed {
+                            manager.maxSpeed = newLocation.speed
+                        }
                     }
                 }
+                
+                manager.currentLocation = newLocation
             }
         }
         

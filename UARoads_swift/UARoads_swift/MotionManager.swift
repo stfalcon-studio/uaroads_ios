@@ -12,7 +12,7 @@ import AudioToolbox
 import CallKit
 import CoreMotion
 import StfalconSwiftExtensions
-import UHBConnectivityManager
+//import UHBConnectivityManager
 
 enum MotionStatus {
     case notActive
@@ -56,7 +56,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     fileprivate let motionManager = CMMotionManager()
     
     fileprivate var pointCount: Int = 0
-//    var skipLocationPoints: Int = 0
     fileprivate var timerPit: Timer?
     fileprivate var timerMaxPit: Timer?
     fileprivate var timerMotion: Timer?
@@ -118,7 +117,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
                 for item in result {
                     if Date().timeIntervalSince(item.date) > 10 {
                         item.status = TrackStatus.waitingForUpload.rawValue
-                        
                         print(RecordService.sharedInstance.motionCallback?(Array(item.pits)))
                     }
                 }
@@ -147,7 +145,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
             RecordService.sharedInstance.dbManager.add(track)
             
             currentLocation = nil
-//            skipLocationPoints = 3
             status = .active
             motionManager.startDeviceMotionUpdates()
             motionManager.startAccelerometerUpdates()

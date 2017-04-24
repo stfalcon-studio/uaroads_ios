@@ -31,6 +31,7 @@
 		F418248C1EA889250075872C /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418248B1EA889250075872C /* RealmManager.swift */; };
 		F418248E1EA896730075872C /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418248D1EA896730075872C /* AnalyticManager.swift */; };
 		F41824951EA8BA220075872C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F41824941EA8BA220075872C /* GoogleService-Info.plist */; };
+		F418DB8A1EADD0CD00135E5A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418DB891EADD0CD00135E5A /* LocationManager.swift */; };
 		F42A6F7D1EAA06C200ED368C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A6F7C1EAA06C200ED368C /* String.swift */; };
 		F42A6F7F1EAA09A100ED368C /* RecordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A6F7E1EAA09A100ED368C /* RecordService.swift */; };
 		F43EA2C11EA73E1100A113BE /* error.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B41EA73E1100A113BE /* error.m4a */; };
@@ -96,6 +97,7 @@
 		F418248B1EA889250075872C /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F418248D1EA896730075872C /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
 		F41824941EA8BA220075872C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F418DB891EADD0CD00135E5A /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F42A6F7C1EAA06C200ED368C /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		F42A6F7E1EAA09A100ED368C /* RecordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordService.swift; sourceTree = "<group>"; };
 		F43EA2B41EA73E1100A113BE /* error.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.m4a; sourceTree = "<group>"; };
@@ -300,7 +302,6 @@
 		F47F1A011E97941000E47849 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				F42A6F7E1EAA09A100ED368C /* RecordService.swift */,
 				F47F1A021E97943D00E47849 /* HUDManaged.swift */,
 				F4163C4E1E97AED50076C224 /* NetworkManager.swift */,
 				F404C6451E9D1246001D63A5 /* DateManager.swift */,
@@ -318,7 +319,9 @@
 				F41441C51E9E63AC00F3A7C3 /* ZIP */,
 				F41413931E9F60D400D58941 /* MD5 */,
 				F47F1A051E979AA700E47849 /* UARoadsSDK.swift */,
+				F42A6F7E1EAA09A100ED368C /* RecordService.swift */,
 				F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */,
+				F418DB891EADD0CD00135E5A /* LocationManager.swift */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */,
 				F418248C1EA889250075872C /* RealmManager.swift in Sources */,
 				F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */,
+				F418DB8A1EADD0CD00135E5A /* LocationManager.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
 				F418248E1EA896730075872C /* AnalyticManager.swift in Sources */,
 				F42A6F7F1EAA09A100ED368C /* RecordService.swift in Sources */,
