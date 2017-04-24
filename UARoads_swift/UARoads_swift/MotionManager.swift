@@ -11,8 +11,6 @@ import CoreLocation
 import AudioToolbox
 import CallKit
 import CoreMotion
-import StfalconSwiftExtensions
-//import UHBConnectivityManager
 
 enum MotionStatus {
     case notActive
