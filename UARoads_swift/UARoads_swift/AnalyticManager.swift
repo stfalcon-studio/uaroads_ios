@@ -29,6 +29,7 @@ class AnalyticManager {
         
         guard let gai = GAI.sharedInstance() else {
             assert(false, "Google Analytics not configured correctly")
+            return 
         }
         gai.trackUncaughtExceptions = true
         gai.logger.logLevel = GAILogLevel.none
