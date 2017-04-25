@@ -117,6 +117,8 @@ class RoutesVC: BaseTVC {
         buildBtn.titleLabel?.textColor = UIColor.white
         buildBtn.backgroundColor = UIColor.colorAccent
         
+        clearBtn.tintColor = UIColor.white
+        
         //hidden by default
         tableView.alpha = 0.0
         checkFields()

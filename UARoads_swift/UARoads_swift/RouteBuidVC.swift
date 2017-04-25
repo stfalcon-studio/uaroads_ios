@@ -133,8 +133,17 @@ class RouteBuidVC: BaseVC {
             .rx
             .tap
             .bind { [weak self] in
-                let navVC = UINavigationController(rootViewController: NavigatorVC())
-                self?.present(navVC, animated: true, completion: nil)
+                let storyboard = UIStoryboard(name: "Navigation", bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "UARRoadController") as! UARRoadController
+
+                self?.navigationController?.pushViewController(vc, animated: true)
+                DispatchQueue.main.async {
+                    if let strongSelf = self {
+                        vc.requestRoute(withCoordinates: "loc=\(strongSelf.fromModel.locationCoordianate!.latitude),\(strongSelf.fromModel.locationCoordianate!.longitude)&loc=\(strongSelf.toModel.locationCoordianate!.latitude),\(strongSelf.toModel.locationCoordianate!.longitude)")
+                    }
+                }
+//                let navVC = UINavigationController(rootViewController: NavigatorVC())
+//                self?.present(navVC, animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
         
