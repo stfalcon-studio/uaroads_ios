@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+@import CoreLocation;
 
 @interface UARInstruction : NSObject
 

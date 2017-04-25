@@ -9,6 +9,9 @@
 #import "UARMapDataProvider.h"
 #import "UARRoute.h"
 #import "UARInstruction.h"
+#import "UARDefines.h"
+#import "MKMapView+ZoomLevel.h"
+#import "UIColor+UARColor.h"
 
 #define DEGREES_TO_RADIANS(degrees) ((degrees / 180.0) * (M_PI))
 static const NSInteger kInitialZoomLevel = 16;

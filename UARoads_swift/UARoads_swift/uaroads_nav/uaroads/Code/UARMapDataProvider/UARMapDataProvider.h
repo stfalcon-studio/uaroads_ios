@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UARMapDataProvider.h"
+@import MapKit;
 
 @class UARRoute;
 @class UARMapDataProvider;

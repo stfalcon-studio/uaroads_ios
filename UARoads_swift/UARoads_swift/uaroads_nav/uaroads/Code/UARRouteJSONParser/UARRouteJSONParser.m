@@ -9,6 +9,7 @@
 #import "UARRouteJSONParser.h"
 #import "UARRoute.h"
 #import "UARInstruction.h"
+#import "MKPolyline+UARPolylineEncodedString.h"
 
 @implementation UARRouteJSONParser
 

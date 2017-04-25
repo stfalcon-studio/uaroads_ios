@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 mind-studios. All rights reserved.
 //
 
-//#import "AppDelegate.h"
 #import "UARRoadController.h"
 #import "UARMapDataProvider.h"
 #import "UARRouteJSONParser.h"
 #import "UARInstruction.h"
+#import "NSString+UARString.h"
 
 @interface UARRoadController () <UARMapDataProviderDelegate>
 
@@ -31,16 +31,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /*[(AppDelegate *)[[UIApplication sharedApplication] delegate] addObserver:self
-                                                                  forKeyPath:@"location"
-                                                                     options:NSKeyValueObservingOptionNew
-                                                                     context:nil];*/
-    
     NSInteger mapSize = [[UIScreen mainScreen] bounds].size.height;
     self.mapWidth.constant = mapSize;
     self.mapHeight.constant = mapSize;
     
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cancel_icon.pdf"] style:UIBarButtonItemStylePlain target:self action:@selector(closeAction:)];
+    [closeButton setTintColor:[UIColor whiteColor]];
     self.navigationItem.leftBarButtonItem = closeButton;
 
     [self requestRouteWithCoordinates:@"loc=48.423400,35.008870&loc=48.435977,35.051813"];
@@ -63,21 +59,18 @@
     NSString *routeURL = [NSString stringWithFormat:@"http://route.uaroads.com/viaroute?output=json&instructions=true&alt=false&%@", coordinates];
     
     __weak UARRoadController *weakSelf = self;
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    
     self.mapDataProvider = [[UARMapDataProvider alloc] initWithMapView:weakSelf.mapView delegate:self];
-    [manager GET:routeURL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+    
+    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:routeURL] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         UARRouteJSONParser *parser = [UARRouteJSONParser new];
+        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:NULL];
+        
         UARRoute *route = [parser routeFromJSONDictionary:responseObject];
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.mapDataProvider.route = route;
         });
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
-    }];
-    
+    }] resume];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
