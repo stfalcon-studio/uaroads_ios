@@ -36,9 +36,9 @@ final class AutostartManager: NSObject, CLLocationManagerDelegate {
     //=================
     fileprivate let locationManager = CLLocationManager()
     
-    let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h) //TODO: change it back!!!
+    let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h)
     let Max_speed_to_stop_recording: Double = 4.67 /// m/s (15 km/h)
-    var status: Int = 2 {
+    var status: Int = 0 {
         willSet {
             AnalyticManager.sharedInstance.reportHEAPEvent(category: "Autostart",
                                                            action: "UpdateAutostartStatus",
@@ -138,13 +138,14 @@ final class AutostartManager: NSObject, CLLocationManagerDelegate {
             autostartTimer = nil
         }
         
-        autostartTimer = Timer.scheduledTimer(timeInterval: autostartTimeoutInterval, target: AutostartManager.sharedInstance, selector: #selector(autostartTimeoutTimerCheck), userInfo: nil, repeats: false)
+        autostartTimer = Timer.scheduledTimer(timeInterval: autostartTimeoutInterval, target: self, selector: #selector(autostartTimeoutTimerCheck), userInfo: nil, repeats: false)
         
         locationManager.startUpdatingLocation()
     }
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations as Any)
         if let lastLocation = locations.last {
             let speed = lastLocation.speed
             let hAccuracy = lastLocation.horizontalAccuracy

@@ -28,7 +28,6 @@
 		F40DBF541EAF6C54002F6C11 /* UARRouteJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F40DBF421EAF6C54002F6C11 /* UARRouteJSONParser.m */; };
 		F40DBF551EAF6C54002F6C11 /* UARCircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F40DBF461EAF6C54002F6C11 /* UARCircleButton.m */; };
 		F40DBF561EAF6C54002F6C11 /* Graphics.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40DBF471EAF6C54002F6C11 /* Graphics.xcassets */; };
-		F40DBF571EAF6C54002F6C11 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40DBF481EAF6C54002F6C11 /* Images.xcassets */; };
 		F40DBF581EAF6C54002F6C11 /* Signs.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40DBF491EAF6C54002F6C11 /* Signs.xcassets */; };
 		F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40ED4B21E9B898500D72324 /* BaseCell.swift */; };
 		F40ED4B51E9B8A4500D72324 /* RecordedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40ED4B41E9B8A4500D72324 /* RecordedCell.swift */; };
@@ -116,7 +115,6 @@
 		F40DBF451EAF6C54002F6C11 /* UARCircleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UARCircleButton.h; sourceTree = "<group>"; };
 		F40DBF461EAF6C54002F6C11 /* UARCircleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UARCircleButton.m; sourceTree = "<group>"; };
 		F40DBF471EAF6C54002F6C11 /* Graphics.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Graphics.xcassets; sourceTree = "<group>"; };
-		F40DBF481EAF6C54002F6C11 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F40DBF491EAF6C54002F6C11 /* Signs.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Signs.xcassets; sourceTree = "<group>"; };
 		F40ED4B21E9B898500D72324 /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		F40ED4B41E9B8A4500D72324 /* RecordedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordedCell.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 				F40DBF231EAF6C54002F6C11 /* Navigation.storyboard */,
 				F40DBF251EAF6C54002F6C11 /* Code */,
 				F40DBF471EAF6C54002F6C11 /* Graphics.xcassets */,
-				F40DBF481EAF6C54002F6C11 /* Images.xcassets */,
 				F40DBF491EAF6C54002F6C11 /* Signs.xcassets */,
 			);
 			path = uaroads;
@@ -599,7 +596,6 @@
 				F43EA2C11EA73E1100A113BE /* error.m4a in Resources */,
 				F43EA2C61EA73E1100A113BE /* pit-5.aiff in Resources */,
 				F43EA2C31EA73E1100A113BE /* pit-2.aiff in Resources */,
-				F40DBF571EAF6C54002F6C11 /* Images.xcassets in Resources */,
 				F43EA2CD1EA73E1100A113BE /* stop-rec.m4a in Resources */,
 				F40DBF561EAF6C54002F6C11 /* Graphics.xcassets in Resources */,
 				F43EA2C41EA73E1100A113BE /* pit-3.aiff in Resources */,
