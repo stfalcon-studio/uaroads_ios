@@ -120,7 +120,7 @@ final class RecordService {
                             "auto_record":track.autoRecord ? "1" : "0",
                             "date":"\(track.date.timeIntervalSince1970)"
                             ] as [String : String]
-                        
+
                         NetworkManager.sharedInstance.tryToSendData(params: params, handler: { val in
                             sendingInProcess = false
                             

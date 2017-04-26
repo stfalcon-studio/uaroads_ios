@@ -18,8 +18,6 @@ public final class UARoadsSDK {
         var data: Data?
         var pitsDataList = [String]()
         
-        print(points.map { $0.tag })
-        
         for item in points {
             pitsDataList.append(pitDataString(pit: item))
         }
@@ -41,7 +39,6 @@ public final class UARoadsSDK {
     private func pitDataString<T: PitProtocol>(pit: T) -> String {
         let pitValueStr = (pit.value == 0.0) ? "0" : "\(NSString(format: "%.5f", pit.value))"
         let result = "\(pit.time);\(pitValueStr);\(pit.latitude);\(pit.longitude);\(pit.tag)"
-        print(result)
         return result;
     }
 }

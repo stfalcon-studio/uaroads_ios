@@ -15,9 +15,11 @@ class NetworkManager {
     static let sharedInstance = NetworkManager()
     
     func tryToSendData(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
-        var request = URLRequest(url: URL(string: "http://uaroads.com/add" + String.buildQueryString(fromDictionary: params))!)
+        var request = URLRequest(url: URL(string: "http://api.uaroads.com/add")!)
+        request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
-        URLSession.shared.dataTask(with: request) { (data, response, _) in
+        
+        URLSession.shared.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
