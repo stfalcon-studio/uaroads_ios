@@ -14,10 +14,12 @@ class NetworkManager {
     private init() {}
     static let sharedInstance = NetworkManager()
     
+    fileprivate let session = URLSession.shared
+    
     func tryToSendData(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
         var request = URLRequest(url: URL(string: "http://uaroads.com/add" + String.buildQueryString(fromDictionary: params))!)
         request.httpMethod = "POST"
-        URLSession.shared.dataTask(with: request) { (data, response, _) in
+        session.dataTask(with: request) { (data, response, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
@@ -53,7 +55,7 @@ class NetworkManager {
         var request = URLRequest(url: URL(string: "http://uaroads.com/add/register-device")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
-        URLSession.shared.dataTask(with: request) { (data, _, _) in
+        session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
@@ -73,7 +75,7 @@ class NetworkManager {
         var request = URLRequest(url: URL(string: "http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)")!)
         request.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { (_, response, _) in
+        session.dataTask(with: request) { (_, response, _) in
             DispatchQueue.main.async {
                 if let status = (response as? HTTPURLResponse)?.statusCode {
                     handler(status)
@@ -94,7 +96,7 @@ class NetworkManager {
         let url = URL(string: "https://geocode-maps.yandex.ru/1.x" + String.buildQueryString(fromDictionary: params))
         let request = URLRequest(url: url!)
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        session.dataTask(with: request) { (data, _, error) in
             DispatchQueue.main.async {
                 if let data = data, error == nil {
                     let json = JSON(data: data)

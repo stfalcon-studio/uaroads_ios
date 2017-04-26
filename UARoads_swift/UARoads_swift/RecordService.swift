@@ -27,8 +27,8 @@ class RecordService {
             }
             
             let pit = PitModel()
-            pit.latitude = self.locationManager.manager.location?.coordinate.latitude ?? 0.0
-            pit.longitude = self.locationManager.manager.location?.coordinate.longitude ?? 0.0
+            pit.latitude = self.locationManager.currentLocation?.latitude ?? 0.0
+            pit.longitude = self.locationManager.currentLocation?.longitude ?? 0.0
             pit.value = currentPit
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.tag = "origin"

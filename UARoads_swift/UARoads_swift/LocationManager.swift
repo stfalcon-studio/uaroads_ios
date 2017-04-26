@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
+final class LocationManager: NSObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         
@@ -21,8 +21,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.requestAlwaysAuthorization()
     }
 
-    let manager = CLLocationManager()
+    private let manager = CLLocationManager()
 
+    var currentLocation: CLLocationCoordinate2D? {
+        get {
+            return manager.location?.coordinate
+        }
+    }
+    
     //event
     var onLocationUpdate: ((_ locations: [CLLocation]) -> ())?
     
@@ -44,3 +50,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         print("ERROR: \(error.localizedDescription)")
     }
 }
+
+
+
+
+
+

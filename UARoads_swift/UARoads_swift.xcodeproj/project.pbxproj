@@ -35,7 +35,6 @@
 		F41413961E9F60E400D58941 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = F41413951E9F60E400D58941 /* NSString+MD5.m */; };
 		F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */; };
 		F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = F41441C31E9E63A500F3A7C3 /* GZIP.m */; };
-		F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */; };
 		F41579481EA7810D00AB2E65 /* TutorialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41579471EA7810D00AB2E65 /* TutorialVC.swift */; };
 		F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C4E1E97AED50076C224 /* NetworkManager.swift */; };
 		F4163C511E97AF720076C224 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4163C501E97AF720076C224 /* Closures.swift */; };
@@ -125,7 +124,6 @@
 		F41441C11E9E63A400F3A7C3 /* UARoads_swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UARoads_swift-Bridging-Header.h"; sourceTree = "<group>"; };
 		F41441C21E9E63A500F3A7C3 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		F41441C31E9E63A500F3A7C3 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
-		F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePitModel.swift; sourceTree = "<group>"; };
 		F41579471EA7810D00AB2E65 /* TutorialVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialVC.swift; sourceTree = "<group>"; };
 		F4163C4E1E97AED50076C224 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F4163C501E97AF720076C224 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
@@ -422,7 +420,6 @@
 				F4163C531E97C9F30076C224 /* SearchResultModel.swift */,
 				F404C6401E9CFCAD001D63A5 /* TrackModel.swift */,
 				F41441BF1E9E5CBA00F3A7C3 /* PitModel.swift */,
-				F41441C61E9E6E2C00F3A7C3 /* SimplePitModel.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -714,7 +711,6 @@
 				F47F19F71E977B2B00E47849 /* RoutesVC.swift in Sources */,
 				F40DBF4F1EAF6C54002F6C11 /* UARDefines.m in Sources */,
 				F40ED4B71E9BA59D00D72324 /* BaseTVC.swift in Sources */,
-				F41441C71E9E6E2C00F3A7C3 /* SimplePitModel.swift in Sources */,
 				F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */,
 				F47F19FF1E97823600E47849 /* Color.swift in Sources */,
 				F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */,

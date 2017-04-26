@@ -47,25 +47,24 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     var track: TrackModel?
     var pitBuffer = [Any]()
     
-    fileprivate let MaxPitValue = 5.4
-    fileprivate let PitInterval = 0.5
-    fileprivate let queue = OperationQueue()
-    fileprivate let callObserver = CXCallObserver()
-    fileprivate let motionManager = CMMotionManager()
-    
-    fileprivate var pointCount: Int = 0
-    fileprivate var timerPit: Timer?
-    fileprivate var timerMaxPit: Timer?
-    fileprivate var timerMotion: Timer?
-    fileprivate var currentPit: Double = 0.0
-    fileprivate var maxPit: Double = 0.0
-    fileprivate var currentPitTime: Date?
     var maxSpeed: Double = 0.0
-    fileprivate var dataToSave: Date?
     var currentLocation: CLLocation?
-    fileprivate var lastAccX: CGFloat?
-    fileprivate var lastAccY: CGFloat?
-    fileprivate var lastAccZ: CGFloat?
+    
+    private let MaxPitValue = 5.4
+    private let PitInterval = 0.5
+    private let callObserver = CXCallObserver()
+    private let motionManager = CMMotionManager()
+    private var pointCount: Int = 0
+    private var timerPit: Timer?
+    private var timerMaxPit: Timer?
+    private var timerMotion: Timer?
+    private var currentPit: Double = 0.0
+    private var maxPit: Double = 0.0
+    private var currentPitTime: Date?
+    private var dataToSave: Date?
+    private var lastAccX: CGFloat?
+    private var lastAccY: CGFloat?
+    private var lastAccZ: CGFloat?
     
     func startRecording(autostart: Bool = false) {
         DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
@@ -112,7 +111,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         RecordService.sharedInstance.onSend?()
     }
     
-    fileprivate func startRecording(title: String, autostart: Bool = false) {
+    private func startRecording(title: String, autostart: Bool = false) {
         if autostart {
             AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startAutoRecord", label: nil, value: nil)
         } else {
@@ -140,7 +139,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         }
     }
     
-    fileprivate func stopTimers() {
+    private func stopTimers() {
         if let timer = timerMaxPit {
             timer.invalidate()
         }
@@ -152,7 +151,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         }
     }
     
-    fileprivate func restartTimers() {
+    private func restartTimers() {
         stopTimers()
         timerPit = Timer.scheduledTimer(timeInterval: PitInterval,
                                         target: self,
@@ -173,7 +172,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
                                            repeats: true)
     }
     
-    @objc fileprivate func timerMotionAction() {
+    @objc private func timerMotionAction() {
         if let accelerometerData = motionManager.accelerometerData {
             let accX = accelerometerData.acceleration.x
             let accY = accelerometerData.acceleration.y
@@ -206,12 +205,12 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         }
     }
     
-    @objc fileprivate func timerMaxPitAction() {
+    @objc private func timerMaxPitAction() {
         delegate?.maxPitUpdated(maxPit: maxPit)
         maxPit = 0.0
     }
     
-    @objc fileprivate func timerPitAction() {
+    @objc private func timerPitAction() {
         if currentPit > maxPit {
             maxPit = currentPit
         }
@@ -221,7 +220,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         currentPit = 0.0
     }
     
-    fileprivate func pauseRecordingForCall() {
+    private func pauseRecordingForCall() {
         UIApplication.shared.isIdleTimerDisabled = false
         status = .pausedForCall
         motionManager.stopDeviceMotionUpdates()
