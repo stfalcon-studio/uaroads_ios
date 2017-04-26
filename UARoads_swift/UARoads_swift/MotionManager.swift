@@ -45,7 +45,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     var delegate: MotionManagerDelegate?
     var status: MotionStatus = .notActive
     var track: TrackModel?
-    var pitBuffer = [Any]()
     
     var maxSpeed: Double = 0.0
     var currentLocation: CLLocation?
@@ -88,7 +87,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         completeActiveTracks()
         
         currentLocation = nil
-        pitBuffer.removeAll()
     }
 
     func pauseRecording() {

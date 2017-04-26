@@ -72,7 +72,7 @@ class TutorialVC: BaseVC {
         firstImView.snp.makeConstraints { (make) in
             make.left.equalTo(30.0)
             make.right.equalTo(-30.0)
-            make.top.equalToSuperview().offset(40.0)
+            make.top.equalToSuperview().offset(70.0)
         }
         
         firstTitleLbl.snp.makeConstraints { (make) in
@@ -93,7 +93,7 @@ class TutorialVC: BaseVC {
         secondImView.snp.makeConstraints { (make) in
             make.left.equalTo(30.0)
             make.right.equalTo(-30.0)
-            make.top.equalToSuperview().offset(40.0)
+            make.top.equalToSuperview().offset(70.0)
         }
         
         secondTitleLbl.snp.makeConstraints { (make) in
