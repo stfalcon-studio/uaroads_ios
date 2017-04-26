@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-class PitModel: Object {
+class PitModel: Object, PitProtocol {
     dynamic var latitude: Double = 0.0
     dynamic var longitude: Double = 0.0
     dynamic var time: String = ""

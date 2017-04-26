@@ -140,7 +140,7 @@ class RecordService {
             AnalyticManager.sharedInstance.reportEvent(category: "System", action: "sendDataActivity End")
         }
         
-        motionCallback = { [unowned self] in
+        onMotionCompleted = { [unowned self] in
             let pred = NSPredicate(format: "status == 0")
             let result = self.dbManager.objects(type: TrackModel.self)?.filter(pred)
             if let result = result, result.count > 0 {
@@ -167,7 +167,7 @@ class RecordService {
     var onMotionStart: ((_ point: Double, _ filtered: Bool) -> ())?
     var onMotionStop: (() -> ())?
     var onLocation: ((_ locations: [CLLocation]) -> ())?
-    var motionCallback: (() -> ())?
+    var onMotionCompleted: (() -> ())?
     var onSend: (() -> ())?
     
     func startRecording() {

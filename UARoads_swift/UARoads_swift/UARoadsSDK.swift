@@ -9,13 +9,21 @@
 import Foundation
 import CoreLocation
 
+protocol PitProtocol {
+    var latitude: Double { get set}
+    var longitude: Double { get set}
+    var time: String { get set}
+    var value: Double { get set}
+    var tag: String { get set}
+}
+
 public final class UARoadsSDK {
     private init() {}
     public static let sharedInstance = UARoadsSDK()
     
     //============
     
-    func encodePoints(_ points: [PitModel]) -> String? {
+    func encodePoints<T: PitProtocol>(_ points: [T]) -> String? {
         var data: Data?
         var pitsDataList = [String]()
         
@@ -37,7 +45,7 @@ public final class UARoadsSDK {
         return (data as NSData).gzippedData(withCompressionLevel: -1.0) ?? nil
     }
     
-    private func pitDataString(pit: PitModel) -> String {
+    private func pitDataString<T: PitProtocol>(pit: T) -> String {
         let pitValueStr = pit.value == 0.0 ? "0" : "\(pit.value)"
         let result = "\(pit.time);\(pitValueStr);\(pit.latitude);\(pit.longitude);\(pit.tag)"
         return result;

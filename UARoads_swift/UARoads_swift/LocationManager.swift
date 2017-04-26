@@ -37,7 +37,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print(locations as Any)
-        print(onLocationUpdate as Any)
         onLocationUpdate?(locations)
     }
     
