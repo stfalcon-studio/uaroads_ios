@@ -124,7 +124,7 @@ class TutorialVC: BaseVC {
     
     func setupInterface() {
         continueBtn.setTitle(NSLocalizedString("continue", comment: "continueBtn").uppercased(), for: .normal)
-        continueBtn.setTitleColor(UIColor.blue, for: .normal)
+        continueBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         continueBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12.0)
         
         pageCtrl.numberOfPages = 2

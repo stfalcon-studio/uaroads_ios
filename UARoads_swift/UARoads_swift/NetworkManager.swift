@@ -14,12 +14,10 @@ class NetworkManager {
     private init() {}
     static let sharedInstance = NetworkManager()
     
-    fileprivate let session = URLSession.shared
-    
     func tryToSendData(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
         var request = URLRequest(url: URL(string: "http://uaroads.com/add" + String.buildQueryString(fromDictionary: params))!)
         request.httpMethod = "POST"
-        session.dataTask(with: request) { (data, response, _) in
+        URLSession.shared.dataTask(with: request) { (data, response, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
@@ -52,10 +50,10 @@ class NetworkManager {
         
         print(params)
         
-        var request = URLRequest(url: URL(string: "http://uaroads.com/add/register-device")!)
+        var request = URLRequest(url: URL(string: "http://uaroads.com/register-device")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
-        session.dataTask(with: request) { (data, _, _) in
+        URLSession.shared.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
@@ -77,7 +75,7 @@ class NetworkManager {
         
         print(request.url as Any)
         
-        session.dataTask(with: request) { (data, _, _) in
+        URLSession.shared.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 let dict: [AnyHashable:Any] = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [AnyHashable : Any]
                 if let status = dict["status"] {
@@ -98,7 +96,7 @@ class NetworkManager {
         let url = URL(string: "https://geocode-maps.yandex.ru/1.x" + String.buildQueryString(fromDictionary: params))
         let request = URLRequest(url: url!)
         
-        session.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
             DispatchQueue.main.async {
                 if let data = data, error == nil {
                     let json = JSON(data: data)

@@ -7,15 +7,6 @@
 //
 
 import Foundation
-import CoreLocation
-
-protocol PitProtocol {
-    var latitude: Double { get set}
-    var longitude: Double { get set}
-    var time: String { get set}
-    var value: Double { get set}
-    var tag: String { get set}
-}
 
 public final class UARoadsSDK {
     private init() {}
@@ -26,6 +17,8 @@ public final class UARoadsSDK {
     func encodePoints<T: PitProtocol>(_ points: [T]) -> String? {
         var data: Data?
         var pitsDataList = [String]()
+        
+        print(points.map { $0.tag })
         
         for item in points {
             pitsDataList.append(pitDataString(pit: item))
@@ -46,8 +39,9 @@ public final class UARoadsSDK {
     }
     
     private func pitDataString<T: PitProtocol>(pit: T) -> String {
-        let pitValueStr = pit.value == 0.0 ? "0" : "\(pit.value)"
+        let pitValueStr = (pit.value == 0.0) ? "0" : "\(NSString(format: "%.5f", pit.value))"
         let result = "\(pit.time);\(pitValueStr);\(pit.latitude);\(pit.longitude);\(pit.tag)"
+        print(result)
         return result;
     }
 }

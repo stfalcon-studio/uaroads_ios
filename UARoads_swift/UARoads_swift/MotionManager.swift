@@ -25,7 +25,7 @@ protocol MotionManagerDelegate {
     func statusChanged(newStatus: MotionStatus)
 }
 
-final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDelegate {
+final class MotionManager: NSObject, CXCallObserverDelegate {
     override init() {
         super.init()
         
@@ -48,6 +48,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     
     var maxSpeed: Double = 0.0
     var currentLocation: CLLocation?
+    var checkpoint = true
     
     private let MaxPitValue = 5.4
     private let PitInterval = 0.5
@@ -105,7 +106,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
     }
     
     func completeActiveTracks() {
-        RecordService.sharedInstance.onMotionCompleted?()
+        RecordService.sharedInstance.onMotionCompleted?(currentLocation)
         RecordService.sharedInstance.onSend?()
     }
     
@@ -115,6 +116,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
         } else {
             AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startManualRecord", label: nil, value: nil)
         }
+        
+        checkpoint = true
         
         if status == .notActive {
             track = TrackModel()
@@ -213,7 +216,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate, CLLocationManagerDe
             maxPit = currentPit
         }
         if currentPit > 0.0 {
-            RecordService.sharedInstance.onPit?(currentPit)
+            RecordService.sharedInstance.onPit?(currentPit, nil)
         }
         currentPit = 0.0
     }

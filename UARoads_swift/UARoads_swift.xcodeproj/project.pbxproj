@@ -46,6 +46,7 @@
 		F418DB8A1EADD0CD00135E5A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F418DB891EADD0CD00135E5A /* LocationManager.swift */; };
 		F42A6F7D1EAA06C200ED368C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A6F7C1EAA06C200ED368C /* String.swift */; };
 		F42A6F7F1EAA09A100ED368C /* RecordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42A6F7E1EAA09A100ED368C /* RecordService.swift */; };
+		F4300FAA1EB0A43B0019161F /* PitProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4300FA91EB0A43B0019161F /* PitProtocol.swift */; };
 		F43EA2C11EA73E1100A113BE /* error.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B41EA73E1100A113BE /* error.m4a */; };
 		F43EA2C21EA73E1100A113BE /* pit-1.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B51EA73E1100A113BE /* pit-1.aiff */; };
 		F43EA2C31EA73E1100A113BE /* pit-2.aiff in Resources */ = {isa = PBXBuildFile; fileRef = F43EA2B61EA73E1100A113BE /* pit-2.aiff */; };
@@ -135,6 +136,7 @@
 		F418DB891EADD0CD00135E5A /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F42A6F7C1EAA06C200ED368C /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		F42A6F7E1EAA09A100ED368C /* RecordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordService.swift; sourceTree = "<group>"; };
+		F4300FA91EB0A43B0019161F /* PitProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitProtocol.swift; sourceTree = "<group>"; };
 		F43EA2B41EA73E1100A113BE /* error.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.m4a; sourceTree = "<group>"; };
 		F43EA2B51EA73E1100A113BE /* pit-1.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-1.aiff"; sourceTree = "<group>"; };
 		F43EA2B61EA73E1100A113BE /* pit-2.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "pit-2.aiff"; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 			children = (
 				F41441C51E9E63AC00F3A7C3 /* ZIP */,
 				F41413931E9F60D400D58941 /* MD5 */,
+				F4300FA91EB0A43B0019161F /* PitProtocol.swift */,
 				F47F1A051E979AA700E47849 /* UARoadsSDK.swift */,
 				F42A6F7E1EAA09A100ED368C /* RecordService.swift */,
 				F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */,
@@ -668,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F47F19F11E9778AD00E47849 /* MainVCProtocol.swift in Sources */,
+				F4300FAA1EB0A43B0019161F /* PitProtocol.swift in Sources */,
 				F404C63F1E9CFB3E001D63A5 /* MotionManager.swift in Sources */,
 				F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */,
 				F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */,

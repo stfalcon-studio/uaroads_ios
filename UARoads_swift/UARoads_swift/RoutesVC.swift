@@ -380,7 +380,6 @@ extension RoutesVC: CLLocationManagerDelegate {
         var urlStr: String!
         if let coord = locations.last {
             currentLocation = coord.coordinate
-            print("DID UPDATE LOCATIONS: \(coord)")
             urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
             stopUpdatingLocation()
         } else {
