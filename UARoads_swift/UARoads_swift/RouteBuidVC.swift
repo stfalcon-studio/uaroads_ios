@@ -118,6 +118,8 @@ class RouteBuidVC: BaseVC {
         goBtn.setTitle(NSLocalizedString("GO!", comment: "goBtn").uppercased(), for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         goBtn.backgroundColor = UIColor.colorAccent
+        
+        webView.scalesPageToFit = true
     }
     
     func setupRx() {

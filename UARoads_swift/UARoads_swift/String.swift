@@ -18,4 +18,8 @@ extension String {
         }
         return urlVars.isEmpty ? "" : "?" + urlVars.joined(separator: "&")
     }
+    
+    var URLEscapedString: String {
+        return addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    }
 }

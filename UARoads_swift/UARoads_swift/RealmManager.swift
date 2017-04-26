@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-class RealmManager {
+final class RealmManager {
     init() {
         self.realm = try? Realm()
     }

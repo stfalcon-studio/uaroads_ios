@@ -34,7 +34,7 @@ final class AutostartManager: NSObject, CLLocationManagerDelegate {
     static let sharedInstance = AutostartManager()
     
     //=================
-    fileprivate let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h)
     let Max_speed_to_stop_recording: Double = 4.67 /// m/s (15 km/h)

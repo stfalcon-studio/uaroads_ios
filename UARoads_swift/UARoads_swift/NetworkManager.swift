@@ -75,13 +75,15 @@ class NetworkManager {
         var request = URLRequest(url: URL(string: "http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)")!)
         request.httpMethod = "GET"
         
-        session.dataTask(with: request) { (_, response, _) in
+        print(request.url as Any)
+        
+        session.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
-                if let status = (response as? HTTPURLResponse)?.statusCode {
-                    handler(status)
-                } else {
-                    handler(404)
+                let dict: [AnyHashable:Any] = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [AnyHashable : Any]
+                if let status = dict["status"] {
+                    handler(status as! Int)
                 }
+                handler(404)
             }
         }.resume()
     }

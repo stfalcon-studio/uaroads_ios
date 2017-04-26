@@ -25,6 +25,8 @@ class RoutesVC: BaseTVC {
     fileprivate var fromModel: SearchResultModel?
     fileprivate var toModel: SearchResultModel?
     
+    fileprivate var currentLocation: CLLocationCoordinate2D?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -119,6 +121,8 @@ class RoutesVC: BaseTVC {
         
         clearBtn.tintColor = UIColor.white
         
+        webView.scalesPageToFit = true
+        
         //hidden by default
         tableView.alpha = 0.0
         checkFields()
@@ -136,7 +140,7 @@ class RoutesVC: BaseTVC {
                                                                  coord2: (self?.toModel?.locationCoordianate)!,
                                                                  handler: { status in
                                                                     switch status {
-                                                                    case 200:
+                                                                    case 200, 0:
                                                                         guard let from = self?.fromModel, let to = self?.toModel else { return }
                                                                         AnalyticManager.sharedInstance.reportEvent(category: "Navigation", action: "search")
                                                                         let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
@@ -188,6 +192,7 @@ class RoutesVC: BaseTVC {
                 self?.view.endEditing(true)
                 self?.navigationItem.rightBarButtonItem = nil
                 self?.hideTableView()
+                self?.checkFields()
             }
             .addDisposableTo(disposeBag)
         
@@ -196,8 +201,7 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                self?.locationManager.requestLocation()
-                if let coord = self?.locationManager.location?.coordinate {
+                if let coord = self?.currentLocation {
                     self?.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
                     self?.fromTF.resignFirstResponder()
                     self?.fromModel = SearchResultModel(locationCoordianate: coord, locationName: self?.fromTF.text, locationDescription: nil)
@@ -210,8 +214,7 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                self?.locationManager.requestLocation()
-                if let coord = self?.locationManager.location?.coordinate {
+                if let coord = self?.currentLocation {
                     self?.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
                     self?.toTF.resignFirstResponder()
                     self?.toModel = SearchResultModel(locationCoordianate: coord, locationName: self?.toTF.text, locationDescription: nil)
@@ -317,7 +320,7 @@ class RoutesVC: BaseTVC {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.activityType = .automotiveNavigation
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
         
         locationManager.startUpdatingLocation()
     }
@@ -376,12 +379,13 @@ extension RoutesVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var urlStr: String!
         if let coord = locations.last {
+            currentLocation = coord.coordinate
+            print("DID UPDATE LOCATIONS: \(coord)")
             urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
             stopUpdatingLocation()
         } else {
             urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
         }
-        
         webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
     }
     

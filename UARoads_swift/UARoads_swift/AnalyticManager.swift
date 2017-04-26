@@ -10,7 +10,7 @@ import UIKit
 import Fabric
 import Crashlytics
 
-class AnalyticManager {
+final class AnalyticManager {
     private init() {}
     static let sharedInstance = AnalyticManager()
     

@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class RecordService {
+final class RecordService {
     private init() {
         dbManager = RealmManager()
         locationManager = LocationManager()
