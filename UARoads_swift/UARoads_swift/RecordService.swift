@@ -109,7 +109,7 @@ final class RecordService {
                         }
                         
                         //prepare params for sending
-                        let data64 = UARoadsSDK.sharedInstance.encodePoints(Array(track.pits))
+                        let data64 = UARoadsSDK.encodePoints(Array(track.pits))
                         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
                         let params = [
                             "uid":NSUUID().uuidString,

@@ -8,13 +8,10 @@
 
 import Foundation
 
-public final class UARoadsSDK {
+final class UARoadsSDK <TPit: PitProtocol> {
     private init() {}
-    public static let sharedInstance = UARoadsSDK()
     
-    //============
-    
-    func encodePoints<T: PitProtocol>(_ points: [T]) -> String? {
+    class func encodePoints(_ points: [TPit]) -> String? {
         var data: Data?
         var pitsDataList = [String]()
         
@@ -32,11 +29,11 @@ public final class UARoadsSDK {
         }
     }
     
-    private func gzippedData(_ data: Data) -> Data? {
+    private class func gzippedData(_ data: Data) -> Data? {
         return (data as NSData).gzippedData(withCompressionLevel: -1.0) ?? nil
     }
     
-    private func pitDataString<T: PitProtocol>(pit: T) -> String {
+    private class func pitDataString(pit: TPit) -> String {
         let pitValueStr = (pit.value == 0.0) ? "0" : "\(NSString(format: "%.5f", pit.value))"
         let result = "\(pit.time);\(pitValueStr);\(pit.latitude);\(pit.longitude);\(pit.tag)"
         return result;
