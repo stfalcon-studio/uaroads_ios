@@ -16,7 +16,7 @@ class SettingsVC: BaseTVC {
         NSLocalizedString("Send data only via WiFi", comment: "title"),
         NSLocalizedString("Route recording autostart", comment: "title"),
         NSLocalizedString("Show map / graph", comment: "title"),
-        NSLocalizedString("Enable pit sounds", comment: "title")
+//        NSLocalizedString("Enable pit sounds", comment: "title")
     ]
     
     override func viewDidLoad() {
