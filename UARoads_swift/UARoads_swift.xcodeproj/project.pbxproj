@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4236D4801EE938DF000923F8 /* PrintExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4236D47F1EE938DF000923F8 /* PrintExtensions.swift */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		F404C63F1E9CFB3E001D63A5 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */; };
 		F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C6401E9CFCAD001D63A5 /* TrackModel.swift */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4236D47F1EE938DF000923F8 /* PrintExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintExtensions.swift; sourceTree = "<group>"; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
 		F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		F404C6401E9CFCAD001D63A5 /* TrackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackModel.swift; sourceTree = "<group>"; };
@@ -182,6 +184,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4236D4811EE938F2000923F8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4236D47F1EE938DF000923F8 /* PrintExtensions.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		42D986232EBAE9E22E7F020E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +245,7 @@
 				F47F19F41E9779BD00E47849 /* TabBarVC.swift */,
 				F47F19F21E9778DE00E47849 /* BaseVC.swift */,
 				F40ED4B61E9BA59D00D72324 /* BaseTVC.swift */,
+				4236D4811EE938F2000923F8 /* Helpers */,
 				F47F1A041E97999B00E47849 /* Library */,
 				F4163C521E97C9E40076C224 /* Models */,
 				F47F1A001E97938400E47849 /* ViewControllers */,
@@ -647,7 +658,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		F418248F1EA8A0A30075872C /* ShellScript */ = {
@@ -682,6 +693,7 @@
 				F4BAD6261E9FB47900FE59B9 /* FooterSignIn.swift in Sources */,
 				F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */,
 				F418248C1EA889250075872C /* RealmManager.swift in Sources */,
+				4236D4801EE938DF000923F8 /* PrintExtensions.swift in Sources */,
 				F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */,
 				F418DB8A1EADD0CD00135E5A /* LocationManager.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
@@ -871,7 +883,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE = "0871e570-def3-4bd7-a315-42e8b25fb881";
+				PROVISIONING_PROFILE = "a595d9f4-5f5b-4255-a0a9-55db79e49ba8";
 				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/UARoads_swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -913,7 +925,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE = "0871e570-def3-4bd7-a315-42e8b25fb881";
+				PROVISIONING_PROFILE = "a595d9f4-5f5b-4255-a0a9-55db79e49ba8";
 				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/UARoads_swift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

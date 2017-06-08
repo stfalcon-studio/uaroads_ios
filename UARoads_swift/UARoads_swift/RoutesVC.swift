@@ -395,11 +395,3 @@ extension RoutesVC: CLLocationManagerDelegate {
 
 
 
-
-
-
-
-
-
-
-

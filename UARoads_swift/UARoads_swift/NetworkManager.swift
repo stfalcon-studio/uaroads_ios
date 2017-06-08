@@ -80,6 +80,7 @@ class NetworkManager {
         URLSession.shared.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 let dict: [AnyHashable:Any] = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [AnyHashable : Any]
+                print(dict)
                 if let status = dict["status"] {
                     handler(status as! Int)
                 }

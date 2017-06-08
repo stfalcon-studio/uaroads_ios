@@ -42,12 +42,13 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations as Any)
+        pl(locations)
+        pl(locations.first?.coordinate)
         onLocationUpdate?(locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("ERROR: \(error.localizedDescription)")
+        pl("ERROR: \(error.localizedDescription)")
     }
 }
 

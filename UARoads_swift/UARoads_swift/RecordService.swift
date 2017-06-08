@@ -47,47 +47,64 @@ final class RecordService {
         locationManager.onLocationUpdate = { [unowned self] locations in
             let manager = self.motionManager
             
+            pl("locations.count = \(locations.count)")
+            if locations.count > 1 {
+                
+            }
+            
             if let newLocation = locations.first {
                 manager.currentLocation = newLocation
                 
+                let pit = PitModel()
+                pit.latitude = newLocation.coordinate.latitude
+                pit.longitude = newLocation.coordinate.longitude
+                pit.time = "\(Date().timeIntervalSince1970 * 1000)"
+                pit.value = 0.0
+                pit.tag = "cp"
+                self.dbManager.update {
+                    manager.track?.pits.append(pit)
+                }
+                self.dbManager.add(manager.track)
+                
                 if manager.checkpoint == true {
-                    //mark the begining of the checkpoint
-                    let pit = PitModel()
-                    pit.latitude = newLocation.coordinate.latitude
-                    pit.longitude = newLocation.coordinate.longitude
-                    pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-                    pit.value = 0.0
-                    pit.tag = "cp"
-                    self.dbManager.update {
-                        manager.track?.pits.append(pit)
-                    }
-                    self.dbManager.add(manager.track)
-                    
                     manager.checkpoint = false
                 }
                 
-                var locationUpdate = false
-                let lastDistance = newLocation.distance(from: manager.currentLocation!)
-                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - manager.currentLocation!.timestamp.timeIntervalSinceReferenceDate
-                
-                if lastDistance > manager.currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
-                    self.dbManager.update {
-                        manager.track?.distance += CGFloat(lastDistance)
-                    }
-                    self.dbManager.add(manager.track)
-                    locationUpdate = true
+                let totalPits: Int =  manager.track?.pits.count ?? 0
+                if totalPits > 1 {
+                    guard let lastPit = manager.track?.pits.last,
+                        let previousPit = manager.track?.pits[totalPits - 2] else { return }
+                    
+                    let pitsDistance = previousPit
                 }
                 
-                if locationUpdate == true {
-                    manager.delegate?.locationUpdated(location: manager.currentLocation!, trackDist: Double(manager.track!.distance))
-                }
                 
-                // Calculate maximum speed for last 5 minutes
-                if newLocation.horizontalAccuracy <= 10 {
-                    if manager.maxSpeed < newLocation.speed {
-                        manager.maxSpeed = newLocation.speed
-                    }
-                }
+                
+//                var locationUpdate = false
+//                let lastDistance = newLocation.distance(from: manager.currentLocation!)
+//                if lastDistance > 0 {
+//                    pl(lastDistance)
+//                }
+//                let speed = lastDistance / newLocation.timestamp.timeIntervalSinceReferenceDate - manager.currentLocation!.timestamp.timeIntervalSinceReferenceDate
+//                
+//                if lastDistance > manager.currentLocation!.horizontalAccuracy && lastDistance > newLocation.horizontalAccuracy && speed < 70 {
+//                    self.dbManager.update {
+//                        manager.track?.distance += CGFloat(lastDistance)
+//                    }
+//                    self.dbManager.add(manager.track)
+//                    locationUpdate = true
+//                }
+//                
+//                if locationUpdate == true {
+//                    manager.delegate?.locationUpdated(location: manager.currentLocation!, trackDist: Double(manager.track!.distance))
+//                }
+//                
+//                // Calculate maximum speed for last 5 minutes
+//                if newLocation.horizontalAccuracy <= 10 {
+//                    if manager.maxSpeed < newLocation.speed {
+//                        manager.maxSpeed = newLocation.speed
+//                    }
+//                }
             }
         }
         
