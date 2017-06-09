@@ -69,6 +69,10 @@ class TracksVC: BaseTVC {
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
         tableView.tableFooterView = UIView()
     }
+    
+    private func deleteTracks() {
+        
+    }
 }
 
 extension TracksVC {
@@ -83,6 +87,7 @@ extension TracksVC {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let item = dataSource![indexPath.row]
+            item.pits.deleteAllObjects()
             item.delete()
         }
     }
@@ -98,7 +103,7 @@ extension TracksVC {
         DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
         cell.dateLbl.text = DateManager.sharedInstance.getDateFormatted(item!.date)
         cell.stateLbl.text = TrackStatus(rawValue: item!.status)?.title()
-        cell.distLbl.text = NSString(format: "%.2f km", (item?.distance)!) as String
+        cell.distLbl.text = NSString(format: "%.2f km", (item?.distance)! / 1000.0) as String
         
         return cell
     }

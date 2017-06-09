@@ -66,6 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         
+        let documentsUrl = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask).first!
+        pl("Documents directory path: \n\(documentsUrl)")
+        
         return true
     }
     
