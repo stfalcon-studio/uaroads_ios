@@ -26,7 +26,7 @@ class NetworkManager {
                 if let data = data {
                     let result = String(data: data, encoding: String.Encoding.utf8)
                     
-                    print("RESULT: \(String(describing: result))")
+                    pl("RESULT: \(String(describing: result))")
                     
                     if result == "OK" {
                         handler(true)

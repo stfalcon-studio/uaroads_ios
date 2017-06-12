@@ -20,7 +20,6 @@ enum MotionStatus {
 }
 
 protocol MotionManagerDelegate {
-    func locationUpdated(location: CLLocation, trackDist: Double)
     func statusChanged(newStatus: MotionStatus)
 }
 
@@ -31,7 +30,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     var track: TrackModel?
     
     var maxSpeed: Double = 0.0
-    var currentLocation: CLLocation?
     var checkpoint = true
     
     private let MaxPitValue = 5.4
@@ -86,8 +84,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         stopTimers()
         
         completeActiveTracks()
-        
-        currentLocation = nil
     }
 
     func pauseRecording() {
@@ -99,14 +95,13 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     func resumeRecording() {
-        currentLocation = nil
         status = .active
         motionManager.startDeviceMotionUpdates()
         restartTimers()
     }
     
     func completeActiveTracks() {
-        RecordService.sharedInstance.onMotionCompleted?(currentLocation)
+        RecordService.sharedInstance.onMotionCompleted?()
         RecordService.sharedInstance.onSend?()
     }
     
@@ -139,7 +134,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             track?.trackID = id.md5()
             RecordService.sharedInstance.dbManager.add(track)
             
-            currentLocation = nil
             status = .active
             motionManager.startDeviceMotionUpdates()
             motionManager.startAccelerometerUpdates()
@@ -223,16 +217,19 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             
             accelData = fabs(sqrt(accX * accX + accY * accY + accZ * accZ) - 1)
             
-            pl("accX = \(accX), \naccY = \(accY), \naccZ = \(accZ))")
-            pl("accData = \(accelData)")
+//            pl("accX = \(accX), \naccY = \(accY), \naccZ = \(accZ))")
+//            pl("accData = \(accelData)")
         } else {
             // TODO: delete accelerometerData simulator
             //Pit simulator
-            if arc4random() % 20 == 0 {
-                accelData = pow(Double((arc4random() % 800) / 1000), 2.0)
-            } else {
-                accelData = pow(Double((arc4random() % 100) / 1000), 2.0)
-            }
+            
+            let randDigit: Double = Double(arc4random() % 1000 + 1)
+            accelData = randDigit / 1000
+//            if arc4random() % 20 == 0 {
+//                accelData = pow(Double((arc4random() % 800) / 1000), 2.0)
+//            } else {
+//                accelData = pow(Double((arc4random() % 100) / 1000), 2.0)
+//            }
         }
         
         return accelData

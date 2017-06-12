@@ -13,14 +13,15 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: Properties
     private let manager = CLLocationManager()
-    var currentLocation: CLLocationCoordinate2D? {
+    var currentLocation: CLLocation? {
         get {
-            return manager.location?.coordinate
+            return manager.location
         }
     }
     
     //event
-    var onLocationUpdate: ((_ locations: [CLLocation]) -> ())?
+    // TODO: delete or uncomment
+//    var onLocationUpdate: ((_ locations: [CLLocation]) -> ())?
     
     // MARK: Init funcs
     override init() {
@@ -46,9 +47,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        pl(locations)
-        pl(locations.first?.coordinate)
-        onLocationUpdate?(locations)
+        pf()
+        // TODO: delete or uncomment
+//        onLocationUpdate?(locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
