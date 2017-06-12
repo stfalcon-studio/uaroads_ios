@@ -46,6 +46,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     private var pointCount: Int = 0
     private var timerPit: Timer?
     private var timerMotion: Timer?
+    private var lastSentPitTimeInterval = 0.0
     
     // MARK: Init funcs
     override init() {
@@ -156,7 +157,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     private func restartTimers() {
         stopTimers()
-        timerPit = Timer.scheduledTimer(timeInterval: PitInterval,
+        timerPit = Timer.scheduledTimer(timeInterval: motionManager.deviceMotionUpdateInterval,
                                         target: self,
                                         selector: #selector(timerPitAction),
                                         userInfo: nil,
@@ -182,8 +183,18 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     @objc private func timerPitAction() {
+        let currTime = Date().timeIntervalSince1970
         let currentPit = getAccelerometerData()
-        RecordService.sharedInstance.onPit?(currentPit)
+        if currTime - lastSentPitTimeInterval > PitInterval {
+            RecordService.sharedInstance.onPit?(currentPit)
+            lastSentPitTimeInterval = currTime
+        }
+        
+        if let block = RecordService.sharedInstance.onMotionStart {
+            let filtred = currentPit > 0
+            block(currentPit, filtred)
+        }
+        
     }
     
     
