@@ -15,6 +15,8 @@ class NetworkManager {
     static let sharedInstance = NetworkManager()
     
     func tryToSendData(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
+        pf()
+        pl(params)
         var request = URLRequest(url: URL(string: "http://api.uaroads.com/add")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"

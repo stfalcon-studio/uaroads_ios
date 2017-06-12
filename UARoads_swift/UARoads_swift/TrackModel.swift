@@ -42,13 +42,6 @@ class TrackModel: Object {
         return "trackID"
     }
     
-    func lastLocationPoint() -> PitModel? {
-        let predicate = NSPredicate(format: "tag == %@", "cp")
-        let sortDescr = SortDescriptor(keyPath: "time", ascending: true)
-//        predicate.
-        
-        return nil
-    }
 }
 
 

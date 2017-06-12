@@ -183,16 +183,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     // MARK: Action funcs
     @objc private func timerMotionAction() {
         let accelerData = self.getAccelerometerData()
-//        let minRecValue: Double = 0.0
-//        if accelerData > minRecValue {
-//            if accelerData > currentPit {
-//                currentPit = accelerData
-//                currentPitTime = Date()
-//            }
-//            
-//            filtered = false
-//        }
-        RecordService.sharedInstance.onMotionStart?(accelerData, true)
+        let filtred = accelerData > 0.0
+        RecordService.sharedInstance.onMotionStart?(accelerData, filtred)
     }
     
     @objc private func timerPitAction() {
