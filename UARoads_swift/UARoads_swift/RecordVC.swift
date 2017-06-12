@@ -162,6 +162,8 @@ class RecordVC: BaseVC {
         lastSessionDetailLbl.isHidden = true
         allSessionsLbl.isHidden = true
         allSessionDetailLbl.isHidden = true
+        
+        RecordService.sharedInstance.delegate = self
     }
     
     func setupRx() {
@@ -235,16 +237,19 @@ class RecordVC: BaseVC {
 }
 
 extension RecordVC: MotionManagerDelegate {
-    func locationUpdated(location: CLLocation, trackDist: Double) {
+    
+    func statusChanged(newStatus: MotionStatus) {
+        //
+    }
+}
+
+extension RecordVC: RecordServiceDelegate {
+    func trackDistanceUpdated(trackDist: Double) {
         lastSessionDetailLbl.text = NSString(format: "%.2f km", trackDist/1000.0) as String
     }
     
     func maxPitUpdated(maxPit: Double) {
         allSessionDetailLbl.text = NSString(format: "%.2f", maxPit) as String
-    }
-    
-    func statusChanged(newStatus: MotionStatus) {
-        //
     }
 }
 

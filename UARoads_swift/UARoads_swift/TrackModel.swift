@@ -31,7 +31,7 @@ class TrackModel: Object {
     dynamic var title: String = ""
     dynamic var date: Date = Date()
     dynamic var distance: CGFloat = 0.0
-    dynamic var maxPit: CGFloat = 0.0
+    dynamic var maxPit: Double = 0.0
     dynamic var status = TrackStatus.active.rawValue
     dynamic var autoRecord: Bool = false
     dynamic var debug: Bool = false

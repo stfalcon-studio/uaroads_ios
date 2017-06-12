@@ -9,6 +9,13 @@
 import Foundation
 import CoreLocation
 
+
+protocol RecordServiceDelegate: class {
+    func trackDistanceUpdated(trackDist: Double)
+    func maxPitUpdated(maxPit: Double)
+}
+
+
 final class RecordService {
     
     static let sharedInstance = RecordService()
@@ -20,10 +27,11 @@ final class RecordService {
     public let locationManager: LocationManager
     public let networkManager: NetworkManager
     
-    var previousLocation: CLLocation?
+    private (set) public var previousLocation: CLLocation?
+    weak var delegate: RecordServiceDelegate?
     
     var onPit: ((_ pitValue: Double) -> ())?
-    var onMotionStart: ((_ point: Double, _ filtered: Bool) -> ())?
+    var onMotionStart: ((_ value: Double, _ filtered: Bool) -> ())?
     var onMotionStop: (() -> ())?
     var onLocation: (() -> ())?
     var onMotionCompleted: (() -> ())?
@@ -39,7 +47,7 @@ final class RecordService {
             self.handleOnPitEvent(pitValue: pitValue)
         }
         
-        locationManager.onLocationUpdate = { [unowned self] in
+        onLocation = { [unowned self] in
             self.handleUpdateLocationEvent()
         }
         
@@ -58,6 +66,7 @@ final class RecordService {
     func startRecording() {
         locationManager.requestLocation()
         motionManager.startRecording()
+        onLocation?()
     }
     
     func stopRecording() {
@@ -80,6 +89,7 @@ final class RecordService {
     // MARK: Private funcs
     
     private func handleUpdateLocationEvent() {
+        pf()
         let manager = self.motionManager
 
         if let newLocation = locationManager.currentLocation {
@@ -87,7 +97,7 @@ final class RecordService {
             pit.latitude = newLocation.coordinate.latitude
             pit.longitude = newLocation.coordinate.longitude
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-            pit.value = 0.0
+            pit.value = manager.getAccelerometerData()
             
             pit.tag = "cp"
             
@@ -99,13 +109,15 @@ final class RecordService {
             if let previous = self.previousLocation {
                 
                 let extraDistance = newLocation.distance(from: previous)
-//                pl("distance = \(extraDistance)")
-//                pl("track.distance before = \(manager.track!.distance)")
                 self.dbManager.update {
                     manager.track?.distance += CGFloat(extraDistance)
-//                    pl("track.distance = \(manager.track!.distance)")
                 }
                 self.dbManager.add(manager.track)
+                
+                let distance = Double(manager.track?.distance ?? 0)
+                self.delegate?.trackDistanceUpdated(trackDist: distance)
+                
+                self.delegate?.maxPitUpdated(maxPit: pit.value)
             }
             
             if newLocation.horizontalAccuracy <= 10 {
@@ -182,6 +194,7 @@ final class RecordService {
         pit.latitude = coordinate?.latitude ?? 0.0
         pit.longitude = coordinate?.longitude ?? 0.0
         pit.tag = "cp"
+        pit.value = motionManager.getAccelerometerData()
         self.dbManager.update {
             self.motionManager.track?.pits.append(pit)
         }
@@ -201,6 +214,7 @@ final class RecordService {
     }
     
     private func handleOnPitEvent(pitValue: Double) {
+        pf()
         var pitN = Int(pitValue/0.3)
         if pitN > 5 {
             pitN = 5
@@ -219,7 +233,10 @@ final class RecordService {
             self.motionManager.track?.pits.append(pit)
         }
         self.dbManager.add(self.motionManager.track)
+        
+        self.delegate?.maxPitUpdated(maxPit: pitValue)
     }
+    
 }
 
 

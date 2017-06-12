@@ -12,6 +12,11 @@ import AudioToolbox
 import CallKit
 import CoreMotion
 
+
+
+let updateLocationIntervalDefault = 1.0
+
+
 enum MotionStatus {
     case notActive
     case active
@@ -19,9 +24,11 @@ enum MotionStatus {
     case pausedForCall
 }
 
+
 protocol MotionManagerDelegate {
     func statusChanged(newStatus: MotionStatus)
 }
+
 
 final class MotionManager: NSObject, CXCallObserverDelegate {
     // MARK: Properties
@@ -39,10 +46,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     private var pointCount: Int = 0
     private var timerPit: Timer?
     private var timerMotion: Timer?
-    private var dataToSave: Date?
-    private var lastAccX: CGFloat?
-    private var lastAccY: CGFloat?
-    private var lastAccZ: CGFloat?
     
     // MARK: Init funcs
     override init() {
@@ -158,8 +161,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                                         selector: #selector(timerPitAction),
                                         userInfo: nil,
                                         repeats: true)
-        pl("self.motionManager.deviceMotionUpdateInterval - \(self.motionManager.deviceMotionUpdateInterval)")
-        timerMotion = Timer.scheduledTimer(timeInterval: self.motionManager.deviceMotionUpdateInterval,
+        timerMotion = Timer.scheduledTimer(timeInterval: updateLocationIntervalDefault,
                                            target: self,
                                            selector: #selector(timerMotionAction),
                                            userInfo: nil,
@@ -176,9 +178,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     // MARK: Action funcs
     @objc private func timerMotionAction() {
-        let accelerData = self.getAccelerometerData()
-        let filtred = accelerData > 0.0
-        RecordService.sharedInstance.onMotionStart?(accelerData, filtred)
+        RecordService.sharedInstance.onLocation!()
     }
     
     @objc private func timerPitAction() {
@@ -208,7 +208,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         }
     }
     
-    private func getAccelerometerData() -> Double {
+    func getAccelerometerData() -> Double {
         var accelData: Double = 0
         if let accelerometerData = motionManager.accelerometerData {
             let accX = accelerometerData.acceleration.x
@@ -216,20 +216,14 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             let accZ = accelerometerData.acceleration.z
             
             accelData = fabs(sqrt(accX * accX + accY * accY + accZ * accZ) - 1)
-            
-//            pl("accX = \(accX), \naccY = \(accY), \naccZ = \(accZ))")
-//            pl("accData = \(accelData)")
         } else {
             // TODO: delete accelerometerData simulator
-            //Pit simulator
-            
             let randDigit: Double = Double(arc4random() % 1000 + 1)
             accelData = randDigit / 1000
-//            if arc4random() % 20 == 0 {
-//                accelData = pow(Double((arc4random() % 800) / 1000), 2.0)
-//            } else {
-//                accelData = pow(Double((arc4random() % 100) / 1000), 2.0)
-//            }
+        }
+        
+        if let mp = track?.maxPit, mp > accelData {
+            track?.maxPit = mp
         }
         
         return accelData

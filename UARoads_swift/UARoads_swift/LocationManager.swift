@@ -9,6 +9,9 @@
 import Foundation
 import CoreLocation
 
+
+
+
 final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: Properties
@@ -33,6 +36,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.allowsBackgroundLocationUpdates = true
         manager.activityType = .automotiveNavigation
         manager.requestAlwaysAuthorization()
+        
     }
 
     // MARK: Public funcs
@@ -48,8 +52,6 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         pf()
-        // TODO: delete or uncomment
-//        onLocationUpdate?(locations)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
