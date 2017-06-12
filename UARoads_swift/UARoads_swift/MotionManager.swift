@@ -21,27 +21,11 @@ enum MotionStatus {
 
 protocol MotionManagerDelegate {
     func locationUpdated(location: CLLocation, trackDist: Double)
-    func maxPitUpdated(maxPit: Double)
     func statusChanged(newStatus: MotionStatus)
 }
 
 final class MotionManager: NSObject, CXCallObserverDelegate {
-    override init() {
-        super.init()
-        
-        self.motionManager.deviceMotionUpdateInterval = 0.02777
-        
-        self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
-    }
-    
-    override func copy() -> Any {
-        fatalError("don`t use copy!")
-    }
-    override func mutableCopy() -> Any {
-        fatalError("don`t use copy!")
-    }
-    //=======================
-    
+    // MARK: Properties
     var delegate: MotionManagerDelegate?
     var status: MotionStatus = .notActive
     var track: TrackModel?
@@ -56,16 +40,32 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     private let motionManager = CMMotionManager()
     private var pointCount: Int = 0
     private var timerPit: Timer?
-    private var timerMaxPit: Timer?
     private var timerMotion: Timer?
-    private var currentPit: Double = 0.0
-    private var maxPit: Double = 0.0
-    private var currentPitTime: Date?
     private var dataToSave: Date?
     private var lastAccX: CGFloat?
     private var lastAccY: CGFloat?
     private var lastAccZ: CGFloat?
     
+    // MARK: Init funcs
+    override init() {
+        super.init()
+        
+        self.motionManager.deviceMotionUpdateInterval = 0.02777
+        
+        self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
+    }
+    
+    // MARK: Overriden funcs
+    override func copy() -> Any {
+        fatalError("don`t use copy!")
+    }
+    override func mutableCopy() -> Any {
+        fatalError("don`t use copy!")
+    }
+    //=======================
+    
+    
+    // MARK: Public funcs
     func startRecording(autostart: Bool = false) {
         DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
         let initialTitle = DateManager.sharedInstance.getDateFormatted(Date())
@@ -110,6 +110,14 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         RecordService.sharedInstance.onSend?()
     }
     
+    func playSound(_ soundName: String) {
+        var sound: SystemSoundID = 0
+        if let soundURL = Bundle.main.url(forResource: soundName, withExtension: "aiff") {
+            AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
+            AudioServicesPlaySystemSound(sound)
+        }
+    }
+    
     private func startRecording(title: String, autostart: Bool = false) {
         if autostart {
             AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startAutoRecord", label: nil, value: nil)
@@ -141,9 +149,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     private func stopTimers() {
-        if let timer = timerMaxPit {
-            timer.invalidate()
-        }
         if let timer = timerPit {
             timer.invalidate()
         }
@@ -159,66 +164,12 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
                                         selector: #selector(timerPitAction),
                                         userInfo: nil,
                                         repeats: true)
-        
-        timerMaxPit = Timer.scheduledTimer(timeInterval: 1.0,
-                                           target: self,
-                                           selector: #selector(timerMaxPitAction),
-                                           userInfo: nil,
-                                           repeats: true)
-        
+        pl("self.motionManager.deviceMotionUpdateInterval - \(self.motionManager.deviceMotionUpdateInterval)")
         timerMotion = Timer.scheduledTimer(timeInterval: self.motionManager.deviceMotionUpdateInterval,
                                            target: self,
                                            selector: #selector(timerMotionAction),
                                            userInfo: nil,
                                            repeats: true)
-    }
-    
-    @objc private func timerMotionAction() {
-        if let accelerometerData = motionManager.accelerometerData {
-            let accX = accelerometerData.acceleration.x
-            let accY = accelerometerData.acceleration.y
-            let accZ = accelerometerData.acceleration.z
-            
-            var f: Double = fabs(sqrt(accX * accX + accY * accY + accZ * accZ) - 1)
-            
-            //Pit simulator
-            if f == 1.0 {
-                if arc4random() % 20 == 0 {
-                    f = pow(Double((arc4random() % 800) / 1000), 2.0)
-                } else {
-                    f = pow(Double((arc4random() % 100) / 1000), 2.0)
-                }
-            }
-            
-            var filtered = true
-            
-            let minRecValue: Double = 0.0
-            if f > minRecValue {
-                if f > currentPit {
-                    currentPit = f
-                    currentPitTime = Date()
-                }
-                
-                filtered = false
-            }
-            
-            RecordService.sharedInstance.onMotionStart?(f, filtered)
-        }
-    }
-    
-    @objc private func timerMaxPitAction() {
-        delegate?.maxPitUpdated(maxPit: maxPit)
-        maxPit = 0.0
-    }
-    
-    @objc private func timerPitAction() {
-        if currentPit > maxPit {
-            maxPit = currentPit
-        }
-        if currentPit > 0.0 {
-            RecordService.sharedInstance.onPit?(currentPit, nil)
-        }
-        currentPit = 0.0
     }
     
     private func pauseRecordingForCall() {
@@ -228,15 +179,30 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         stopTimers()
     }
     
-    func playSound(_ soundName: String) {
-        var sound: SystemSoundID = 0
-        if let soundURL = Bundle.main.url(forResource: soundName, withExtension: "aiff") {
-            AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
-            AudioServicesPlaySystemSound(sound)
-        }
+    
+    // MARK: Action funcs
+    @objc private func timerMotionAction() {
+        let accelerData = self.getAccelerometerData()
+//        let minRecValue: Double = 0.0
+//        if accelerData > minRecValue {
+//            if accelerData > currentPit {
+//                currentPit = accelerData
+//                currentPitTime = Date()
+//            }
+//            
+//            filtered = false
+//        }
+        RecordService.sharedInstance.onMotionStart?(accelerData, true)
     }
     
-    //MARK: CXCallObserverDelegate
+    @objc private func timerPitAction() {
+        let currentPit = getAccelerometerData()
+        RecordService.sharedInstance.onPit?(currentPit)
+    }
+    
+    
+    // MARK: Delegate funcs:
+    //MARK: —CXCallObserverDelegate
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         if call.hasConnected {
             DispatchQueue.main.async { [unowned self] in
@@ -255,6 +221,33 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             }
         }
     }
+    
+    private func getAccelerometerData() -> Double {
+        var accelData: Double = 0
+        if let accelerometerData = motionManager.accelerometerData {
+            let accX = accelerometerData.acceleration.x
+            let accY = accelerometerData.acceleration.y
+            let accZ = accelerometerData.acceleration.z
+            
+            accelData = fabs(sqrt(accX * accX + accY * accY + accZ * accZ) - 1)
+            
+            pl("accX = \(accX), \naccY = \(accY), \naccZ = \(accZ))")
+            pl("accData = \(accelData)")
+        } else {
+            // TODO: delete accelerometerData simulator
+            //Pit simulator
+            if arc4random() % 20 == 0 {
+                accelData = pow(Double((arc4random() % 800) / 1000), 2.0)
+            } else {
+                accelData = pow(Double((arc4random() % 100) / 1000), 2.0)
+            }
+        }
+        
+        return accelData
+    }
+    
+    
+    
 }
 
 

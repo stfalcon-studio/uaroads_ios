@@ -20,7 +20,9 @@ final class RecordService {
     public let locationManager: LocationManager
     public let networkManager: NetworkManager
     
-    var onPit: ((_ pitValue: Double, _ location: CLLocationCoordinate2D?) -> ())?
+    var previousLocation: CLLocation?
+    
+    var onPit: ((_ pitValue: Double) -> ())?
     var onMotionStart: ((_ point: Double, _ filtered: Bool) -> ())?
     var onMotionStop: (() -> ())?
     var onLocation: ((_ locations: [CLLocation]) -> ())?
@@ -33,8 +35,8 @@ final class RecordService {
         motionManager = MotionManager()
         networkManager = NetworkManager.sharedInstance
         
-        onPit = { [unowned self] pitValue, location in
-            self.handleOnPitEvent(pitValue: pitValue, location: location)
+        onPit = { [unowned self] pitValue in
+            self.handleOnPitEvent(pitValue: pitValue)
         }
         
         locationManager.onLocationUpdate = { [unowned self] locations in
@@ -89,25 +91,16 @@ final class RecordService {
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.value = 0.0
             
-            if manager.checkpoint == true {
-                manager.checkpoint = false
-                pit.tag = "cp"
-            } else {
-                pit.tag = "origin"
-            }
+            pit.tag = "cp"
             
             self.dbManager.update {
                 manager.track?.pits.append(pit)
             }
             self.dbManager.add(manager.track)
             
-            let totalPits: Int =  manager.track?.pits.count ?? 0
-            if totalPits > 1 {
-                guard let previousPit = manager.track?.pits[totalPits - 2] else { return }
+            if let previous = self.previousLocation {
                 
-                let previouLocation = CLLocation(latitude: previousPit.latitude,
-                                                 longitude: previousPit.longitude)
-                let extraDistance = newLocation.distance(from: previouLocation)
+                let extraDistance = newLocation.distance(from: previous)
                 pl("distance = \(extraDistance)")
                 pl("track.distance before = \(manager.track!.distance)")
                 self.dbManager.update {
@@ -124,6 +117,8 @@ final class RecordService {
                     manager.maxSpeed = newLocation.speed
                 }
             }
+            
+            previousLocation = newLocation
         }
     }
     
@@ -208,7 +203,7 @@ final class RecordService {
         }
     }
     
-    private func handleOnPitEvent(pitValue: Double, location: CLLocationCoordinate2D?) {
+    private func handleOnPitEvent(pitValue: Double) {
         var pitN = Int(pitValue/0.3)
         if pitN > 5 {
             pitN = 5
@@ -219,16 +214,9 @@ final class RecordService {
         }
         
         let pit = PitModel()
-        pit.latitude = location?.latitude ?? 0.0
-        pit.longitude = location?.longitude ?? 0.0
         pit.value = pitValue
         pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-        
-        if location != nil {
-            pit.tag = "cp"
-        } else {
-            pit.tag = "origin"
-        }
+        pit.tag = "origin"
         
         self.dbManager.update {
             self.motionManager.track?.pits.append(pit)

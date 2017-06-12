@@ -41,6 +41,14 @@ class TrackModel: Object {
     override static func primaryKey() -> String? {
         return "trackID"
     }
+    
+    func lastLocationPoint() -> PitModel? {
+        let predicate = NSPredicate(format: "tag == %@", "cp")
+        let sortDescr = SortDescriptor(keyPath: "time", ascending: true)
+//        predicate.
+        
+        return nil
+    }
 }
 
 
