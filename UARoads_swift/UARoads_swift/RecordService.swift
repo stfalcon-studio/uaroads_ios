@@ -98,6 +98,8 @@ final class RecordService {
             pit.longitude = newLocation.coordinate.longitude
             pit.time = "\(Date().timeIntervalSince1970 * 1000)"
             pit.value = manager.getAccelerometerData()
+            pit.horizontalAccuracy = locationManager.currentLocation?.horizontalAccuracy ?? 0.0
+            pit.speed = locationManager.currentLocation?.speed ?? 0.0
             
             pit.tag = "cp"
             
@@ -195,6 +197,8 @@ final class RecordService {
         pit.longitude = coordinate?.longitude ?? 0.0
         pit.tag = "cp"
         pit.value = motionManager.getAccelerometerData()
+        pit.horizontalAccuracy = locationManager.currentLocation?.horizontalAccuracy ?? 0.0
+        pit.speed = locationManager.currentLocation?.speed ?? 0.0
         self.dbManager.update {
             self.motionManager.track?.pits.append(pit)
         }
@@ -228,6 +232,8 @@ final class RecordService {
         pit.value = pitValue
         pit.time = "\(Date().timeIntervalSince1970 * 1000)"
         pit.tag = "origin"
+        pit.horizontalAccuracy = locationManager.currentLocation?.horizontalAccuracy ?? 0.0
+        pit.speed = locationManager.currentLocation?.speed ?? 0.0
         
         self.dbManager.update {
             self.motionManager.track?.pits.append(pit)

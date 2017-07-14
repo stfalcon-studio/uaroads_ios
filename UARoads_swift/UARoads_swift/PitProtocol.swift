@@ -14,4 +14,6 @@ protocol PitProtocol {
     var time: String { get set}
     var value: Double { get set}
     var tag: String { get set}
+    var horizontalAccuracy: Double { get set }
+    var speed: Double { get set }
 }

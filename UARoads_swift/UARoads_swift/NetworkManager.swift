@@ -27,6 +27,7 @@ class NetworkManager {
                     let result = String(data: data, encoding: String.Encoding.utf8)
                     
                     pl("RESULT: \(String(describing: result))")
+                    pl("parameters: \(params)")
                     
                     if result == "OK" {
                         handler(true)
@@ -51,8 +52,7 @@ class NetworkManager {
             "email":email,
             "uid":uid!
         ]
-        
-        print(params)
+        pl(params)
         
         var request = URLRequest(url: URL(string: "http://uaroads.com/register-device")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
@@ -60,8 +60,11 @@ class NetworkManager {
         URLSession.shared.dataTask(with: request) { (data, _, _) in
             DispatchQueue.main.async {
                 if let data = data {
-                    let result = String(data: data, encoding: String.Encoding.utf8)
-                    if result == "OK" {
+                    guard let responseDict = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String : AnyObject] else {
+                        handler(false)
+                        return
+                    }
+                    if let status: String = responseDict["status"] as? String, status == "success" {
                         handler(true)
                     } else {
                         handler(false)
@@ -98,7 +101,7 @@ class NetworkManager {
             "ll":"\(coord.latitude), \(coord.longitude)",
             "geocode":"Україна, \(location)"
         ]
-        let url = URL(string: "https://geocode-maps.yandex.ru/1.x" + String.buildQueryString(fromDictionary: params))
+        let url = URL(string: "http://geo.uaroads.com/1.x/" + String.buildQueryString(fromDictionary: params))
         let request = URLRequest(url: url!)
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in

@@ -13,17 +13,16 @@ final class UARoadsSDK <TPit: PitProtocol> {
     
     class func encodePoints(_ points: [TPit]) -> String? {
         var data: Data?
-        var pitsDataList = [String]()
         
+        var allPitsString: String = ""
         for item in points {
-            pitsDataList.append(pitDataString(pit: item))
+            allPitsString.append(pitDataString(pit: item))
         }
-        
-        let pitsDataString = pitsDataList.joined(separator: "#")
-        data = pitsDataString.data(using: String.Encoding.utf8)!
-        
-        if let data = data {
-            return gzippedData(data)?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+        data = allPitsString.data(using: String.Encoding.utf8)
+        if data != nil {
+            guard let zipData = gzippedData(data!) else { return nil }
+            let base64Str = zipData.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+            return base64Str
         } else {
             return nil
         }
@@ -35,7 +34,7 @@ final class UARoadsSDK <TPit: PitProtocol> {
     
     private class func pitDataString(pit: TPit) -> String {
         let pitValueStr = (pit.value == 0.0) ? "0" : "\(NSString(format: "%.5f", pit.value))"
-        let result = "\(pit.time);\(pitValueStr);\(pit.latitude);\(pit.longitude);\(pit.tag)"
+        let result = "\(pit.time);\(pitValueStr);\(pit.latitude);\(pit.longitude);\(pit.tag);\(pit.horizontalAccuracy);\(pit.speed)#"
         return result;
     }
 }

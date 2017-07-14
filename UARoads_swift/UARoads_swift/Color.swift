@@ -19,5 +19,17 @@ extension UIColor {
     
     class var colorAccent: UIColor {
         return UIColor(red: 252 / 255.0, green: 91 / 255.0, blue: 34 / 255.0, alpha: 1.0)
-    }    
+    }
+    
+    class var greenIndicator: UIColor {
+        return UIColor.rgba(red: 50, green: 156, blue: 50, alpha: 1.0)
+    }
+    
+    class var redIndicator: UIColor {
+        return UIColor.rgba(red: 218, green: 0, blue: 0, alpha: 1.0)
+    }
+    
+    class func rgba(red: Float, green: Float, blue: Float, alpha: Float) -> UIColor {
+        return UIColor(colorLiteralRed: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: alpha)
+    }
 }

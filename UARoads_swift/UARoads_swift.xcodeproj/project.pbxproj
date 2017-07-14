@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		4236D4801EE938DF000923F8 /* PrintExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4236D47F1EE938DF000923F8 /* PrintExtensions.swift */; };
+		42B048B01F0B8733005D25FA /* CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B048AF1F0B8733005D25FA /* CLLocation.swift */; };
+		42B048B21F0B87F0005D25FA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B048B11F0B87F0005D25FA /* Constants.swift */; };
+		42B048B41F0B8BE3005D25FA /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B048B31F0B8BE3005D25FA /* AlertManager.swift */; };
+		42C7AA0E1F18A9E9003ED8A9 /* ArcButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7AA0D1F18A9E9003ED8A9 /* ArcButton.swift */; };
+		42C7AA101F18B4F9003ED8A9 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7AA0F1F18B4F9003ED8A9 /* CGFloat.swift */; };
+		42C7EE8F1F176E63007AF498 /* RecordTrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7EE8D1F176E63007AF498 /* RecordTrackVC.swift */; };
+		42C7EE901F176E63007AF498 /* RecordTrackVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C7EE8E1F176E63007AF498 /* RecordTrackVC.xib */; };
+		42C7EE941F177289007AF498 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7EE931F177289007AF498 /* BorderButton.swift */; };
+		42E5D04E1F1799E7002E12A4 /* CurrentTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5D04D1F1799E7002E12A4 /* CurrentTrackView.swift */; };
+		42E5D0501F1799FC002E12A4 /* CurrentTrackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E5D04F1F1799FC002E12A4 /* CurrentTrackView.xib */; };
+		42E5D0521F179EE0002E12A4 /* GpsStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5D0511F179EE0002E12A4 /* GpsStatusView.swift */; };
+		42E5D0541F179EF5002E12A4 /* GpsStatusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42E5D0531F179EF5002E12A4 /* GpsStatusView.xib */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		F404C63F1E9CFB3E001D63A5 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */; };
 		F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C6401E9CFCAD001D63A5 /* TrackModel.swift */; };
@@ -83,6 +95,18 @@
 /* Begin PBXFileReference section */
 		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4236D47F1EE938DF000923F8 /* PrintExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrintExtensions.swift; sourceTree = "<group>"; };
+		42B048AF1F0B8733005D25FA /* CLLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocation.swift; sourceTree = "<group>"; };
+		42B048B11F0B87F0005D25FA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		42B048B31F0B8BE3005D25FA /* AlertManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		42C7AA0D1F18A9E9003ED8A9 /* ArcButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArcButton.swift; sourceTree = "<group>"; };
+		42C7AA0F1F18B4F9003ED8A9 /* CGFloat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
+		42C7EE8D1F176E63007AF498 /* RecordTrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTrackVC.swift; sourceTree = "<group>"; };
+		42C7EE8E1F176E63007AF498 /* RecordTrackVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordTrackVC.xib; sourceTree = "<group>"; };
+		42C7EE931F177289007AF498 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderButton.swift; sourceTree = "<group>"; };
+		42E5D04D1F1799E7002E12A4 /* CurrentTrackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentTrackView.swift; sourceTree = "<group>"; };
+		42E5D04F1F1799FC002E12A4 /* CurrentTrackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTrackView.xib; sourceTree = "<group>"; };
+		42E5D0511F179EE0002E12A4 /* GpsStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GpsStatusView.swift; sourceTree = "<group>"; };
+		42E5D0531F179EF5002E12A4 /* GpsStatusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GpsStatusView.xib; sourceTree = "<group>"; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
 		F404C63E1E9CFB3E001D63A5 /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		F404C6401E9CFCAD001D63A5 /* TrackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackModel.swift; sourceTree = "<group>"; };
@@ -242,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				F40D92DF1E97768B00647D5E /* AppDelegate.swift */,
+				42B048B11F0B87F0005D25FA /* Constants.swift */,
 				F47F19F41E9779BD00E47849 /* TabBarVC.swift */,
 				F47F19F21E9778DE00E47849 /* BaseVC.swift */,
 				F40ED4B61E9BA59D00D72324 /* BaseTVC.swift */,
@@ -405,6 +430,12 @@
 				F4BAD6241E9FB44B00FE59B9 /* Footers */,
 				F404C6421E9D01B6001D63A5 /* Cells */,
 				F404C6431E9D01D1001D63A5 /* GraphView.swift */,
+				42C7EE931F177289007AF498 /* BorderButton.swift */,
+				42C7AA0D1F18A9E9003ED8A9 /* ArcButton.swift */,
+				42E5D04D1F1799E7002E12A4 /* CurrentTrackView.swift */,
+				42E5D04F1F1799FC002E12A4 /* CurrentTrackView.xib */,
+				42E5D0511F179EE0002E12A4 /* GpsStatusView.swift */,
+				42E5D0531F179EF5002E12A4 /* GpsStatusView.xib */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -465,6 +496,8 @@
 				F42A6F7C1EAA06C200ED368C /* String.swift */,
 				F4163C501E97AF720076C224 /* Closures.swift */,
 				F47F19FE1E97823600E47849 /* Color.swift */,
+				42B048AF1F0B8733005D25FA /* CLLocation.swift */,
+				42C7AA0F1F18B4F9003ED8A9 /* CGFloat.swift */,
 			);
 			name = Extensions_protocols;
 			sourceTree = "<group>";
@@ -476,6 +509,8 @@
 				F47F19F61E977B2B00E47849 /* RoutesVC.swift */,
 				F4163C551E97D3460076C224 /* RouteBuidVC.swift */,
 				F47F19F81E977C6200E47849 /* RecordVC.swift */,
+				42C7EE8D1F176E63007AF498 /* RecordTrackVC.swift */,
+				42C7EE8E1F176E63007AF498 /* RecordTrackVC.xib */,
 				F47F19FA1E977C9E00E47849 /* TracksVC.swift */,
 				F47F19FC1E977CCA00E47849 /* SettingsVC.swift */,
 			);
@@ -491,6 +526,7 @@
 				F4E0FF2E1EA6484600652FD2 /* AutostartManager.swift */,
 				F418248B1EA889250075872C /* RealmManager.swift */,
 				F418248D1EA896730075872C /* AnalyticManager.swift */,
+				42B048B31F0B8BE3005D25FA /* AlertManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -595,6 +631,7 @@
 				F43EA2C81EA73E1100A113BE /* start-rec-en.m4a in Resources */,
 				F43EA2C51EA73E1100A113BE /* pit-4.aiff in Resources */,
 				F43EA2C91EA73E1100A113BE /* start-rec-uk.m4a in Resources */,
+				42E5D0501F1799FC002E12A4 /* CurrentTrackView.xib in Resources */,
 				F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */,
 				F43EA2CB1EA73E1100A113BE /* stop-rec-en.m4a in Resources */,
 				F43EA2C21EA73E1100A113BE /* pit-1.aiff in Resources */,
@@ -605,7 +642,9 @@
 				F41824951EA8BA220075872C /* GoogleService-Info.plist in Resources */,
 				F43EA2CC1EA73E1100A113BE /* stop-rec-uk.m4a in Resources */,
 				F43EA2C11EA73E1100A113BE /* error.m4a in Resources */,
+				42E5D0541F179EF5002E12A4 /* GpsStatusView.xib in Resources */,
 				F43EA2C61EA73E1100A113BE /* pit-5.aiff in Resources */,
+				42C7EE901F176E63007AF498 /* RecordTrackVC.xib in Resources */,
 				F43EA2C31EA73E1100A113BE /* pit-2.aiff in Resources */,
 				F43EA2CD1EA73E1100A113BE /* stop-rec.m4a in Resources */,
 				F40DBF561EAF6C54002F6C11 /* Graphics.xcassets in Resources */,
@@ -681,6 +720,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42C7AA101F18B4F9003ED8A9 /* CGFloat.swift in Sources */,
 				F47F19F11E9778AD00E47849 /* MainVCProtocol.swift in Sources */,
 				F4300FAA1EB0A43B0019161F /* PitProtocol.swift in Sources */,
 				F404C63F1E9CFB3E001D63A5 /* MotionManager.swift in Sources */,
@@ -689,6 +729,7 @@
 				F40DBF511EAF6C54002F6C11 /* UARRoute.m in Sources */,
 				F4BAD6211E9FAD7800FE59B9 /* SettingsSwitchCell.swift in Sources */,
 				F40D92E01E97768B00647D5E /* AppDelegate.swift in Sources */,
+				42B048B41F0B8BE3005D25FA /* AlertManager.swift in Sources */,
 				F41413961E9F60E400D58941 /* NSString+MD5.m in Sources */,
 				F4BAD6261E9FB47900FE59B9 /* FooterSignIn.swift in Sources */,
 				F41441C01E9E5CBA00F3A7C3 /* PitModel.swift in Sources */,
@@ -696,6 +737,7 @@
 				4236D4801EE938DF000923F8 /* PrintExtensions.swift in Sources */,
 				F40ED4B31E9B898500D72324 /* BaseCell.swift in Sources */,
 				F418DB8A1EADD0CD00135E5A /* LocationManager.swift in Sources */,
+				42C7AA0E1F18A9E9003ED8A9 /* ArcButton.swift in Sources */,
 				F47F19F91E977C6200E47849 /* RecordVC.swift in Sources */,
 				F418248E1EA896730075872C /* AnalyticManager.swift in Sources */,
 				F42A6F7F1EAA09A100ED368C /* RecordService.swift in Sources */,
@@ -704,10 +746,13 @@
 				F40ED4B51E9B8A4500D72324 /* RecordedCell.swift in Sources */,
 				F40DBF501EAF6C54002F6C11 /* UARInstruction.m in Sources */,
 				F41441C41E9E63A500F3A7C3 /* GZIP.m in Sources */,
+				42C7EE8F1F176E63007AF498 /* RecordTrackVC.swift in Sources */,
 				F4163C511E97AF720076C224 /* Closures.swift in Sources */,
 				F404C6461E9D1246001D63A5 /* DateManager.swift in Sources */,
 				F42A6F7D1EAA06C200ED368C /* String.swift in Sources */,
 				F40DBF4E1EAF6C54002F6C11 /* UIColor+UARColor.m in Sources */,
+				42E5D04E1F1799E7002E12A4 /* CurrentTrackView.swift in Sources */,
+				42B048B01F0B8733005D25FA /* CLLocation.swift in Sources */,
 				F4BAD6231E9FB16F00FE59B9 /* SettingsTFCell.swift in Sources */,
 				F44785E31E9FC31C00BF10F4 /* SettingsManager.swift in Sources */,
 				F4163C4F1E97AED50076C224 /* NetworkManager.swift in Sources */,
@@ -730,8 +775,11 @@
 				F4163C561E97D3460076C224 /* RouteBuidVC.swift in Sources */,
 				F47F19FF1E97823600E47849 /* Color.swift in Sources */,
 				F47F1A031E97943D00E47849 /* HUDManaged.swift in Sources */,
+				42B048B21F0B87F0005D25FA /* Constants.swift in Sources */,
 				F40DBF551EAF6C54002F6C11 /* UARCircleButton.m in Sources */,
+				42E5D0521F179EE0002E12A4 /* GpsStatusView.swift in Sources */,
 				F4BAD6281E9FB48700FE59B9 /* FooterText.swift in Sources */,
+				42C7EE941F177289007AF498 /* BorderButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

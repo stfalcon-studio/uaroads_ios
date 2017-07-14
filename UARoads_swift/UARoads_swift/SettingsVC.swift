@@ -75,7 +75,7 @@ extension SettingsVC {
             footer.action = { [weak self] in
                 let cell = self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
                 if cell.mainTF.text?.characters.count == 0 || cell.mainTF.textColor == UIColor.red {
-                    self?.showAlert(text: NSLocalizedString("Check your email", comment: "emailWarning"), handler: nil)
+                    AlertManager.showAlertCheckEmail(viewController: self)
                     return
                 }
                 
@@ -85,7 +85,7 @@ extension SettingsVC {
                         HUDManager.sharedInstance.show(from: self!)
                         NetworkManager.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
                             if !val {
-                                self?.showAlert(text: NSLocalizedString("Registration error!", comment: "regError"), handler: nil)
+                                AlertManager.showAlertRegisterDevieceError(viewController: self)
                             } else {
                                 //save email to Defaults
                                 SettingsManager.sharedInstance.email = email

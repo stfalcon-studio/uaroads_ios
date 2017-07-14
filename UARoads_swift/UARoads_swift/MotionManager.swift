@@ -132,7 +132,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             track?.title = title
             track?.date = Date()
             track?.status = TrackStatus.active.rawValue
-            track?.distance = 0.0
             DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
             let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
             track?.trackID = id.md5()

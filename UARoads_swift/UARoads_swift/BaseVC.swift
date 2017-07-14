@@ -37,30 +37,7 @@ class BaseVC: UIViewController, MainVCProtocol {
         od_setStatusBarStyle(.lightContent)
         od_updateStatusBarAppearance(animated: true)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-    //MARK: Helpers
-    func showAlert(title: String? = "", text: String, controller: UIViewController? = nil, handler: EmptyHandler?) {
-        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
-        if let handler = handler {
-            let handlerAction = UIAlertAction(title: "Ok", style: .default, handler: { (_) in
-                handler()
-            })
-            alert.addAction(handlerAction)
-        } else {
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alert.addAction(okAction)
-        }
-        if let vc = controller {
-            vc.present(alert, animated: true, completion: nil)
-        } else {
-            topViewController()?.present(alert, animated: true, completion: nil)
-        }
-    }
 }
 
 

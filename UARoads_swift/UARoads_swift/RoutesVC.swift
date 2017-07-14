@@ -135,27 +135,7 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                HUDManager.sharedInstance.show(from: self!)
-                NetworkManager.sharedInstance.checkRouteAvailability(coord1: (self?.fromModel?.locationCoordianate)!,
-                                                                 coord2: (self?.toModel?.locationCoordianate)!,
-                                                                 handler: { status in
-                                                                    switch status {
-                                                                    case 200, 0:
-                                                                        guard let from = self?.fromModel, let to = self?.toModel else { return }
-                                                                        AnalyticManager.sharedInstance.reportEvent(category: "Navigation", action: "search")
-                                                                        let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
-                                                                        self?.present(navVC, animated: true, completion: nil)
-                                                                        
-                                                                    case 404:
-                                                                        self?.showAlert(title: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Server connection error", comment: ""), controller: self, handler: nil)
-                                                                        
-                                                                    case 207:
-                                                                        self?.showAlert(title: NSLocalizedString("Error", comment: ""), text: NSLocalizedString("Cannot find route between points", comment: ""), controller: self, handler: nil)
-                                                                        
-                                                                    default: break
-                                                                    }
-                                                                    HUDManager.sharedInstance.hide()
-                })
+                self?.buildRouteTapped()
             }
             .addDisposableTo(disposeBag)
         
@@ -315,7 +295,45 @@ class RoutesVC: BaseTVC {
             .addDisposableTo(disposeBag)
     }
     
-    //MARK: Helpers
+    //MARK: Private funcs
+    
+    private func buildRouteTapped() {
+        guard let fromLocation = fromModel?.locationCoordianate,
+            let toLocation = toModel?.locationCoordianate else { return }
+        
+        let distance = CLLocation.distance(from: fromLocation, to: toLocation)
+        if Int(distance) < routeDistanceMin {
+            AlertManager.showAlertRoutIsTooShort(currentDistance: Int(distance), viewController: self)
+            return
+        }
+        HUDManager.sharedInstance.show(from: self)
+        NetworkManager.sharedInstance.checkRouteAvailability(coord1: fromLocation,
+                                                             coord2: toLocation,
+                                                             handler: { [weak self] status in
+                                                                self?.handleRouteAbilityResponse(status: status)
+                                                                HUDManager.sharedInstance.hide()
+        })
+    }
+    
+    private func handleRouteAbilityResponse(status: Int) {
+        switch status {
+        case 200, 0:
+            guard let from = fromModel, let to = toModel else { return }
+            AnalyticManager.sharedInstance.reportEvent(category: "Navigation", action: "search")
+            let navVC = UINavigationController(rootViewController: RouteBuidVC(from: from, to: to))
+            present(navVC, animated: true, completion: nil)
+            
+        case 404:
+            AlertManager.showAlertServerConnectionError(viewController: self)
+            
+        case 207:
+            AlertManager.showAlertRouteNotFound(viewController: self)
+            
+        default:
+            break
+        }
+    }
+    
     fileprivate func updateLocation() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation

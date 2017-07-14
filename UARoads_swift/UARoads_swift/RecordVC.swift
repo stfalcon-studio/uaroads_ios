@@ -104,12 +104,6 @@ class RecordVC: BaseVC {
     func setupInterface() {
         title = NSLocalizedString("Record", comment: "title")
         
-        mainLbl.text = NSLocalizedString("Press \"START RECORDING\" to start collecting data about road quality", comment: "mainLbl")
-        mainLbl.numberOfLines = 0
-        mainLbl.textColor = UIColor.colorPrimaryDark
-        mainLbl.font = UIFont.systemFont(ofSize: 20.0)
-        mainLbl.textAlignment = .center
-        
         allSessionsLbl.text = NSLocalizedString("All sessions", comment: "All sessions")
         allSessionsLbl.textAlignment = .center
         allSessionsLbl.font = UIFont.systemFont(ofSize: 12.0)
@@ -194,7 +188,7 @@ class RecordVC: BaseVC {
                     self?.lastSessionLbl.isHidden = false
                     self?.lastSessionDetailLbl.isHidden = false
                 } else {
-                    self?.showAlert(title: "Background Refresh Disabled", text: NSLocalizedString("You need to enable background location updates", comment: ""), controller: self, handler: nil)
+                    AlertManager.showAlertBgRefreshDisabled(viewController: self)
                 }
             }
             .addDisposableTo(disposeBag)

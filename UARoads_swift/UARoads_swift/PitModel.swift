@@ -14,6 +14,8 @@ class PitModel: Object, PitProtocol {
     dynamic var time: String = ""
     dynamic var value: Double = 0.0
     dynamic var tag: String = ""
+    dynamic var horizontalAccuracy: Double = 0.0
+    dynamic var speed: Double = 0.0
     
     override static func primaryKey() -> String? {
         return "time"
