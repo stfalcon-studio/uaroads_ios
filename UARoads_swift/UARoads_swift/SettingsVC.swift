@@ -105,7 +105,7 @@ extension SettingsVC {
         } else {
             let footer = FooterText()
             footer.versionLbl.text = NSLocalizedString("Version: ", comment: "version") + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
-            footer.uidLbl.text = "UID: " + (UIDevice.current.identifierForVendor?.uuidString ?? "")
+            footer.uidLbl.text = "UID: " + Utilities.deviceUID()
             
             return footer
         }

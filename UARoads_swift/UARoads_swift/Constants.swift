@@ -13,7 +13,10 @@ let routeDistanceMin = 300
 
 
 enum GPS_Status: Int {
+    case noSignal
     case low
     case middle
     case high
 }
+
+let kDeviceUID = "DeviceUID"

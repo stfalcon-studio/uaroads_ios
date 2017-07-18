@@ -47,8 +47,13 @@ class RecordTrackVC: UIViewController {
         super.viewWillAppear(animated)
         
         graphView.isHidden = !SettingsManager.sharedInstance.showGraph
+        UIApplication.shared.statusBarStyle = .lightContent
+        showUserStatistic()
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
 
     // MARK: Action funcs
@@ -134,6 +139,40 @@ class RecordTrackVC: UIViewController {
         RecordService.sharedInstance.onMotionStop = { [unowned self] in
             self.graphView.clear()
         }
+        
+        RecordService.sharedInstance.locationManager.onLocationUpdate = { [unowned self] locations in
+            guard let location = locations.last else { return }
+            pl(location.horizontalAccuracy)
+            self.showGpsStatus(location.horizontalAccuracy)
+        }
+    }
+    
+    private func showGpsStatus(_ status: Double) {
+        var gpsStatus: GPS_Status?
+        if status < 0 {
+            gpsStatus = .noSignal
+        } else if status > 163 {
+            gpsStatus = .low
+        } else if status > 48 {
+            gpsStatus = .middle
+        } else {
+            gpsStatus = .high
+        }
+        currentTrackView.gpsStatusView.setGpsStatus(gpsStatus!)
+    }
+    
+    private func showUserStatistic() {
+        let uid = Utilities.deviceUID()
+        guard let email = SettingsManager.sharedInstance.email else { return }
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        NetworkManager.sharedInstance.getUserStatistics(deviceUID: uid,
+                                                        email: email,
+                                                        completion: { (response, error) in
+                                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                                            pl(response)
+                                                            
+        })
     }
 }
 

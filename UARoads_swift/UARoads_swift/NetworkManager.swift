@@ -14,7 +14,7 @@ class NetworkManager {
     private init() {}
     static let sharedInstance = NetworkManager()
     
-    func tryToSendData(params: [String:String], handler: @escaping (_ success: Bool) -> ()) {
+    func tryToSendData(params: [String:AnyObject], handler: @escaping (_ success: Bool) -> ()) {
         pf()
         pl(params)
         var request = URLRequest(url: URL(string: "http://api.uaroads.com/add")!)
@@ -44,13 +44,13 @@ class NetworkManager {
     func authorizeDevice(email: String, handler: @escaping (_ success: Bool) -> ()) {
         let deviceName = "\(UIDevice.current.model) - \(UIDevice.current.name)"
         let osVersion = UIDevice.current.systemVersion
-        let uid = UIDevice.current.identifierForVendor?.uuidString
+        let uid = Utilities.deviceUID()
         let params = [
             "os":"ios",
             "device_name":deviceName,
             "os_version":osVersion,
             "email":email,
-            "uid":uid!
+            "uid":uid
         ]
         pl(params)
         
@@ -74,6 +74,25 @@ class NetworkManager {
                 }
             }
             }.resume()
+    }
+    
+    func getUserStatistics(deviceUID: String, email: String, completion: @escaping (_ respose: [String : AnyObject]?, _ error: Error?) -> () ) {
+        let urlStr = "http://uaroads.com/statistic?uid=\(deviceUID)&user=\(email)"
+        guard let url = URL(string: urlStr) else { return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        URLSession.shared.dataTask(with: urlRequest,
+                                   completionHandler: { (data, urlResponse, error) in
+                                    var responseDict: [String : AnyObject]?
+                                    if let respData = data {
+                                        responseDict = try! JSONSerialization.jsonObject(with: respData, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                                    }
+                                    DispatchQueue.main.async {
+                                        completion(responseDict, error)
+                                    }
+
+                                    
+        }).resume()
     }
     
     func checkRouteAvailability(coord1: CLLocationCoordinate2D, coord2: CLLocationCoordinate2D, handler: @escaping (_ status: Int) -> ()) {

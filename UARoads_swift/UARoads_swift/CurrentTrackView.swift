@@ -16,6 +16,8 @@ class CurrentTrackView: UIView {
     @IBOutlet weak var currentTrackTitleLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var gpsTitleLabel: UILabel!
+    @IBOutlet weak var gpsStatusView: GpsStatusView!
+    
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

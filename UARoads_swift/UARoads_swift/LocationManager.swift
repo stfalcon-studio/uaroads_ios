@@ -21,10 +21,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             return manager.location
         }
     }
+    var isRequestingLocation = false
     
     //event
-    // TODO: delete or uncomment
-//    var onLocationUpdate: ((_ locations: [CLLocation]) -> ())?
+    var onLocationUpdate: ((_ locations: [CLLocation]) -> ())?
     
     // MARK: Init funcs
     override init() {
@@ -43,22 +43,27 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func requestLocation() {
         manager.startUpdatingLocation()
+        isRequestingLocation = true
     }
     
     func stopUpdatingLocation() {
         manager.stopUpdatingLocation()
+        isRequestingLocation = false
     }
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let newLocation = locations.last {
-            
+        if let onLocUpldate = self.onLocationUpdate {
+            onLocUpldate(locations)
         }
         pf()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         pl("ERROR: \(error.localizedDescription)")
+        if isRequestingLocation == true {
+            requestLocation()
+        }
     }
 }
 

@@ -13,6 +13,7 @@
 		42B048B41F0B8BE3005D25FA /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B048B31F0B8BE3005D25FA /* AlertManager.swift */; };
 		42C7AA0E1F18A9E9003ED8A9 /* ArcButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7AA0D1F18A9E9003ED8A9 /* ArcButton.swift */; };
 		42C7AA101F18B4F9003ED8A9 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7AA0F1F18B4F9003ED8A9 /* CGFloat.swift */; };
+		42C7AA161F1C9E74003ED8A9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7AA151F1C9E74003ED8A9 /* Utilities.swift */; };
 		42C7EE8F1F176E63007AF498 /* RecordTrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7EE8D1F176E63007AF498 /* RecordTrackVC.swift */; };
 		42C7EE901F176E63007AF498 /* RecordTrackVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C7EE8E1F176E63007AF498 /* RecordTrackVC.xib */; };
 		42C7EE941F177289007AF498 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7EE931F177289007AF498 /* BorderButton.swift */; };
@@ -100,6 +101,7 @@
 		42B048B31F0B8BE3005D25FA /* AlertManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		42C7AA0D1F18A9E9003ED8A9 /* ArcButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArcButton.swift; sourceTree = "<group>"; };
 		42C7AA0F1F18B4F9003ED8A9 /* CGFloat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
+		42C7AA151F1C9E74003ED8A9 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		42C7EE8D1F176E63007AF498 /* RecordTrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTrackVC.swift; sourceTree = "<group>"; };
 		42C7EE8E1F176E63007AF498 /* RecordTrackVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordTrackVC.xib; sourceTree = "<group>"; };
 		42C7EE931F177289007AF498 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderButton.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				4236D47F1EE938DF000923F8 /* PrintExtensions.swift */,
+				42C7AA151F1C9E74003ED8A9 /* Utilities.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -697,7 +700,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		F418248F1EA8A0A30075872C /* ShellScript */ = {
@@ -724,6 +727,7 @@
 				F47F19F11E9778AD00E47849 /* MainVCProtocol.swift in Sources */,
 				F4300FAA1EB0A43B0019161F /* PitProtocol.swift in Sources */,
 				F404C63F1E9CFB3E001D63A5 /* MotionManager.swift in Sources */,
+				42C7AA161F1C9E74003ED8A9 /* Utilities.swift in Sources */,
 				F47F19F51E9779BD00E47849 /* TabBarVC.swift in Sources */,
 				F404C6411E9CFCAD001D63A5 /* TrackModel.swift in Sources */,
 				F40DBF511EAF6C54002F6C11 /* UARRoute.m in Sources */,

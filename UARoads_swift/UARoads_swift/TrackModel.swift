@@ -42,6 +42,12 @@ class TrackModel: Object {
         return "trackID"
     }
     
+    func deletePits() {
+        let realm = try? Realm()
+        try! realm?.write({
+            realm?.delete(self.pits)
+        })
+    }
 }
 
 

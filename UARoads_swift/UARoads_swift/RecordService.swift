@@ -150,17 +150,18 @@ final class RecordService {
                     }
                     
                     //prepare params for sending
-                    let data64 = UARoadsSDK.encodePoints(Array(track.pits))
+                    let data64: String = UARoadsSDK.encodePoints(Array(track.pits)) ?? ""
                     let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
-                    let params = [
-                        "uid":NSUUID().uuidString,
-                        "comment":track.title,
-                        "routeId":track.trackID,
-                        "data":data64 ?? "",
-                        "app_ver":version as! String,
-                        "auto_record":track.autoRecord ? "1" : "0",
-                        "date":"\(track.date.timeIntervalSince1970)"
-                        ] as [String : String]
+                    let autorecord = track.autoRecord ? 1 : 0
+                    let params: [String : AnyObject] = [
+                        "uid": Utilities.deviceUID() as AnyObject,
+                        "comment":track.title as AnyObject,
+                        "routeId":track.trackID as AnyObject,
+                        "data": data64 as AnyObject,
+                        "app_ver":version as AnyObject,
+                        "auto_record" : autorecord as AnyObject,
+                        "date":"\(track.date.timeIntervalSince1970)" as AnyObject
+                        ]
                     
                     NetworkManager.sharedInstance.tryToSendData(params: params, handler: { val in
                         sendingInProcess = false

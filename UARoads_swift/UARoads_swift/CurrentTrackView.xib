@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="currentTrackTitleLabel" destination="PLQ-qu-WX7" id="b4A-PR-e4V"/>
                 <outlet property="distanceLabel" destination="ZzH-Yq-cXx" id="rr1-CQ-cQh"/>
+                <outlet property="gpsStatusView" destination="kSc-TI-AyQ" id="fK6-HZ-1eQ"/>
                 <outlet property="gpsTitleLabel" destination="HZ5-Fx-kLN" id="jzy-xz-VHB"/>
                 <outlet property="view" destination="iN0-l3-epB" id="5XJ-q6-4hB"/>
             </connections>

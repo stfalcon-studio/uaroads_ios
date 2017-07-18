@@ -34,10 +34,14 @@ class GpsStatusView: UIView {
     
     func setGpsStatus(_ status: GPS_Status) {
         switch status {
-        case .low:
-            indicatorOneView.backgroundColor = UIColor.redIndicator
+        case .noSignal:
             indicatorOneView.backgroundColor = UIColor.darkGray
             indicatorTwoView.backgroundColor = UIColor.darkGray
+            indicatorThreeView.backgroundColor = UIColor.darkGray
+        case .low:
+            indicatorOneView.backgroundColor = UIColor.redIndicator
+            indicatorTwoView.backgroundColor = UIColor.darkGray
+            indicatorThreeView.backgroundColor = UIColor.darkGray
         case .middle:
             indicatorOneView.backgroundColor = UIColor.greenIndicator
             indicatorTwoView.backgroundColor = UIColor.greenIndicator

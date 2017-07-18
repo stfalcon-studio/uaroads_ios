@@ -87,7 +87,7 @@ extension TracksVC {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let item = dataSource![indexPath.row]
-            item.pits.deleteAllObjects()
+            item.deletePits()
             item.delete()
         }
     }

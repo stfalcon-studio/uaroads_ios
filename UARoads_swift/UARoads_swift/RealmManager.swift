@@ -25,6 +25,7 @@ final class RealmManager {
         }
     }
     
+    
     public func add(_ obj: Object?) {
         if let obj = obj {
             try! realm?.write {
