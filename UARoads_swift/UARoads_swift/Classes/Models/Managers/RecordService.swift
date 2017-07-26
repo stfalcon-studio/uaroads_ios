@@ -10,11 +10,6 @@ import Foundation
 import CoreLocation
 
 
-protocol RecordServiceDelegate: class {
-    func trackDistanceUpdated(trackDist: Double)
-    func maxPitUpdated(maxPit: Double)
-}
-
 
 final class RecordService {
     
@@ -28,7 +23,6 @@ final class RecordService {
     public let networkManager: NetworkManager
     
     private (set) public var previousLocation: CLLocation?
-    weak var delegate: RecordServiceDelegate?
     
     var onPit: ((_ pitValue: Double) -> ())?
     var onMotionStart: ((_ value: Double, _ filtered: Bool) -> ())?
@@ -36,6 +30,8 @@ final class RecordService {
     var onLocation: (() -> ())?
     var onMotionCompleted: (() -> ())?
     var onSend: (() -> ())?
+    var trackDistanceUpdated: ((_ newDistance: Double) -> ())?
+    var maxPitUpdated: ((_ maxPit: Double) -> ())?
     
     private init() {
         dbManager = RealmManager()
@@ -117,9 +113,9 @@ final class RecordService {
                 self.dbManager.add(manager.track)
                 
                 let distance = Double(manager.track?.distance ?? 0)
-                self.delegate?.trackDistanceUpdated(trackDist: distance)
                 
-                self.delegate?.maxPitUpdated(maxPit: pit.value)
+                trackDistanceUpdated?(distance)
+                maxPitUpdated?(pit.value)
             }
             
             if newLocation.horizontalAccuracy <= 10 {
@@ -241,7 +237,7 @@ final class RecordService {
         }
         self.dbManager.add(self.motionManager.track)
         
-        self.delegate?.maxPitUpdated(maxPit: pitValue)
+        maxPitUpdated?(pitValue)
     }
     
 }

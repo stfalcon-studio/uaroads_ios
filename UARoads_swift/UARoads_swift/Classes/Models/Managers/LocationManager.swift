@@ -24,7 +24,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     var isRequestingLocation = false
     
     //event
-    var onLocationUpdate: ((_ locations: [CLLocation]) -> ())?
+    var onLocationUpdate: ((_ location: CLLocation) -> ())?
     
     // MARK: Init funcs
     override init() {
@@ -53,10 +53,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     //MARK: CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
         if let onLocUpldate = self.onLocationUpdate {
-            onLocUpldate(locations)
+            onLocUpldate(location)
         }
-        pf()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

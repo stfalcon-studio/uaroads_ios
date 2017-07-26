@@ -27,6 +27,7 @@ class RecordTrackVC: UIViewController {
     
     
     fileprivate let graphView = GraphView()
+    let viewModel: RecordTrackViewModel = RecordTrackViewModel()
     
 
     // MARK: Overriden funcs
@@ -36,7 +37,6 @@ class RecordTrackVC: UIViewController {
         navigationItem.title = "Record"
       
         RecordService.sharedInstance.motionManager.delegate = self
-        RecordService.sharedInstance.delegate = self
         
         setupInterface()
         setupRx()
@@ -48,7 +48,10 @@ class RecordTrackVC: UIViewController {
         
         graphView.isHidden = !SettingsManager.sharedInstance.showGraph
         UIApplication.shared.statusBarStyle = .lightContent
-        showUserStatistic()
+        
+        viewModel.getUserStatistic(completion: { [weak self] (response, error) in
+            
+        })
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -102,32 +105,6 @@ class RecordTrackVC: UIViewController {
         }
     }
     
-    private func updateUIForRecordStop() {
-        startButton.isHidden = false
-        pauseStopContainerView.isHidden = true
-        currentTrackView.isHidden = true
-        lastTrackContainerView.isHidden = false
-        setLastTrackDistance()
-    }
-    
-    private func setLastTrackDistance() {
-        if let track: TrackModel = RealmHelper.objects(type: TrackModel.self)?.sorted(byKeyPath: "date", ascending: true).last {
-            lastTrackLabel.attributedText = attributedStringForDistance(track.distance)
-        }
-    }
-    
-    private func attributedStringForDistance(_ distance: CGFloat) -> NSMutableAttributedString {
-        let distanceStr = NSString(format:"%.2f", distance / 1000) as String
-        let kmStr = "km"
-        let text = distanceStr + kmStr
-        let rangeKm = text.nsRange(of: kmStr)
-        let attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 19),
-                          NSForegroundColorAttributeName: UIColor.darkGray]
-        let attrStr = NSMutableAttributedString(string: text)
-        attrStr.addAttributes(attributes, range: rangeKm)
-        return attrStr
-    }
-    
     
     private func setupRx() {
         RecordService.sharedInstance.onMotionStart = { [unowned self] point, filtered in
@@ -140,39 +117,26 @@ class RecordTrackVC: UIViewController {
             self.graphView.clear()
         }
         
-        RecordService.sharedInstance.locationManager.onLocationUpdate = { [unowned self] locations in
-            guard let location = locations.last else { return }
-            pl(location.horizontalAccuracy)
-            self.showGpsStatus(location.horizontalAccuracy)
+        RecordService.sharedInstance.locationManager.onLocationUpdate = { [unowned self] location in
+            let gpsStatus: GPS_Status = self.viewModel.gpsStatus(from: location)
+            self.currentTrackView.gpsStatusView.setGpsStatus(gpsStatus)
         }
-    }
-    
-    private func showGpsStatus(_ status: Double) {
-        var gpsStatus: GPS_Status?
-        if status < 0 {
-            gpsStatus = .noSignal
-        } else if status > 163 {
-            gpsStatus = .low
-        } else if status > 48 {
-            gpsStatus = .middle
-        } else {
-            gpsStatus = .high
-        }
-        currentTrackView.gpsStatusView.setGpsStatus(gpsStatus!)
-    }
-    
-    private func showUserStatistic() {
-        let uid = Utilities.deviceUID()
-        guard let email = SettingsManager.sharedInstance.email else { return }
         
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        NetworkManager.sharedInstance.getUserStatistics(deviceUID: uid,
-                                                        email: email,
-                                                        completion: { (response, error) in
-                                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                                            pl(response)
-                                                            
-        })
+        RecordService.sharedInstance.trackDistanceUpdated = { [unowned self] newDistance in
+            self.currentTrackView.distanceLabel.text = self.viewModel.distanceStringInKilometers(newDistance)
+        }
+        
+    }
+    
+    
+    
+    private func updateUIForRecordStop() {
+        startButton.isHidden = false
+        pauseStopContainerView.isHidden = true
+        currentTrackView.isHidden = true
+        lastTrackContainerView.isHidden = false
+        
+        lastTrackLabel.attributedText = viewModel.attributedStringLastTrackDistance()
     }
 }
 
@@ -184,12 +148,3 @@ extension RecordTrackVC: MotionManagerDelegate {
     }
 }
 
-extension RecordTrackVC: RecordServiceDelegate {
-    func trackDistanceUpdated(trackDist: Double) {
-        currentTrackView.setDistance(trackDist)
-    }
-    
-    func maxPitUpdated(maxPit: Double) {
-//        allSessionDetailLbl.text = NSString(format: "%.2f", maxPit) as String
-    }
-}

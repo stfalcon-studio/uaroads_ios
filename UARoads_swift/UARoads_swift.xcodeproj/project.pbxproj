@@ -73,6 +73,7 @@
 		301F51861F2771F100B86B10 /* RoutesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51811F2771F100B86B10 /* RoutesVC.swift */; };
 		301F518A1F2771FC00B86B10 /* RecordTrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51881F2771FC00B86B10 /* RecordTrackVC.swift */; };
 		301F518B1F2771FC00B86B10 /* RecordTrackVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 301F51891F2771FC00B86B10 /* RecordTrackVC.xib */; };
+		301F518D1F277F0300B86B10 /* RecordTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E61E97768B00647D5E /* Assets.xcassets */; };
 		F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */; };
@@ -162,6 +163,7 @@
 		301F51811F2771F100B86B10 /* RoutesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutesVC.swift; sourceTree = "<group>"; };
 		301F51881F2771FC00B86B10 /* RecordTrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTrackVC.swift; sourceTree = "<group>"; };
 		301F51891F2771FC00B86B10 /* RecordTrackVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordTrackVC.xib; sourceTree = "<group>"; };
+		301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTrackViewModel.swift; sourceTree = "<group>"; };
 		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
 		F40D92DC1E97768B00647D5E /* UA Roads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UA Roads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -310,15 +312,15 @@
 		301F50CE1F276BBC00B86B10 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				301F50D71F276BBC00B86B10 /* RecordService.swift */,
+				301F50D41F276BBC00B86B10 /* LocationManager.swift */,
+				301F50D51F276BBC00B86B10 /* MotionManager.swift */,
 				301F50CF1F276BBC00B86B10 /* AlertManager.swift */,
 				301F50D01F276BBC00B86B10 /* AnalyticManager.swift */,
 				301F50D11F276BBC00B86B10 /* AutostartManager.swift */,
 				301F50D21F276BBC00B86B10 /* DateManager.swift */,
 				301F50D31F276BBC00B86B10 /* HUDManaged.swift */,
-				301F50D41F276BBC00B86B10 /* LocationManager.swift */,
-				301F50D51F276BBC00B86B10 /* MotionManager.swift */,
 				301F50D61F276BBC00B86B10 /* RealmManager.swift */,
-				301F50D71F276BBC00B86B10 /* RecordService.swift */,
 				301F50D81F276BBC00B86B10 /* SettingsManager.swift */,
 				301F50D91F276BBC00B86B10 /* UARoadsSDK.swift */,
 			);
@@ -482,6 +484,7 @@
 			children = (
 				301F51881F2771FC00B86B10 /* RecordTrackVC.swift */,
 				301F51891F2771FC00B86B10 /* RecordTrackVC.xib */,
+				301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */,
 			);
 			path = RecordTrack;
 			sourceTree = "<group>";
@@ -890,6 +893,7 @@
 				F40DBF551EAF6C54002F6C11 /* UARCircleButton.m in Sources */,
 				301F510F1F276BBC00B86B10 /* LocationManager.swift in Sources */,
 				301F51431F276BE900B86B10 /* SettingsSwitchCell.swift in Sources */,
+				301F518D1F277F0300B86B10 /* RecordTrackViewModel.swift in Sources */,
 				301F51401F276BE900B86B10 /* GraphView.swift in Sources */,
 				301F518A1F2771FC00B86B10 /* RecordTrackVC.swift in Sources */,
 			);
