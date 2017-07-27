@@ -13,5 +13,14 @@ class SendTracksService {
     
     private init() {}
     
+    func sendAllNotPostedTraks() {
+        
+    }
+    
+    
+    private func isSutableNetworkConnection() -> Bool {
+        // TODO: 
+        return true
+    }
     
 }
