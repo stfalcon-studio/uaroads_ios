@@ -12,7 +12,7 @@ target 'UARoads_swift' do
     pod 'Heap'
     
     #Realm
-    pod 'RealmSwift'
+    pod 'RealmSwift', '~> 2.5.1'
     
     #Rx stuff
     pod 'RxSwift'
