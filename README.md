@@ -6,8 +6,12 @@ Data on road quality is gathered automatically if GPS is turned on when a person
 Until recently, the service was available only in Ukraine but now users from Romania, Moldova, Hungary, Slovakia, Austria, Czech Republic and Poland can use it as well.
 
 <p align="center">
-<img src="images/screen1.jpeg" height="500" border="10"><img src="images/screen2.jpeg" height="500" border="10">
-<img src="images/screen3.jpeg" height="500" border="10"><img src="images/screen4.jpeg" height="500" border="10">
+<img src="images/screen1.jpeg" height="500" border="10">
+<img src="images/screen2.jpeg" height="500" border="10">
+</p>
+<p align="center">
+<img src="images/screen3.jpeg" height="500" border="10">
+<img src="images/screen4.jpeg" height="500" border="10">
 </p>
 
 Currently available on the App store.
