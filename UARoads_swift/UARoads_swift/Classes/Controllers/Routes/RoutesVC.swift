@@ -35,7 +35,6 @@ class RoutesVC: BaseTVC {
         setupRx()
         
         updateLocation()
-        HUDManager.sharedInstance.show(from: self)
     }
     
     func setupConstraints() {
@@ -290,10 +289,11 @@ class RoutesVC: BaseTVC {
             .rx
             .didFinishLoad
             .bind {
-                HUDManager.sharedInstance.hide()
+                
             }
             .addDisposableTo(disposeBag)
     }
+    
     
     //MARK: Private funcs
     
@@ -306,12 +306,11 @@ class RoutesVC: BaseTVC {
             AlertManager.showAlertRoutIsTooShort(currentDistance: Int(distance), viewController: self)
             return
         }
-        HUDManager.sharedInstance.show(from: self)
+        
         NetworkManager.sharedInstance.checkRouteAvailability(coord1: fromLocation,
                                                              coord2: toLocation,
                                                              handler: { [weak self] status in
                                                                 self?.handleRouteAbilityResponse(status: status)
-                                                                HUDManager.sharedInstance.hide()
         })
     }
     

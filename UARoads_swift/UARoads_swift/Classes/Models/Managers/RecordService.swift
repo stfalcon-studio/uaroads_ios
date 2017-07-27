@@ -146,7 +146,7 @@ final class RecordService {
                     }
                     
                     //prepare params for sending
-                    let data64: String = UARoadsSDK.encodePoints(Array(track.pits)) ?? ""
+                    let data64: String = TracksFileManager.trackStringData(from: track)//UARoadsSDK.encodePoints(Array(track.pits)) ?? ""
                     let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
                     let autorecord = track.autoRecord ? 1 : 0
                     let params: [String : AnyObject] = [

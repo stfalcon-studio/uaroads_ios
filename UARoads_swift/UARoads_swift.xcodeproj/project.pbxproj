@@ -74,6 +74,9 @@
 		301F518A1F2771FC00B86B10 /* RecordTrackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51881F2771FC00B86B10 /* RecordTrackVC.swift */; };
 		301F518B1F2771FC00B86B10 /* RecordTrackVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 301F51891F2771FC00B86B10 /* RecordTrackVC.xib */; };
 		301F518D1F277F0300B86B10 /* RecordTrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */; };
+		301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F518E1F289AB200B86B10 /* TracksFileManager.swift */; };
+		301F51911F29DE7C00B86B10 /* SendTracksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51901F29DE7C00B86B10 /* SendTracksService.swift */; };
+		301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E61E97768B00647D5E /* Assets.xcassets */; };
 		F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */; };
@@ -164,6 +167,9 @@
 		301F51881F2771FC00B86B10 /* RecordTrackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTrackVC.swift; sourceTree = "<group>"; };
 		301F51891F2771FC00B86B10 /* RecordTrackVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordTrackVC.xib; sourceTree = "<group>"; };
 		301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTrackViewModel.swift; sourceTree = "<group>"; };
+		301F518E1F289AB200B86B10 /* TracksFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TracksFileManager.swift; sourceTree = "<group>"; };
+		301F51901F29DE7C00B86B10 /* SendTracksService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendTracksService.swift; sourceTree = "<group>"; };
+		301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
 		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
 		F40D92DC1E97768B00647D5E /* UA Roads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UA Roads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +329,8 @@
 				301F50D61F276BBC00B86B10 /* RealmManager.swift */,
 				301F50D81F276BBC00B86B10 /* SettingsManager.swift */,
 				301F50D91F276BBC00B86B10 /* UARoadsSDK.swift */,
+				301F518E1F289AB200B86B10 /* TracksFileManager.swift */,
+				301F51901F29DE7C00B86B10 /* SendTracksService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -330,8 +338,9 @@
 		301F50DA1F276BBC00B86B10 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				301F51771F276FB600B86B10 /* SearchResultModel.swift */,
 				301F50DB1F276BBC00B86B10 /* NetworkManager.swift */,
+				301F51771F276FB600B86B10 /* SearchResultModel.swift */,
+				301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -706,9 +715,9 @@
 				TargetAttributes = {
 					F40D92DB1E97768B00647D5E = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = HU8ZS7UX2R;
+						DevelopmentTeam = UHJFHS6M7R;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -845,6 +854,7 @@
 				301F50F31F276BBC00B86B10 /* AppDelegate.swift in Sources */,
 				301F50F91F276BBC00B86B10 /* BaseTVC.swift in Sources */,
 				301F516B1F276EE400B86B10 /* GpsStatusView.swift in Sources */,
+				301F51911F29DE7C00B86B10 /* SendTracksService.swift in Sources */,
 				F40DBF511EAF6C54002F6C11 /* UARRoute.m in Sources */,
 				301F51761F276F6200B86B10 /* TrackModel.swift in Sources */,
 				301F51781F276FB600B86B10 /* SearchResultModel.swift in Sources */,
@@ -870,6 +880,7 @@
 				301F51751F276F6200B86B10 /* PitModel.swift in Sources */,
 				301F510E1F276BBC00B86B10 /* HUDManaged.swift in Sources */,
 				301F510D1F276BBC00B86B10 /* DateManager.swift in Sources */,
+				301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */,
 				301F51151F276BBC00B86B10 /* NetworkManager.swift in Sources */,
 				301F51711F276EF100B86B10 /* BorderButton.swift in Sources */,
 				301F51031F276BBC00B86B10 /* Color.swift in Sources */,
@@ -879,6 +890,7 @@
 				301F51701F276EF100B86B10 /* ArcButton.swift in Sources */,
 				301F50FA1F276BBC00B86B10 /* BaseVC.swift in Sources */,
 				301F51411F276BE900B86B10 /* BaseCell.swift in Sources */,
+				301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */,
 				301F51091F276BBC00B86B10 /* Utilities.swift in Sources */,
 				301F51441F276BE900B86B10 /* SettingsTFCell.swift in Sources */,
 				301F51821F2771F100B86B10 /* TutorialVC.swift in Sources */,
@@ -1022,7 +1034,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
-				DEVELOPMENT_TEAM = HU8ZS7UX2R;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = UHJFHS6M7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1046,10 +1059,10 @@
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/GoogleUtilities/Libraries",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Heap",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.temp.UARoads;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE = "a595d9f4-5f5b-4255-a0a9-55db79e49ba8";
-				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/Classes/UARoads_swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1064,7 +1077,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
-				DEVELOPMENT_TEAM = HU8ZS7UX2R;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = UHJFHS6M7R;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1088,10 +1102,10 @@
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/GoogleUtilities/Libraries",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Heap",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.temp.UARoads;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE = "a595d9f4-5f5b-4255-a0a9-55db79e49ba8";
-				PROVISIONING_PROFILE_SPECIFIER = "UA Roads Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/Classes/UARoads_swift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

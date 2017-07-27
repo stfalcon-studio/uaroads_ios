@@ -27,7 +27,6 @@ class NetworkManager {
                     let result = String(data: data, encoding: String.Encoding.utf8)
                     
                     pl("RESULT: \(String(describing: result))")
-                    pl("parameters: \(params)")
                     
                     if result == "OK" {
                         handler(true)
@@ -99,12 +98,12 @@ class NetworkManager {
         var request = URLRequest(url: URL(string: "http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)")!)
         request.httpMethod = "GET"
         
-        print(request.url as Any)
+        pl(request.url as Any)
         
-        URLSession.shared.dataTask(with: request) { (data, _, _) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
                 let dict: [AnyHashable:Any] = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [AnyHashable : Any]
-                print(dict)
+                pl(dict)
                 if let status = dict["status"] {
                     handler(status as! Int)
                 }

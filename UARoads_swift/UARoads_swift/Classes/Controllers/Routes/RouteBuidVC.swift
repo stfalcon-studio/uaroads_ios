@@ -38,7 +38,6 @@ class RouteBuidVC: BaseVC {
         setupInterface()
         setupRx()
         
-        HUDManager.sharedInstance.show(from: self)
         let urlStr = "http://uaroads.com/routing/\(fromModel.locationCoordianate!.latitude),\(fromModel.locationCoordianate!.longitude)/\(toModel.locationCoordianate!.latitude),\(toModel.locationCoordianate!.longitude)?mob=true"
         webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
     }
@@ -144,8 +143,6 @@ class RouteBuidVC: BaseVC {
                         vc.requestRoute(withCoordinates: "loc=\(strongSelf.fromModel.locationCoordianate!.latitude),\(strongSelf.fromModel.locationCoordianate!.longitude)&loc=\(strongSelf.toModel.locationCoordianate!.latitude),\(strongSelf.toModel.locationCoordianate!.longitude)")
                     }
                 }
-//                let navVC = UINavigationController(rootViewController: NavigatorVC())
-//                self?.present(navVC, animated: true, completion: nil)
             }
             .addDisposableTo(disposeBag)
         
@@ -153,7 +150,7 @@ class RouteBuidVC: BaseVC {
             .rx
             .didFinishLoad
             .bind {
-                HUDManager.sharedInstance.hide()
+                
             }
             .addDisposableTo(disposeBag)
     }
