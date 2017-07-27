@@ -16,7 +16,7 @@ Until recently, the service was available only in Ukraine but now users from Rom
 
 Currently available on the App store.
 
-9<img src="images/download.png" height="80">](https://itunes.apple.com/ua/app/ua-roads/id860682693)
+[<img src="images/download.png" height="150">](https://itunes.apple.com/ua/app/ua-roads/id860682693)
 
 ## Contributing Bug reports
 We use GitHub for bug tracking. Please search the existing issues for your bug and create a new one with label "bug" if the issue is not yet tracked!
