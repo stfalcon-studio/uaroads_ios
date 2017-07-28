@@ -7,22 +7,71 @@
 //
 
 import Foundation
-import UHBConnectivityManager
+import SystemConfiguration
+import ReachabilitySwift
 
+
+let networkStatusChangedNotification = "networkStatusChangedNotification"
 
 class NetworkConnectionManager {
     static let shared = NetworkConnectionManager()
+    private let reachability = Reachability()!
+    private (set) public var networkStatus: ReachabilityStatus = .notReachable
+    
+    enum ReachabilityStatus {
+        case notReachable
+        case reachableViaCellular
+        case reachableViaWiFi
+    }
+    
     private init() {}
+    
+    deinit {
+        stopMonitoring()
+    }
+    
     
     
     func startMonitoring() {
-        UHBConnectivityManager.shared().registerCallBack({ (status: ConnectivityManagerConnectionStatus) in
-            pl(status)
-        }, forIdentifier: String(describing: type(of: self)))
+        do{
+            try reachability.startNotifier()
+        }catch{
+            pl("could not start reachability notifier")
+            pl("error -> \(error.localizedDescription)")
+        }
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(networkStatusChanged(notification:)),
+                                               name: ReachabilityChangedNotification,
+                                               object: reachability)
     }
     
     func stopMonitoring() {
-        UHBConnectivityManager.shared().removeCallBack(forIdentitfier: String(describing: type(of: self)))
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self,
+                                                  name: ReachabilityChangedNotification,
+                                                  object: reachability)
+    }
+    
+    
+    @objc func networkStatusChanged(notification: Notification) {
+        guard let reachability = notification.object as? Reachability else { return }
+        
+        if reachability.isReachable {
+            if reachability.isReachableViaWiFi {
+                networkStatus = ReachabilityStatus.reachableViaWiFi
+                pl("Reachable via WiFi")
+            } else {
+                pl("Reachable via Cellular")
+                networkStatus = ReachabilityStatus.reachableViaCellular
+            }
+        } else {
+            pl("Network not reachable")
+            networkStatus = ReachabilityStatus.notReachable
+        }
+        
+        let notificationName = Notification.Name(networkStatusChangedNotification)
+        NotificationCenter.default.post(name: notificationName, object: networkStatus)
     }
     
 }

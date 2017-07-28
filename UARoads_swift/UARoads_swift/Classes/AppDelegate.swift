@@ -102,6 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func sendDataActivity() {
+        // TODO: Delete UHBConnectivityManager and code which is bound with that.
+        
         //check any connection
         if UHBConnectivityManager.shared().isConnected() == true {
             //check settings

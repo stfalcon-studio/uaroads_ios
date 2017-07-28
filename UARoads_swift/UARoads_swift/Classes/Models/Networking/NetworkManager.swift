@@ -56,7 +56,7 @@ class NetworkManager {
         var request = URLRequest(url: URL(string: "http://uaroads.com/register-device")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
-        URLSession.shared.dataTask(with: request) { (data, _, _) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
                 if let data = data {
                     guard let responseDict = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String : AnyObject] else {
