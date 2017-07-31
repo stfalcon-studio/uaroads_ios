@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */; };
 		301F50F31F276BBC00B86B10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AD1F276BBC00B86B10 /* AppDelegate.swift */; };
 		301F50F41F276BBC00B86B10 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AE1F276BBC00B86B10 /* Closures.swift */; };
 		301F50F51F276BBC00B86B10 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AF1F276BBC00B86B10 /* Constants.swift */; };
@@ -96,6 +97,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		301F50AD1F276BBC00B86B10 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		301F50AE1F276BBC00B86B10 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
 		301F50AF1F276BBC00B86B10 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				301F517E1F2771F100B86B10 /* SettingsVC.swift */,
+				301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -856,6 +859,7 @@
 				301F51761F276F6200B86B10 /* TrackModel.swift in Sources */,
 				301F51781F276FB600B86B10 /* SearchResultModel.swift in Sources */,
 				F40DBF501EAF6C54002F6C11 /* UARInstruction.m in Sources */,
+				301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */,
 				F40DBF4E1EAF6C54002F6C11 /* UIColor+UARColor.m in Sources */,
 				301F51121F276BBC00B86B10 /* RecordService.swift in Sources */,
 				F40DBF4B1EAF6C54002F6C11 /* MKMapView+ZoomLevel.m in Sources */,

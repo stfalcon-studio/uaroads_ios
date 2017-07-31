@@ -11,6 +11,7 @@ import Foundation
 
 let routeDistanceMin = 300
 
+let kDeviceUID = "DeviceUID"
 
 enum GPS_Status: Int {
     case noSignal
@@ -19,4 +20,5 @@ enum GPS_Status: Int {
     case high
 }
 
-let kDeviceUID = "DeviceUID"
+
+
