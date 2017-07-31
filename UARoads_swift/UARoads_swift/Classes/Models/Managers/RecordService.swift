@@ -47,11 +47,6 @@ final class RecordService {
             self.handleUpdateLocationEvent()
         }
         
-        // TODO: delete onSend block
-        onSend = { [unowned self] in
-//            self.handleOnSendEvent()
-        }
-        
         onMotionCompleted = { [unowned self] in
             self.handleMotionCompletedEvent()
         }
@@ -86,7 +81,6 @@ final class RecordService {
     // MARK: Private funcs
     
     private func handleUpdateLocationEvent() {
-        pf()
         let manager = self.motionManager
 
         if let newLocation = locationManager.currentLocation {
