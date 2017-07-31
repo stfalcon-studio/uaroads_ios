@@ -20,5 +20,8 @@ enum GPS_Status: Int {
     case high
 }
 
-
+enum PitTag: String {
+    case cp = "cp"
+    case origin = "origin"
+}
 
