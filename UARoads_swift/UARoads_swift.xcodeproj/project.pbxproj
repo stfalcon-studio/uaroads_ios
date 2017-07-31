@@ -32,7 +32,6 @@
 		301F51111F276BBC00B86B10 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50D61F276BBC00B86B10 /* RealmManager.swift */; };
 		301F51121F276BBC00B86B10 /* RecordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50D71F276BBC00B86B10 /* RecordService.swift */; };
 		301F51131F276BBC00B86B10 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50D81F276BBC00B86B10 /* SettingsManager.swift */; };
-		301F51141F276BBC00B86B10 /* UARoadsSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50D91F276BBC00B86B10 /* UARoadsSDK.swift */; };
 		301F51151F276BBC00B86B10 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50DB1F276BBC00B86B10 /* NetworkManager.swift */; };
 		301F51191F276BBC00B86B10 /* MainVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50E01F276BBC00B86B10 /* MainVCProtocol.swift */; };
 		301F511A1F276BBC00B86B10 /* PitProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50E11F276BBC00B86B10 /* PitProtocol.swift */; };
@@ -124,7 +123,6 @@
 		301F50D61F276BBC00B86B10 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		301F50D71F276BBC00B86B10 /* RecordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordService.swift; sourceTree = "<group>"; };
 		301F50D81F276BBC00B86B10 /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
-		301F50D91F276BBC00B86B10 /* UARoadsSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARoadsSDK.swift; sourceTree = "<group>"; };
 		301F50DB1F276BBC00B86B10 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		301F50E01F276BBC00B86B10 /* MainVCProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVCProtocol.swift; sourceTree = "<group>"; };
 		301F50E11F276BBC00B86B10 /* PitProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitProtocol.swift; sourceTree = "<group>"; };
@@ -328,7 +326,6 @@
 				301F50D31F276BBC00B86B10 /* HUDManaged.swift */,
 				301F50D61F276BBC00B86B10 /* RealmManager.swift */,
 				301F50D81F276BBC00B86B10 /* SettingsManager.swift */,
-				301F50D91F276BBC00B86B10 /* UARoadsSDK.swift */,
 				301F518E1F289AB200B86B10 /* TracksFileManager.swift */,
 				301F51901F29DE7C00B86B10 /* SendTracksService.swift */,
 			);
@@ -867,7 +864,6 @@
 				301F51831F2771F100B86B10 /* TracksVC.swift in Sources */,
 				301F51081F276BBC00B86B10 /* PrintExtensions.swift in Sources */,
 				301F513C1F276BE900B86B10 /* FooterSignIn.swift in Sources */,
-				301F51141F276BBC00B86B10 /* UARoadsSDK.swift in Sources */,
 				301F50FB1F276BBC00B86B10 /* TabBarVC.swift in Sources */,
 				F40DBF4C1EAF6C54002F6C11 /* MKPolyline+UARPolylineEncodedString.m in Sources */,
 				301F51111F276BBC00B86B10 /* RealmManager.swift in Sources */,
