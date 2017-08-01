@@ -11,7 +11,12 @@ import Foundation
 
 let routeDistanceMin = 300
 
+let PitInterval = 0.5
+
+let updateLocationIntervalDefault = 1.0
+
 let kDeviceUID = "DeviceUID"
+
 
 enum GPS_Status: Int {
     case noSignal

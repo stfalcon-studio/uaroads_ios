@@ -92,14 +92,6 @@ final class RecordService {
         dbManager.add(motionManager.track)
     }
     
-    private func updateMaxSpeed(with newLocation: CLLocation) {
-        if newLocation.horizontalAccuracy <= 10 {
-            if motionManager.maxSpeed < newLocation.speed {
-                motionManager.maxSpeed = newLocation.speed
-            }
-        }
-    }
-    
     private func updateTrack(with newLocation: CLLocation) {
         if let previous = self.previousLocation {
             let extraDistance = newLocation.distance(from: previous)
@@ -121,7 +113,6 @@ final class RecordService {
         if let newLocation = locationManager.currentLocation {
             appendNewPit(with: newLocation, tag: .cp)
             updateTrack(with: newLocation)
-            updateMaxSpeed(with: newLocation)
             
             previousLocation = newLocation
         }
