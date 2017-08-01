@@ -9,10 +9,20 @@
 import Foundation
 import RealmSwift
 
-class SendTracksService {
-    static let sharedInstance = SendTracksService()
+class SendTracksService: NSObject, URLSessionDelegate {
     
-    private init() {}
+    static let shared = SendTracksService()
+    
+    var urlSession: URLSession!
+    
+    private override init() {
+        super.init()
+        
+        let opQueue = OperationQueue()
+        opQueue.maxConcurrentOperationCount = 1
+        let configuration = URLSessionConfiguration.default
+        self.urlSession = URLSession(configuration: configuration, delegate: self, delegateQueue: opQueue)
+    }
     
     // MARK: Public funcs
     
@@ -23,11 +33,44 @@ class SendTracksService {
         
         guard let tracksToSend = allTracksToSend() else { return }
         
+        for track in tracksToSend {
+            pl("trackId = \(track.trackID)")
+        }
         
+        for track in tracksToSend {
+            sendTrack(track)
+        }
+    }
+    
+    func sendTrack(_ track: TrackModel) {
+        let parameters = track.sendTrackParameters()
+        var request = URLRequest(url: URL(string: "http://api.uaroads.com/add")!)
+        request.httpMethod = "POST"
+        request.httpBody = NSKeyedArchiver.archivedData(withRootObject: parameters)
+        
+        changeUploadStatus(.uploading, for: track)
+        urlSession.dataTask(with: request) { [weak self] (data, response, error) in
+            if let data = data {
+                let result = String(data: data, encoding: String.Encoding.utf8)
+                pl("RESULT: \(String(describing: result))")
+                let uploadStatus: TrackStatus = result == "OK" ? .uploaded : .waitingForUpload
+                DispatchQueue.main.async {
+                    self?.changeUploadStatus(uploadStatus, for: track)
+                }
+            } else {
+                pl(error)
+            }
+        }.resume()
     }
     
     
     // MARK: Private funcs
+    
+    private func changeUploadStatus(_ status: TrackStatus, for track: TrackModel) {
+        RealmManager().update {
+            track.status = status.rawValue
+        }
+    }
     
     private func isSutableNetworkConnection() -> Bool {
         let sendDataOnlyWiFi = SettingsManager.sharedInstance.sendDataOnlyWiFi
@@ -44,13 +87,31 @@ class SendTracksService {
     }
     
     private func allTracksToSend() -> Results<TrackModel>? {
-        let predicate = NSPredicate(format: "status = %@ OR status = %@",
+        let predicate = NSPredicate(format: "status = %ld OR status = %ld",
                                     TrackStatus.saved.rawValue,
                                     TrackStatus.waitingForUpload.rawValue)
         
         let tracks = RealmManager().objects(type: TrackModel.self)?.filter(predicate)
         
         return tracks
+    }
+    
+    // MARK: Delegate funcs:
+    // MARK: — URLSessionDelegate 
+    
+    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+        
+    }
+    
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
+        
+    }
+    
+    
+    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        
     }
     
 }
@@ -73,8 +134,8 @@ class SendTracksService {
 //                    track.status = TrackStatus.uploading.rawValue
 //                }
 //                
-//                //prepare params for sending
-//                let data64: String = TracksFileManager.trackStringData(from: track)//UARoadsSDK.encodePoints(Array(track.pits)) ?? ""
+                //prepare params for sending
+//                let data64: String = TracksFileManager.trackStringData(from: track)
 //                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
 //                let autorecord = track.autoRecord ? 1 : 0
 //                let params: [String : AnyObject] = [

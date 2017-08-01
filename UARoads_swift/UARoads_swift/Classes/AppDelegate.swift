@@ -88,6 +88,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func applicationDidBecomeActive(_ application: UIApplication) {
+         SendTracksService.shared.sendAllNotPostedTraks()
+    }
+    
+    
     //MARK: Helpers
     private func interfaceAppearance() {
         //navigation bar appearance

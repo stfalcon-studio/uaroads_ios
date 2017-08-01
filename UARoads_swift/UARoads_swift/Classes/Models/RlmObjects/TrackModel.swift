@@ -8,24 +8,6 @@
 
 import RealmSwift
 
-enum TrackStatus: Int {
-    case active
-    case saved
-    case waitingForUpload
-    case uploading
-    case uploaded
-    
-    func title() -> String {
-        switch self {
-        case .active: return "Active"
-        case .saved: return "Saved"
-        case .waitingForUpload: return "WaitingForUpload"
-        case .uploading: return "Uploading"
-        case .uploaded: return "Uploaded"
-        }
-    }
-}
-
 class TrackModel: Object {
     dynamic var trackID: String = ""
     dynamic var title: String = ""
@@ -48,10 +30,44 @@ class TrackModel: Object {
             realm?.delete(self.pits)
         })
     }
+    
+    func sendTrackParameters() -> [String : AnyObject] {
+        let data64: String = TracksFileManager.trackStringData(from: self)
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
+        let autorecord = self.autoRecord ? 1 : 0
+        let params: [String : AnyObject] = [
+            "uid": Utilities.deviceUID() as AnyObject,
+            "comment":self.title as AnyObject,
+            "routeId":self.trackID as AnyObject,
+            "data": data64 as AnyObject,
+            "app_ver":version as AnyObject,
+            "auto_record" : autorecord as AnyObject,
+            "date":"\(self.date.timeIntervalSince1970)" as AnyObject
+        ]
+        
+        return params
+    }
+    
 }
 
 
-
+enum TrackStatus: Int {
+    case active
+    case saved
+    case waitingForUpload
+    case uploading
+    case uploaded
+    
+    func title() -> String {
+        switch self {
+        case .active: return "Active"
+        case .saved: return "Saved"
+        case .waitingForUpload: return "WaitingForUpload"
+        case .uploading: return "Uploading"
+        case .uploaded: return "Uploaded"
+        }
+    }
+}
 
 
 
