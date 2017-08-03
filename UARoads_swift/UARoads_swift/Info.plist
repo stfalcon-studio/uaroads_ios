@@ -47,6 +47,7 @@
 	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>external-accessory</string>
 		<string>fetch</string>
 		<string>location</string>
 		<string>remote-notification</string>

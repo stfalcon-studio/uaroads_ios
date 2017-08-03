@@ -19,8 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let sendDataActivityTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { (_) in
         (UIApplication.shared.delegate as? AppDelegate)?.sendDataActivity()
     }
-    
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
+    
+    var backgroundSessionCompletionHandler: (() -> Void)?
+    
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -89,7 +93,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-         SendTracksService.shared.sendAllNotPostedTraks()
+//         SendTracksService.shared.sendAllNotPostedTraks()
+    }
+    
+    func application(_ application: UIApplication,
+                     handleEventsForBackgroundURLSession identifier: String,
+                     completionHandler: @escaping () -> Void) {
+        
+        backgroundSessionCompletionHandler = completionHandler
     }
     
     

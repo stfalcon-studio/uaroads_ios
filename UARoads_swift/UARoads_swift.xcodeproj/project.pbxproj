@@ -122,7 +122,7 @@
 		301F50D41F276BBC00B86B10 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		301F50D51F276BBC00B86B10 /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		301F50D61F276BBC00B86B10 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		301F50D71F276BBC00B86B10 /* RecordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordService.swift; sourceTree = "<group>"; };
+		301F50D71F276BBC00B86B10 /* RecordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecordService.swift; path = Managers/RecordService.swift; sourceTree = "<group>"; };
 		301F50D81F276BBC00B86B10 /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		301F50D91F276BBC00B86B10 /* UARoadsSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARoadsSDK.swift; sourceTree = "<group>"; };
 		301F50DB1F276BBC00B86B10 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -308,6 +308,7 @@
 		301F50CD1F276BBC00B86B10 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				301F50D71F276BBC00B86B10 /* RecordService.swift */,
 				301F50CE1F276BBC00B86B10 /* Managers */,
 				301F50DA1F276BBC00B86B10 /* Networking */,
 				301F51721F276F6200B86B10 /* RlmObjects */,
@@ -318,7 +319,6 @@
 		301F50CE1F276BBC00B86B10 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				301F50D71F276BBC00B86B10 /* RecordService.swift */,
 				301F50D41F276BBC00B86B10 /* LocationManager.swift */,
 				301F50D51F276BBC00B86B10 /* MotionManager.swift */,
 				301F50CF1F276BBC00B86B10 /* AlertManager.swift */,

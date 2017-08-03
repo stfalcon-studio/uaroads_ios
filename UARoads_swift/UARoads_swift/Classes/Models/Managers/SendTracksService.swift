@@ -9,19 +9,23 @@
 import Foundation
 import RealmSwift
 
-class SendTracksService: NSObject, URLSessionDelegate {
+class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     static let shared = SendTracksService()
     
-    var urlSession: URLSession!
+    private (set) public var urlSession: URLSession!
+    
+    private (set) public var tracksToSend: [Dictionary<Int, ThreadSafeReference<UA_Roads.TrackModel>>] = []
     
     private override init() {
         super.init()
         
-        let opQueue = OperationQueue()
+        let opQueue = OperationQueue.main
         opQueue.maxConcurrentOperationCount = 1
-        let configuration = URLSessionConfiguration.default
-        self.urlSession = URLSession(configuration: configuration, delegate: self, delegateQueue: opQueue)
+        let configuration = URLSessionConfiguration.background(withIdentifier: "bgSendTrackSessionConfiguration")
+        self.urlSession = URLSession(configuration: configuration,
+                                     delegate: self,
+                                     delegateQueue: opQueue)
     }
     
     // MARK: Public funcs
@@ -31,42 +35,58 @@ class SendTracksService: NSObject, URLSessionDelegate {
             return
         }
         
-        guard let tracksToSend = allTracksToSend() else { return }
+        guard let tracksResult = allTracksToSend() else { return }
         
-        for track in tracksToSend {
+        for track in tracksResult {
             pl("trackId = \(track.trackID)")
         }
         
-        for track in tracksToSend {
+        for track in tracksResult {
             sendTrack(track)
         }
     }
     
     func sendTrack(_ track: TrackModel) {
         let parameters = track.sendTrackParameters()
-        var request = URLRequest(url: URL(string: "http://api.uaroads.com/add")!)
-        request.httpMethod = "POST"
-        request.httpBody = NSKeyedArchiver.archivedData(withRootObject: parameters)
         
-        changeUploadStatus(.uploading, for: track)
-        urlSession.dataTask(with: request) { [weak self] (data, response, error) in
-            if let data = data {
-                let result = String(data: data, encoding: String.Encoding.utf8)
-                pl("RESULT: \(String(describing: result))")
-                let uploadStatus: TrackStatus = result == "OK" ? .uploaded : .waitingForUpload
-                DispatchQueue.main.async {
-                    self?.changeUploadStatus(uploadStatus, for: track)
-                }
-            } else {
-                pl(error)
-            }
-        }.resume()
+        guard let sendTrackUrl = URL(string: "http://api.uaroads.com/add") else { return }
+        var request = URLRequest(url: sendTrackUrl)
+        request.httpMethod = "POST"
+        let data = NSKeyedArchiver.archivedData(withRootObject: parameters)
+        request.httpBody = data
+        
+        changeTrackStatus(.uploading, for: track)
+        
+        let task = urlSession.dataTask(with: request)
+        
+        let trackRef = ThreadSafeReference(to: track)
+        let taskDict = [task.taskIdentifier : trackRef]
+        
+        tracksToSend.append(taskDict)
+        
+        task.resume()
+        
+        // TODO: delete commented text when uploading will be finished
+//        urlSession.dataTask(with: request) { [weak self] (data, response, error) in
+//            if let data = data {
+//                let result = String(data: data, encoding: String.Encoding.utf8)
+//                pl("RESULT: \(String(describing: result))")
+//                pl("response -> \n\(response)")
+//                // TODO: set correct uploadStatus
+//                let uploadStatus: TrackStatus = result == "OK" ? .uploaded : .uploaded//.waitingForUpload
+//                DispatchQueue.main.async {
+//                    self?.changeUploadStatus(uploadStatus, for: track)
+//                }
+//            } else {
+//                pl(error)
+//            }
+//        }.resume()
     }
     
     
     // MARK: Private funcs
     
-    private func changeUploadStatus(_ status: TrackStatus, for track: TrackModel) {
+    private func changeTrackStatus(_ status: TrackStatus, for track: TrackModel) {
         RealmManager().update {
             track.status = status.rawValue
         }
@@ -96,25 +116,99 @@ class SendTracksService: NSObject, URLSessionDelegate {
         return tracks
     }
     
+    private func handleSendTrack(with dataTask: URLSessionDataTask, trackStatus: TrackStatus) {
+        DispatchQueue.main.async { [weak self] in
+            guard let index = self?.tracksToSend.index(where: {
+                $0.keys.first == dataTask.taskIdentifier
+            }) else {
+                return
+            }
+            
+            guard let dict = self?.tracksToSend[index] else { return }
+            guard let trackRef = dict[dataTask.taskIdentifier] else { return }
+            guard let track = RealmManager().realm?.resolve(trackRef) else { return }
+            
+            self?.changeTrackStatus(trackStatus, for: track)
+            
+            self?.tracksToSend.remove(at: index)
+        }
+    }
+
+    
     // MARK: Delegate funcs:
-    // MARK: — URLSessionDelegate 
+    // MARK: — URLSessionDelegate
+    
     
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        
+        pf()
+        pl("urlSession error -> \(String(describing: error?.localizedDescription))")
     }
     
     func urlSession(_ session: URLSession,
                     didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
-        
+        pf()
+        let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+        let authChallengeDisposition = Foundation.URLSession.AuthChallengeDisposition.useCredential
+        completionHandler(authChallengeDisposition, credential)
     }
     
     
     func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+        pl("background session \(session) finished events.")
         
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+            let completionHandler = appDelegate.backgroundSessionCompletionHandler {
+            appDelegate.backgroundSessionCompletionHandler = nil
+            DispatchQueue.main.async {
+                completionHandler()
+            }
+        }
+    }
+
+    
+    // MARK: — URLSessionDataDelegate
+    
+    func urlSession(_ session: URLSession,
+                    dataTask: URLSessionDataTask,
+                    didReceive response: URLResponse,
+                    completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        pf()
+        pl("response -> \n\(response)")
+        pl("dataTask id = \(dataTask.taskIdentifier)")
+        
+        if let httpResponse = response as? HTTPURLResponse {
+            let trackStatus: TrackStatus = httpResponse.statusCode != 200 ? .waitingForUpload : .uploaded
+            
+            handleSendTrack(with: dataTask, trackStatus: trackStatus)
+        }
     }
     
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        let result = String(data: data, encoding: String.Encoding.utf8)
+        pl("RESULT: \(String(describing: result))")
+        
+        let trackStatus: TrackStatus = result == "OK" ? .uploaded : .waitingForUpload
+        
+        handleSendTrack(with: dataTask, trackStatus: trackStatus)
+    }
+    
+    func urlSession(_ session: URLSession,
+                    dataTask: URLSessionDataTask,
+                    willCacheResponse proposedResponse: CachedURLResponse,
+                    completionHandler: @escaping (CachedURLResponse?) -> Void) {
+        pf()
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            pl("task \(task.taskIdentifier) error -> \(error.localizedDescription)")
+        } else {
+            pl("task \(task.taskIdentifier) completed succesfully")
+        }
+    }
 }
+
 
 
 //private func handleOnSendEvent() {

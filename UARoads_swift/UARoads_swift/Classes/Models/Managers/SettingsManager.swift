@@ -8,10 +8,11 @@
 
 import Foundation
 
-enum Constants: String {
+enum SettingsKeys: String {
     case sendDataOnlyWiFi = "sendDataOnlyWiFiKey"
     case routeRecordingAutostart = "routeRecordingAutostartKey"
     case showGraph = "showGraphKey"
+    case sendTracksAutomatically = "sendTracksAutomaticallyKey"
     case email = "emailKey"
     case enableSound = "enableSoundKey"
     case firstLaunch = "firstLaunchKey"
@@ -24,33 +25,41 @@ final class SettingsManager {
     private let defaults = UserDefaults.standard
     
     var sendDataOnlyWiFi: Bool {
-        get { return defaults.bool(forKey: Constants.sendDataOnlyWiFi.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.sendDataOnlyWiFi.rawValue); defaults.synchronize() }
+        get { return defaults.bool(forKey: SettingsKeys.sendDataOnlyWiFi.rawValue) }
+        set { defaults.set(newValue, forKey: SettingsKeys.sendDataOnlyWiFi.rawValue); defaults.synchronize() }
     }
     
     var routeRecordingAutostart: Bool {
-        get { return defaults.bool(forKey: Constants.routeRecordingAutostart.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.routeRecordingAutostart.rawValue); defaults.synchronize() }
+        get { return defaults.bool(forKey: SettingsKeys.routeRecordingAutostart.rawValue) }
+        set { defaults.set(newValue, forKey: SettingsKeys.routeRecordingAutostart.rawValue); defaults.synchronize() }
+    }
+    
+    var sendTracksAutomatically: Bool {
+        get {
+            return defaults.bool(forKey: SettingsKeys.sendTracksAutomatically.rawValue)
+        } set {
+            defaults.set(newValue, forKey: SettingsKeys.sendTracksAutomatically.rawValue)
+        }
     }
     
     var showGraph: Bool {
-        get { return defaults.bool(forKey: Constants.showGraph.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.showGraph.rawValue); defaults.synchronize() }
+        get { return defaults.bool(forKey: SettingsKeys.showGraph.rawValue) }
+        set { defaults.set(newValue, forKey: SettingsKeys.showGraph.rawValue); defaults.synchronize() }
     }
     
     var enableSound: Bool {
-        get { return defaults.bool(forKey: Constants.enableSound.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.enableSound.rawValue); defaults.synchronize() }
+        get { return defaults.bool(forKey: SettingsKeys.enableSound.rawValue) }
+        set { defaults.set(newValue, forKey: SettingsKeys.enableSound.rawValue); defaults.synchronize() }
     }
     
     var email: String? {
-        get { return defaults.string(forKey: Constants.email.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.email.rawValue); defaults.synchronize()  }
+        get { return defaults.string(forKey: SettingsKeys.email.rawValue) }
+        set { defaults.set(newValue, forKey: SettingsKeys.email.rawValue); defaults.synchronize()  }
     }
     
     var firstLaunch: String? {
-        get { return defaults.string(forKey: Constants.firstLaunch.rawValue) }
-        set { defaults.set(newValue, forKey: Constants.firstLaunch.rawValue); defaults.synchronize()  }
+        get { return defaults.string(forKey: SettingsKeys.firstLaunch.rawValue) }
+        set { defaults.set(newValue, forKey: SettingsKeys.firstLaunch.rawValue); defaults.synchronize()  }
     }
 }
 

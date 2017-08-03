@@ -37,6 +37,14 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // test send, delete this row
+        SendTracksService.shared.sendAllNotPostedTraks()
+        UIApplication.shared.perform(#selector(URLSessionTask.suspend))
+    }
+    
     func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
