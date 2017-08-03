@@ -22,4 +22,8 @@ class Utilities {
         }
         return uid!
     }
+    
+    class func appVersion() -> String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    }
 }
