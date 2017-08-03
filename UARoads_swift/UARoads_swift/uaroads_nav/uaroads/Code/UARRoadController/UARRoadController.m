@@ -62,7 +62,8 @@
     
     self.mapDataProvider = [[UARMapDataProvider alloc] initWithMapView:weakSelf.mapView delegate:self];
     
-    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:routeURL] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:routeURL]
+                                 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         UARRouteJSONParser *parser = [UARRouteJSONParser new];
         NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:NULL];
         

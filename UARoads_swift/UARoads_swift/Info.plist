@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.03</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3.01</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -43,6 +43,8 @@
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -63,5 +65,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

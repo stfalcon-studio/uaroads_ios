@@ -12,7 +12,7 @@ target 'UARoads_swift' do
     pod 'Heap'
     
     #Realm
-    pod 'RealmSwift'
+    pod 'RealmSwift', '~> 2.5.1'
     
     #Rx stuff
     pod 'RxSwift'
@@ -24,6 +24,7 @@ target 'UARoads_swift' do
     
     #Connection
     pod 'UHBConnectivityManager'
+    pod 'ReachabilitySwift', '~> 3'    
     
     #UI elements
     pod 'JGProgressHUD'
