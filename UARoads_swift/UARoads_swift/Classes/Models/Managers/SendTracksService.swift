@@ -29,6 +29,16 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         self.urlSession = URLSession(configuration: configuration,
                                      delegate: self,
                                      delegateQueue: opQueue)
+        
+        let notificationName = Notification.Name(networkStatusChangedNotification)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(networkStatusChanged(_:)),
+                                               name: notificationName,
+                                               object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: Public funcs
@@ -68,6 +78,20 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         tracksToSend.append(taskDict)
         
         task.resume()
+    }
+    
+    
+    // MARK: Notification observers
+    
+    func networkStatusChanged(_ notification: Notification) {
+        guard let networkStatus = notification.object as? ReachabilityStatus else { return }
+        
+        if networkStatus == .reachableViaWiFi &&
+            SettingsManager.sharedInstance.sendDataOnlyWiFi == true &&
+            SettingsManager.sharedInstance.sendTracksAutomatically == true {
+            
+            sendAllNotPostedTraks()
+        }
     }
     
     

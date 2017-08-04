@@ -30,5 +30,11 @@ enum PitTag: String {
     case origin = "origin"
 }
 
+enum ReachabilityStatus {
+    case notReachable
+    case reachableViaCellular
+    case reachableViaWiFi
+}
+
 
 

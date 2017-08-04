@@ -8,7 +8,6 @@
 
 import UIKit
 import UserNotifications
-import UHBConnectivityManager
 import StfalconSwiftExtensions
 
 @UIApplicationMain
@@ -75,6 +74,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      completionHandler: @escaping () -> Void) {
         
         backgroundSessionCompletionHandler = completionHandler
+        
+        let networkStatus = NetworkConnectionManager.shared.networkStatus
+        let isWiFiOnly = SettingsManager.sharedInstance.sendDataOnlyWiFi
+        
+        if (isWiFiOnly == true && networkStatus == .reachableViaWiFi) ||
+            (isWiFiOnly == false && networkStatus != .notReachable) {
+            
+            SendTracksService.shared.sendAllNotPostedTraks()
+        }
     }
     
     

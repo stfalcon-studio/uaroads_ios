@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 import StfalconSwiftExtensions
-import UHBConnectivityManager
 
 class SettingsVC: BaseTVC {
     

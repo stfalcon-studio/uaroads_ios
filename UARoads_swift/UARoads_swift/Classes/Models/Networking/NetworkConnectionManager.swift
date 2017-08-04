@@ -18,12 +18,6 @@ class NetworkConnectionManager {
     private let reachability = Reachability()!
     private (set) public var networkStatus: ReachabilityStatus = .notReachable
     
-    enum ReachabilityStatus {
-        case notReachable
-        case reachableViaCellular
-        case reachableViaWiFi
-    }
-    
     private init() {}
     
     deinit {

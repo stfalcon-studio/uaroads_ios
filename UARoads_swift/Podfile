@@ -23,7 +23,6 @@ target 'UARoads_swift' do
     pod 'SwiftyJSON'
     
     #Connection
-    pod 'UHBConnectivityManager'
     pod 'ReachabilitySwift', '~> 3'    
     
     #UI elements
