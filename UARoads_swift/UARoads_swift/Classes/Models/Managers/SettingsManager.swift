@@ -42,11 +42,6 @@ final class SettingsManager {
         }
     }
     
-    var showGraph: Bool {
-        get { return defaults.bool(forKey: SettingsKeys.showGraph.rawValue) }
-        set { defaults.set(newValue, forKey: SettingsKeys.showGraph.rawValue); defaults.synchronize() }
-    }
-    
     var enableSound: Bool {
         get { return defaults.bool(forKey: SettingsKeys.enableSound.rawValue) }
         set { defaults.set(newValue, forKey: SettingsKeys.enableSound.rawValue); defaults.synchronize() }
@@ -60,6 +55,13 @@ final class SettingsManager {
     var firstLaunch: String? {
         get { return defaults.string(forKey: SettingsKeys.firstLaunch.rawValue) }
         set { defaults.set(newValue, forKey: SettingsKeys.firstLaunch.rawValue); defaults.synchronize()  }
+    }
+    
+    
+    func setDefaultSetting() {
+        self.sendDataOnlyWiFi = true
+        self.sendTracksAutomatically = true
+        self.routeRecordingAutostart = false
     }
 }
 

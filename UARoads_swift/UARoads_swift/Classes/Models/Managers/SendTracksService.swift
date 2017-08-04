@@ -17,6 +17,9 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     private (set) public var tracksToSend: [Dictionary<Int, ThreadSafeReference<UA_Roads.TrackModel>>] = []
     
+    
+    // MARK: Init funcs
+    
     private override init() {
         super.init()
         
@@ -65,22 +68,6 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         tracksToSend.append(taskDict)
         
         task.resume()
-        
-        // TODO: delete commented text when uploading will be finished
-//        urlSession.dataTask(with: request) { [weak self] (data, response, error) in
-//            if let data = data {
-//                let result = String(data: data, encoding: String.Encoding.utf8)
-//                pl("RESULT: \(String(describing: result))")
-//                pl("response -> \n\(response)")
-//                // TODO: set correct uploadStatus
-//                let uploadStatus: TrackStatus = result == "OK" ? .uploaded : .uploaded//.waitingForUpload
-//                DispatchQueue.main.async {
-//                    self?.changeUploadStatus(uploadStatus, for: track)
-//                }
-//            } else {
-//                pl(error)
-//            }
-//        }.resume()
     }
     
     
@@ -211,59 +198,3 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
 
 
 
-//private func handleOnSendEvent() {
-//    AnalyticManager.sharedInstance.reportEvent(category: "System", action: "SendDataActivity Start")
-//    
-//    var sendingInProcess = false
-//    
-//    let pred = NSPredicate(format: "(status == 2) OR (status == 3)")
-//    let result = self.dbManager.objects(type: TrackModel.self)?.filter(pred)
-//    
-//    if sendingInProcess == false {
-//        if let result = result, result.count > 0 {
-//            sendingInProcess = true
-//            
-//            if let track = result.first {
-//                self.dbManager.update {
-//                    track.status = TrackStatus.uploading.rawValue
-//                }
-//                
-                //prepare params for sending
-//                let data64: String = TracksFileManager.trackStringData(from: track)
-//                let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"]
-//                let autorecord = track.autoRecord ? 1 : 0
-//                let params: [String : AnyObject] = [
-//                    "uid": Utilities.deviceUID() as AnyObject,
-//                    "comment":track.title as AnyObject,
-//                    "routeId":track.trackID as AnyObject,
-//                    "data": data64 as AnyObject,
-//                    "app_ver":version as AnyObject,
-//                    "auto_record" : autorecord as AnyObject,
-//                    "date":"\(track.date.timeIntervalSince1970)" as AnyObject
-//                ]
-//                
-//                NetworkManager.sharedInstance.tryToSendData(params: params, handler: { val in
-//                    sendingInProcess = false
-//                    
-//                    if result.count > 1 && val  {
-//                        self.onSend?() //recursion
-//                    } else {
-//                        (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(val)
-//                    }
-//                    
-//                    self.dbManager.update {
-//                        if val == true {
-//                            track.status = TrackStatus.uploaded.rawValue
-//                        } else {
-//                            track.status = TrackStatus.waitingForUpload.rawValue
-//                        }
-//                    }
-//                })
-//            }
-//        }
-//    }
-//    if !sendingInProcess {
-//        (UIApplication.shared.delegate as? AppDelegate)?.completeBackgroundTrackSending(false)
-//    }
-//    AnalyticManager.sharedInstance.reportEvent(category: "System", action: "sendDataActivity End")
-//}
