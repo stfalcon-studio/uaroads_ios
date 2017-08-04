@@ -44,7 +44,7 @@ class TracksVC: BaseTVC {
                 self?.tableView.beginUpdates()
                 self?.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .left)
                 self?.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
-                self?.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .left)
+                self?.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .none)
                 self?.tableView.endUpdates()
                 break
             case .error(let error):
