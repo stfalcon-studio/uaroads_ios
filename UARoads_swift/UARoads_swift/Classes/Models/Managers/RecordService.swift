@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import RealmSwift
 
 
 
@@ -47,11 +48,6 @@ final class RecordService {
             self.handleUpdateLocationEvent()
         }
         
-        // TODO: delete onSend block
-        onSend = { [unowned self] in
-//            self.handleOnSendEvent()
-        }
-        
         onMotionCompleted = { [unowned self] in
             self.handleMotionCompletedEvent()
         }
@@ -85,81 +81,67 @@ final class RecordService {
     
     // MARK: Private funcs
     
-    private func handleUpdateLocationEvent() {
-        pf()
-        let manager = self.motionManager
-
-        if let newLocation = locationManager.currentLocation {
-            let pit = PitModel()
-            pit.latitude = newLocation.coordinate.latitude
-            pit.longitude = newLocation.coordinate.longitude
-            pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-            pit.value = manager.getAccelerometerData()
-            pit.horizontalAccuracy = locationManager.currentLocation?.horizontalAccuracy ?? 0.0
-            pit.speed = locationManager.currentLocation?.speed ?? 0.0
-            
-            pit.tag = "cp"
-            
+    private func appendNewPit(with location: CLLocation, tag: PitTag) {
+        let pit = PitModel(location: location,
+                           tag: tag,
+                           accelerometerData: motionManager.getAccelerometerData())
+        
+        dbManager.update {
+            motionManager.track?.pits.append(pit)
+        }
+        dbManager.add(motionManager.track)
+    }
+    
+    private func updateTrack(with newLocation: CLLocation) {
+        if let previous = self.previousLocation {
+            let extraDistance = newLocation.distance(from: previous)
             self.dbManager.update {
-                manager.track?.pits.append(pit)
+                motionManager.track?.distance += CGFloat(extraDistance)
             }
-            self.dbManager.add(manager.track)
+            self.dbManager.add(motionManager.track)
             
-            if let previous = self.previousLocation {
-                
-                let extraDistance = newLocation.distance(from: previous)
-                self.dbManager.update {
-                    manager.track?.distance += CGFloat(extraDistance)
-                }
-                self.dbManager.add(manager.track)
-                
-                let distance = Double(manager.track?.distance ?? 0)
-                
-                trackDistanceUpdated?(distance)
-                maxPitUpdated?(pit.value)
-            }
+            let distance = Double(motionManager.track?.distance ?? 0)
             
-            if newLocation.horizontalAccuracy <= 10 {
-                if manager.maxSpeed < newLocation.speed {
-                    manager.maxSpeed = newLocation.speed
-                }
+            trackDistanceUpdated?(distance)
+            if let newPit = motionManager.track?.pits.last {
+                maxPitUpdated?(newPit.value)
             }
+        }
+    }
+    
+    private func handleUpdateLocationEvent() {
+        if let newLocation = locationManager.currentLocation {
+            appendNewPit(with: newLocation, tag: .cp)
+            updateTrack(with: newLocation)
             
             previousLocation = newLocation
         }
     }
     
     private func handleMotionCompletedEvent() {
-        //mark the end of the checkpoint
-        let coordinate = locationManager.currentLocation?.coordinate
-        let pit = PitModel()
-        pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-        pit.latitude = coordinate?.latitude ?? 0.0
-        pit.longitude = coordinate?.longitude ?? 0.0
-        pit.tag = "cp"
-        pit.value = motionManager.getAccelerometerData()
-        pit.horizontalAccuracy = locationManager.currentLocation?.horizontalAccuracy ?? 0.0
-        pit.speed = locationManager.currentLocation?.speed ?? 0.0
-        self.dbManager.update {
-            self.motionManager.track?.pits.append(pit)
-        }
-        self.dbManager.add(self.motionManager.track)
+        guard let currLocation = locationManager.currentLocation else { return }
+        appendNewPit(with: currLocation, tag: .cp)
         
         let pred = NSPredicate(format: "status == 0")
         let result = self.dbManager.objects(type: TrackModel.self)?.filter(pred)
         if let result = result, result.count > 0 {
-            self.dbManager.update {
-                for item in result {
-                    if Date().timeIntervalSince(item.date) > 10 {
-                        item.status = TrackStatus.waitingForUpload.rawValue
-                    }
-                }
+            updateCompletedTracks(result)
+        }
+        
+        if SettingsManager.sharedInstance.sendTracksAutomatically == true {
+            SendTracksService.shared.sendAllNotPostedTraks()
+        }
+    }
+    
+    private func updateCompletedTracks(_ tracks: Results<TrackModel>) {
+        self.dbManager.update {
+            for item in tracks {
+                item.status = TrackStatus.waitingForUpload.rawValue
             }
         }
     }
     
     private func handleOnPitEvent(pitValue: Double) {
-        pf()
         var pitN = Int(pitValue/0.3)
         if pitN > 5 {
             pitN = 5
@@ -172,7 +154,7 @@ final class RecordService {
         let pit = PitModel()
         pit.value = pitValue
         pit.time = "\(Date().timeIntervalSince1970 * 1000)"
-        pit.tag = "origin"
+        pit.tag = PitTag.origin.rawValue
         pit.horizontalAccuracy = locationManager.currentLocation?.horizontalAccuracy ?? 0.0
         pit.speed = locationManager.currentLocation?.speed ?? 0.0
         

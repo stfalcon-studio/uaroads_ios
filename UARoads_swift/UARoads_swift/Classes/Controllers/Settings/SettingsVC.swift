@@ -9,15 +9,12 @@
 import UIKit
 import RxSwift
 import StfalconSwiftExtensions
-import UHBConnectivityManager
 
 class SettingsVC: BaseTVC {
-    fileprivate let dataSourceTitle = [
-        NSLocalizedString("Send data only via WiFi", comment: "title"),
-        NSLocalizedString("Route recording autostart", comment: "title"),
-        NSLocalizedString("Show map / graph", comment: "title"),
-//        NSLocalizedString("Enable pit sounds", comment: "title")
-    ]
+    
+    let viewModel = SettingsViewModel()
+    
+    // MARK: Overriden funcs
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,170 +41,165 @@ class SettingsVC: BaseTVC {
         tableView.register(SettingsSwitchCell.self, forCellReuseIdentifier: "SettingsSwitchCell")
         tableView.register(SettingsTFCell.self, forCellReuseIdentifier: "SettingsTFCell")
     }
+    
+    
+    // MARK: Private funcs
+    
+    fileprivate func signInButtonTapped() {
+        let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
+        if cell.mainTF.text?.characters.count == 0 || cell.mainTF.textColor == UIColor.red {
+            AlertManager.showAlertCheckEmail(viewController: self)
+            return
+        }
+        
+        let email = cell.mainTF.text
+        if email == nil || email?.length == 0 {
+            return
+        }
+        
+        if NetworkConnectionManager.shared.networkStatus == .notReachable {
+            AlertManager.showAlertServerConnectionError(viewController: self)
+            return
+        }
+       
+        authorizeUser(with: email!)
+    }
+    
+    fileprivate func configureEmailCell(_ cell: SettingsTFCell) {
+        cell.update(email: SettingsManager.sharedInstance.email)
+        
+        cell.mainTF
+            .rx
+            .controlEvent(.editingDidEndOnExit)
+            .bind { [weak self] in
+                self?.view.endEditing(true)
+            }
+            .addDisposableTo(disposeBag)
+        
+        cell.action = { [weak self] in
+            SettingsManager.sharedInstance.email = nil
+            self?.tableView.reloadData()
+        }
+    }
+    
+    fileprivate func configureSwitchCell(_ cell: SettingsSwitchCell, at indexPath: IndexPath) {
+        let settingsType = SettingsParameters(rawValue: indexPath.row)!
+        cell.mainTitleLbl.text = settingsType.titleForCell()
+        
+        switch settingsType {
+        case .sendDataOnlyViaWiFi:
+            cell.switcher.setOn(SettingsManager.sharedInstance.sendDataOnlyWiFi, animated: false)
+        case .autostartRecordRoutes:
+            cell.switcher.setOn(SettingsManager.sharedInstance.routeRecordingAutostart, animated: false)
+        case .sendTracksAutomatically:
+            cell.switcher.setOn(SettingsManager.sharedInstance.sendTracksAutomatically, animated: false)
+        }
+        
+        addSwitchAction(for: cell, with: settingsType)
+    }
+    
+    private func authorizeUser(with email: String) {
+        HUDManager.sharedInstance.show(from: self)
+        NetworkManager.sharedInstance.authorizeDevice(email: email, handler: { [weak self] success in
+            if !success {
+                AlertManager.showAlertRegisterDevieceError(viewController: self)
+            } else {
+                SettingsManager.sharedInstance.email = email
+                self?.tableView.reloadData()
+            }
+            HUDManager.sharedInstance.hide()
+        })
+    }
+    
+    private func addSwitchAction(for cell: SettingsSwitchCell, with settingsType: SettingsParameters) {
+        switch settingsType {
+        case .sendDataOnlyViaWiFi:
+            cell.switcher
+                .rx
+                .value
+                .bind(onNext: { val in
+                    SettingsManager.sharedInstance.sendDataOnlyWiFi = val
+                    AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Send Only WiFi")
+                })
+                .addDisposableTo(disposeBag)
+        case .autostartRecordRoutes:
+            cell.switcher
+                .rx
+                .value
+                .bind(onNext: { val in
+                    SettingsManager.sharedInstance.routeRecordingAutostart = val
+                    AutostartManager.sharedInstance.setAutostartActive(val)
+                    AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
+                })
+                .addDisposableTo(disposeBag)
+        case .sendTracksAutomatically:
+            cell.switcher
+                .rx
+                .value
+                .subscribe(onNext: { value in
+                    SettingsManager.sharedInstance.sendTracksAutomatically = value
+                    AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Send Tracks Automatically")
+                })
+                .addDisposableTo(disposeBag)
+        }
+    }
+    
 }
 
 extension SettingsVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
+        guard let currSection = SettingSection(rawValue: section) else {
+            return 0
         }
-        return dataSourceTitle.count
+        return currSection.numberOfRows()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return SettingSection.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return NSLocalizedString("user", comment: "userTitle").uppercased()
+        guard let currSection = SettingSection(rawValue: section) else {
+            return nil
         }
-        return nil
+        return currSection.titleForHeader()
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 0 {
-            if SettingsManager.sharedInstance.email != nil {
-                return nil
-            }
-            
-            let footer = FooterSignIn()
-            footer.action = { [weak self] in
-                let cell = self?.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
-                if cell.mainTF.text?.characters.count == 0 || cell.mainTF.textColor == UIColor.red {
-                    AlertManager.showAlertCheckEmail(viewController: self)
-                    return
-                }
-                
-                if let email = cell.mainTF.text {
-                    //authorize user
-                    if UHBConnectivityManager.shared().isConnected() == true {
-                        HUDManager.sharedInstance.show(from: self!)
-                        NetworkManager.sharedInstance.authorizeDevice(email: email, handler: { [weak self] val in
-                            if !val {
-                                AlertManager.showAlertRegisterDevieceError(viewController: self)
-                            } else {
-                                //save email to Defaults
-                                SettingsManager.sharedInstance.email = email
-                                
-                                //update UI
-                                self?.tableView.reloadData()
-                            }
-                            HUDManager.sharedInstance.hide()
-                        })
-                    }
-                }
-            }
-            footer.textLbl.text = NSLocalizedString("Authorized users can view their site statistics, get in TOP, gain reward for their achievements.", comment: "footerTitle")
-            
-            return footer
-            
-        } else {
-            let footer = FooterText()
-            footer.versionLbl.text = NSLocalizedString("Version: ", comment: "version") + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
-            footer.uidLbl.text = "UID: " + Utilities.deviceUID()
-            
-            return footer
+        guard let footerView = viewModel.viewForFooter(in: section) else {
+            return nil
         }
+        
+        if let footer = footerView as? FooterSignIn {
+            footer.action = { [weak self] in
+                self?.signInButtonTapped()
+            }
+        }
+        return footerView
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let height: CGFloat = 100.0
-        if section == 0 {
-            return SettingsManager.sharedInstance.email != nil ? 0.0 : height
-        }
-        return height
+        guard let section = SettingSection(rawValue: section) else { return 0 }
+        return viewModel.heightForFooter(in: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsSwitchCell") as! SettingsSwitchCell
-        let cellEmail = tableView.dequeueReusableCell(withIdentifier: "SettingsTFCell") as! SettingsTFCell
-        
-        let section = indexPath.section
-        let row = indexPath.row
-        let item = dataSourceTitle[row]
-        
-        if section == 0 {
-            cellEmail.mainTF
-                .rx
-                .controlEvent(.editingDidEndOnExit)
-                .bind { [weak self] in
-                    self?.view.endEditing(true)
-                }
-                .addDisposableTo(disposeBag)
-            
-            cellEmail.action = { [weak self] in
-                SettingsManager.sharedInstance.email = nil
-                self?.tableView.reloadData()
-            }
-            
-            cellEmail.update(email: SettingsManager.sharedInstance.email)
-            
-            return cellEmail
-            
-        } else if section == 1 {
-            cell.mainTitleLbl.text = item
-            switch row {
-            case 0:
-                cell.switcher.setOn(SettingsManager.sharedInstance.sendDataOnlyWiFi, animated: false)
-                cell.switcher
-                    .rx
-                    .value
-                    .bind(onNext: { val in
-                        SettingsManager.sharedInstance.sendDataOnlyWiFi = val
-                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Send Only WiFi")
-                    })
-                    .addDisposableTo(disposeBag)
-            case 1:
-                cell.switcher.setOn(SettingsManager.sharedInstance.routeRecordingAutostart, animated: false)
-                cell.switcher
-                    .rx
-                    .value
-                    .bind(onNext: { val in
-                        SettingsManager.sharedInstance.routeRecordingAutostart = val
-                        AutostartManager.sharedInstance.setAutostartActive(val)
-                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
-                    })
-                    .addDisposableTo(disposeBag)
-                
-            case 2:
-                cell.switcher.setOn(SettingsManager.sharedInstance.showGraph, animated: false)
-                cell.switcher
-                    .rx
-                    .value
-                    .bind(onNext: { val in
-                        SettingsManager.sharedInstance.showGraph = val
-                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Show Map")
-                    })
-                    .addDisposableTo(disposeBag)
-                
-            case 3:
-                cell.switcher.setOn(SettingsManager.sharedInstance.enableSound, animated: false)
-                cell.switcher
-                    .rx
-                    .value
-                    .bind(onNext: { val in
-                        SettingsManager.sharedInstance.enableSound = val
-                        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Pit Sound")
-                    })
-                    .addDisposableTo(disposeBag)
-                
-            default: break
-            }
-            return cell
+        let section = SettingSection(rawValue: indexPath.section)!
+        var cell = UITableViewCell()
+        switch section {
+        case .signIn:
+            let cellEmail = tableView.dequeueReusableCell(withIdentifier: "SettingsTFCell") as! SettingsTFCell
+            configureEmailCell(cellEmail)
+            cell = cellEmail
+        case .switchParameters:
+            let switchCell = tableView.dequeueReusableCell(withIdentifier: "SettingsSwitchCell") as! SettingsSwitchCell
+            configureSwitchCell(switchCell, at: indexPath)
+            cell = switchCell
         }
         
-        return UITableViewCell()
+        return cell
     }
 }
-
-
-
-
-
-
-
-
 
 
 

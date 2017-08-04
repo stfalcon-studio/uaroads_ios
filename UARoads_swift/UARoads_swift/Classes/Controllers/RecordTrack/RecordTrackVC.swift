@@ -46,7 +46,6 @@ class RecordTrackVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        graphView.isHidden = !SettingsManager.sharedInstance.showGraph
         UIApplication.shared.statusBarStyle = .lightContent
         
         viewModel.getUserStatistic(completion: { [weak self] (response, error) in

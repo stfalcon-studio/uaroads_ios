@@ -11,3 +11,4 @@ import Foundation
 typealias EmptyHandler = () -> ()
 typealias SuccessHandler = (_ success: Bool) -> ()
 typealias SearchLocationHandler = (_ results: [SearchResultModel]) -> ()
+

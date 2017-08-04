@@ -94,33 +94,14 @@ class RoutesVC: BaseTVC {
         lineView.backgroundColor = UIColor.lightGray
         lineView.alpha = 0.5
         
-        fromLocationBtn.setImage(UIImage(named: "location"), for: .normal)
-        fromLocationBtn.sizeToFit()
-        
-        toLocationBtn.setImage(UIImage(named: "location"), for: .normal)
-        toLocationBtn.sizeToFit()
-        
-        fromTF.placeholder = NSLocalizedString("From", comment: "fromTF")
-        fromTF.autocorrectionType = .no
-        fromTF.rightView = fromLocationBtn
-        fromTF.rightViewMode = .unlessEditing
-        fromTF.clearButtonMode = .whileEditing
-        fromTF.clearsOnBeginEditing = true
-        
-        toTF.placeholder = NSLocalizedString("To", comment: "toTF")
-        toTF.autocorrectionType = .no
-        toTF.rightView = toLocationBtn
-        toTF.rightViewMode = .unlessEditing
-        toTF.clearButtonMode = .whileEditing
-        toTF.clearsOnBeginEditing = true
-        
-        buildBtn.setTitle(NSLocalizedString("Build", comment: "buildBtn"), for: .normal)
-        buildBtn.titleLabel?.textColor = UIColor.white
-        buildBtn.backgroundColor = UIColor.colorAccent
-        
         clearBtn.tintColor = UIColor.white
         
         webView.scalesPageToFit = true
+        
+        customizeLocationButtons()
+        customizeFromTF()
+        customizeToTF()
+        customizeBuildButton()
         
         //hidden by default
         tableView.alpha = 0.0
@@ -141,20 +122,8 @@ class RoutesVC: BaseTVC {
         tableView
             .rx
             .itemSelected
-            .bind { [weak self] ip in
-                if let strongSelf = self {
-                    let selectedItem = strongSelf.dataSource[ip.row]
-                    if strongSelf.fromTF.isFirstResponder {
-                        strongSelf.fromModel = selectedItem
-                        strongSelf.fromTF.text = strongSelf.fromModel?.locationName
-                        
-                    } else if strongSelf.toTF.isFirstResponder {
-                        strongSelf.toModel = selectedItem
-                        strongSelf.toTF.text = strongSelf.toModel?.locationName
-                    }
-                    strongSelf.checkFields()
-                    strongSelf.hideTableView()
-                }
+            .bind { [weak self] indexPath in
+                self?.tableviewDidSelectItem(at: indexPath)
             }
             .addDisposableTo(disposeBag)
         
@@ -162,16 +131,7 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                self?.toModel = nil
-                self?.fromModel = nil
-                self?.fromTF.text = ""
-                self?.toTF.text = ""
-                self?.dataSource = []
-                self?.tableView.reloadData()
-                self?.view.endEditing(true)
-                self?.navigationItem.rightBarButtonItem = nil
-                self?.hideTableView()
-                self?.checkFields()
+                self?.clearButtonTapped()
             }
             .addDisposableTo(disposeBag)
         
@@ -180,12 +140,7 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                if let coord = self?.currentLocation {
-                    self?.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
-                    self?.fromTF.resignFirstResponder()
-                    self?.fromModel = SearchResultModel(locationCoordianate: coord, locationName: self?.fromTF.text, locationDescription: nil)
-                }
-                self?.checkFields()
+                self?.fromLocationTapped()
             }
             .addDisposableTo(disposeBag)
         
@@ -193,12 +148,7 @@ class RoutesVC: BaseTVC {
             .rx
             .tap
             .bind { [weak self] in
-                if let coord = self?.currentLocation {
-                    self?.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
-                    self?.toTF.resignFirstResponder()
-                    self?.toModel = SearchResultModel(locationCoordianate: coord, locationName: self?.toTF.text, locationDescription: nil)
-                }
-                self?.checkFields()
+                self?.toLocationTapped()
             }
             .addDisposableTo(disposeBag)
         
@@ -207,16 +157,7 @@ class RoutesVC: BaseTVC {
             .rx
             .controlEvent(.editingChanged)
             .bind { [weak self] in
-                if self?.navigationItem.rightBarButtonItem == nil {
-                    self?.navigationItem.rightBarButtonItem = self?.clearBtn
-                }
-                if let text = self?.fromTF.text, let coord = self?.locationManager.location?.coordinate {
-                    NetworkManager.sharedInstance.searchResults(location: text, coord: coord, handler: { results in
-                        self?.dataSource = results
-                        self?.tableView.reloadData()
-                        self?.showTableView()
-                    })
-                }
+                self?.textFieldValueChanged(self?.fromTF)
             }
             .addDisposableTo(disposeBag)
         
@@ -224,16 +165,7 @@ class RoutesVC: BaseTVC {
             .rx
             .controlEvent(.editingChanged)
             .bind { [weak self] in
-                if self?.navigationItem.rightBarButtonItem == nil {
-                    self?.navigationItem.rightBarButtonItem = self?.clearBtn
-                }
-                if let text = self?.toTF.text, let coord = self?.locationManager.location?.coordinate {
-                    NetworkManager.sharedInstance.searchResults(location: text, coord: coord, handler: { results in
-                        self?.dataSource = results
-                        self?.tableView.reloadData()
-                        self?.showTableView()
-                    })
-                }
+                self?.textFieldValueChanged(self?.toTF)
             }
             .addDisposableTo(disposeBag)
         
@@ -242,9 +174,7 @@ class RoutesVC: BaseTVC {
             .rx
             .controlEvent(.editingDidBegin)
             .bind { [weak self] in
-                UIView.animate(withDuration: 0.2, animations: {
-                    self?.buildBtn.alpha = 0.0
-                })
+                self?.hideBuildButton()
             }
             .addDisposableTo(disposeBag)
         
@@ -252,9 +182,7 @@ class RoutesVC: BaseTVC {
             .rx
             .controlEvent(.editingDidBegin)
             .bind { [weak self] in
-                UIView.animate(withDuration: 0.2, animations: {
-                    self?.buildBtn.alpha = 0.0
-                })
+                self?.hideBuildButton()
             }
             .addDisposableTo(disposeBag)
         
@@ -263,8 +191,7 @@ class RoutesVC: BaseTVC {
             .rx
             .controlEvent(.editingDidEndOnExit)
             .bind { [weak self] in
-                self?.hideTableView()
-                self?.checkFields()
+                self?.textFieldDidEndEditing()
             }
             .addDisposableTo(disposeBag)
         
@@ -272,13 +199,14 @@ class RoutesVC: BaseTVC {
             .rx
             .controlEvent(.editingDidEndOnExit)
             .bind { [weak self] in
-                self?.hideTableView()
-                self?.checkFields()
+                self?.textFieldDidEndEditing()
             }
             .addDisposableTo(disposeBag)
         
         //keyboard appearance
-        RxKeyboard.instance.willShowVisibleHeight
+        RxKeyboard
+            .instance
+            .willShowVisibleHeight
             .drive(onNext: { [weak self] offset in
                 self?.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, offset, 0.0)
                 }, onCompleted: nil, onDisposed: nil)
@@ -296,6 +224,114 @@ class RoutesVC: BaseTVC {
     
     
     //MARK: Private funcs
+    
+    private func customizeLocationButtons() {
+        fromLocationBtn.setImage(UIImage(named: "location"), for: .normal)
+        fromLocationBtn.sizeToFit()
+        
+        toLocationBtn.setImage(UIImage(named: "location"), for: .normal)
+        toLocationBtn.sizeToFit()
+    }
+    
+    private func customizeBuildButton() {
+        buildBtn.setTitle(NSLocalizedString("Build", comment: "buildBtn"), for: .normal)
+        buildBtn.titleLabel?.textColor = UIColor.white
+        buildBtn.backgroundColor = UIColor.colorAccent
+    }
+    
+    private func customizeFromTF() {
+        fromTF.placeholder = NSLocalizedString("From", comment: "fromTF")
+        fromTF.autocorrectionType = .no
+        fromTF.rightView = fromLocationBtn
+        fromTF.rightViewMode = .unlessEditing
+        fromTF.clearButtonMode = .whileEditing
+        fromTF.clearsOnBeginEditing = true
+    }
+    
+    private func customizeToTF() {
+        toTF.placeholder = NSLocalizedString("To", comment: "toTF")
+        toTF.autocorrectionType = .no
+        toTF.rightView = toLocationBtn
+        toTF.rightViewMode = .unlessEditing
+        toTF.clearButtonMode = .whileEditing
+        toTF.clearsOnBeginEditing = true
+    }
+    
+    private func textFieldDidEndEditing() {
+        hideTableView()
+        checkFields()
+    }
+    
+    private func hideBuildButton() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.buildBtn.alpha = 0.0
+        })
+    }
+    
+    private func textFieldValueChanged(_ textField: UITextField?) {
+        guard let tf = textField else { return }
+        if navigationItem.rightBarButtonItem == nil {
+            navigationItem.rightBarButtonItem = clearBtn
+        }
+        if let text = tf.text, let coordinates = locationManager.location?.coordinate {
+            NetworkManager.sharedInstance.searchResults(location: text,
+                                                        coord: coordinates,
+                                                        handler: { [weak self] (results) in
+                                                            self?.dataSource = results
+                                                            self?.tableView.reloadData()
+                                                            self?.showTableView()
+            })
+        }
+    }
+    
+    private func toLocationTapped() {
+        if let coord = self.currentLocation {
+            self.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
+            self.toTF.resignFirstResponder()
+            self.toModel = SearchResultModel(locationCoordianate: coord,
+                                             locationName: self.toTF.text,
+                                             locationDescription: nil)
+        }
+        self.checkFields()
+    }
+    
+    private func fromLocationTapped() {
+        if let coord = self.currentLocation {
+            self.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
+            self.fromTF.resignFirstResponder()
+            self.fromModel = SearchResultModel(locationCoordianate: coord,
+                                               locationName: self.fromTF.text,
+                                               locationDescription: nil)
+        }
+        self.checkFields()
+    }
+    
+    private func clearButtonTapped() {
+        self.toModel = nil
+        self.fromModel = nil
+        self.fromTF.text = ""
+        self.toTF.text = ""
+        self.dataSource = []
+        self.tableView.reloadData()
+        self.view.endEditing(true)
+        self.navigationItem.rightBarButtonItem = nil
+        self.hideTableView()
+        self.checkFields()
+    }
+    
+    private func tableviewDidSelectItem(at indexPath: IndexPath) {
+        let selectedItem = dataSource[indexPath.row]
+        if fromTF.isFirstResponder {
+            fromModel = selectedItem
+            fromTF.text = fromModel?.locationName
+            
+        } else if toTF.isFirstResponder {
+            toModel = selectedItem
+            toTF.text = toModel?.locationName
+        }
+        checkFields()
+        hideTableView()
+    }
     
     private func buildRouteTapped() {
         guard let fromLocation = fromModel?.locationCoordianate,

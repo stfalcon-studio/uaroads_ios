@@ -7,6 +7,7 @@
 //
 
 import RealmSwift
+import CoreLocation
 
 class PitModel: Object, PitProtocol {
     dynamic var latitude: Double = 0.0
@@ -19,5 +20,17 @@ class PitModel: Object, PitProtocol {
     
     override static func primaryKey() -> String? {
         return "time"
+    }
+    
+    convenience init(location: CLLocation, tag: PitTag, accelerometerData: Double) {
+        self.init()
+        
+        self.latitude = location.coordinate.latitude
+        self.longitude = location.coordinate.longitude
+        self.horizontalAccuracy = location.horizontalAccuracy
+        self.speed = location.speed
+        self.time = "\(Date().timeIntervalSince1970 * 1000)"
+        self.value = accelerometerData
+        self.tag = tag.rawValue
     }
 }

@@ -20,7 +20,10 @@ class Utilities {
             uid = uid?.appending("1")
             UserDefaults.standard.setValue(uid, forKey: kDeviceUID)
         }
-        pl("deviceUID - \(uid!)")
         return uid!
+    }
+    
+    class func appVersion() -> String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     }
 }

@@ -21,21 +21,10 @@ class NetworkManager {
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
         
-        URLSession.shared.dataTask(with: request) { (data, _, _) in
+        URLSession.shared.dataTask(with: request) {[weak self] (data, response, error) in
+            let successRequest: Bool = self?.parseSendTrackResponse(data, error: error) ?? false
             DispatchQueue.main.async {
-                if let data = data {
-                    let result = String(data: data, encoding: String.Encoding.utf8)
-                    
-                    pl("RESULT: \(String(describing: result))")
-                    
-                    if result == "OK" {
-                        handler(true)
-                    } else {
-                        handler(false)
-                    }
-                } else {
-                    handler(false)
-                }
+                handler(successRequest)
             }
         }.resume()
     }
@@ -51,31 +40,31 @@ class NetworkManager {
             "email":email,
             "uid":uid
         ]
-        pl(params)
         
         var request = URLRequest(url: URL(string: "http://uaroads.com/register-device")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
+        
+        
+        
+        // TODO: Delete test data
+        let originalString = "http://uaroads.com/register-device?email=rrybachenko@icloud.com&os=ios&os_version=10.3.3&device_name=iPad - Roman Rybachenko’s iPad&uid=E651B422-99C4-46E1-AEAF-337B2D62D8281"
+        let escapedString = originalString.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
+        pl("httpBody:\n\(escapedString)")
+        
+        
+        
+        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
+            let isAuthorized: Bool = self?.parseAuthorizeDeviceResponse(data, error: error) ?? false
             DispatchQueue.main.async {
-                if let data = data {
-                    guard let responseDict = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String : AnyObject] else {
-                        handler(false)
-                        return
-                    }
-                    if let status: String = responseDict["status"] as? String, status == "success" {
-                        handler(true)
-                    } else {
-                        handler(false)
-                    }
-                } else {
-                    handler(false)
-                }
+                handler(isAuthorized)
             }
-            }.resume()
+        }.resume()
     }
     
-    func getUserStatistics(deviceUID: String, email: String, completion: @escaping (_ respose: [String : AnyObject]?, _ error: Error?) -> () ) {
+    func getUserStatistics(deviceUID: String,
+                           email: String,
+                           completion: @escaping (_ respose: [String : AnyObject]?, _ error: Error?) -> () ) {
         let urlStr = "http://uaroads.com/statistic?uid=\(deviceUID)&user=\(email)"
         guard let url = URL(string: urlStr) else { return }
         var urlRequest = URLRequest(url: url)
@@ -94,25 +83,27 @@ class NetworkManager {
         }).resume()
     }
     
-    func checkRouteAvailability(coord1: CLLocationCoordinate2D, coord2: CLLocationCoordinate2D, handler: @escaping (_ status: Int) -> ()) {
+    func checkRouteAvailability(coord1: CLLocationCoordinate2D,
+                                coord2: CLLocationCoordinate2D,
+                                handler: @escaping (_ status: Int) -> ()) {
         var request = URLRequest(url: URL(string: "http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)")!)
         request.httpMethod = "GET"
-        
-        pl(request.url as Any)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
                 let dict: [AnyHashable:Any] = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [AnyHashable : Any]
-                pl(dict)
-                if let status = dict["status"] {
-                    handler(status as! Int)
+                guard  let status = dict["status"] else {
+                    handler(404)
+                    return
                 }
-                handler(404)
+                handler(status as! Int)
             }
         }.resume()
     }
     
-    func searchResults(location: String, coord: CLLocationCoordinate2D, handler: @escaping SearchLocationHandler) {
+    func searchResults(location: String,
+                       coord: CLLocationCoordinate2D,
+                       handler: @escaping SearchLocationHandler) {
         let params = [
             "lang":"uk_UA",
             "format":"json",
@@ -122,52 +113,74 @@ class NetworkManager {
         let url = URL(string: "http://geo.uaroads.com/1.x/" + String.buildQueryString(fromDictionary: params))
         let request = URLRequest(url: url!)
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { [weak self] (data, _, error) in
             DispatchQueue.main.async {
                 if let data = data, error == nil {
-                    let json = JSON(data: data)
-                    let featureMember = json["response"].dictionary?["GeoObjectCollection"]?.dictionary?["featureMember"]?.array
-                    
-                    var result = [SearchResultModel]()
-                    if let featureMember = featureMember {
-                        for item in featureMember {
-                            let geoObject = item["GeoObject"].dictionary
-                            let description = geoObject?["description"]?.string
-                            let name = geoObject?["name"]?.string
-                            let pos = geoObject?["Point"]?.dictionary?["pos"]?.string
-                            let coordArr = pos?.components(separatedBy: " ")
-                            let locationCoord = CLLocationCoordinate2DMake(CLLocationDegrees(Float(coordArr![1])!),
-                                                                           CLLocationDegrees(Float(coordArr![0])!))
-                            let model = SearchResultModel(locationCoordianate: locationCoord, locationName: name, locationDescription: description)
-                            
-                            result.append(model)
-                        }
-                    }
+                    let result = self?.parseSearchResultsResponse(data) ?? [SearchResultModel]()
                     handler(result)
                 }
             }
         }.resume()
     }
+    
+    
+    // MARK: Private funcs
+    
+    private func parseSearchResultsResponse(_ responseData: Data) -> [SearchResultModel] {
+        var result = [SearchResultModel]()
+        let json = JSON(data: responseData)
+        
+        guard let featureMember = json["response"].dictionary?["GeoObjectCollection"]?.dictionary?["featureMember"]?.array else { return result }
+        
+        for item in featureMember {
+            let geoObject = item["GeoObject"].dictionary
+            let description = geoObject?["description"]?.string
+            let name = geoObject?["name"]?.string
+            let pos = geoObject?["Point"]?.dictionary?["pos"]?.string
+            let coordArr = pos?.components(separatedBy: " ")
+            let locationCoord = CLLocationCoordinate2DMake(CLLocationDegrees(Float(coordArr![1])!),
+                                                           CLLocationDegrees(Float(coordArr![0])!))
+            let model = SearchResultModel(locationCoordianate: locationCoord, locationName: name, locationDescription: description)
+            
+            result.append(model)
+        }
+        return result
+    }
+    
+    private func parseSendTrackResponse(_ responseData: Data?,  error: Error?) -> Bool {
+        if let data = responseData {
+            let result = String(data: data, encoding: String.Encoding.utf8)
+            pl("RESULT: \(String(describing: result))")
+            
+            if result == "OK" {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            pl("send track error -> \n\(String(describing: error))")
+            return false
+        }
+    }
+    
+    private func parseAuthorizeDeviceResponse(_ responseData: Data?, error: Error?) -> Bool {
+        guard let data = responseData else {
+            pl("authorize response error: \(String(describing: error))")
+            return false
+        }
+        guard let responseDict = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [String : AnyObject] else {
+            return false
+        }
+        
+        if let status: String = responseDict["status"] as? String, status == "success" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
