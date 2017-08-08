@@ -13,10 +13,6 @@ import CallKit
 import CoreMotion
 
 
-
-let updateLocationIntervalDefault = 1.0
-
-
 enum MotionStatus {
     case notActive
     case active
@@ -35,12 +31,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     var delegate: MotionManagerDelegate?
     var status: MotionStatus = .notActive
     var track: TrackModel?
-    
-    var maxSpeed: Double = 0.0
-    var checkpoint = true
-    
-    private let MaxPitValue = 5.4
-    private let PitInterval = 0.5
+   
     private let callObserver = CXCallObserver()
     private let motionManager = CMMotionManager()
     private var pointCount: Int = 0
@@ -54,7 +45,12 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         
         self.motionManager.deviceMotionUpdateInterval = 0.02777
         
-        self.callObserver.setDelegate(self, queue: DispatchQueue(label: "uaroads_queue", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes.concurrent, autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem, target: nil))
+        let customQueue = DispatchQueue(label: "uaroads_queue",
+                                        qos: DispatchQoS.background,
+                                        attributes: DispatchQueue.Attributes.concurrent,
+                                        autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.workItem,
+                                        target: nil)
+        self.callObserver.setDelegate(self, queue: customQueue)
     }
     
     // MARK: Overriden funcs
@@ -123,8 +119,6 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         } else {
             AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startManualRecord", label: nil, value: nil)
         }
-        
-        checkpoint = true
         
         if status == .notActive {
             track = TrackModel()
@@ -203,14 +197,20 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
         if call.hasConnected {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .active {
-                    AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "pauseForCall", label: nil, value: nil)
+                    AnalyticManager.sharedInstance.reportEvent(category: "Record",
+                                                               action: "pauseForCall",
+                                                               label: nil,
+                                                               value: nil)
                     self.pauseRecordingForCall()
                 }
             }
         } else {
             DispatchQueue.main.async { [unowned self] in
                 if self.status == .pausedForCall {
-                    AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "resumeAfterCall", label: nil, value: nil)
+                    AnalyticManager.sharedInstance.reportEvent(category: "Record",
+                                                               action: "resumeAfterCall",
+                                                               label: nil,
+                                                               value: nil)
                     addNotification(text: "Track recording resumed.", time: 2.0)
                     self.resumeRecording()
                 }

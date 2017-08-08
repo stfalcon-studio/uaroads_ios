@@ -23,4 +23,8 @@ class Utilities {
         pl("deviceUID - \(uid!)")
         return uid!
     }
+    
+    class func appVersion() -> String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    }
 }
