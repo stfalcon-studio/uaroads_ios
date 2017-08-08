@@ -47,13 +47,6 @@ class NetworkManager {
         
         
         
-        // TODO: Delete test data
-        let originalString = "http://uaroads.com/register-device?email=rrybachenko@icloud.com&os=ios&os_version=10.3.3&device_name=iPad - Roman Rybachenko’s iPad&uid=E651B422-99C4-46E1-AEAF-337B2D62D8281"
-        let escapedString = originalString.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)
-        pl("httpBody:\n\(escapedString)")
-        
-        
-        
         URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             let isAuthorized: Bool = self?.parseAuthorizeDeviceResponse(data, error: error) ?? false
             DispatchQueue.main.async {
