@@ -136,6 +136,7 @@ class RecordTrackVC: UIViewController {
         lastTrackContainerView.isHidden = false
         
         lastTrackLabel.attributedText = viewModel.attributedStringLastTrackDistance()
+        lastTrackDescrLabel.isHidden = lastTrackLabel.attributedText == nil ? true : false
     }
 }
 
