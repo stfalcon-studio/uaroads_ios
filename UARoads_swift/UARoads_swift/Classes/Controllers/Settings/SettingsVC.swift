@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 import StfalconSwiftExtensions
-import UHBConnectivityManager
 
 class SettingsVC: BaseTVC {
     
@@ -92,8 +91,8 @@ class SettingsVC: BaseTVC {
             cell.switcher.setOn(SettingsManager.sharedInstance.sendDataOnlyWiFi, animated: false)
         case .autostartRecordRoutes:
             cell.switcher.setOn(SettingsManager.sharedInstance.routeRecordingAutostart, animated: false)
-        case .showGraphView:
-            cell.switcher.setOn(SettingsManager.sharedInstance.showGraph, animated: false)
+        case .sendTracksAutomatically:
+            cell.switcher.setOn(SettingsManager.sharedInstance.sendTracksAutomatically, animated: false)
         }
         
         addSwitchAction(for: cell, with: settingsType)
@@ -133,13 +132,13 @@ class SettingsVC: BaseTVC {
                     AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
                 })
                 .addDisposableTo(disposeBag)
-        case .showGraphView:
+        case .sendTracksAutomatically:
             cell.switcher
                 .rx
                 .value
-                .bind(onNext: { val in
-                    SettingsManager.sharedInstance.showGraph = val
-                    AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Show Map")
+                .subscribe(onNext: { value in
+                    SettingsManager.sharedInstance.sendTracksAutomatically = value
+                    AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Send Tracks Automatically")
                 })
                 .addDisposableTo(disposeBag)
         }

@@ -54,8 +54,8 @@ class SettingsViewModel {
 
 enum SettingsParameters: Int {
     case sendDataOnlyViaWiFi
+    case sendTracksAutomatically
     case autostartRecordRoutes
-    case showGraphView
     
     static func numberOfRows() -> Int {
         return 3
@@ -67,10 +67,11 @@ enum SettingsParameters: Int {
         switch self {
         case .sendDataOnlyViaWiFi:
             title = "Send data only via WiFi"
+        case .sendTracksAutomatically:
+            title = "Send tracks automatically"
         case .autostartRecordRoutes:
             title = "Route recording autostart"
-        case .showGraphView:
-            title = "Show map / graph"
+
         }
         return title
     }

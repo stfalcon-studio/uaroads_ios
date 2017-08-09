@@ -44,6 +44,9 @@ class NetworkManager {
         var request = URLRequest(url: URL(string: "http://uaroads.com/register-device")!)
         request.httpBody = NSKeyedArchiver.archivedData(withRootObject: params)
         request.httpMethod = "POST"
+        
+        
+        
         URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             let isAuthorized: Bool = self?.parseAuthorizeDeviceResponse(data, error: error) ?? false
             DispatchQueue.main.async {

@@ -119,8 +119,6 @@ final class RecordService {
     }
     
     private func handleMotionCompletedEvent() {
-        //mark the end of the checkpoint
-        
         guard let currLocation = locationManager.currentLocation else { return }
         appendNewPit(with: currLocation, tag: .cp)
         
@@ -129,14 +127,16 @@ final class RecordService {
         if let result = result, result.count > 0 {
             updateCompletedTracks(result)
         }
+        
+        if SettingsManager.sharedInstance.sendTracksAutomatically == true {
+            SendTracksService.shared.sendAllNotPostedTraks()
+        }
     }
     
     private func updateCompletedTracks(_ tracks: Results<TrackModel>) {
         self.dbManager.update {
             for item in tracks {
-                if Date().timeIntervalSince(item.date) > 10 {
-                    item.status = TrackStatus.waitingForUpload.rawValue
-                }
+                item.status = TrackStatus.waitingForUpload.rawValue
             }
         }
     }

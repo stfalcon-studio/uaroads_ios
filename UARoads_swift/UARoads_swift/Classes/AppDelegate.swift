@@ -8,20 +8,14 @@
 
 import UIKit
 import UserNotifications
-import UHBConnectivityManager
 import StfalconSwiftExtensions
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private var fetchCompletionHandler: ((UIBackgroundFetchResult) -> Void)?
-    private var backgroundTrackSendingCompleted: Bool = false
-    private let sendDataActivityTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { (_) in
-        (UIApplication.shared.delegate as? AppDelegate)?.sendDataActivity()
-    }
-    
-    var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     var window: UIWindow?
+    var backgroundSessionCompletionHandler: (() -> Void)?
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -44,20 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             AnalyticManager.sharedInstance.identifyUser(email: email, name: nil)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch completeActiveTracks", label: nil, value: nil)
-            self?.sendDataActivity()
-            self?.deleteOldTracks()
-            
-            AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Launch after completeActiveTracks", label: nil, value: nil)
-        }
-        
         window = UIWindow(frame: UIScreen.main.bounds)
         if let window = window {
             if SettingsManager.sharedInstance.firstLaunch != nil {
                 window.rootViewController = TabBarVC()
             } else {
                 window.rootViewController = TutorialVC()
+                SettingsManager.sharedInstance.setDefaultSetting()
             }
             window.makeKeyAndVisible()
         }
@@ -78,15 +65,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        fetchCompletionHandler = completionHandler
-        backgroundTrackSendingCompleted = false
-        if RecordService.sharedInstance.motionManager.status == .notActive {
-            sendDataActivity()
-        } else {
-            completeBackgroundTrackSending(false)
+    func applicationDidBecomeActive(_ application: UIApplication) {
+//         SendTracksService.shared.sendAllNotPostedTraks()
+    }
+    
+    func application(_ application: UIApplication,
+                     handleEventsForBackgroundURLSession identifier: String,
+                     completionHandler: @escaping () -> Void) {
+        
+        backgroundSessionCompletionHandler = completionHandler
+        
+        let networkStatus = NetworkConnectionManager.shared.networkStatus
+        let isWiFiOnly = SettingsManager.sharedInstance.sendDataOnlyWiFi
+        
+        if (isWiFiOnly == true && networkStatus == .reachableViaWiFi) ||
+            (isWiFiOnly == false && networkStatus != .notReachable) {
+            
+            SendTracksService.shared.sendAllNotPostedTraks()
         }
     }
+    
     
     //MARK: Helpers
     private func interfaceAppearance() {
@@ -101,54 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.isTranslucent = false
     }
     
-    func sendDataActivity() {
-        // TODO: Delete UHBConnectivityManager and code which is bound with that.
-        
-        //check any connection
-        if UHBConnectivityManager.shared().isConnected() == true {
-            //check settings
-            if SettingsManager.sharedInstance.sendDataOnlyWiFi == true {
-                //check wifi connection
-                if UHBConnectivityManager.shared().isConnectedOverMobileData() == false {
-                    RecordService.sharedInstance.onSend?()
-                    return
-                }
-            }
-            RecordService.sharedInstance.onSend?()
-        }
-    }
-    
-    func completeBackgroundTrackSending(_ val: Bool) {
-        backgroundTrackSendingCompleted = val
-        fetchCompletion(val)
-    }
-    
-    private func fetchCompletion(_ val: Bool) {
-        if backgroundTrackSendingCompleted == true && fetchCompletionHandler != nil {
-            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-            if val {
-                fetchCompletionHandler?(.newData)
-            } else {
-                fetchCompletionHandler?(.noData)
-            }
-            fetchCompletionHandler = nil
-        }
-    }
-    
-    private func deleteOldTracks() {
-        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Before old tracks delete", label: nil, value: nil)
-        //check connection first
-        if UHBConnectivityManager.shared().isConnected() == true {
-            let pred = NSPredicate(format: "status == 4")
-            let result = RealmHelper.objects(type: TrackModel.self)?.filter(pred)
-            if let result = result {
-                for item in result {
-                    item.delete()
-                }
-            }
-        }
-        AnalyticManager.sharedInstance.reportEvent(category: "System", action: "Old tracks deleted", label: nil, value: nil)
-    }
+
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
