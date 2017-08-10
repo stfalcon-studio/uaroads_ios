@@ -15,7 +15,7 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
     
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h )
     let Max_speed_to_stop_recording: Double = 4.67  /// m/s ( 15 km/h )
-    let autorecordPauseDuration: TimeInterval = 20
+    let autorecordPauseDuration: TimeInterval = 150
     
     // MARK: Properies
     static let shared = AutostartManager()
@@ -144,10 +144,6 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
             motionPausedTimer = nil
             
         }
-    }
-    
-    private func pauseFinishedTimerAction() {
-        RecordService.shared.stopRecording()
     }
     
 }
