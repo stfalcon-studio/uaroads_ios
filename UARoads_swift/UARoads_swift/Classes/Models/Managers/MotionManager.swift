@@ -60,14 +60,16 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     
     // MARK: Public funcs
-    func startRecording(autostart: Bool = false) {
+    func startRecording() {
+        let autostart = SettingsManager.sharedInstance.routeRecordingAutostart
         DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
         let initialTitle = DateManager.sharedInstance.getDateFormatted(Date())
         
         startRecording(title: initialTitle, autostart: autostart)
     }
     
-    func stopRecording(autostart: Bool = false) {
+    func stopRecording() {
+        let autostart = SettingsManager.sharedInstance.routeRecordingAutostart
         if autostart {
             AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "stopAutoRecord", label: nil, value: nil)
         } else {
