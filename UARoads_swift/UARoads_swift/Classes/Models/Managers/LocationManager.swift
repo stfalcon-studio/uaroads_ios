@@ -69,6 +69,3 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
 
 
-
-
-

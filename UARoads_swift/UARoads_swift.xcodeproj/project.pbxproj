@@ -1059,7 +1059,7 @@
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/GoogleUtilities/Libraries",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Heap",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.UARoads;
 				PRODUCT_NAME = "UA Roads";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1102,7 +1102,7 @@
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/GoogleUtilities/Libraries",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Heap",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.UARoads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.UARoads;
 				PRODUCT_NAME = "UA Roads";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

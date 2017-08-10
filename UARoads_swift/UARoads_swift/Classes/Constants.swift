@@ -36,5 +36,21 @@ enum ReachabilityStatus {
     case reachableViaWiFi
 }
 
+enum MotionActivity {
+    case stationary
+    case walking
+    case running
+    case automotive
+    case cycling
+    case unknown
+}
+
+enum RecordStatus {
+    case notActive
+    case active
+    case paused
+    case pausedForCall
+}
+
 
 

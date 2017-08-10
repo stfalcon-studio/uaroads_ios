@@ -36,7 +36,7 @@ class RecordTrackVC: UIViewController {
 
         navigationItem.title = "Record"
       
-        RecordService.sharedInstance.motionManager.delegate = self
+        RecordService.shared.motionManager.delegate = self
         
         setupInterface()
         setupRx()
@@ -49,7 +49,7 @@ class RecordTrackVC: UIViewController {
         UIApplication.shared.statusBarStyle = .lightContent
         
         viewModel.getUserStatistic(completion: { [weak self] (response, error) in
-            
+            pl(response)
         })
     }
 
@@ -62,29 +62,50 @@ class RecordTrackVC: UIViewController {
     
     @IBAction func startButtonTapped(_ sender: BorderButton) {
         if UIApplication.shared.backgroundRefreshStatus == .available {
-            RecordService.sharedInstance.startRecording()
-            startButton.isHidden = true
-            pauseStopContainerView.isHidden = false
-            currentTrackView.isHidden = false
-            lastTrackContainerView.isHidden = true
+            RecordService.shared.startRecording()
+            updateUiForRecordStart()
         } else {
             AlertManager.showAlertBgRefreshDisabled(viewController: self)
         }
     }
     
     @IBAction func pauseButtonTapped(_ sender: ArcButton) {
-        pauseButton.isSelected = !pauseButton.isSelected
-        
-        if RecordService.sharedInstance.motionManager.status == .active {
-            RecordService.sharedInstance.pauseRecording()
+        if RecordService.shared.motionManager.status == .active {
+            RecordService.shared.pauseRecording()
         } else {
-            RecordService.sharedInstance.resumeRecording()
+            RecordService.shared.resumeRecording()
         }
+        
+        updateUiForRecordPause()
     }
     
     @IBAction func stopButtonTapped(_ sender: ArcButton) {
-        RecordService.sharedInstance.stopRecording()
+        RecordService.shared.stopRecording()
         updateUIForRecordStop()
+    }
+    
+    func updateUiForRecordPause() {
+        if RecordService.shared.motionManager.status == .paused {
+            pauseButton.isSelected = true
+        } else if RecordService.shared.motionManager.status == .active {
+            pauseButton.isSelected = false
+        }
+    }
+    
+    func updateUiForRecordStart() {
+        startButton.isHidden = true
+        pauseStopContainerView.isHidden = false
+        currentTrackView.isHidden = false
+        lastTrackContainerView.isHidden = true
+    }
+    
+    func updateUIForRecordStop() {
+        startButton.isHidden = false
+        pauseStopContainerView.isHidden = true
+        currentTrackView.isHidden = true
+        lastTrackContainerView.isHidden = false
+        
+        lastTrackLabel.attributedText = viewModel.attributedStringLastTrackDistance()
     }
     
     
@@ -106,44 +127,45 @@ class RecordTrackVC: UIViewController {
     
     
     private func setupRx() {
-        RecordService.sharedInstance.onMotionStart = { [unowned self] point, filtered in
+        RecordService.shared.onMotionStart = { [unowned self] point, filtered in
             if self.graphView.isHidden == false {
                 self.graphView.addValue(CGFloat(point), isFiltered: filtered)
             }
         }
         
-        RecordService.sharedInstance.onMotionStop = { [unowned self] in
+        RecordService.shared.onMotionStop = { [unowned self] in
             self.graphView.clear()
         }
         
-        RecordService.sharedInstance.locationManager.onLocationUpdate = { [unowned self] location in
+        RecordService.shared.locationManager.onLocationUpdate = { [unowned self] location in
             let gpsStatus: GPS_Status = self.viewModel.gpsStatus(from: location)
             self.currentTrackView.gpsStatusView.setGpsStatus(gpsStatus)
         }
         
-        RecordService.sharedInstance.trackDistanceUpdated = { [unowned self] newDistance in
+        RecordService.shared.trackDistanceUpdated = { [unowned self] newDistance in
             self.currentTrackView.distanceLabel.text = self.viewModel.distanceStringInKilometers(newDistance)
         }
-        
     }
     
-    
-    
-    private func updateUIForRecordStop() {
-        startButton.isHidden = false
-        pauseStopContainerView.isHidden = true
-        currentTrackView.isHidden = true
-        lastTrackContainerView.isHidden = false
-        
-        lastTrackLabel.attributedText = viewModel.attributedStringLastTrackDistance()
-    }
 }
 
 
 extension RecordTrackVC: MotionManagerDelegate {
     
-    func statusChanged(newStatus: MotionStatus) {
-        //
+    func statusChanged(newStatus: RecordStatus, oldStatus: RecordStatus) {
+        switch newStatus {
+        case .paused,
+             .pausedForCall:
+            updateUiForRecordPause()
+        case .active:
+            if oldStatus == .notActive {
+                updateUiForRecordStart()
+            } else if oldStatus == .paused || oldStatus == .pausedForCall {
+                updateUiForRecordPause()
+            }
+        case .notActive:
+            updateUIForRecordStop()
+        }
     }
 }
 

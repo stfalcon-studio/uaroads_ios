@@ -23,9 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.statusBarStyle = .lightContent
         
-        //autostart check
-        AutostartManager.sharedInstance.setAutostartActive(SettingsManager.sharedInstance.routeRecordingAutostart)
-        
         //background task
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
@@ -49,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.makeKeyAndVisible()
         }
         
+        AutostartManager.shared.switchAutostart(to: SettingsManager.sharedInstance.routeRecordingAutostart)
+        
         //notifications
         let center = UNUserNotificationCenter.current()
         center.delegate = self
@@ -66,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-//         SendTracksService.shared.sendAllNotPostedTraks()
+        
     }
     
     func application(_ application: UIApplication,

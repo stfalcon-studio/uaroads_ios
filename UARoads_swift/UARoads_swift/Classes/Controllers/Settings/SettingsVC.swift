@@ -111,6 +111,22 @@ class SettingsVC: BaseTVC {
         })
     }
     
+    private func autostartRecordValueChanged(in cell: SettingsSwitchCell) {
+        let value = cell.switcher.isOn
+        if AutostartManager.isAutostartAvailable() == false {
+            AlertManager.showAlertAutostartIsNotEnable(viewController: self,
+                                                       handler: {
+                                                        cell.switcher.setOn(false, animated: true)
+            })
+            return
+        }
+        SettingsManager.sharedInstance.routeRecordingAutostart = value
+        AutostartManager.shared.switchAutostart(to: value)
+        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
+    }
+    
+    
+    
     private func addSwitchAction(for cell: SettingsSwitchCell, with settingsType: SettingsParameters) {
         switch settingsType {
         case .sendDataOnlyViaWiFi:
@@ -126,10 +142,8 @@ class SettingsVC: BaseTVC {
             cell.switcher
                 .rx
                 .value
-                .bind(onNext: { val in
-                    SettingsManager.sharedInstance.routeRecordingAutostart = val
-                    AutostartManager.sharedInstance.setAutostartActive(val)
-                    AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
+                .bind(onNext: { [weak self] value in
+                    self?.autostartRecordValueChanged(in: cell)
                 })
                 .addDisposableTo(disposeBag)
         case .sendTracksAutomatically:

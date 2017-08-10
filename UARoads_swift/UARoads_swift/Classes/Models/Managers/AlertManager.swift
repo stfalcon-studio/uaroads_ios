@@ -43,6 +43,12 @@ class AlertManager {
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     
+    class func showAlertAutostartIsNotEnable(viewController: UIViewController, handler: EmptyHandler? = nil) {
+        let titleStr = "Warning!"
+        let messageStr = "Autostart isn't enable on your device"
+        AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: handler)
+    }
+    
     
     // MARK: Private funcs
     private class func showAlert(title: String? = "", message: String, controller: UIViewController?, handler: EmptyHandler? = nil) {
