@@ -98,6 +98,7 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
         let mActivityType = self.motionActivity(from: motionActivity)
         pl("motion activity type ocurred -> \(mActivityType)")
         
+        // TODO: delete || mActivityType == .cycling || mActivityType == .walking !!!
         if mActivityType == .automotive || mActivityType == .cycling || mActivityType == .walking {
             startOrResumeRecording()
         } else {

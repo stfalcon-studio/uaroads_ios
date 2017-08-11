@@ -45,6 +45,11 @@ class SettingsVC: BaseTVC {
     
     // MARK: Private funcs
     
+    fileprivate func copyToClipboardButtonTapped() {
+        UIPasteboard.general.string = Utilities.deviceUID()
+        AlertManager.showAlertUidCopied(viewController: self)
+    }
+    
     fileprivate func signInButtonTapped() {
         let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
         if cell.mainTF.text?.characters.count == 0 || cell.mainTF.textColor == UIColor.red {
@@ -113,10 +118,11 @@ class SettingsVC: BaseTVC {
     
     private func autostartRecordValueChanged(in cell: SettingsSwitchCell) {
         let value = cell.switcher.isOn
-        if AutostartManager.isAutostartAvailable() == false {
+        if AutostartManager.isAutostartAvailable() == false && value == true {
             AlertManager.showAlertAutostartIsNotEnable(viewController: self,
                                                        handler: {
                                                         cell.switcher.setOn(false, animated: true)
+                                                        SettingsManager.sharedInstance.routeRecordingAutostart = false
             })
             return
         }
@@ -184,11 +190,17 @@ extension SettingsVC {
             return nil
         }
         
+        if let footer = footerView as? FooterText {
+            footer.copyAction = { [weak self] in
+                self?.copyToClipboardButtonTapped()
+            }
+        }
+        
         if let footer = footerView as? FooterSignIn {
             footer.action = { [weak self] in
                 self?.signInButtonTapped()
             }
-        }
+        } 
         return footerView
     }
     
