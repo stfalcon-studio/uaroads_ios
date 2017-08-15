@@ -61,7 +61,7 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     func sendTrack(_ track: TrackModel) {
         let parameters = track.sendTrackParameters()
-        
+        pl(parameters)
         guard let sendTrackUrl = URL(string: "http://api.uaroads.com/add") else { return }
         var request = URLRequest(url: sendTrackUrl)
         request.httpMethod = "POST"
@@ -127,7 +127,7 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         return tracks
     }
     
-    private func handleSendTrack(with dataTask: URLSessionDataTask, trackStatus: TrackStatus) {
+    private func handleSendTrackResponse(with dataTask: URLSessionDataTask, trackStatus: TrackStatus) {
         DispatchQueue.main.async { [weak self] in
             guard let index = self?.tracksToSend.index(where: {
                 $0.keys.first == dataTask.taskIdentifier
@@ -191,7 +191,7 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         if let httpResponse = response as? HTTPURLResponse {
             let trackStatus: TrackStatus = httpResponse.statusCode != 200 ? .waitingForUpload : .uploaded
             
-            handleSendTrack(with: dataTask, trackStatus: trackStatus)
+            handleSendTrackResponse(with: dataTask, trackStatus: trackStatus)
         }
     }
     
@@ -201,7 +201,7 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         
         let trackStatus: TrackStatus = result == "OK" ? .uploaded : .waitingForUpload
         
-        handleSendTrack(with: dataTask, trackStatus: trackStatus)
+        handleSendTrackResponse(with: dataTask, trackStatus: trackStatus)
     }
     
     func urlSession(_ session: URLSession,

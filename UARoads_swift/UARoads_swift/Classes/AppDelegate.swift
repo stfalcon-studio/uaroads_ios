@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        
+        sendTracksIfNeeded()
     }
     
     func application(_ application: UIApplication,
@@ -74,14 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         backgroundSessionCompletionHandler = completionHandler
         
-        let networkStatus = NetworkConnectionManager.shared.networkStatus
-        let isWiFiOnly = SettingsManager.sharedInstance.sendDataOnlyWiFi
-        
-        if (isWiFiOnly == true && networkStatus == .reachableViaWiFi) ||
-            (isWiFiOnly == false && networkStatus != .notReachable) {
-            
-            SendTracksService.shared.sendAllNotPostedTraks()
-        }
+        sendTracksIfNeeded()
     }
     
     
@@ -98,7 +91,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.isTranslucent = false
     }
     
-
+    
+    private func sendTracksIfNeeded() {
+        let networkStatus = NetworkConnectionManager.shared.networkStatus
+        let isWiFiOnly = SettingsManager.sharedInstance.sendDataOnlyWiFi
+        
+        if (isWiFiOnly == true && networkStatus == .reachableViaWiFi) ||
+            (isWiFiOnly == false && networkStatus != .notReachable) {
+            
+            SendTracksService.shared.sendAllNotPostedTraks()
+        }
+    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
