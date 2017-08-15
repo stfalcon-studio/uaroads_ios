@@ -14,7 +14,7 @@ import RealmSwift
 
 final class RecordService {
     
-    static let sharedInstance = RecordService()
+    static let shared = RecordService()
     
     //================
     
@@ -23,6 +23,8 @@ final class RecordService {
     public let locationManager: LocationManager
     public let networkManager: NetworkManager
     
+    var isRecording: Bool = false
+    var isRecordingPaused: Bool = false
     private (set) public var previousLocation: CLLocation?
     
     var onPit: ((_ pitValue: Double) -> ())?

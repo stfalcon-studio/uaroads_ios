@@ -51,7 +51,7 @@ class RecordTrackViewModel {
         if let track: TrackModel = RealmHelper.objects(type: TrackModel.self)?.sorted(byKeyPath: "date", ascending: true).last {
             return attributedStringForTrackDistance(track.distance)
         }
-        return nil
+        return attributedStringForTrackDistance(0.0)
     }
     
     func distanceStringInKilometers(_ distance: Double) -> String {
