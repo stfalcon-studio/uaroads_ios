@@ -32,7 +32,7 @@
 "RecordTrackVC.title" = "Record";
 "RecordTrackVC.lastTrackLabel" = "Last track";
 "RecordTrackVC.totalDistLabel" = "Total tracks distance on server";
-"RecordTrackVC.startButtonTitle" = "Start Tracking";
+"RecordTrackVC.startButtonTitle" = "Start\nTracking";
 "RecordTrackVC.pauseButtonTitle" = "Pause";
 "RecordTrackVC.pauseButtonTitleSelected" = "Continue";
 "RecordTrackVC.stopButtonTitle" = "Stop";

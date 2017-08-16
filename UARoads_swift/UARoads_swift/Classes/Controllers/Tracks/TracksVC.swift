@@ -68,6 +68,11 @@ class TracksVC: BaseTVC {
         
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
         tableView.tableFooterView = UIView()
+        
+        if let tabbar: UITabBar = self.tabBarController?.tabBar {
+            guard let tracksItem: UITabBarItem = tabbar.items?[TabbarItem.tracks.rawValue] else { return }
+            tracksItem.title = TabbarItem.tracks.title()
+        }
     }
     
     private func deleteTracks() {

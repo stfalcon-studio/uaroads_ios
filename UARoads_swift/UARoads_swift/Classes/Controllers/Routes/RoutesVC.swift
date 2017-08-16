@@ -37,11 +37,6 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
@@ -111,6 +106,11 @@ class RoutesVC: BaseTVC {
         //hidden by default
         tableView.alpha = 0.0
         checkFields()
+        
+        if let tabbar: UITabBar = self.tabBarController?.tabBar {
+            guard let routeItem: UITabBarItem = tabbar.items?[TabbarItem.buildRoute.rawValue] else { return }
+            routeItem.title = TabbarItem.buildRoute.title()
+        }
     }
     
     override func setupRx() {

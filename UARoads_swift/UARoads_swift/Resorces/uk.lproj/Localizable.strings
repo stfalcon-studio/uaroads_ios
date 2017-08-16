@@ -32,7 +32,7 @@
 "RecordTrackVC.title" = "Запис";
 "RecordTrackVC.lastTrackLabel" = "Остання поїздка";
 "RecordTrackVC.totalDistLabel" = "Дистанція, оброблена на сервері";
-"RecordTrackVC.startButtonTitle" = "Почати запис";
+"RecordTrackVC.startButtonTitle" = "Почати\nзапис";
 "RecordTrackVC.pauseButtonTitle" = "Пауза";
 "RecordTrackVC.pauseButtonTitleSelected" = "Продовжити";
 "RecordTrackVC.stopButtonTitle" = "Зупинити";
