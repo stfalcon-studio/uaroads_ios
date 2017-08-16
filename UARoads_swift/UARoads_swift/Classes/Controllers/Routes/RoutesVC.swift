@@ -37,6 +37,11 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
     func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
@@ -89,7 +94,7 @@ class RoutesVC: BaseTVC {
     override func setupInterface() {
         super.setupInterface()
         
-        title = NSLocalizedString("Build route", comment: "title")
+        title = NSLocalizedString("RoutesVC.title", comment: "")
         
         lineView.backgroundColor = UIColor.lightGray
         lineView.alpha = 0.5
@@ -234,13 +239,14 @@ class RoutesVC: BaseTVC {
     }
     
     private func customizeBuildButton() {
-        buildBtn.setTitle(NSLocalizedString("Build", comment: "buildBtn"), for: .normal)
+        let  buttonTitle = NSLocalizedString("RoutesVC.buildButtonTitle", comment: "")
+        buildBtn.setTitle(buttonTitle, for: .normal)
         buildBtn.titleLabel?.textColor = UIColor.white
         buildBtn.backgroundColor = UIColor.colorAccent
     }
     
     private func customizeFromTF() {
-        fromTF.placeholder = NSLocalizedString("From", comment: "fromTF")
+        fromTF.placeholder = NSLocalizedString("RoutesVC.fromTextFieldPlaceholder", comment: "")
         fromTF.autocorrectionType = .no
         fromTF.rightView = fromLocationBtn
         fromTF.rightViewMode = .unlessEditing
@@ -249,7 +255,7 @@ class RoutesVC: BaseTVC {
     }
     
     private func customizeToTF() {
-        toTF.placeholder = NSLocalizedString("To", comment: "toTF")
+        toTF.placeholder = NSLocalizedString("RoutesVC.toTextFieldPlaceholder", comment: "")
         toTF.autocorrectionType = .no
         toTF.rightView = toLocationBtn
         toTF.rightViewMode = .unlessEditing
@@ -286,7 +292,7 @@ class RoutesVC: BaseTVC {
     
     private func toLocationTapped() {
         if let coord = self.currentLocation {
-            self.toTF.text = NSLocalizedString("My current location", comment: "myLocation")
+            self.toTF.text = NSLocalizedString("RoutesVC.myCurrentLocation", comment: "")
             self.toTF.resignFirstResponder()
             self.toModel = SearchResultModel(locationCoordianate: coord,
                                              locationName: self.toTF.text,
@@ -297,7 +303,7 @@ class RoutesVC: BaseTVC {
     
     private func fromLocationTapped() {
         if let coord = self.currentLocation {
-            self.fromTF.text = NSLocalizedString("My current location", comment: "myLocation")
+            self.fromTF.text = NSLocalizedString("RoutesVC.myCurrentLocation", comment: "")
             self.fromTF.resignFirstResponder()
             self.fromModel = SearchResultModel(locationCoordianate: coord,
                                                locationName: self.fromTF.text,

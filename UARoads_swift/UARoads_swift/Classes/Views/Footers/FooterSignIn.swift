@@ -36,7 +36,8 @@ class FooterSignIn: UIView {
         }
         
         //setup interface
-        signInBtn.setTitle(NSLocalizedString("Sign In", comment: "signInTitle"), for: .normal)
+        let signInBtnTitle = NSLocalizedString("SettingsVC.signInFooter.signInButtonTitle", comment: "")
+        signInBtn.setTitle(signInBtnTitle, for: .normal)
         signInBtn.setTitleColor(UIColor.white, for: .normal)
         signInBtn.backgroundColor = UIColor.colorPrimaryDark
         signInBtn.layer.cornerRadius = 4.0

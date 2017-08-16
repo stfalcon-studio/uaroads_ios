@@ -40,12 +40,13 @@ class SettingsTFCell: BaseCell {
         mainTF.regexpInvalidColor = UIColor.red
         mainTF.regexpPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         mainTF.keyboardType = .emailAddress
-        mainTF.placeholder = NSLocalizedString("Enter e-mail", comment: "emailPlaceholder")
+        mainTF.placeholder = NSLocalizedString("SettingsVC.emailTextField.placeholder", comment: "")
         mainTF.font = UIFont.systemFont(ofSize: 14.0)
         mainTF.autocorrectionType = .no
         mainTF.autocapitalizationType = .none
         
-        signOutBtn.setTitle(NSLocalizedString("Sign Out", comment: "signOutBtn"), for: .normal)
+        let signOutBtnTitle = NSLocalizedString("SettingsVC.signOutButtonTitle", comment: "")
+        signOutBtn.setTitle(signOutBtnTitle, for: .normal)
         signOutBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         signOutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         signOutBtn.layer.borderColor = UIColor.colorPrimaryDark.cgColor

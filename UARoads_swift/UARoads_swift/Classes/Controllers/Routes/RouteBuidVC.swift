@@ -9,7 +9,14 @@
 import UIKit
 
 class RouteBuidVC: BaseVC {
-    fileprivate let cancelBtn = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: "cancelBtn"), style: .plain, target: nil, action: nil)
+    private lazy var cancelBtn: UIBarButtonItem = {
+        let btnTitle = NSLocalizedString("RouteBuidVC.cancelButtonTitle", comment: "")
+        let cancelButton = UIBarButtonItem(title: btnTitle,
+                                           style: .plain,
+                                           target: nil,
+                                           action: nil)
+        return cancelButton
+    }()
     fileprivate let webView = UIWebView()
     fileprivate let fromLbl = UILabel()
     fileprivate let fromDetailLbl = UILabel()
@@ -40,6 +47,11 @@ class RouteBuidVC: BaseVC {
         
         let urlStr = "http://uaroads.com/routing/\(fromModel.locationCoordianate!.latitude),\(fromModel.locationCoordianate!.longitude)/\(toModel.locationCoordianate!.latitude),\(toModel.locationCoordianate!.longitude)?mob=true"
         webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     func setupConstraints() {
@@ -94,13 +106,13 @@ class RouteBuidVC: BaseVC {
     }
     
     func setupInterface() {
-        title = NSLocalizedString("Route", comment: "title")
+        title = NSLocalizedString("RouteBuidVC.title", comment: "title")
         
         cancelBtn.tintColor = UIColor.white
         navigationItem.leftBarButtonItem = cancelBtn
         
-        fromLbl.text = NSLocalizedString("from", comment: "from") + " "
-        toLbl.text = NSLocalizedString("to", comment: "to") + " "
+        fromLbl.text = NSLocalizedString("RouteBuidVC.fromLabel", comment: "") + " "
+        toLbl.text = NSLocalizedString("RouteBuidVC.toLabel", comment: "") + " "
         
         fromLbl.textColor = UIColor.lightGray
         toLbl.textColor = UIColor.lightGray
@@ -114,7 +126,8 @@ class RouteBuidVC: BaseVC {
         fromDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
         toDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
         
-        goBtn.setTitle(NSLocalizedString("GO!", comment: "goBtn").uppercased(), for: .normal)
+        let goBtnTitle = NSLocalizedString("RouteBuidVC.goButtonTitle", comment: "").uppercased()
+        goBtn.setTitle(goBtnTitle, for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         goBtn.backgroundColor = UIColor.colorAccent
         

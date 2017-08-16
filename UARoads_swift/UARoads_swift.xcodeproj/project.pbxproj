@@ -77,6 +77,7 @@
 		301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F518E1F289AB200B86B10 /* TracksFileManager.swift */; };
 		301F51911F29DE7C00B86B10 /* SendTracksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51901F29DE7C00B86B10 /* SendTracksService.swift */; };
 		301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */; };
+		427E76A31F4321440057CA36 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 427E76A51F4321440057CA36 /* Localizable.strings */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E61E97768B00647D5E /* Assets.xcassets */; };
 		F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */; };
@@ -171,6 +172,9 @@
 		301F51901F29DE7C00B86B10 /* SendTracksService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendTracksService.swift; sourceTree = "<group>"; };
 		301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
 		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		426482CC1F445BD4002077ED /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		427E76A61F4321470057CA36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		427E76A91F44459D0057CA36 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
 		F40D92DC1E97768B00647D5E /* UA Roads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UA Roads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40D92E61E97768B00647D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
@@ -392,6 +396,7 @@
 				301F51461F276CFA00B86B10 /* Plists */,
 				301F51481F276CFA00B86B10 /* Sounds */,
 				F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */,
+				427E76A51F4321440057CA36 /* Localizable.strings */,
 			);
 			path = Resorces;
 			sourceTree = "<group>";
@@ -753,6 +758,7 @@
 			files = (
 				F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */,
 				F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */,
+				427E76A31F4321440057CA36 /* Localizable.strings in Resources */,
 				301F51621F276CFA00B86B10 /* stop-rec-uk.m4a in Resources */,
 				301F51561F276CFA00B86B10 /* GoogleService-Info.plist in Resources */,
 				301F516A1F276EE400B86B10 /* CurrentTrackView.xib in Resources */,
@@ -914,6 +920,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		427E76A51F4321440057CA36 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				427E76A61F4321470057CA36 /* Base */,
+				427E76A91F44459D0057CA36 /* ru */,
+				426482CC1F445BD4002077ED /* uk */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

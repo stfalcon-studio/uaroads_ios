@@ -123,7 +123,9 @@ class TutorialVC: BaseVC {
     }
     
     func setupInterface() {
-        continueBtn.setTitle(NSLocalizedString("continue", comment: "continueBtn").uppercased(), for: .normal)
+        let continueBtnTitle = NSLocalizedString("TutorialVC.continueButtonTitle", comment: "")
+            .uppercased()
+        continueBtn.setTitle(continueBtnTitle, for: .normal)
         continueBtn.setTitleColor(UIColor.colorPrimaryDark, for: .normal)
         continueBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12.0)
         
@@ -139,21 +141,21 @@ class TutorialVC: BaseVC {
         firstImView.contentMode = .scaleAspectFit
         secondImView.contentMode = .scaleAspectFit
         
-        firstTitleLbl.text = NSLocalizedString("Build routes", comment: "")
+        firstTitleLbl.text = NSLocalizedString("TutorialVC.firstTitleLabel", comment: "")
         firstTitleLbl.font = UIFont.boldSystemFont(ofSize: 16.0)
         firstTitleLbl.textColor = UIColor.black
         
-        firstDescrLbl.text = NSLocalizedString("Build routes through the best Ukrainian roads in view of road quality.", comment: "")
+        firstDescrLbl.text = NSLocalizedString("TutorialVC.firstDescriptionLabel", comment: "")
         firstDescrLbl.font = UIFont.systemFont(ofSize: 12.0)
         firstDescrLbl.textColor = UIColor.gray
         firstDescrLbl.numberOfLines = 0
         firstDescrLbl.textAlignment = .center
         
-        secondTitleLbl.text = NSLocalizedString("Collect statistics", comment: "")
+        secondTitleLbl.text = NSLocalizedString("TutorialVC.secondTitleLabel", comment: "")
         secondTitleLbl.font = UIFont.boldSystemFont(ofSize: 16.0)
         secondTitleLbl.textColor = UIColor.black
         
-        secondDescrLbl.text = NSLocalizedString("Collect road quality statistics with help of autimatic pit fixation.", comment: "")
+        secondDescrLbl.text = NSLocalizedString("TutorialVC.secondDescrLabel", comment: "")
         secondDescrLbl.font = UIFont.systemFont(ofSize: 12.0)
         secondDescrLbl.textColor = UIColor.gray
         secondDescrLbl.numberOfLines = 0
@@ -184,13 +186,6 @@ class TutorialVC: BaseVC {
             .addDisposableTo(disposeBag)
     }
 }
-
-
-
-
-
-
-
 
 
 

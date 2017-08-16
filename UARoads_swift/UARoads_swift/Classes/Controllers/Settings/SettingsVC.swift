@@ -35,7 +35,7 @@ class SettingsVC: BaseTVC {
     override func setupInterface() {
         super.setupInterface()
         
-        title = NSLocalizedString("Settings", comment: "title")
+        title = NSLocalizedString("SettingsVC.title", comment: "")
         
         tableView = UITableView(frame: view.frame, style: .grouped)
         tableView.register(SettingsSwitchCell.self, forCellReuseIdentifier: "SettingsSwitchCell")

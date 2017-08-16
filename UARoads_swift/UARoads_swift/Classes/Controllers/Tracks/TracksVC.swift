@@ -64,7 +64,7 @@ class TracksVC: BaseTVC {
     override func setupInterface() {
         super.setupInterface()
         
-        title = NSLocalizedString("Recorded tracks", comment: "title")
+        title = NSLocalizedString("RecordTrackVC.title", comment: "")
         
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
         tableView.tableFooterView = UIView()
@@ -111,11 +111,18 @@ extension TracksVC {
 
 extension TracksVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSMutableAttributedString(string: NSLocalizedString("You have no tracks yet", comment: ""), attributes: [NSForegroundColorAttributeName:UIColor.colorPrimaryDark, NSFontAttributeName:UIFont.systemFont(ofSize: 18.0)])
+        let titleStr = NSLocalizedString("TracksVC.emptyDataSet.title", comment: "")
+        let attrs = [NSForegroundColorAttributeName : UIColor.colorPrimaryDark,
+                     NSFontAttributeName : UIFont.systemFont(ofSize: 18.0)]
+        
+        return NSMutableAttributedString(string: titleStr, attributes: attrs)
     }
     
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
-        return NSMutableAttributedString(string: NSLocalizedString("start", comment: "").uppercased(), attributes: [NSForegroundColorAttributeName:UIColor.colorAccent, NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)])
+        let btnTitle = NSLocalizedString("start", comment: "").uppercased()
+        let attrs = [NSForegroundColorAttributeName:UIColor.colorAccent,
+                     NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)]
+        return NSMutableAttributedString(string: btnTitle, attributes: attrs)
     }
     
     func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
@@ -142,20 +149,6 @@ extension TracksVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
         return true
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

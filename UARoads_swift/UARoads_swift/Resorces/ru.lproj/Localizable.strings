@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  UARoads_swift
+
+  Created by Roman Rybachenko on 8/15/17.
+  Copyright © 2017 Victor Amelin. All rights reserved.
+*/
+
+"tabbar.item.0" = "Маршруты";
+"tabbar.item.1" = "Запись";
+"tabbar.item.2" = "Треки";
+"tabbar.item.3" = "Настройки";
+
+"TutorialVC.continueButtonTitle" = "продолжить";
+"TutorialVC.firstTitleLabel" = "Построение маршрута";
+"TutorialVC.firstDescriptionLabel" = "Прокладывайте маршруты только лучшими дорогами Украины с учетом качества дорожного покрытия.";
+"TutorialVC.secondTitleLabel" = "Сбор статистики";
+"TutorialVC.secondDescrLabel" = "Собирайте статистику о состоянии дорогс помощью автоматической фиксации ям.";
+
+"RoutesVC.title" = "Постороение маршрута";
+"RoutesVC.fromTextFieldPlaceholder" = "Откуда";
+"RoutesVC.toTextFieldPlaceholder" = "Куда";
+"RoutesVC.buildButtonTitle" = "Построить";
+"RoutesVC.myCurrentLocation" = "Моя текущая позиция";
+
+"RouteBuidVC.cancelButtonTitle" = "Отмена";
+"RouteBuidVC.title" = "Маршрут";
+"RouteBuidVC.goButtonTitle" = "Поехали!";
+"RouteBuidVC.fromLabel" = "откуда";
+"RouteBuidVC.toLabel" = "куда";
+
+"RecordTrackVC.title" = "Запись";
+"RecordTrackVC.lastTrackLabel" = "Последняя поездка";
+"RecordTrackVC.totalDistLabel" = "Дистанция, обработанная на сервере";
+"RecordTrackVC.startButtonTitle" = "Начало Записи";
+"RecordTrackVC.pauseButtonTitle" = "Пауза";
+"RecordTrackVC.pauseButtonTitleSelected" = "Продолжить";
+"RecordTrackVC.stopButtonTitle" = "Стоп";
+"RecordTrackVC.currTrackView.title" = "Текущая поездка";
+
+"TracksVC.title" = "Записанные треки";
+"TracksVC.emptyDataSet.buttonTitle" = "Начать";
+"TracksVC.emptyDataSet.title" = "Вы не записали ни одного маршрута";
+
+"TrackStatus.active" = "Построение маршрута";
+"TrackStatus.saved" = "Сохранено";
+"TrackStatus.waitingForUpload" = "Ожидает отправки";
+"TrackStatus.uploading" = "Отправляется";
+"TrackStatus.uploaded" = "Отправлено";
+
+"SettingsVC.title" = "Параметры";
+"SettingsVC.signInHeaderTitle" = "пользователь";
+"SettingsVC.emailTextField.placeholder" = "введите email";
+"SettingsVC.signInFooter.signInButtonTitle" = "Войти";
+"SettingsVC.signOutButtonTitle" = "Выход";
+"SettingsVC.signInFooter.labelText" = "Авторизированные пользователи могут просматривать свою статистику на сайте, учавствовать в рейтинге: получать награды за свои достижения.";
+"SettingsVC.cellTitle.sendDataOnlyViaWiFi" = "Отправлять данные только с помощью WiFi";
+"SettingsVC.cellTitle.sendTracksAutomatically" = "Отправлять треки автоматически";
+"SettingsVC.cellTitle.autostartRecordRoutes" = "Автоматическая запись";
+"SettingsVC.switchFooter.versionLabel" = "Версия приложения:";
+
+"km" = "km";

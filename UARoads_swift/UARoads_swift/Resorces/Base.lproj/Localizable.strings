@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  UARoads_swift
+
+  Created by Roman Rybachenko on 8/15/17.
+  Copyright © 2017 Victor Amelin. All rights reserved.
+*/
+
+"tabbar.item.0" = "Build route";
+"tabbar.item.1" = "Record";
+"tabbar.item.2" = "Tracks";
+"tabbar.item.3" = "Settings";
+
+"TutorialVC.continueButtonTitle" = "continue";
+"TutorialVC.firstTitleLabel" = "Build routes";
+"TutorialVC.firstDescriptionLabel" = "Build routes through the best Ukrainian roads in view of road quality.";
+"TutorialVC.secondTitleLabel" = "Collect statistics";
+"TutorialVC.secondDescrLabel" = "Collect road quality statistics with help of autimatic pit fixation.";
+
+"RoutesVC.title" = "Build route";
+"RoutesVC.fromTextFieldPlaceholder" = "from";
+"RoutesVC.toTextFieldPlaceholder" = "to";
+"RoutesVC.buildButtonTitle" = "Build";
+"RoutesVC.myCurrentLocation" = "My current location";
+
+"RouteBuidVC.cancelButtonTitle" = "Cancel";
+"RouteBuidVC.title" = "Route";
+"RouteBuidVC.goButtonTitle" = "GO!";
+"RouteBuidVC.fromLabel" = "from";
+"RouteBuidVC.toLabel" = "to";
+
+"RecordTrackVC.title" = "Record";
+"RecordTrackVC.lastTrackLabel" = "Last track";
+"RecordTrackVC.totalDistLabel" = "Total tracks distance on server";
+"RecordTrackVC.startButtonTitle" = "Start Tracking";
+"RecordTrackVC.pauseButtonTitle" = "Pause";
+"RecordTrackVC.pauseButtonTitleSelected" = "Continue";
+"RecordTrackVC.stopButtonTitle" = "Stop";
+"RecordTrackVC.currTrackView.title" = "Current track";
+
+"TracksVC.title" = "Recorded tracks";
+"TracksVC.emptyDataSet.buttonTitle" = "Start";
+"TracksVC.emptyDataSet.title" = "You have no tracks yet";
+
+"TrackStatus.active" = "Active";
+"TrackStatus.saved" = "Saved";
+"TrackStatus.waitingForUpload" = "Waiting For Upload";
+"TrackStatus.uploading" = "Uploading";
+"TrackStatus.uploaded" = "Uploaded";
+
+"SettingsVC.title" = "Settings";
+"SettingsVC.signInHeaderTitle" = "user";
+"SettingsVC.emailTextField.placeholder" = "Enter email";
+"SettingsVC.signInFooter.signInButtonTitle" = "Sign In";
+"SettingsVC.signOutButtonTitle" = "Sign Out";
+"SettingsVC.signInFooter.labelText" = "Authorized users can view their site statistics, get in TOP, gain reward for their achievements.";
+"SettingsVC.cellTitle.sendDataOnlyViaWiFi" = "Send data only via WiFi";
+"SettingsVC.cellTitle.sendTracksAutomatically" = "Send tracks automatically";
+"SettingsVC.cellTitle.autostartRecordRoutes" = "Route recording autostart";
+"SettingsVC.switchFooter.versionLabel" = "Version:";
+
+"km" = "km";

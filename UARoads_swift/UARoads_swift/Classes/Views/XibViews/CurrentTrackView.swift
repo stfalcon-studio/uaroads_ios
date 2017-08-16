@@ -24,10 +24,17 @@ class CurrentTrackView: UIView {
         
         Bundle.main.loadNibNamed("CurrentTrackView", owner: self, options: nil)
         self.addSubview(self.view)
+        
+        self.customizeView()
     }
     
     func setDistance(_ distance: Double) {
-        distanceLabel.text = NSString(format: "%.2f km", distance/1000.0) as String
+        let kmStr = NSLocalizedString("km", comment: "")
+        distanceLabel.text = NSString(format: "%.2f %@", distance/1000.0, kmStr) as String
+    }
+    
+    private func customizeView() {
+        currentTrackTitleLabel.text = NSLocalizedString("RecordTrackVC.currTrackView.title", comment: "")
     }
 
 }

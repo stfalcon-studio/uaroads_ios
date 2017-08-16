@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  UARoads_swift
+
+  Created by Roman Rybachenko on 8/15/17.
+  Copyright © 2017 Victor Amelin. All rights reserved.
+*/
+
+"tabbar.item.0" = "Маршрути";
+"tabbar.item.1" = "Запис";
+"tabbar.item.2" = "Треки";
+"tabbar.item.3" = "Параметри";
+
+"TutorialVC.continueButtonTitle" = "продовжити";
+"TutorialVC.firstTitleLabel" = "Прокладання маршруту";
+"TutorialVC.firstDescriptionLabel" = "Прокладайте маршрути лише кращими дорогами України з урахуванням якості дорожного покриття.";
+"TutorialVC.secondTitleLabel" = "Збір статистики";
+"TutorialVC.secondDescrLabel" = "Збирайте статистику про стан доріг за допомогою автоматичної фіксації ям.";
+
+"RoutesVC.title" = "Побудова маршруту";
+"RoutesVC.fromTextFieldPlaceholder" = "Звідки";
+"RoutesVC.toTextFieldPlaceholder" = "Куди";
+"RoutesVC.buildButtonTitle" = "Побудувати";
+"RoutesVC.myCurrentLocation" = "Моє поточне місце розташування";
+
+"RouteBuidVC.cancelButtonTitle" = "Скасувати";
+"RouteBuidVC.title" = "Маршрут";
+"RouteBuidVC.goButtonTitle" = "Поїхали!";
+"RouteBuidVC.fromLabel" = "звідки";
+"RouteBuidVC.toLabel" = "куди";
+
+"RecordTrackVC.title" = "Запис";
+"RecordTrackVC.lastTrackLabel" = "Остання поїздка";
+"RecordTrackVC.totalDistLabel" = "Дистанція, оброблена на сервері";
+"RecordTrackVC.startButtonTitle" = "Почати запис";
+"RecordTrackVC.pauseButtonTitle" = "Пауза";
+"RecordTrackVC.pauseButtonTitleSelected" = "Продовжити";
+"RecordTrackVC.stopButtonTitle" = "Зупинити";
+"RecordTrackVC.currTrackView.title" = "Поточний сеанс";
+
+"TracksVC.title" = "Записані треки";
+"TracksVC.emptyDataSet.buttonTitle" = "Почати";
+"TracksVC.emptyDataSet.title" = "Ви не записали ще жодного маршруту";
+
+"TrackStatus.active" = "Запис маршруту";
+"TrackStatus.saved" = "Відправлено";
+"TrackStatus.waitingForUpload" = "Очікує на відправку";
+"TrackStatus.uploading" = "Відправляється";
+"TrackStatus.uploaded" = "Відправлено";
+
+"SettingsVC.title" = "Параметри";
+"SettingsVC.signInHeaderTitle" = "користувач";
+"SettingsVC.emailTextField.placeholder" = "Введіть email";
+"SettingsVC.signInFooter.signInButtonTitle" = "Увійти";
+"SettingsVC.signOutButtonTitle" = "Вихід";
+"SettingsVC.signInFooter.labelText" = "Авторизовані користувачі мають змогу переглядати свою статистику на сайті, брати участь у рейтингу, отримувати нагороди за свої досягнення.";
+"SettingsVC.cellTitle.sendDataOnlyViaWiFi" = "Відправляти дані тільки по WiFi";
+"SettingsVC.cellTitle.sendTracksAutomatically" = "Відправляти записи автоматично";
+"SettingsVC.cellTitle.autostartRecordRoutes" = "Автоматичний запис";
+"SettingsVC.switchFooter.versionLabel" = "Версія додатку:";
+
+"km" = "км";

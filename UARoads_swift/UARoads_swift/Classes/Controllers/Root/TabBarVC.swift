@@ -37,22 +37,22 @@ class TabBarVC: UITabBarController {
         setViewControllers([routesNVC, recordNVC, tracksNVC, settingsNVC], animated: false)
         
         let routesItem = tabBar.items?[0]
-        routesItem?.title = NSLocalizedString("Routes", comment: "routesItem")
+        routesItem?.title = NSLocalizedString("tabbar.item.0", comment: "")
         routesItem?.selectedImage = UIImage(named: "routes-active")
         routesItem?.image = UIImage(named: "routes-normal")
         
         let recordsItem = tabBar.items?[1]
-        recordsItem?.title = NSLocalizedString("Record", comment: "recordsItem")
+        recordsItem?.title = NSLocalizedString("tabbar.item.1", comment: "")
         recordsItem?.selectedImage = UIImage(named: "record-active")
         recordsItem?.image = UIImage(named: "record-normal")
         
         let tracksItem = tabBar.items?[2]
-        tracksItem?.title = NSLocalizedString("Tracks", comment: "tracksItem")
+        tracksItem?.title = NSLocalizedString("tabbar.item.2", comment: "")
         tracksItem?.selectedImage = UIImage(named: "tracks-active")
         tracksItem?.image = UIImage(named: "tracks-normal")
         
         let settingsItem = tabBar.items?[3]
-        settingsItem?.title = NSLocalizedString("Settings", comment: "settingsItem")
+        settingsItem?.title = NSLocalizedString("tabbar.item.3", comment: "settingsItem")
         settingsItem?.selectedImage = UIImage(named: "settings-active")
         settingsItem?.image = UIImage(named: "settings-normal")
         

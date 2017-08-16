@@ -62,7 +62,7 @@ enum TrackStatus: Int {
         switch self {
         case .active: return "Active"
         case .saved: return "Saved"
-        case .waitingForUpload: return "WaitingForUpload"
+        case .waitingForUpload: return "Waiting For Upload"
         case .uploading: return "Uploading"
         case .uploaded: return "Uploaded"
         }
