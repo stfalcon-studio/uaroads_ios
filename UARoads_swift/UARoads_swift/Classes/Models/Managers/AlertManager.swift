@@ -43,6 +43,17 @@ class AlertManager {
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     
+    class func showAlertAutostartIsNotEnable(viewController: UIViewController, handler: EmptyHandler? = nil) {
+        let titleStr = "Warning!"
+        let messageStr = "Autostart isn't enable on your device"
+        AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: handler)
+    }
+    
+    class func showAlertUidCopied(viewController: UIViewController) {
+        let titleStr = "Uid is copied to clipboard"
+        AlertManager.showAlert(title: titleStr, message: "", controller: viewController, handler: nil)
+    }
+    
     
     // MARK: Private funcs
     private class func showAlert(title: String? = "", message: String, controller: UIViewController?, handler: EmptyHandler? = nil) {

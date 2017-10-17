@@ -23,9 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.statusBarStyle = .lightContent
         
-        //autostart check
-        AutostartManager.sharedInstance.setAutostartActive(SettingsManager.sharedInstance.routeRecordingAutostart)
-        
         //background task
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
@@ -49,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.makeKeyAndVisible()
         }
         
+        AutostartManager.shared.switchAutostart(to: SettingsManager.sharedInstance.routeRecordingAutostart)
+        
         //notifications
         let center = UNUserNotificationCenter.current()
         center.delegate = self
@@ -66,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-//         SendTracksService.shared.sendAllNotPostedTraks()
+        sendTracksIfNeeded()
     }
     
     func application(_ application: UIApplication,
@@ -75,14 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         backgroundSessionCompletionHandler = completionHandler
         
-        let networkStatus = NetworkConnectionManager.shared.networkStatus
-        let isWiFiOnly = SettingsManager.sharedInstance.sendDataOnlyWiFi
-        
-        if (isWiFiOnly == true && networkStatus == .reachableViaWiFi) ||
-            (isWiFiOnly == false && networkStatus != .notReachable) {
-            
-            SendTracksService.shared.sendAllNotPostedTraks()
-        }
+        sendTracksIfNeeded()
     }
     
     
@@ -99,7 +91,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.isTranslucent = false
     }
     
-
+    
+    private func sendTracksIfNeeded() {
+        let networkStatus = NetworkConnectionManager.shared.networkStatus
+        let isWiFiOnly = SettingsManager.sharedInstance.sendDataOnlyWiFi
+        
+        if (isWiFiOnly == true && networkStatus == .reachableViaWiFi) ||
+            (isWiFiOnly == false && networkStatus != .notReachable) {
+            
+            SendTracksService.shared.sendAllNotPostedTraks()
+        }
+    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

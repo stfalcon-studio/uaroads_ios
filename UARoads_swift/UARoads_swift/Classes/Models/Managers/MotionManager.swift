@@ -13,23 +13,19 @@ import CallKit
 import CoreMotion
 
 
-enum MotionStatus {
-    case notActive
-    case active
-    case paused
-    case pausedForCall
-}
-
-
 protocol MotionManagerDelegate {
-    func statusChanged(newStatus: MotionStatus)
+    func statusChanged(newStatus: RecordStatus, oldStatus: RecordStatus)
 }
 
 
 final class MotionManager: NSObject, CXCallObserverDelegate {
     // MARK: Properties
     var delegate: MotionManagerDelegate?
-    var status: MotionStatus = .notActive
+    var status: RecordStatus = .notActive {
+        didSet {
+            self.delegate?.statusChanged(newStatus: status, oldStatus: oldValue)
+        }
+    }
     var track: TrackModel?
    
     private let callObserver = CXCallObserver()
@@ -64,14 +60,16 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     
     // MARK: Public funcs
-    func startRecording(autostart: Bool = false) {
+    func startRecording() {
+        let autostart = SettingsManager.sharedInstance.routeRecordingAutostart
         DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
         let initialTitle = DateManager.sharedInstance.getDateFormatted(Date())
         
         startRecording(title: initialTitle, autostart: autostart)
     }
     
-    func stopRecording(autostart: Bool = false) {
+    func stopRecording() {
+        let autostart = SettingsManager.sharedInstance.routeRecordingAutostart
         if autostart {
             AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "stopAutoRecord", label: nil, value: nil)
         } else {
@@ -101,8 +99,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     func completeActiveTracks() {
-        RecordService.sharedInstance.onMotionCompleted?()
-        RecordService.sharedInstance.onSend?()
+        RecordService.shared.onMotionCompleted?()
+        RecordService.shared.onSend?()
     }
     
     func playSound(_ soundName: String) {
@@ -129,7 +127,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
             DateManager.sharedInstance.setFormat("yyyyMMddhhmmss")
             let id = "\(title)-\(DateManager.sharedInstance.getDateFormatted(track!.date))"
             track?.trackID = id.md5()
-            RecordService.sharedInstance.dbManager.add(track)
+            RecordService.shared.dbManager.add(track)
             
             status = .active
             motionManager.startDeviceMotionUpdates()
@@ -172,18 +170,18 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     // MARK: Action funcs
     @objc private func timerMotionAction() {
-        RecordService.sharedInstance.onLocation!()
+        RecordService.shared.onLocation!()
     }
     
     @objc private func timerPitAction() {
         let currTime = Date().timeIntervalSince1970
         let currentPit = getAccelerometerData()
         if currTime - lastSentPitTimeInterval > PitInterval {
-            RecordService.sharedInstance.onPit?(currentPit)
+            RecordService.shared.onPit?(currentPit)
             lastSentPitTimeInterval = currTime
         }
         
-        if let block = RecordService.sharedInstance.onMotionStart {
+        if let block = RecordService.shared.onMotionStart {
             let filtred = currentPit > 0
             block(currentPit, filtred)
         }
