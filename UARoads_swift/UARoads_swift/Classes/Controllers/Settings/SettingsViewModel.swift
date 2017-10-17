@@ -28,7 +28,8 @@ class SettingsViewModel {
             return signInFooterView()
         case .switchParameters:
             let footer = FooterText()
-            footer.versionLbl.text = "Version: " + Utilities.appVersion()
+            let versionStr = NSLocalizedString("SettingsVC.switchFooter.versionLabel", comment: "")
+            footer.versionLbl.text = versionStr + Utilities.appVersion()
             footer.uidLbl.text = "UID: " + Utilities.deviceUID()
             
             return footer
@@ -44,7 +45,7 @@ class SettingsViewModel {
         }
         
         let footer = FooterSignIn()
-        footer.textLbl.text = "Authorized users can view their site statistics, get in TOP, gain reward for their achievements."
+        footer.textLbl.text = NSLocalizedString("SettingsVC.signInFooter.labelText", comment: "")
         
         return footer
     }
@@ -66,11 +67,11 @@ enum SettingsParameters: Int {
         
         switch self {
         case .sendDataOnlyViaWiFi:
-            title = "Send data only via WiFi"
+            title = NSLocalizedString("SettingsVC.cellTitle.sendDataOnlyViaWiFi", comment: "")
         case .sendTracksAutomatically:
-            title = "Send tracks automatically"
+            title = NSLocalizedString("SettingsVC.cellTitle.sendTracksAutomatically", comment: "")
         case .autostartRecordRoutes:
-            title = "Route recording autostart"
+            title = NSLocalizedString("SettingsVC.cellTitle.autostartRecordRoutes", comment: "")
 
         }
         return title
@@ -97,7 +98,7 @@ enum SettingSection: Int {
     func titleForHeader() -> String? {
         switch self {
         case .signIn:
-            return "USER"
+            return NSLocalizedString("SettingsVC.signInHeaderTitle", comment: "")
         default:
             return nil
         }

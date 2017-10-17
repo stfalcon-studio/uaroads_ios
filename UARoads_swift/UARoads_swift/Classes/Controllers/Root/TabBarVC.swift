@@ -36,23 +36,23 @@ class TabBarVC: UITabBarController {
         
         setViewControllers([routesNVC, recordNVC, tracksNVC, settingsNVC], animated: false)
         
-        let routesItem = tabBar.items?[0]
-        routesItem?.title = NSLocalizedString("Routes", comment: "routesItem")
+        let routesItem = tabBar.items?[TabbarItem.buildRoute.rawValue]
+        routesItem?.title = TabbarItem.buildRoute.title()
         routesItem?.selectedImage = UIImage(named: "routes-active")
         routesItem?.image = UIImage(named: "routes-normal")
         
-        let recordsItem = tabBar.items?[1]
-        recordsItem?.title = NSLocalizedString("Record", comment: "recordsItem")
+        let recordsItem = tabBar.items?[TabbarItem.recordTrack.rawValue]
+        recordsItem?.title = TabbarItem.recordTrack.title()
         recordsItem?.selectedImage = UIImage(named: "record-active")
         recordsItem?.image = UIImage(named: "record-normal")
         
-        let tracksItem = tabBar.items?[2]
-        tracksItem?.title = NSLocalizedString("Tracks", comment: "tracksItem")
+        let tracksItem = tabBar.items?[TabbarItem.tracks.rawValue]
+        tracksItem?.title = TabbarItem.tracks.title()
         tracksItem?.selectedImage = UIImage(named: "tracks-active")
         tracksItem?.image = UIImage(named: "tracks-normal")
         
-        let settingsItem = tabBar.items?[3]
-        settingsItem?.title = NSLocalizedString("Settings", comment: "settingsItem")
+        let settingsItem = tabBar.items?[TabbarItem.settings.rawValue]
+        settingsItem?.title = TabbarItem.settings.title()
         settingsItem?.selectedImage = UIImage(named: "settings-active")
         settingsItem?.image = UIImage(named: "settings-normal")
         

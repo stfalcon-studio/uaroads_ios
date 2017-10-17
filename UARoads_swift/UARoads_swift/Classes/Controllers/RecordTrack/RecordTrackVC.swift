@@ -34,7 +34,7 @@ class RecordTrackVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = "Record"
+        navigationItem.title = NSLocalizedString("RecordTrackVC.title", comment: "")
       
         RecordService.shared.motionManager.delegate = self
         
@@ -112,6 +112,19 @@ class RecordTrackVC: UIViewController {
     // MARK: Private funcs
     
     private func setupInterface() {
+        let startButtonTitle = NSLocalizedString("RecordTrackVC.startButtonTitle", comment: "").uppercased()
+        startButton.setTitle(startButtonTitle, for: .normal)
+        let pauseBtnTitleNormal = NSLocalizedString("RecordTrackVC.pauseButtonTitle", comment: "").uppercased()
+        let pauseBtnTitleSelected = NSLocalizedString("RecordTrackVC.pauseButtonTitleSelected", comment: "").uppercased()
+        pauseButton.setTitle(pauseBtnTitleNormal, for: .normal)
+        pauseButton.setTitle(pauseBtnTitleSelected, for: .selected)
+        
+        let stopButtonTitle = NSLocalizedString("RecordTrackVC.stopButtonTitle", comment: "").uppercased()
+        stopButton.setTitle(stopButtonTitle, for: .normal)
+        
+        lastTrackDescrLabel.text = NSLocalizedString("RecordTrackVC.lastTrackLabel", comment: "")
+        totalTracksDescrLabel.text = NSLocalizedString("RecordTrackVC.totalDistLabel", comment: "")
+            
         pauseStopContainerView.layer.cornerRadius = pauseStopContainerView.frame.size.width / 2
         pauseStopContainerView.clipsToBounds = true
         
