@@ -279,6 +279,7 @@ class RoutesVC: BaseTVC {
         if navigationItem.rightBarButtonItem == nil {
             navigationItem.rightBarButtonItem = clearBtn
         }
+        checkLocationAuthStatus()
         if let text = tf.text, let coordinates = locationManager.location?.coordinate {
             NetworkManager.sharedInstance.searchResults(location: text,
                                                         coord: coordinates,
@@ -298,6 +299,7 @@ class RoutesVC: BaseTVC {
                                              locationName: self.toTF.text,
                                              locationDescription: nil)
         }
+        checkLocationAuthStatus()
         self.checkFields()
     }
     
@@ -309,6 +311,7 @@ class RoutesVC: BaseTVC {
                                                locationName: self.fromTF.text,
                                                locationDescription: nil)
         }
+        checkLocationAuthStatus()
         self.checkFields()
     }
     
@@ -384,6 +387,12 @@ class RoutesVC: BaseTVC {
         locationManager.startUpdatingLocation()
     }
     
+    fileprivate func checkLocationAuthStatus() {
+        if [.notDetermined, .restricted, .denied].contains(CLLocationManager.authorizationStatus()) {
+            self.showAlertToSettings("", msg: "RoutesVC.goToLocationSetting".localized)
+        }
+    }
+    
     fileprivate func stopUpdatingLocation() {
         locationManager.stopUpdatingLocation()
     }
@@ -411,6 +420,8 @@ class RoutesVC: BaseTVC {
         }
     }
 }
+
+extension RoutesVC : AlertToSettingsRenderer {}
 
 extension RoutesVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

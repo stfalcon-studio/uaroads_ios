@@ -43,10 +43,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>external-accessory</string>
@@ -70,5 +66,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
 </dict>
 </plist>

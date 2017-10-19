@@ -3,7 +3,7 @@ target 'UARoads_swift' do
     use_frameworks!
     
     #Constraints
-    pod 'SnapKit'
+    pod 'SnapKit',  ‘~> 3.2.0’
     
     #Crashlytics and Analytics
     pod 'Fabric'

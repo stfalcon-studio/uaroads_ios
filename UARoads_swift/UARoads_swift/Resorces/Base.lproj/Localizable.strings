@@ -22,6 +22,7 @@
 "RoutesVC.toTextFieldPlaceholder" = "to";
 "RoutesVC.buildButtonTitle" = "Build";
 "RoutesVC.myCurrentLocation" = "My current location";
+"RoutesVC.goToLocationSetting" = "Geolocation is turned off. Would you like to open the settings to enable geolocation?";
 
 "RouteBuidVC.cancelButtonTitle" = "Cancel";
 "RouteBuidVC.title" = "Route";
@@ -60,3 +61,5 @@
 "SettingsVC.switchFooter.versionLabel" = "Version:";
 
 "km" = "km";
+"Settings" = "Settings";
+"Cancel" = "Cancel";

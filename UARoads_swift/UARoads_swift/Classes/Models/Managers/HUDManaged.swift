@@ -15,10 +15,10 @@ final class HUDManager {
     
     fileprivate var HUD: JGProgressHUD = {
         let hud = JGProgressHUD(style: JGProgressHUDStyle.extraLight)
-        hud?.interactionType = .blockAllTouches
-        hud?.position = .center
+        hud.interactionType = .blockAllTouches
+        hud.position = .center
         
-        return hud!
+        return hud
     }()
     
     func show(from: UIViewController) {

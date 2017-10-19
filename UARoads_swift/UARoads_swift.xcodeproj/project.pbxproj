@@ -79,6 +79,7 @@
 		301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */; };
 		427E76A31F4321440057CA36 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 427E76A51F4321440057CA36 /* Localizable.strings */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
+		8436D3151F98DF1100C4C3C9 /* AlertRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */; };
 		F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E61E97768B00647D5E /* Assets.xcassets */; };
 		F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */; };
 		F40DBF4A1EAF6C54002F6C11 /* Navigation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40DBF231EAF6C54002F6C11 /* Navigation.storyboard */; };
@@ -176,6 +177,7 @@
 		427E76A61F4321470057CA36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		427E76A91F44459D0057CA36 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
+		8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertRenderer.swift; sourceTree = "<group>"; };
 		F40D92DC1E97768B00647D5E /* UA Roads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UA Roads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40D92E61E97768B00647D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		F40D92E91E97768B00647D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				301F50CB1F276BBC00B86B10 /* PrintExtensions.swift */,
+				8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */,
 				301F50CC1F276BBC00B86B10 /* Utilities.swift */,
 			);
 			path = Helpers;
@@ -720,7 +723,7 @@
 				TargetAttributes = {
 					F40D92DB1E97768B00647D5E = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = UHJFHS6M7R;
+						DevelopmentTeam = 6GPBT9MDQP;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -806,9 +809,38 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxKeyboard/RxKeyboard.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/StfalconSwiftExtensions/StfalconSwiftExtensions.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/TSValidatedTextField/TSValidatedTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/UIViewController+ODStatusBar/UIViewController_ODStatusBar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JGProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxKeyboard.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StfalconSwiftExtensions.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TSValidatedTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIViewController_ODStatusBar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -821,13 +853,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UARoads_swift-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F418248F1EA8A0A30075872C /* ShellScript */ = {
@@ -898,6 +933,7 @@
 				301F51411F276BE900B86B10 /* BaseCell.swift in Sources */,
 				301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */,
 				301F51091F276BBC00B86B10 /* Utilities.swift in Sources */,
+				8436D3151F98DF1100C4C3C9 /* AlertRenderer.swift in Sources */,
 				301F51441F276BE900B86B10 /* SettingsTFCell.swift in Sources */,
 				301F51821F2771F100B86B10 /* TutorialVC.swift in Sources */,
 				301F51851F2771F100B86B10 /* RouteBuidVC.swift in Sources */,
@@ -1051,7 +1087,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = UHJFHS6M7R;
+				DEVELOPMENT_TEAM = 6GPBT9MDQP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1094,7 +1130,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = UHJFHS6M7R;
+				DEVELOPMENT_TEAM = 6GPBT9MDQP;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",

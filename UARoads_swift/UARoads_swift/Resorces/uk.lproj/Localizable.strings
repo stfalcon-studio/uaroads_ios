@@ -22,6 +22,7 @@
 "RoutesVC.toTextFieldPlaceholder" = "Куди";
 "RoutesVC.buildButtonTitle" = "Побудувати";
 "RoutesVC.myCurrentLocation" = "Моє поточне місце розташування";
+"RoutesVC.goToLocationSetting" = "Геолокацію вимкнено. Бажаєте відкрити Параметри, щоб увімкнути геолокацію?";
 
 "RouteBuidVC.cancelButtonTitle" = "Скасувати";
 "RouteBuidVC.title" = "Маршрут";
@@ -60,3 +61,5 @@
 "SettingsVC.switchFooter.versionLabel" = "Версія додатку:";
 
 "km" = "км";
+"Settings" = "Параметри";
+"Cancel" = "Скасувати";
