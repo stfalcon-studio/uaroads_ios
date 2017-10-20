@@ -70,28 +70,28 @@ class GraphView: UIView {
                     let valueX2: CGFloat = CGFloat(startPos - (i+1)*zoomX)
                     let valueY2: CGFloat = middleY - valuesList[i+1] * zoomY
                     
-                    context?.setStrokeColor(UIColor.green.cgColor)
+                    context?.setStrokeColor(UIColor.motionLineColor.cgColor)
                     context?.move(to: CGPoint(x: valueX1, y: valueY1))
                     context?.addLine(to: CGPoint(x: valueX2, y: valueY2))
                 }
             }
             context?.strokePath()
             
-            i = 0
-            while i < valuesList.count && i*zoomX < Int(self.frame.size.width) {
-                i += 1
-                if i > 0 && i < valuesList.count - 1 && i < filteredValuesList.count - 1 {
-                    let valueX1: CGFloat = CGFloat(startPos - i*zoomX)
-                    let valueY1: CGFloat = middleY - filteredValuesList[i] * zoomY
-                    let valueX2: CGFloat = CGFloat(startPos - (i+1)*zoomX)
-                    let valueY2: CGFloat = middleY - filteredValuesList[i+1] * zoomY
-                    
-                    context?.setStrokeColor(UIColor.colorPrimary.cgColor)
-                    context?.move(to: CGPoint(x: valueX1, y: valueY1))
-                    context?.addLine(to: CGPoint(x: valueX2, y: valueY2))
-                }
-            }
-            context?.strokePath()
+//            i = 0
+//            while i < valuesList.count && i*zoomX < Int(self.frame.size.width) {
+//                i += 1
+//                if i > 0 && i < valuesList.count - 1 && i < filteredValuesList.count - 1 {
+//                    let valueX1: CGFloat = CGFloat(startPos - i*zoomX)
+//                    let valueY1: CGFloat = middleY - filteredValuesList[i] * zoomY
+//                    let valueX2: CGFloat = CGFloat(startPos - (i+1)*zoomX)
+//                    let valueY2: CGFloat = middleY - filteredValuesList[i+1] * zoomY
+//
+//                    context?.setStrokeColor(UIColor.colorPrimary.cgColor)
+//                    context?.move(to: CGPoint(x: valueX1, y: valueY1))
+//                    context?.addLine(to: CGPoint(x: valueX2, y: valueY2))
+//                }
+//            }
+//            context?.strokePath()
         }
     }
 }

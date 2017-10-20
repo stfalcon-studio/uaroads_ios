@@ -29,6 +29,10 @@ extension UIColor {
         return UIColor.rgba(red: 218, green: 0, blue: 0, alpha: 1.0)
     }
     
+    class var motionLineColor: UIColor {
+        return UIColor.rgba(red: 189, green: 59, blue: 0, alpha: 1.0)
+    }
+    
     class func rgba(red: Float, green: Float, blue: Float, alpha: Float) -> UIColor {
         return UIColor(colorLiteralRed: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: alpha)
     }

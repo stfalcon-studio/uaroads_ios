@@ -24,6 +24,21 @@ class RecordTrackVC: UIViewController {
     @IBOutlet weak var startButton: BorderButton!
     @IBOutlet weak var pauseButton: ArcButton!
     @IBOutlet weak var stopButton: ArcButton!
+    @IBOutlet weak var signInButton: UIButton! {
+        didSet {
+            signInButton.setTitle("SettingsVC.signInFooter.signInButtonTitle".localized, for: .normal)
+            signInButton.setTitleColor(UIColor.white, for: .normal)
+            signInButton.backgroundColor = UIColor.colorPrimaryDark
+            signInButton.layer.cornerRadius = 4.0
+            signInButton.layer.masksToBounds = true
+            signInButton.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
+        }
+    }
+    @IBOutlet weak var sendDistanceLabel: UILabel! {
+        didSet {
+            sendDistanceLabel.text = "RecordTrackVC.sendDistanceToServer".localized
+        }
+    }
     
     
     fileprivate let graphView = GraphView()
@@ -45,10 +60,10 @@ class RecordTrackVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        updateUIAuthUser()
         UIApplication.shared.statusBarStyle = .lightContent
         
-        viewModel.getUserStatistic(completion: { [weak self] (response, error) in
+        viewModel.getUserStatistic(completion: { (response, error) in
             pl(response)
         })
     }
@@ -59,6 +74,10 @@ class RecordTrackVC: UIViewController {
     
 
     // MARK: Action funcs
+    
+    @IBAction func signInTapped(_ sender: UIButton) {
+        self.tabBarController?.selectedIndex = 3
+    }
     
     @IBAction func startButtonTapped(_ sender: BorderButton) {
         if UIApplication.shared.backgroundRefreshStatus == .available {
@@ -110,6 +129,12 @@ class RecordTrackVC: UIViewController {
     
     
     // MARK: Private funcs
+    
+    private func updateUIAuthUser() {
+        totalDistanceLabel.isHidden = !SettingsManager.sharedInstance.isAuth
+        totalTracksDescrLabel.isHidden = !SettingsManager.sharedInstance.isAuth
+        signInButton.isHidden = SettingsManager.sharedInstance.isAuth
+    }
     
     private func setupInterface() {
         let startButtonTitle = NSLocalizedString("RecordTrackVC.startButtonTitle", comment: "").uppercased()

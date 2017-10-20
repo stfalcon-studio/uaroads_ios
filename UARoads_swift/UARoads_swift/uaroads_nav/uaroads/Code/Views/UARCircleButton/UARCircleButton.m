@@ -10,8 +10,8 @@
 
 @implementation UARCircleButton
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib{
+    [super awakeFromNib];
     CGRect oldFrame = self.frame;
     
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithOvalInRect:self.bounds];

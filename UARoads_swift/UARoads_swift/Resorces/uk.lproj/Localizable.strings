@@ -38,6 +38,7 @@
 "RecordTrackVC.pauseButtonTitleSelected" = "Продовжити";
 "RecordTrackVC.stopButtonTitle" = "Зупинити";
 "RecordTrackVC.currTrackView.title" = "Поточний сеанс";
+"RecordTrackVC.sendDistanceToServer" = "Опрацьована дистанція\nна сервері";
 
 "TracksVC.title" = "Записані треки";
 "TracksVC.emptyDataSet.buttonTitle" = "Почати";

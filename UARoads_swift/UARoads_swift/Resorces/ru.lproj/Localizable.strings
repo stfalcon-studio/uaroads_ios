@@ -38,6 +38,7 @@
 "RecordTrackVC.pauseButtonTitleSelected" = "Продолжить";
 "RecordTrackVC.stopButtonTitle" = "Стоп";
 "RecordTrackVC.currTrackView.title" = "Текущая поездка";
+"RecordTrackVC.sendDistanceToServer" = "Обработанное расстояние\nна сервере";
 
 "TracksVC.title" = "Записанные треки";
 "TracksVC.emptyDataSet.buttonTitle" = "Начать";

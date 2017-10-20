@@ -459,6 +459,8 @@ extension RoutesVC: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
+        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
         print("ERROR: \(error.localizedDescription)")
     }
 }

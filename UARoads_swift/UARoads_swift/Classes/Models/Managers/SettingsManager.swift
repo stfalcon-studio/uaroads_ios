@@ -24,6 +24,11 @@ final class SettingsManager {
     
     private let defaults = UserDefaults.standard
     
+    var isAuth: Bool {
+        let email = self.email ?? ""
+        return !email.isEmpty
+    }
+    
     var sendDataOnlyWiFi: Bool {
         get { return defaults.bool(forKey: SettingsKeys.sendDataOnlyWiFi.rawValue) }
         set { defaults.set(newValue, forKey: SettingsKeys.sendDataOnlyWiFi.rawValue); defaults.synchronize() }

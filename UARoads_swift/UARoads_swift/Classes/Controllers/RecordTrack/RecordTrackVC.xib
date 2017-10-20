@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,6 +17,8 @@
                 <outlet property="lastTrackLabel" destination="abi-Ji-tAE" id="wMe-tH-5AD"/>
                 <outlet property="pauseButton" destination="Xqk-vf-67p" id="tJN-qd-LgL"/>
                 <outlet property="pauseStopContainerView" destination="O73-7E-fYA" id="lTT-lu-tIg"/>
+                <outlet property="sendDistanceLabel" destination="SQM-d2-4WU" id="lo5-jq-PsK"/>
+                <outlet property="signInButton" destination="kRA-Pq-POm" id="Q7v-W9-ABM"/>
                 <outlet property="startButton" destination="q3P-pb-w9w" id="yrC-Ce-l3h"/>
                 <outlet property="stopButton" destination="I81-4k-idN" id="gUp-ko-1Uk"/>
                 <outlet property="totalDistanceLabel" destination="eL4-aY-ncL" id="eEV-QL-tfO"/>
@@ -86,17 +88,38 @@
                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRA-Pq-POm">
+                            <rect key="frame" x="275" y="20" width="80" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="T5T-au-3GV"/>
+                                <constraint firstAttribute="width" constant="80" id="l6Q-sD-HZc"/>
+                            </constraints>
+                            <state key="normal" title="Login"/>
+                            <connections>
+                                <action selector="signInTapped:" destination="-1" eventType="touchUpInside" id="Jqk-aa-dSG"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processed distance on server" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQM-d2-4WU">
+                            <rect key="frame" x="176" y="60" width="179" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="lCC-S2-8g9" firstAttribute="leading" secondItem="abi-Ji-tAE" secondAttribute="leading" id="180-tu-Pan"/>
                         <constraint firstItem="lCC-S2-8g9" firstAttribute="top" secondItem="abi-Ji-tAE" secondAttribute="bottom" id="Cfh-CM-9TO"/>
                         <constraint firstItem="lCC-S2-8g9" firstAttribute="trailing" secondItem="abi-Ji-tAE" secondAttribute="trailing" id="DmM-36-O1u"/>
+                        <constraint firstAttribute="trailing" secondItem="kRA-Pq-POm" secondAttribute="trailing" constant="20" id="FVs-xF-BVT"/>
                         <constraint firstItem="eL4-aY-ncL" firstAttribute="leading" secondItem="abi-Ji-tAE" secondAttribute="trailing" constant="8" id="JhT-vb-0tA"/>
                         <constraint firstAttribute="height" constant="100" id="Lk3-hx-XRn"/>
+                        <constraint firstItem="kRA-Pq-POm" firstAttribute="top" secondItem="eL4-aY-ncL" secondAttribute="top" id="OGB-yl-gqs"/>
                         <constraint firstItem="eL4-aY-ncL" firstAttribute="width" secondItem="abi-Ji-tAE" secondAttribute="width" id="SdM-fe-p4E"/>
+                        <constraint firstItem="SQM-d2-4WU" firstAttribute="top" secondItem="kRA-Pq-POm" secondAttribute="bottom" id="cei-kn-Li0"/>
                         <constraint firstItem="Y3U-rG-1ke" firstAttribute="trailing" secondItem="eL4-aY-ncL" secondAttribute="trailing" id="eT6-ta-Vcb"/>
                         <constraint firstItem="abi-Ji-tAE" firstAttribute="leading" secondItem="RGw-Su-Nid" secondAttribute="leading" constant="20" id="g3z-Es-Yu7"/>
+                        <constraint firstItem="SQM-d2-4WU" firstAttribute="trailing" secondItem="kRA-Pq-POm" secondAttribute="trailing" id="gzt-YD-JbI"/>
                         <constraint firstItem="eL4-aY-ncL" firstAttribute="top" secondItem="RGw-Su-Nid" secondAttribute="top" constant="20" id="i25-EE-NBg"/>
                         <constraint firstItem="Y3U-rG-1ke" firstAttribute="leading" secondItem="eL4-aY-ncL" secondAttribute="leading" id="ivF-QW-C3N"/>
                         <constraint firstItem="abi-Ji-tAE" firstAttribute="top" secondItem="RGw-Su-Nid" secondAttribute="top" constant="20" id="kcN-DO-0zH"/>

@@ -38,6 +38,7 @@
 "RecordTrackVC.pauseButtonTitleSelected" = "Continue";
 "RecordTrackVC.stopButtonTitle" = "Stop";
 "RecordTrackVC.currTrackView.title" = "Current track";
+"RecordTrackVC.sendDistanceToServer" = "Processed distance\non server";
 
 "TracksVC.title" = "Recorded tracks";
 "TracksVC.emptyDataSet.buttonTitle" = "Start";

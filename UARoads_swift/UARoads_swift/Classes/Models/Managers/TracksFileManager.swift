@@ -27,7 +27,7 @@ class TracksFileManager {
         guard let gzippedData = TracksFileManager.gzippedData(trackData) else {
             return ""
         }
-        
+        var backToString = String(data: gzippedData, encoding: String.Encoding.utf8)
         let base64TrackStr = gzippedData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
         
         return base64TrackStr
