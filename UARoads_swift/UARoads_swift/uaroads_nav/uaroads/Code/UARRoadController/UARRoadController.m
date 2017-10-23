@@ -54,6 +54,13 @@
     [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+//    NSInteger mapSize = [[UIScreen mainScreen] bounds].size.height;
+    self.mapWidth.constant = [[UIScreen mainScreen] bounds].size.width;
+    self.mapHeight.constant = [[UIScreen mainScreen] bounds].size.height;
+}
+
 - (void)requestRouteWithCoordinates:(NSString *)coordinates {
     
     NSString *routeURL = [NSString stringWithFormat:@"http://route.uaroads.com/viaroute?output=json&instructions=true&alt=false&%@", coordinates];

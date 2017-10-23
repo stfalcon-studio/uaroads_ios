@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMotionUsageDescription</key>
-	<string>Used to record track automatically when user is driving</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -43,6 +41,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Used to record track automatically when user is driving</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>external-accessory</string>
@@ -63,12 +67,10 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
 </dict>
 </plist>

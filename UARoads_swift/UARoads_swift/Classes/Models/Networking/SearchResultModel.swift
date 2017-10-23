@@ -13,3 +13,12 @@ struct SearchResultModel {
     let locationName: String?
     let locationDescription: String?
 }
+
+//extension SearchResultModel: Equatable {
+//    static func ==(lhs: SearchResultModel, rhs: SearchResultModel) -> Bool {
+//        let isEquelCoordinate = (lhs.locationCoordianate?.latitude == rhs.locationCoordianate?.latitude && lhs.locationCoordianate?.longitude == rhs.locationCoordianate?.longitude)
+//        let isEquelName = lhs.locationName == rhs.locationName
+//        return isEquelName && isEquelCoordinate
+//    }
+//}
+

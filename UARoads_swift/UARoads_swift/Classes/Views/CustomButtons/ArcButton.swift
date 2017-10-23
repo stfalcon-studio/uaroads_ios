@@ -20,9 +20,9 @@ class ArcButton: UIButton {
     var path: UIBezierPath!
     
     
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        radius = frame.width / 2
         path = UIBezierPath(arcCenter: arcCenter,
                             radius: radius,
                             startAngle: startAngle.degreesToRadians(),
@@ -30,6 +30,17 @@ class ArcButton: UIButton {
                             clockwise: clockwise)
         path.close()
     }
+    
+//    override func draw(_ rect: CGRect) {
+//        super.draw(rect)
+//
+//        path = UIBezierPath(arcCenter: arcCenter,
+//                            radius: radius,
+//                            startAngle: startAngle.degreesToRadians(),
+//                            endAngle: endAngle.degreesToRadians(),
+//                            clockwise: clockwise)
+//        path.close()
+//    }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let contains = path.contains(point)

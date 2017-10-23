@@ -80,6 +80,8 @@
 		427E76A31F4321440057CA36 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 427E76A51F4321440057CA36 /* Localizable.strings */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		8436D3151F98DF1100C4C3C9 /* AlertRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */; };
+		8454F1D81F9E12C800D59ACB /* Storyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454F1D71F9E12C800D59ACB /* Storyboard.swift */; };
+		8454F1DA1F9E137400D59ACB /* RecordTrackVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8454F1D91F9E137400D59ACB /* RecordTrackVC.storyboard */; };
 		F40D92E71E97768B00647D5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E61E97768B00647D5E /* Assets.xcassets */; };
 		F40D92EA1E97768B00647D5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40D92E81E97768B00647D5E /* LaunchScreen.storyboard */; };
 		F40DBF4A1EAF6C54002F6C11 /* Navigation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F40DBF231EAF6C54002F6C11 /* Navigation.storyboard */; };
@@ -178,6 +180,8 @@
 		427E76A91F44459D0057CA36 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4CD6EC8F18AF35840D729182 /* Pods-UARoads_swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UARoads_swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift.debug.xcconfig"; sourceTree = "<group>"; };
 		8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertRenderer.swift; sourceTree = "<group>"; };
+		8454F1D71F9E12C800D59ACB /* Storyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboard.swift; sourceTree = "<group>"; };
+		8454F1D91F9E137400D59ACB /* RecordTrackVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecordTrackVC.storyboard; sourceTree = "<group>"; };
 		F40D92DC1E97768B00647D5E /* UA Roads.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UA Roads.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F40D92E61E97768B00647D5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		F40D92E91E97768B00647D5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -308,6 +312,7 @@
 				301F50CB1F276BBC00B86B10 /* PrintExtensions.swift */,
 				8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */,
 				301F50CC1F276BBC00B86B10 /* Utilities.swift */,
+				8454F1D71F9E12C800D59ACB /* Storyboard.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -500,6 +505,7 @@
 			isa = PBXGroup;
 			children = (
 				301F51881F2771FC00B86B10 /* RecordTrackVC.swift */,
+				8454F1D91F9E137400D59ACB /* RecordTrackVC.storyboard */,
 				301F51891F2771FC00B86B10 /* RecordTrackVC.xib */,
 				301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */,
 			);
@@ -779,6 +785,7 @@
 				301F515D1F276CFA00B86B10 /* pit-5.aiff in Resources */,
 				F40DBF561EAF6C54002F6C11 /* Graphics.xcassets in Resources */,
 				301F51611F276CFA00B86B10 /* stop-rec-en.m4a in Resources */,
+				8454F1DA1F9E137400D59ACB /* RecordTrackVC.storyboard in Resources */,
 				301F51571F276CFA00B86B10 /* error.m4a in Resources */,
 				301F51601F276CFA00B86B10 /* start-rec.m4a in Resources */,
 				301F515E1F276CFA00B86B10 /* start-rec-en.m4a in Resources */,
@@ -919,6 +926,7 @@
 				301F510C1F276BBC00B86B10 /* AutostartManager.swift in Sources */,
 				301F510A1F276BBC00B86B10 /* AlertManager.swift in Sources */,
 				301F51751F276F6200B86B10 /* PitModel.swift in Sources */,
+				8454F1D81F9E12C800D59ACB /* Storyboard.swift in Sources */,
 				301F510E1F276BBC00B86B10 /* HUDManaged.swift in Sources */,
 				301F510D1F276BBC00B86B10 /* DateManager.swift in Sources */,
 				301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */,

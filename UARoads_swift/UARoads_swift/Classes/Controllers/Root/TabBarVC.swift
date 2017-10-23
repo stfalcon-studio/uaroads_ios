@@ -30,7 +30,7 @@ class TabBarVC: UITabBarController {
     
     func setupInterface() {
         let routesNVC = UINavigationController(rootViewController: RoutesVC())
-        let recordNVC = UINavigationController(rootViewController: RecordTrackVC())
+        let recordNVC = UINavigationController(rootViewController: RecordTrackVC.initFromStoryboard())
         let tracksNVC = UINavigationController(rootViewController: TracksVC())
         let settingsNVC = UINavigationController(rootViewController: SettingsVC())
         

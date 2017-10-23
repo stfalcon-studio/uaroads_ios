@@ -15,14 +15,19 @@ class GraphView: UIView {
     
     init() {
         super.init(frame: CGRect.zero)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder:aDecoder)
+        setup()
+    }
+    
+    func setup() {
         maxValue = 2.5
         valuesList = [CGFloat]()
         filteredValuesList = [CGFloat]()
         backgroundColor = UIColor.clear
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func addValue(_ value: CGFloat, isFiltered: Bool) {

@@ -39,12 +39,17 @@ class BorderButton: UIButton {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = self.frame.height/2
+    }
+    
     
 
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
-        layer.cornerRadius = cornerRadius
+//        layer.cornerRadius = cornerRadius
         layer.masksToBounds = cornerRadius > 0
         layer.borderWidth = borderWidth
     }

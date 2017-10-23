@@ -14,14 +14,20 @@ class RecordTrackVC: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var lastTrackContainerView: UIView!
+    @IBOutlet weak var lastTrackContainerView: UIStackView!
+    @IBOutlet weak var loginInfoContainerView: UIStackView!
+    @IBOutlet weak var totalTrackContainerView: UIStackView!
     @IBOutlet weak var currentTrackView: CurrentTrackView!
     @IBOutlet weak var lastTrackLabel: UILabel!
     @IBOutlet weak var totalDistanceLabel: UILabel!
     @IBOutlet weak var lastTrackDescrLabel: UILabel!
     @IBOutlet weak var totalTracksDescrLabel: UILabel!
     @IBOutlet weak var pauseStopContainerView: UIView!
-    @IBOutlet weak var startButton: BorderButton!
+    @IBOutlet weak var startButton: BorderButton! {
+        didSet {
+            startButton.layer.cornerRadius = startButton.frame.height
+        }
+    }
     @IBOutlet weak var pauseButton: ArcButton!
     @IBOutlet weak var stopButton: ArcButton!
     @IBOutlet weak var signInButton: UIButton! {
@@ -39,9 +45,10 @@ class RecordTrackVC: UIViewController {
             sendDistanceLabel.text = "RecordTrackVC.sendDistanceToServer".localized
         }
     }
+    @IBOutlet weak var graphView: GraphView!
     
-    
-    fileprivate let graphView = GraphView()
+//    
+//    fileprivate let graphView = GraphView()
     let viewModel: RecordTrackViewModel = RecordTrackViewModel()
     
 
@@ -70,6 +77,11 @@ class RecordTrackVC: UIViewController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        pauseStopContainerView.layer.cornerRadius = pauseStopContainerView.frame.size.width / 2
     }
     
 
@@ -116,51 +128,53 @@ class RecordTrackVC: UIViewController {
         pauseStopContainerView.isHidden = false
         currentTrackView.isHidden = false
         lastTrackContainerView.isHidden = true
+        loginInfoContainerView.isHidden = true
+        totalTrackContainerView.isHidden = true
     }
     
     func updateUIForRecordStop() {
+        pauseButton.isSelected = false
         startButton.isHidden = false
         pauseStopContainerView.isHidden = true
         currentTrackView.isHidden = true
         lastTrackContainerView.isHidden = false
         
         lastTrackLabel.attributedText = viewModel.attributedStringLastTrackDistance()
+        updateUIAuthUser()
     }
     
     
     // MARK: Private funcs
     
     private func updateUIAuthUser() {
-        totalDistanceLabel.isHidden = !SettingsManager.sharedInstance.isAuth
-        totalTracksDescrLabel.isHidden = !SettingsManager.sharedInstance.isAuth
-        signInButton.isHidden = SettingsManager.sharedInstance.isAuth
+        totalTrackContainerView.isHidden = !SettingsManager.sharedInstance.isAuth
+        loginInfoContainerView.isHidden = SettingsManager.sharedInstance.isAuth
     }
     
     private func setupInterface() {
-        let startButtonTitle = NSLocalizedString("RecordTrackVC.startButtonTitle", comment: "").uppercased()
+        let startButtonTitle = "RecordTrackVC.startButtonTitle".localized.uppercased()
         startButton.setTitle(startButtonTitle, for: .normal)
-        let pauseBtnTitleNormal = NSLocalizedString("RecordTrackVC.pauseButtonTitle", comment: "").uppercased()
-        let pauseBtnTitleSelected = NSLocalizedString("RecordTrackVC.pauseButtonTitleSelected", comment: "").uppercased()
+        let pauseBtnTitleNormal = "RecordTrackVC.pauseButtonTitle".localized.uppercased()
+        let pauseBtnTitleSelected = "RecordTrackVC.pauseButtonTitleSelected".localized.uppercased()
         pauseButton.setTitle(pauseBtnTitleNormal, for: .normal)
         pauseButton.setTitle(pauseBtnTitleSelected, for: .selected)
         
-        let stopButtonTitle = NSLocalizedString("RecordTrackVC.stopButtonTitle", comment: "").uppercased()
+        let stopButtonTitle = "RecordTrackVC.stopButtonTitle".localized.uppercased()
         stopButton.setTitle(stopButtonTitle, for: .normal)
         
-        lastTrackDescrLabel.text = NSLocalizedString("RecordTrackVC.lastTrackLabel", comment: "")
-        totalTracksDescrLabel.text = NSLocalizedString("RecordTrackVC.totalDistLabel", comment: "")
-            
-        pauseStopContainerView.layer.cornerRadius = pauseStopContainerView.frame.size.width / 2
+        lastTrackDescrLabel.text = "RecordTrackVC.lastTrackLabel".localized
+        totalTracksDescrLabel.text = "RecordTrackVC.totalDistLabel".localized
+        
         pauseStopContainerView.clipsToBounds = true
         
-        let lrPadding: CGFloat = 10
-        self.view.addSubview(graphView)
-        graphView.snp.makeConstraints { (make) in
-            make.left.equalTo(lrPadding)
-            make.right.equalTo(-lrPadding)
-            make.top.equalTo(startButton.snp.bottom)
-            make.bottom.equalToSuperview().offset(-40)
-        }
+//        let lrPadding: CGFloat = 10
+//        self.view.addSubview(graphView)
+//        graphView.snp.makeConstraints { (make) in
+//            make.left.equalTo(lrPadding)
+//            make.right.equalTo(-lrPadding)
+//            make.top.equalTo(startButton.snp.bottom)
+//            make.bottom.equalToSuperview().offset(-40)
+//        }
     }
     
     
