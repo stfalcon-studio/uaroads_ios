@@ -19,7 +19,7 @@ class RecordTrackVC: UIViewController {
     @IBOutlet weak var totalTrackContainerView: UIStackView!
     @IBOutlet weak var currentTrackView: CurrentTrackView!
     @IBOutlet weak var lastTrackLabel: UILabel!
-    @IBOutlet weak var totalDistanceLabel: UILabel!
+    @IBOutlet weak var totalDistanceLabel: UILabel! { didSet { totalDistanceLabel.text = "0.0 " + "km".localized  } }
     @IBOutlet weak var lastTrackDescrLabel: UILabel!
     @IBOutlet weak var totalTracksDescrLabel: UILabel!
     @IBOutlet weak var pauseStopContainerView: UIView!
@@ -70,8 +70,9 @@ class RecordTrackVC: UIViewController {
         updateUIAuthUser()
         UIApplication.shared.statusBarStyle = .lightContent
         
-        viewModel.getUserStatistic(completion: { (response, error) in
-            pl(response)
+        viewModel.getUserStatistic(completion: {[weak self] (response, error) in
+            let distance = response ?? "0.00"
+            self?.totalDistanceLabel.text = distance + " " + "km".localized
         })
     }
 

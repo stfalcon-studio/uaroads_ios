@@ -32,7 +32,7 @@ class FooterSignIn: UIView {
         textLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
             make.right.equalTo(-15.0)
-            make.top.equalTo(signInBtn.snp.bottom).offset(20.0)
+            make.top.equalTo(signInBtn.snp.bottom).offset(5.0)
         }
         
         //setup interface

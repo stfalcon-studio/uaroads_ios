@@ -115,7 +115,7 @@ final class RecordService {
         if let newLocation = locationManager.currentLocation {
             appendNewPit(with: newLocation, tag: .cp)
             updateTrack(with: newLocation)
-            
+
             previousLocation = newLocation
         }
     }

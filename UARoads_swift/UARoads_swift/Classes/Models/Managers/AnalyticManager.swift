@@ -20,10 +20,11 @@ final class AnalyticManager {
         GAI.sharedInstance().tracker(withTrackingId: "UA-44978148-13")
 
         Heap.setAppId("3518989590")
-        
+
         Fabric.with([Crashlytics.self])
         
         var configureError: NSError?
+        
         GGLContext.sharedInstance().configureWithError(&configureError)
         assert(configureError == nil, "Error configuring Google services: \(String(describing: configureError))")
         

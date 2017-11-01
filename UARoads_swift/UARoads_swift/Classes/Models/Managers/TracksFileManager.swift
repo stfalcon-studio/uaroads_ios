@@ -11,25 +11,42 @@ import Foundation
 class TracksFileManager {
 
     // MARK: Public class funcs
+    
+//    class func trackData(from track: TrackModel) -> Data? {
+//        let trackFilePath = TracksFileManager.pathToTrackFile(with: track.trackID)
+//
+//        if FileManager.default.fileExists(atPath: trackFilePath.path) == false {
+//            if TracksFileManager.writeTrackToFile(track) == false {
+//                return nil
+//            }
+//        }
+//
+//        guard let trackData = FileManager.default.contents(atPath: trackFilePath.path) else {
+//            return nil
+//        }
+//        guard let gzippedData = TracksFileManager.gzippedData(trackData) else {
+//            return nil
+//        }
+//        return gzippedData
+//    }
 
     class func trackStringData(from track: TrackModel) -> String {
         let trackFilePath = TracksFileManager.pathToTrackFile(with: track.trackID)
-        
+
         if FileManager.default.fileExists(atPath: trackFilePath.path) == false {
             if TracksFileManager.writeTrackToFile(track) == false {
                 return ""
             }
         }
-        
+
         guard let trackData = FileManager.default.contents(atPath: trackFilePath.path) else {
             return ""
         }
         guard let gzippedData = TracksFileManager.gzippedData(trackData) else {
             return ""
         }
-        var backToString = String(data: gzippedData, encoding: String.Encoding.utf8)
         let base64TrackStr = gzippedData.base64EncodedString(options: Data.Base64EncodingOptions.init(rawValue: 0))
-        
+
         return base64TrackStr
     }
     
@@ -60,7 +77,7 @@ class TracksFileManager {
         
         for pit in track.pits {
             let pitStr = TracksFileManager.pitDataString(pit: pit)
-            pitsDataString.append("\(pitStr)\n")
+            pitsDataString.append("\(pitStr)")
         }
         
         do {

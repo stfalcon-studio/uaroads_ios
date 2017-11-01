@@ -77,6 +77,13 @@
 		301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F518E1F289AB200B86B10 /* TracksFileManager.swift */; };
 		301F51911F29DE7C00B86B10 /* SendTracksService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51901F29DE7C00B86B10 /* SendTracksService.swift */; };
 		301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */; };
+		3D16F4A41FA9B7C800C6436A /* BaseRequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F4A31FA9B7C200C6436A /* BaseRequestProtocol.swift */; };
+		3D16F4A51FA9B7CC00C6436A /* APIUARoads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F4A21FA9B7C200C6436A /* APIUARoads.swift */; };
+		3D16F4A61FA9B7D000C6436A /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F49B1FA9B7C200C6436A /* SignInRequest.swift */; };
+		3D16F4A71FA9B7D200C6436A /* StatisticRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F49C1FA9B7C200C6436A /* StatisticRequest.swift */; };
+		3D16F4A81FA9B7D400C6436A /* SendRecordTrackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F49D1FA9B7C200C6436A /* SendRecordTrackRequest.swift */; };
+		3D16F4A91FA9B7D600C6436A /* SearchGeoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F49E1FA9B7C200C6436A /* SearchGeoRequest.swift */; };
+		3D16F4AB1FA9B9F900C6436A /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F4A01FA9B7C200C6436A /* BaseRequest.swift */; };
 		427E76A31F4321440057CA36 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 427E76A51F4321440057CA36 /* Localizable.strings */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		8436D3151F98DF1100C4C3C9 /* AlertRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */; };
@@ -175,6 +182,13 @@
 		301F51901F29DE7C00B86B10 /* SendTracksService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendTracksService.swift; sourceTree = "<group>"; };
 		301F51931F29E0E000B86B10 /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
 		30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UARoads_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D16F49B1FA9B7C200C6436A /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
+		3D16F49C1FA9B7C200C6436A /* StatisticRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticRequest.swift; sourceTree = "<group>"; };
+		3D16F49D1FA9B7C200C6436A /* SendRecordTrackRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendRecordTrackRequest.swift; sourceTree = "<group>"; };
+		3D16F49E1FA9B7C200C6436A /* SearchGeoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGeoRequest.swift; sourceTree = "<group>"; };
+		3D16F4A01FA9B7C200C6436A /* BaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
+		3D16F4A21FA9B7C200C6436A /* APIUARoads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUARoads.swift; sourceTree = "<group>"; };
+		3D16F4A31FA9B7C200C6436A /* BaseRequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequestProtocol.swift; sourceTree = "<group>"; };
 		426482CC1F445BD4002077ED /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		427E76A61F4321470057CA36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		427E76A91F44459D0057CA36 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -237,6 +251,7 @@
 				301F50C31F276BBC00B86B10 /* Externals */,
 				301F50DF1F276BBC00B86B10 /* Protocols */,
 				301F50BD1F276BBC00B86B10 /* Extensions */,
+				3D16F4AA1FA9B9F000C6436A /* Services */,
 				301F50CD1F276BBC00B86B10 /* Models */,
 				301F51281F276BE900B86B10 /* Views */,
 				301F50B01F276BBC00B86B10 /* Controllers */,
@@ -510,6 +525,60 @@
 				301F518C1F277F0300B86B10 /* RecordTrackViewModel.swift */,
 			);
 			path = RecordTrack;
+			sourceTree = "<group>";
+		};
+		3D16F4981FA9B7C200C6436A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3D16F4991FA9B7C200C6436A /* UaRoads */,
+				3D16F4A31FA9B7C200C6436A /* BaseRequestProtocol.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3D16F4991FA9B7C200C6436A /* UaRoads */ = {
+			isa = PBXGroup;
+			children = (
+				3D16F49A1FA9B7C200C6436A /* Requests */,
+				3D16F4A11FA9B7C200C6436A /* ApiServices */,
+			);
+			path = UaRoads;
+			sourceTree = "<group>";
+		};
+		3D16F49A1FA9B7C200C6436A /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				3D16F49B1FA9B7C200C6436A /* SignInRequest.swift */,
+				3D16F49C1FA9B7C200C6436A /* StatisticRequest.swift */,
+				3D16F49D1FA9B7C200C6436A /* SendRecordTrackRequest.swift */,
+				3D16F49E1FA9B7C200C6436A /* SearchGeoRequest.swift */,
+				3D16F49F1FA9B7C200C6436A /* Base */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		3D16F49F1FA9B7C200C6436A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3D16F4A01FA9B7C200C6436A /* BaseRequest.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		3D16F4A11FA9B7C200C6436A /* ApiServices */ = {
+			isa = PBXGroup;
+			children = (
+				3D16F4A21FA9B7C200C6436A /* APIUARoads.swift */,
+			);
+			path = ApiServices;
+			sourceTree = "<group>";
+		};
+		3D16F4AA1FA9B9F000C6436A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3D16F4981FA9B7C200C6436A /* Network */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		42D986232EBAE9E22E7F020E /* Frameworks */ = {
@@ -869,7 +938,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		F418248F1EA8A0A30075872C /* ShellScript */ = {
@@ -892,6 +961,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D16F4A51FA9B7CC00C6436A /* APIUARoads.swift in Sources */,
 				301F51131F276BBC00B86B10 /* SettingsManager.swift in Sources */,
 				301F511A1F276BBC00B86B10 /* PitProtocol.swift in Sources */,
 				301F51051F276BBC00B86B10 /* String.swift in Sources */,
@@ -907,6 +977,7 @@
 				301F51761F276F6200B86B10 /* TrackModel.swift in Sources */,
 				301F51781F276FB600B86B10 /* SearchResultModel.swift in Sources */,
 				F40DBF501EAF6C54002F6C11 /* UARInstruction.m in Sources */,
+				3D16F4A71FA9B7D200C6436A /* StatisticRequest.swift in Sources */,
 				301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */,
 				F40DBF4E1EAF6C54002F6C11 /* UIColor+UARColor.m in Sources */,
 				301F51121F276BBC00B86B10 /* RecordService.swift in Sources */,
@@ -922,17 +993,22 @@
 				301F510B1F276BBC00B86B10 /* AnalyticManager.swift in Sources */,
 				F40DBF531EAF6C54002F6C11 /* UARRoadController.m in Sources */,
 				301F51421F276BE900B86B10 /* RecordedCell.swift in Sources */,
+				3D16F4A41FA9B7C800C6436A /* BaseRequestProtocol.swift in Sources */,
 				301F51691F276EE400B86B10 /* CurrentTrackView.swift in Sources */,
+				3D16F4A81FA9B7D400C6436A /* SendRecordTrackRequest.swift in Sources */,
 				301F510C1F276BBC00B86B10 /* AutostartManager.swift in Sources */,
 				301F510A1F276BBC00B86B10 /* AlertManager.swift in Sources */,
 				301F51751F276F6200B86B10 /* PitModel.swift in Sources */,
 				8454F1D81F9E12C800D59ACB /* Storyboard.swift in Sources */,
 				301F510E1F276BBC00B86B10 /* HUDManaged.swift in Sources */,
 				301F510D1F276BBC00B86B10 /* DateManager.swift in Sources */,
+				3D16F4AB1FA9B9F900C6436A /* BaseRequest.swift in Sources */,
 				301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */,
 				301F51151F276BBC00B86B10 /* NetworkManager.swift in Sources */,
+				3D16F4A91FA9B7D600C6436A /* SearchGeoRequest.swift in Sources */,
 				301F51711F276EF100B86B10 /* BorderButton.swift in Sources */,
 				301F51031F276BBC00B86B10 /* Color.swift in Sources */,
+				3D16F4A61FA9B7D000C6436A /* SignInRequest.swift in Sources */,
 				F40DBF541EAF6C54002F6C11 /* UARRouteJSONParser.m in Sources */,
 				301F51841F2771F100B86B10 /* SettingsVC.swift in Sources */,
 				F40DBF4D1EAF6C54002F6C11 /* NSString+UARString.m in Sources */,

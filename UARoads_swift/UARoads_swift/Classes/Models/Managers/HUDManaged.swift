@@ -14,7 +14,7 @@ final class HUDManager {
     static let sharedInstance = HUDManager()
     
     fileprivate var HUD: JGProgressHUD = {
-        let hud = JGProgressHUD(style: JGProgressHUDStyle.extraLight)
+        let hud = JGProgressHUD(style: JGProgressHUDStyle.extraLight)!
         hud.interactionType = .blockAllTouches
         hud.position = .center
         

@@ -281,6 +281,18 @@ class RoutesVC: BaseTVC {
         }
         checkLocationAuthStatus()
         if let text = tf.text, let coordinates = locationManager.location?.coordinate {
+//            let req = SearchGeoRequest { (result) in
+//                switch result {
+//                case .success(let value):
+//                    let json = JSON(value)
+//                    self.parsePlaseFromJson(json)
+//                case .error(let error) :
+//                    self.delegate?.searchPlacesWith(error: error)
+//                }
+//            }
+//            req.locationName = placeName
+//            req.perform()
+            
             NetworkManager.sharedInstance.searchResults(location: text,
                                                         coord: coordinates,
                                                         handler: { [weak self] (results) in

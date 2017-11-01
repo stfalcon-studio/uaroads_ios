@@ -21,11 +21,12 @@ class SettingsSwitchCell: BaseCell {
         
         mainTitleLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
-            make.top.equalTo(15.0)
+            make.centerY.equalTo(self.snp.centerY)
+            make.right.equalTo(switcher.snp.left)
         }
         
         switcher.snp.makeConstraints { (make) in
-            make.right.equalTo(-15.0)
+            make.right.equalTo(-15.0).priority(1000)
             make.centerY.equalToSuperview()
         }
         
@@ -33,7 +34,7 @@ class SettingsSwitchCell: BaseCell {
         separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 0.0)
         
         mainTitleLbl.font = UIFont.systemFont(ofSize: 14.0)
-        
+        mainTitleLbl.numberOfLines = 0
         switcher.onTintColor = UIColor.colorAccent
     }
     

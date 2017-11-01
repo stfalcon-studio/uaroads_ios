@@ -52,7 +52,7 @@ class SettingsVC: BaseTVC {
     
     fileprivate func signInButtonTapped() {
         let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! SettingsTFCell
-        if cell.mainTF.text?.characters.count == 0 || cell.mainTF.textColor == UIColor.red {
+        if cell.mainTF.text?.count == 0 || cell.mainTF.textColor == UIColor.red {
             AlertManager.showAlertCheckEmail(viewController: self)
             return
         }
@@ -105,15 +105,27 @@ class SettingsVC: BaseTVC {
     
     private func authorizeUser(with email: String) {
         HUDManager.sharedInstance.show(from: self)
-        NetworkManager.sharedInstance.authorizeDevice(email: email, handler: { [weak self] success in
-            if !success {
-                AlertManager.showAlertRegisterDevieceError(viewController: self)
-            } else {
+        let request = SignInRequest { [weak self] (response) in
+            switch response {
+            case .success(_):
                 SettingsManager.sharedInstance.email = email
                 self?.tableView.reloadData()
+            case .error(_):
+                AlertManager.showAlertRegisterDevieceError(viewController: self)
             }
             HUDManager.sharedInstance.hide()
-        })
+        }
+        request.email = email
+        let _ = request.perform()
+//        NetworkManager.sharedInstance.authorizeDevice(email: email, handler: { [weak self] success in
+//            if !success {
+//                AlertManager.showAlertRegisterDevieceError(viewController: self)
+//            } else {
+//                SettingsManager.sharedInstance.email = email
+//                self?.tableView.reloadData()
+//            }
+//            HUDManager.sharedInstance.hide()
+//        })
     }
     
     private func autostartRecordValueChanged(in cell: SettingsSwitchCell) {

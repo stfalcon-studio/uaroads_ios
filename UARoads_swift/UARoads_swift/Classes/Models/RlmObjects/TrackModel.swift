@@ -41,12 +41,25 @@ class TrackModel: Object {
             "routeId":self.trackID as AnyObject,
             "data": data64 as AnyObject,
             "app_ver":version as AnyObject,
-            "auto_record" : autorecord as AnyObject,
-            "date":"\(self.date.timeIntervalSince1970)" as AnyObject
+            "auto_record" : autorecord as AnyObject
         ]
         
         return params
     }
+//    func sendTrackParametersString() -> [String : String] {
+//        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+//        let autorecord = self.autoRecord ? 1 : 0
+//        let params: [String : String] = [
+//            "uid": Utilities.deviceUID(),
+//            "comment":self.title,
+//            "routeId":self.trackID,
+//            "data": data64 as AnyObject,
+//            "app_ver":version,
+//            "auto_record" : String(autorecord),
+//        ]
+//        
+//        return params
+//    }
     
 }
 

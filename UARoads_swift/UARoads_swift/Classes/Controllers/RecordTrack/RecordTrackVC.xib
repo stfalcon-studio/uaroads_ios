@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -18,6 +18,7 @@
                 <outlet property="lastTrackContainerView" destination="RGw-Su-Nid" id="Oho-6P-eTt"/>
                 <outlet property="lastTrackDescrLabel" destination="lCC-S2-8g9" id="ok1-0s-S71"/>
                 <outlet property="lastTrackLabel" destination="abi-Ji-tAE" id="wMe-tH-5AD"/>
+                <outlet property="loginInfoContainerView" destination="rSw-YW-uO2" id="Mff-mH-h6G"/>
                 <outlet property="pauseButton" destination="Xqk-vf-67p" id="tJN-qd-LgL"/>
                 <outlet property="pauseStopContainerView" destination="O73-7E-fYA" id="lTT-lu-tIg"/>
                 <outlet property="sendDistanceLabel" destination="SQM-d2-4WU" id="lo5-jq-PsK"/>
@@ -25,6 +26,7 @@
                 <outlet property="startButton" destination="q3P-pb-w9w" id="yrC-Ce-l3h"/>
                 <outlet property="stopButton" destination="I81-4k-idN" id="gUp-ko-1Uk"/>
                 <outlet property="totalDistanceLabel" destination="eL4-aY-ncL" id="eEV-QL-tfO"/>
+                <outlet property="totalTrackContainerView" destination="MQk-xH-3FR" id="gHS-Gg-yEV"/>
                 <outlet property="totalTracksDescrLabel" destination="Y3U-rG-1ke" id="Kej-Jt-5za"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

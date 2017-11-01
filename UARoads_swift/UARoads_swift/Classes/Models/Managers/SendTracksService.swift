@@ -1,4 +1,4 @@
-//
+	//
 //  SendTracksService.swift
 //  UARoads_swift
 //
@@ -60,24 +60,37 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     }
     
     func sendTrack(_ track: TrackModel) {
-        let parameters = track.sendTrackParameters()
-        pl(parameters)
-        guard let sendTrackUrl = URL(string: "http://api.uaroads.com/add") else { return }
-        var request = URLRequest(url: sendTrackUrl)
-        request.httpMethod = "POST"
-        let data = NSKeyedArchiver.archivedData(withRootObject: parameters)
-        request.httpBody = data
-        
+        let req = SendRecordTrackRequest {[weak self] (response) in
+            switch response {
+            case .success(_):
+                self?.changeTrackStatus(.uploaded, for: track)
+            case .error(let error):
+                print(error)
+            }
+        }
         changeTrackStatus(.uploading, for: track)
-        
-        let task = urlSession.dataTask(with: request)
-        
-        let trackRef = ThreadSafeReference(to: track)
-        let taskDict = [task.taskIdentifier : trackRef]
-        
-        tracksToSend.append(taskDict)
-        
-        task.resume()
+        req.params = track.sendTrackParameters()
+        req.perform()
+        return
+//        
+//        let parameters = track.sendTrackParameters()
+//        pl(parameters)
+//        guard let sendTrackUrl = URL(string: "http://api.uaroads.com/add") else { return }
+//        var request = URLRequest(url: sendTrackUrl)
+//        request.httpMethod = "POST"
+//        let data = NSKeyedArchiver.archivedData(withRootObject: parameters)
+//        request.httpBody = data
+//        
+//        changeTrackStatus(.uploading, for: track)
+//        
+//        let task = urlSession.dataTask(with: request)
+//        
+//        let trackRef = ThreadSafeReference(to: track)
+//        let taskDict = [task.taskIdentifier : trackRef]
+//        
+//        tracksToSend.append(taskDict)
+//        
+//        task.resume()
     }
     
     
@@ -127,97 +140,97 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         return tracks
     }
     
-    private func handleSendTrackResponse(with dataTask: URLSessionDataTask, trackStatus: TrackStatus) {
-        DispatchQueue.main.async { [weak self] in
-            guard let index = self?.tracksToSend.index(where: {
-                $0.keys.first == dataTask.taskIdentifier
-            }) else {
-                return
-            }
-            
-            guard let dict = self?.tracksToSend[index] else { return }
-            guard let trackRef = dict[dataTask.taskIdentifier] else { return }
-            guard let track = RealmManager().realm?.resolve(trackRef) else { return }
-            
-            self?.changeTrackStatus(trackStatus, for: track)
-            
-            self?.tracksToSend.remove(at: index)
-        }
-    }
-
-    
-    // MARK: Delegate funcs:
-    // MARK: — URLSessionDelegate
-    
-    
-    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        pf()
-        pl("urlSession error -> \(String(describing: error?.localizedDescription))")
-    }
-    
-    func urlSession(_ session: URLSession,
-                    didReceive challenge: URLAuthenticationChallenge,
-                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
-        pf()
-        let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
-        let authChallengeDisposition = Foundation.URLSession.AuthChallengeDisposition.useCredential
-        completionHandler(authChallengeDisposition, credential)
-    }
-    
-    
-    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-        pl("background session \(session) finished events.")
-        
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-            let completionHandler = appDelegate.backgroundSessionCompletionHandler {
-            appDelegate.backgroundSessionCompletionHandler = nil
-            DispatchQueue.main.async {
-                completionHandler()
-            }
-        }
-    }
-
-    
-    // MARK: — URLSessionDataDelegate
-    
-    func urlSession(_ session: URLSession,
-                    dataTask: URLSessionDataTask,
-                    didReceive response: URLResponse,
-                    completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
-        pf()
-        pl("response -> \n\(response)")
-        pl("dataTask id = \(dataTask.taskIdentifier)")
-        
-        if let httpResponse = response as? HTTPURLResponse {
-            let trackStatus: TrackStatus = httpResponse.statusCode != 200 ? .waitingForUpload : .uploaded
-            
-            handleSendTrackResponse(with: dataTask, trackStatus: trackStatus)
-        }
-    }
-    
-    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        let result = String(data: data, encoding: String.Encoding.utf8)
-        pl("RESULT: \(String(describing: result))")
-        
-        let trackStatus: TrackStatus = result == "OK" ? .uploaded : .waitingForUpload
-        
-        handleSendTrackResponse(with: dataTask, trackStatus: trackStatus)
-    }
-    
-    func urlSession(_ session: URLSession,
-                    dataTask: URLSessionDataTask,
-                    willCacheResponse proposedResponse: CachedURLResponse,
-                    completionHandler: @escaping (CachedURLResponse?) -> Void) {
-        pf()
-    }
-    
-    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if let error = error {
-            pl("task \(task.taskIdentifier) error -> \(error.localizedDescription)")
-        } else {
-            pl("task \(task.taskIdentifier) completed succesfully")
-        }
-    }
+//    private func handleSendTrackResponse(with dataTask: URLSessionDataTask, trackStatus: TrackStatus) {
+//        DispatchQueue.main.async { [weak self] in
+//            guard let index = self?.tracksToSend.index(where: {
+//                $0.keys.first == dataTask.taskIdentifier
+//            }) else {
+//                return
+//            }
+//
+//            guard let dict = self?.tracksToSend[index] else { return }
+//            guard let trackRef = dict[dataTask.taskIdentifier] else { return }
+//            guard let track = RealmManager().realm?.resolve(trackRef) else { return }
+//
+//            self?.changeTrackStatus(trackStatus, for: track)
+//
+//            self?.tracksToSend.remove(at: index)
+//        }
+//    }
+//
+//
+//    // MARK: Delegate funcs:
+//    // MARK: — URLSessionDelegate
+//
+//
+//    func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+//        pf()
+//        pl("urlSession error -> \(String(describing: error?.localizedDescription))")
+//    }
+//
+//    func urlSession(_ session: URLSession,
+//                    didReceive challenge: URLAuthenticationChallenge,
+//                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
+//        pf()
+//        let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+//        let authChallengeDisposition = Foundation.URLSession.AuthChallengeDisposition.useCredential
+//        completionHandler(authChallengeDisposition, credential)
+//    }
+//
+//
+//    func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+//        pl("background session \(session) finished events.")
+//
+//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+//            let completionHandler = appDelegate.backgroundSessionCompletionHandler {
+//            appDelegate.backgroundSessionCompletionHandler = nil
+//            DispatchQueue.main.async {
+//                completionHandler()
+//            }
+//        }
+//    }
+//
+//
+//    // MARK: — URLSessionDataDelegate
+//
+//    func urlSession(_ session: URLSession,
+//                    dataTask: URLSessionDataTask,
+//                    didReceive response: URLResponse,
+//                    completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+//        pf()
+//        pl("response -> \n\(response)")
+//        pl("dataTask id = \(dataTask.taskIdentifier)")
+//
+//        if let httpResponse = response as? HTTPURLResponse {
+//            let trackStatus: TrackStatus = httpResponse.statusCode != 200 ? .waitingForUpload : .uploaded
+//
+//            handleSendTrackResponse(with: dataTask, trackStatus: trackStatus)
+//        }
+//    }
+//
+//    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+//        let result = String(data: data, encoding: String.Encoding.utf8)
+//        pl("RESULT: \(String(describing: result))")
+//
+//        let trackStatus: TrackStatus = result == "OK" ? .uploaded : .waitingForUpload
+//
+//        handleSendTrackResponse(with: dataTask, trackStatus: trackStatus)
+//    }
+//
+//    func urlSession(_ session: URLSession,
+//                    dataTask: URLSessionDataTask,
+//                    willCacheResponse proposedResponse: CachedURLResponse,
+//                    completionHandler: @escaping (CachedURLResponse?) -> Void) {
+//        pf()
+//    }
+//    
+//    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+//        if let error = error {
+//            pl("task \(task.taskIdentifier) error -> \(error.localizedDescription)")
+//        } else {
+//            pl("task \(task.taskIdentifier) completed succesfully")
+//        }
+//    }
 }
 
 

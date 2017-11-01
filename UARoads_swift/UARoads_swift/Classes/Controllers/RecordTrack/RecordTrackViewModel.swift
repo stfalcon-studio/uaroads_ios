@@ -35,16 +35,32 @@ class RecordTrackViewModel {
         }
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        NetworkManager.sharedInstance.getUserStatistics(deviceUID: uid,
-                                                        email: email,
-                                                        completion: { (response, error) in
-                                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                                                            pl(response)
-                                                            // TODO: parse response 
-                                                            // TODO: return observable, maybe
-                                                            completion("", error)
-                                                            
-        })
+        let req = StatisticRequest { (response) in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            switch response {
+                case .success(r: let value):
+                    guard let totalDistance = value["totalDistance"] as? Double else {
+                        completion(nil,nil)
+                        return
+                    }
+                    completion(String(totalDistance),nil)
+                case .error(e: let error):
+                    completion(nil,error)
+            }
+        }
+        req.email = email
+        req.uid = uid
+        req.perform()
+//        NetworkManager.sharedInstance.getUserStatistics(deviceUID: uid,
+//                                                        email: email,
+//                                                        completion: { (response, error) in
+//                                                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//                                                            pl(response)
+//                                                            // TODO: parse response 
+//                                                            // TODO: return observable, maybe
+//                                                            completion("", error)
+//                                                            
+//        })
     }
     
     func attributedStringLastTrackDistance() -> NSAttributedString? {

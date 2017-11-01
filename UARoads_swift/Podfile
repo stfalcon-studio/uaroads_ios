@@ -24,6 +24,7 @@ target 'UARoads_swift' do
     
     #Connection
     pod 'ReachabilitySwift', '~> 3'    
+    pod 'Alamofire', '~> 4.5'
     
     #UI elements
     pod 'JGProgressHUD'
