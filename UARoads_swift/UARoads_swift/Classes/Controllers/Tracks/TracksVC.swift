@@ -12,7 +12,7 @@ import RealmSwift
 import DZNEmptyDataSet
 
 class TracksVC: BaseTVC {
-    fileprivate let dataSource = RealmHelper.objects(type: TrackModel.self)
+    fileprivate var dataSource = RealmHelper.objects(type: TrackModel.self)
     fileprivate var notificationToken: NotificationToken? = nil
     
     override func viewDidLoad() {
@@ -31,30 +31,52 @@ class TracksVC: BaseTVC {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateData()
+    }
+    
     override func setupRx() {
         super.setupRx()
-        
-        notificationToken = dataSource?.addNotificationBlock { [weak self] changes in
-            switch changes {
-            case .initial:
-                self?.tableView.reloadData()
-                break
-                
-            case .update(_, let deletions, let insertions, let modifications):
-                self?.tableView.beginUpdates()
-                self?.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .left)
-                self?.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
-                self?.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .none)
-                self?.tableView.endUpdates()
-                break
-            case .error(let error):
-                fatalError("ERROR: \(error)")
-                break
-            }
-        }
-        
+//        notificationToken = dataSource?.addNotificationBlock { [weak self] changes in
+//            switch changes {
+//            case .initial:
+//                self?.tableView.reloadData()
+//                break
+//
+//            case .update(let object, let deletions, let insertions, let modifications):
+//                print("delet - \(deletions.count) ins - \(insertions.count) mod - \(modifications.count)")
+//                if deletions.count > 0 && insertions.count > 0 {
+//                    self?.tableView.reloadData()
+//                }
+//                self?.tableView.beginUpdates()
+//                self?.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .left)
+//                self?.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
+//                self?.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .none)
+//                self?.tableView.endUpdates()
+//                break
+//            case .error(let error):
+//                fatalError("ERROR: \(error)")
+//                break
+//            }
+//        }
+//
         tableView.emptyDataSetDelegate = self
         tableView.emptyDataSetSource = self
+    }
+    
+    private func updateData() {
+        dataSource = RealmHelper.objects(type: TrackModel.self)
+        self.tableView.reloadData()
+    }
+    
+    func removeItemAt(_ indexPath:IndexPath) {
+        let item = dataSource![indexPath.row]
+        item.deletePits()
+        item.delete()
+        tableView.beginUpdates()
+        tableView.deleteRows(at: [indexPath], with: .left)
+        tableView.endUpdates()
     }
     
     deinit {
@@ -91,9 +113,7 @@ extension TracksVC {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let item = dataSource![indexPath.row]
-            item.deletePits()
-            item.delete()
+            removeItemAt(indexPath)
         }
     }
     

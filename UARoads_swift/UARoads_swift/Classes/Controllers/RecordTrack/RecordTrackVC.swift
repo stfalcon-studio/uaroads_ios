@@ -67,7 +67,6 @@ class RecordTrackVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateUIAuthUser()
         UIApplication.shared.statusBarStyle = .lightContent
         
         viewModel.getUserStatistic(completion: {[weak self] (response, error) in
