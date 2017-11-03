@@ -64,3 +64,15 @@
 "km" = "km";
 "Settings" = "Settings";
 "Cancel" = "Cancel";
+"Warning" = "Warning";
+"Error" = "Error";
+
+"Alert.cannotFindRoute" = "Cannot find route between points";
+"Alert.serverConnectionError" = "Server connection error";
+"Alert.checkEmail" = "Check your email";
+"Alert.deviceRegisterError" = "Device Registration error!";
+"Alert.enableBackgroundLocation" = "You need to enable background location updates";
+"Alert.enableBackgroundLocationTitle" = "Background Refresh Disabled";
+"Alert.autostart" = "Autostart isn't enable on your device";
+"Alert.uidCopied" = "Uid is copied to clipboard";
+

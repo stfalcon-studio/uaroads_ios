@@ -80,7 +80,7 @@ class RecordTrackViewModel {
     
     private func attributedStringForTrackDistance(_ distance: CGFloat) -> NSMutableAttributedString? {
         let distanceStr = distanceStringInKilometers(Double(distance))
-        let kmStr = "km"
+        let kmStr = "km".localized
         let text = distanceStr + kmStr
         let rangeKm = text.nsRange(of: kmStr)
         let attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 19),

@@ -64,3 +64,14 @@
 "km" = "км";
 "Settings" = "Параметри";
 "Cancel" = "Скасувати";
+"Warning" = "Попередження";
+"Error" = "Помилка";
+
+"Alert.cannotFindRoute" = "Неможливо побудувати маршрут між пунктами";
+"Alert.serverConnectionError" = "Помилка підключення до серверу";
+"Alert.checkEmail" = "Перевірте свій email";
+"Alert.deviceRegisterError" = "Помилка реєстрації пристрою!";
+"Alert.enableBackgroundLocation" = "Потрібно ввімкнути оновлення геопозиції у фоновому режимі";
+"Alert.enableBackgroundLocationTitle" = "Фонові оновлення вимкнені";
+"Alert.autostart" = "Автоматичний запис не може бути ввімкнений для вашого пристрою";
+"Alert.uidCopied" = "Uid скопійовано";

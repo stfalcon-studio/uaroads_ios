@@ -64,3 +64,14 @@
 "km" = "км";
 "Settings" = "Настройки";
 "Cancel" = "Отмена";
+"Warning" = "Предупреждение";
+"Error" = "Ошибка";
+
+"Alert.cannotFindRoute" = "Невозможно построить маршрут между пунктами";
+"Alert.serverConnectionError" = "Ошибка подключения к серверу";
+"Alert.checkEmail" = "Проверьте свой email";
+"Alert.deviceRegisterError" = "Ошибка регистарции устройства!";
+"Alert.enableBackgroundLocation" = "Нужно включить обновления локации в фоновом режиме";
+"Alert.enableBackgroundLocationTitle" = "Фоновые обновления выключены";
+"Alert.autostart" = "Автоматическая запись не может быть включена для вашего устройства";
+"Alert.uidCopied" = "Uid скопирован";

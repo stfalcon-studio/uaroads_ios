@@ -12,45 +12,45 @@ class AlertManager {
     
     // MARK: Class funcs
     class func showAlertServerConnectionError(viewController: UIViewController?) {
-        let messageStr = NSLocalizedString("Server connection error", comment: "")
-        let titleStr = NSLocalizedString("Error", comment: "")
+        let messageStr = "Alert.serverConnectionError".localized
+        let titleStr = "Error".localized
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     
     class func showAlertRouteNotFound(viewController: UIViewController?) {
-        let titleStr = NSLocalizedString("Error", comment: "")
-        let messageStr = NSLocalizedString("Cannot find route between points", comment: "")
+        let titleStr = "Error".localized
+        let messageStr = "Alert.cannotFindRoute".localized
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     
     class func showAlertRoutIsTooShort(currentDistance: Int, viewController: UIViewController?) {
-        let titleStr = "Warning!"
+        let titleStr = "Warning".localized + "!"
         let messageStr = "Route distance - \(currentDistance). You can not build the route between locations where distance is less \(routeDistanceMin) meters."
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     
     class func showAlertCheckEmail(viewController: UIViewController?) {
-        AlertManager.showAlert(message: "Check your email", controller: viewController)
+        AlertManager.showAlert(message: "Alert.checkEmail".localized, controller: viewController)
     }
     
     class func showAlertRegisterDevieceError(viewController: UIViewController?) {
-        AlertManager.showAlert(message: "Device Registration error!", controller: viewController)
+        AlertManager.showAlert(message: "Alert.deviceRegisterError".localized, controller: viewController)
     }
     
     class func showAlertBgRefreshDisabled(viewController: UIViewController?) {
-        let messageStr = "You need to enable background location updates"
-        let titleStr = "Background Refresh Disabled"
+        let messageStr = "Alert.enableBackgroundLocation".localized
+        let titleStr = "Alert.enableBackgroundLocationTitle".localized
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     
     class func showAlertAutostartIsNotEnable(viewController: UIViewController, handler: EmptyHandler? = nil) {
-        let titleStr = "Warning!"
-        let messageStr = "Autostart isn't enable on your device"
+        let titleStr = "Warning".localized + "!"
+        let messageStr = "Alert.autostart".localized
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: handler)
     }
     
     class func showAlertUidCopied(viewController: UIViewController) {
-        let titleStr = "Uid is copied to clipboard"
+        let titleStr = "Alert.uidCopied".localized
         AlertManager.showAlert(title: titleStr, message: "", controller: viewController, handler: nil)
     }
     

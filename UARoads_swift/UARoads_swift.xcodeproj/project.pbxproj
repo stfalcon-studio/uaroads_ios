@@ -798,7 +798,7 @@
 				TargetAttributes = {
 					F40D92DB1E97768B00647D5E = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 6GPBT9MDQP;
+						DevelopmentTeam = B53N648P93;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -1171,7 +1171,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 6GPBT9MDQP;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B53N648P93;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1195,7 +1196,7 @@
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/GoogleUtilities/Libraries",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Heap",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.UARoads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.uaroads3;
 				PRODUCT_NAME = "UA Roads";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1214,7 +1215,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 6GPBT9MDQP;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = B53N648P93;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1238,7 +1240,7 @@
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/GoogleUtilities/Libraries",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Heap",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.UARoads;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.uaroads3;
 				PRODUCT_NAME = "UA Roads";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
