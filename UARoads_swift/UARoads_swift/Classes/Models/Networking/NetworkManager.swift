@@ -79,19 +79,23 @@ class NetworkManager {
     func checkRouteAvailability(coord1: CLLocationCoordinate2D,
                                 coord2: CLLocationCoordinate2D,
                                 handler: @escaping (_ status: Int) -> ()) {
-        var request = URLRequest(url: URL(string: "http://route.uaroads.com/viaroute?output=json&instructions=false&geometry=false&alt=false&loc=\(coord1.latitude),\(coord1.longitude)&loc=\(coord2.latitude),\(coord2.longitude)")!)
-        request.httpMethod = "GET"
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                let dict: [AnyHashable:Any] = try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [AnyHashable : Any]
-                guard  let status = dict["status"] else {
+        let req = RouteCheckRequest { (result) in
+            switch result {
+            case .success(let value):
+                let json = JSON(value)
+                guard  let status = json["status"].int else {
                     handler(404)
                     return
                 }
-                handler(status as! Int)
+                handler(status)
+            case .error(_) :
+                handler(404)
             }
-        }.resume()
+        }
+        req.coord1 = coord1
+        req.coord2 = coord2
+        req.perform()
     }
     
     func searchResults(location: String,

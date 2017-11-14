@@ -75,3 +75,10 @@
 "Alert.enableBackgroundLocationTitle" = "Фонові оновлення вимкнені";
 "Alert.autostart" = "Автоматичний запис не може бути ввімкнений для вашого пристрою";
 "Alert.uidCopied" = "Uid скопійовано";
+"Alert.minDistanceRoute" = "Відстань маршрута - %d. Ви не можете побудувати маршрут між пунктами, якщо відстань менша %d метрів.";
+
+"TrackStateActive" = "Активний";
+"TrackStateSaved" = "Збережено";
+"TrackStateWait" = "Чекає на відправлення";
+"TrackStateUploading" = "Відправлення";
+"TrackStateUploaded" = "Відправлено";

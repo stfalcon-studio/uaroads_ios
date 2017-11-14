@@ -84,6 +84,7 @@
 		3D16F4A81FA9B7D400C6436A /* SendRecordTrackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F49D1FA9B7C200C6436A /* SendRecordTrackRequest.swift */; };
 		3D16F4A91FA9B7D600C6436A /* SearchGeoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F49E1FA9B7C200C6436A /* SearchGeoRequest.swift */; };
 		3D16F4AB1FA9B9F900C6436A /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D16F4A01FA9B7C200C6436A /* BaseRequest.swift */; };
+		3D3F9C8B1FB08B2B005B78DB /* RouteCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F9C8A1FB08B2B005B78DB /* RouteCheckRequest.swift */; };
 		427E76A31F4321440057CA36 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 427E76A51F4321440057CA36 /* Localizable.strings */; };
 		48075CA4CBED26BAB3AF33AF /* Pods_UARoads_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30673E954EFA26D128065E89 /* Pods_UARoads_swift.framework */; };
 		8436D3151F98DF1100C4C3C9 /* AlertRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */; };
@@ -189,6 +190,7 @@
 		3D16F4A01FA9B7C200C6436A /* BaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
 		3D16F4A21FA9B7C200C6436A /* APIUARoads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUARoads.swift; sourceTree = "<group>"; };
 		3D16F4A31FA9B7C200C6436A /* BaseRequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRequestProtocol.swift; sourceTree = "<group>"; };
+		3D3F9C8A1FB08B2B005B78DB /* RouteCheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCheckRequest.swift; sourceTree = "<group>"; };
 		426482CC1F445BD4002077ED /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		427E76A61F4321470057CA36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		427E76A91F44459D0057CA36 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				3D16F49B1FA9B7C200C6436A /* SignInRequest.swift */,
 				3D16F49C1FA9B7C200C6436A /* StatisticRequest.swift */,
 				3D16F49D1FA9B7C200C6436A /* SendRecordTrackRequest.swift */,
+				3D3F9C8A1FB08B2B005B78DB /* RouteCheckRequest.swift */,
 				3D16F49E1FA9B7C200C6436A /* SearchGeoRequest.swift */,
 				3D16F49F1FA9B7C200C6436A /* Base */,
 			);
@@ -985,6 +988,7 @@
 				F40DBF521EAF6C54002F6C11 /* UARMapDataProvider.m in Sources */,
 				301F50F41F276BBC00B86B10 /* Closures.swift in Sources */,
 				301F51831F2771F100B86B10 /* TracksVC.swift in Sources */,
+				3D3F9C8B1FB08B2B005B78DB /* RouteCheckRequest.swift in Sources */,
 				301F51081F276BBC00B86B10 /* PrintExtensions.swift in Sources */,
 				301F513C1F276BE900B86B10 /* FooterSignIn.swift in Sources */,
 				301F50FB1F276BBC00B86B10 /* TabBarVC.swift in Sources */,

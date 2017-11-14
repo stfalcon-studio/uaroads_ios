@@ -17,7 +17,7 @@
 "TutorialVC.secondTitleLabel" = "Сбор статистики";
 "TutorialVC.secondDescrLabel" = "Собирайте статистику о состоянии дорогс помощью автоматической фиксации ям.";
 
-"RoutesVC.title" = "Постороение маршрута";
+"RoutesVC.title" = "Построение маршрута";
 "RoutesVC.fromTextFieldPlaceholder" = "Откуда";
 "RoutesVC.toTextFieldPlaceholder" = "Куда";
 "RoutesVC.buildButtonTitle" = "Построить";
@@ -75,3 +75,10 @@
 "Alert.enableBackgroundLocationTitle" = "Фоновые обновления выключены";
 "Alert.autostart" = "Автоматическая запись не может быть включена для вашего устройства";
 "Alert.uidCopied" = "Uid скопирован";
+"Alert.minDistanceRoute" = "Расстояние маршрута - %d. Вы не можете построить маршрут между пунктами, если расстояние меньше %d метров.";
+
+"TrackStateActive" = "Активен";
+"TrackStateSaved" = "Сохранен";
+"TrackStateWait" = "Ожидание загрузки";
+"TrackStateUploading" = "Загружается";
+"TrackStateUploaded" = "Загружен";

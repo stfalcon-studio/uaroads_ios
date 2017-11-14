@@ -37,6 +37,11 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadWebView()
+    }
+    
     func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
@@ -275,6 +280,7 @@ class RoutesVC: BaseTVC {
     }
     
     private func textFieldValueChanged(_ textField: UITextField?) {
+        locationManager.startUpdatingLocation()
         guard let tf = textField else { return }
         if navigationItem.rightBarButtonItem == nil {
             navigationItem.rightBarButtonItem = clearBtn
@@ -459,21 +465,29 @@ extension RoutesVC {
 
 extension RoutesVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var urlStr: String!
         if let coord = locations.last {
             currentLocation = coord.coordinate
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.coordinate.latitude)&lon=\(coord.coordinate.longitude)&zoom=14"
-            stopUpdatingLocation()
+        }
+        loadWebView()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        loadWebView()
+        print("ERROR: \(error.localizedDescription)")
+    }
+    
+    func loadWebView() {
+        if let url = webView.request?.url,
+            !url.absoluteString.isEmpty {
+            return
+        }
+        var urlStr: String!
+        if let coord = currentLocation {
+            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
         } else {
             urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
         }
         webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        let urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-        print("ERROR: \(error.localizedDescription)")
     }
 }
 

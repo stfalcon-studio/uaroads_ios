@@ -73,11 +73,11 @@ enum TrackStatus: Int {
     
     func title() -> String {
         switch self {
-        case .active: return "Active"
-        case .saved: return "Saved"
-        case .waitingForUpload: return "Waiting For Upload"
-        case .uploading: return "Uploading"
-        case .uploaded: return "Uploaded"
+        case .active: return "TrackStateActive".localized
+        case .saved: return "TrackStateSaved".localized
+        case .waitingForUpload: return "TrackStateWait".localized
+        case .uploading: return "TrackStateUploading".localized
+        case .uploaded: return "TrackStateUploaded".localized
         }
     }
 }

@@ -75,4 +75,11 @@
 "Alert.enableBackgroundLocationTitle" = "Background Refresh Disabled";
 "Alert.autostart" = "Autostart isn't enable on your device";
 "Alert.uidCopied" = "Uid is copied to clipboard";
+"Alert.minDistanceRoute" = "Route distance - %d. You can not build the route between locations where distance is less %d meters.";
+
+"TrackStateActive" = "Active";
+"TrackStateSaved" = "Saved";
+"TrackStateWait" = "Waiting For Upload";
+"TrackStateUploading" = "Uploading";
+"TrackStateUploaded" = "Uploaded";
 

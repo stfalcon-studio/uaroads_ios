@@ -68,7 +68,7 @@ class RecordTrackVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
-        
+        updateUIAuthUser()
         viewModel.getUserStatistic(completion: {[weak self] (response, error) in
             let distance = response ?? "0.00"
             self?.totalDistanceLabel.text = distance + " " + "km".localized
@@ -147,6 +147,11 @@ class RecordTrackVC: UIViewController {
     // MARK: Private funcs
     
     private func updateUIAuthUser() {
+        if RecordService.shared.motionManager.status == .active  {
+            totalTrackContainerView.isHidden = true
+            loginInfoContainerView.isHidden = true
+            return
+        }
         totalTrackContainerView.isHidden = !SettingsManager.sharedInstance.isAuth
         loginInfoContainerView.isHidden = SettingsManager.sharedInstance.isAuth
     }

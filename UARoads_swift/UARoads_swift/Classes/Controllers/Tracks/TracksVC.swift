@@ -128,7 +128,7 @@ extension TracksVC {
         DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
         cell.dateLbl.text = DateManager.sharedInstance.getDateFormatted(item!.date)
         cell.stateLbl.text = TrackStatus(rawValue: item!.status)?.title()
-        cell.distLbl.text = NSString(format: "%.2f km", (item?.distance)! / 1000.0) as String
+        cell.distLbl.text = NSString(format: "%.2f ", (item?.distance)! / 1000.0) as String + "km".localized
         
         return cell
     }

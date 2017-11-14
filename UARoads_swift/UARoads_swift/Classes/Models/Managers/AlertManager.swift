@@ -25,7 +25,7 @@ class AlertManager {
     
     class func showAlertRoutIsTooShort(currentDistance: Int, viewController: UIViewController?) {
         let titleStr = "Warning".localized + "!"
-        let messageStr = "Route distance - \(currentDistance). You can not build the route between locations where distance is less \(routeDistanceMin) meters."
+        let messageStr = String.localizedStringWithFormat("Alert.minDistanceRoute".localized, currentDistance, routeDistanceMin) 
         AlertManager.showAlert(title: titleStr, message: messageStr, controller: viewController, handler: nil)
     }
     

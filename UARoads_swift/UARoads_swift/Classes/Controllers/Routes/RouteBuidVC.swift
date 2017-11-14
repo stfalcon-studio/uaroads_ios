@@ -77,7 +77,7 @@ class RouteBuidVC: BaseVC {
         }
         
         toDetailLbl.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(60.0)
+            make.left.equalToSuperview().offset(65.0)
             make.centerY.equalTo(toLbl)
             make.right.equalTo(toLbl)
             make.height.equalTo(toLbl)
@@ -91,7 +91,7 @@ class RouteBuidVC: BaseVC {
         }
         
         fromDetailLbl.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(60.0)
+            make.left.equalToSuperview().offset(65.0)
             make.height.equalTo(fromLbl)
             make.right.equalTo(fromLbl)
             make.centerY.equalTo(fromLbl)
