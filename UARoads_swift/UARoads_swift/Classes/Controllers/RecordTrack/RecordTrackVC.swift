@@ -192,6 +192,7 @@ class RecordTrackVC: UIViewController {
         
         RecordService.shared.onMotionStop = { [unowned self] in
             self.graphView.clear()
+            self.currentTrackView.distanceLabel.text = self.viewModel.distanceStringInKilometers(0)
         }
         
         RecordService.shared.locationManager.onLocationUpdate = { [unowned self] location in
