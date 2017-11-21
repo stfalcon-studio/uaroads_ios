@@ -129,19 +129,43 @@ class SettingsVC: BaseTVC {
     }
     
     private func autostartRecordValueChanged(in cell: SettingsSwitchCell) {
+        
         let value = cell.switcher.isOn
-        if AutostartManager.isAutostartAvailable() == false && value == true {
-            AlertManager.showAlertAutostartIsNotEnable(viewController: self,
-                                                       handler: {
-                                                        cell.switcher.setOn(false, animated: true)
-                                                        SettingsManager.sharedInstance.routeRecordingAutostart = false
-            })
+        if !value {
+            SettingsManager.sharedInstance.routeRecordingAutostart = false
+            AutostartManager.shared.switchAutostart(to: value)
             return
         }
-        SettingsManager.sharedInstance.routeRecordingAutostart = value
-        AutostartManager.shared.switchAutostart(to: value)
-        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
+        AutostartManager.shared.isAvailableAutoStart { (isAvailable) in
+            cell.switcher.setOn(isAvailable, animated: true)
+            SettingsManager.sharedInstance.routeRecordingAutostart = isAvailable
+            AutostartManager.shared.switchAutostart(to: value)
+            AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
+            if !isAvailable {
+                self.showAlertToSettings("", msg: "Need enable activity in Settings")
+            }
+        }
+        
+        
+//        if AutostartManager.isAutostartAvailable() == false && value == true {
+//            AutostartManager.shared.isAvailableAutoStart { (isAvailable) in
+//                cell.switcher.setOn(isAvailable, animated: true)
+//                SettingsManager.sharedInstance.routeRecordingAutostart = false
+//                AutostartManager.shared.switchAutostart(to: value)
+//                AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
+//            }
+//            AlertManager.showAlertAutostartIsNotEnable(viewController: self,
+//                                                       handler: {
+//                                                        cell.switcher.setOn(false, animated: true)
+//                                                        SettingsManager.sharedInstance.routeRecordingAutostart = false
+//            })
+//            return
+//        }
+//        SettingsManager.sharedInstance.routeRecordingAutostart = value
+//        AutostartManager.shared.switchAutostart(to: value)
+//        AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
     }
+    
     
     
     
@@ -177,6 +201,8 @@ class SettingsVC: BaseTVC {
     }
     
 }
+
+extension SettingsVC: AlertToSettingsRenderer { }
 
 extension SettingsVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

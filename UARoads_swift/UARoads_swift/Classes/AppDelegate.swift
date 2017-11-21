@@ -66,6 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if SettingsManager.sharedInstance.routeRecordingAutostart && !LocationManager.isEnable() {
+            LocalNotificationManager.sendNotificationIfLocationDisabled()
+        }
+    }
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         sendTracksIfNeeded()
     }

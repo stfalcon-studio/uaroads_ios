@@ -23,6 +23,7 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     var delegate: MotionManagerDelegate?
     var status: RecordStatus = .notActive {
         didSet {
+            print(status)
             self.delegate?.statusChanged(newStatus: status, oldStatus: oldValue)
         }
     }
@@ -70,11 +71,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     
     func stopRecording() {
         let autostart = SettingsManager.sharedInstance.routeRecordingAutostart
-        if autostart {
-            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "stopAutoRecord", label: nil, value: nil)
-        } else {
-            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "stopManualRecord", label: nil, value: nil)
-        }
+        let actionName = autostart ? "stopAutoRecord" : "stopManualRecord"
+        AnalyticManager.sharedInstance.reportEvent(category: "Record", action: actionName, label: nil, value: nil)
         
         UIApplication.shared.isIdleTimerDisabled = false
         status = .notActive
@@ -112,12 +110,8 @@ final class MotionManager: NSObject, CXCallObserverDelegate {
     }
     
     private func startRecording(title: String, autostart: Bool = false) {
-        if autostart {
-            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startAutoRecord", label: nil, value: nil)
-        } else {
-            AnalyticManager.sharedInstance.reportEvent(category: "Record", action: "startManualRecord", label: nil, value: nil)
-        }
-        
+        let actionName = autostart ? "startAutoRecord" : "startManualRecord"
+        AnalyticManager.sharedInstance.reportEvent(category: "Record", action: actionName, label: nil, value: nil)
         if status == .notActive {
             track = TrackModel()
             track?.autoRecord = autostart

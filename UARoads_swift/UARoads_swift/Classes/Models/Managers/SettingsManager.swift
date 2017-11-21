@@ -16,6 +16,7 @@ enum SettingsKeys: String {
     case email = "emailKey"
     case enableSound = "enableSoundKey"
     case firstLaunch = "firstLaunchKey"
+    case firstTapAutostart = "firstTapAutostartKey"
 }
 
 final class SettingsManager {
@@ -36,7 +37,7 @@ final class SettingsManager {
     
     var routeRecordingAutostart: Bool {
         get { return defaults.bool(forKey: SettingsKeys.routeRecordingAutostart.rawValue) }
-        set { defaults.set(newValue, forKey: SettingsKeys.routeRecordingAutostart.rawValue); defaults.synchronize() }
+        set { defaults.set(newValue, forKey: SettingsKeys.routeRecordingAutostart.rawValue) }
     }
     
     var sendTracksAutomatically: Bool {
@@ -61,6 +62,11 @@ final class SettingsManager {
         get { return defaults.string(forKey: SettingsKeys.firstLaunch.rawValue) }
         set { defaults.set(newValue, forKey: SettingsKeys.firstLaunch.rawValue); defaults.synchronize()  }
     }
+    
+//    var firstTapAutostart: Bool {
+//        get { return defaults.bool(forKey: SettingsKeys.firstTapAutostart.rawValue) }
+//        set { defaults.set(newValue, forKey: SettingsKeys.firstTapAutostart.rawValue); defaults.synchronize() }
+//    }
     
     
     func setDefaultSetting() {

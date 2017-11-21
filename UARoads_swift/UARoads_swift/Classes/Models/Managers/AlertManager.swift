@@ -54,6 +54,19 @@ class AlertManager {
         AlertManager.showAlert(title: titleStr, message: "", controller: viewController, handler: nil)
     }
     
+    class func showAlertLocationNotAuthorized(_ fromManual:Bool) {
+        let msg = fromManual ? "RecordTrackVC.startRecordWithoutLocation".localized : "RecordTrackVC.startRecordWithoutLocationAuto".localized
+        
+        let alertController = UIAlertController(title: msg, message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let goSettings = UIAlertAction(title: "Settings".localized, style: .default) { (action) in
+            UIApplication.shared.open(URL(string:UIApplicationOpenSettingsURLString)!, completionHandler: nil)
+        }
+        alertController.addAction(action)
+        alertController.addAction(goSettings)
+        UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+    
     
     // MARK: Private funcs
     private class func showAlert(title: String? = "", message: String, controller: UIViewController?, handler: EmptyHandler? = nil) {

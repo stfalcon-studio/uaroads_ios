@@ -32,7 +32,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         
         manager.delegate = self
         manager.pausesLocationUpdatesAutomatically = false
-        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        setupBestDesiredAccuracy()
         manager.allowsBackgroundLocationUpdates = true
         manager.activityType = .automotiveNavigation
         manager.requestAlwaysAuthorization()
@@ -41,9 +41,36 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
     // MARK: Public funcs
     
+    func setupBadDesiredAccuracy() {
+        manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+    }
+    
+    func setupBestDesiredAccuracy() {
+        manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+    }
+    
+    class func isEnable() -> Bool {
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                return false
+            case .authorizedAlways, .authorizedWhenInUse:
+                return true
+            }
+        } else {
+            return false
+        }
+    }
+    
     func requestLocation() {
+        setupBestDesiredAccuracy()
         manager.startUpdatingLocation()
         isRequestingLocation = true
+    }
+    
+    func stopUpdatingLocationIfNeeded() {
+        let autostart = SettingsManager.sharedInstance.routeRecordingAutostart
+        autostart ? setupBadDesiredAccuracy() : stopUpdatingLocation()
     }
     
     func stopUpdatingLocation() {

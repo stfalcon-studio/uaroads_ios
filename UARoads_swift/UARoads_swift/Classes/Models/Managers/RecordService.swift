@@ -30,6 +30,8 @@ final class RecordService {
     var onPit: ((_ pitValue: Double) -> ())?
     var onMotionStart: ((_ value: Double, _ filtered: Bool) -> ())?
     var onMotionStop: (() -> ())?
+    var onMotionResume: (() -> ())?
+    var onMotionPause: (() -> ())?
     var onLocation: (() -> ())?
     var onMotionCompleted: (() -> ())?
     var onSend: (() -> ())?
@@ -59,25 +61,41 @@ final class RecordService {
     // MARK: Public funcs
     
     func startRecording() {
+        if !LocationManager.isEnable() {
+            if UIApplication.shared.applicationState != .active {
+                LocalNotificationManager.sendNotificationIfLocationDisabled()
+            }
+            AlertManager.showAlertLocationNotAuthorized(false)
+            return
+        }
         locationManager.requestLocation()
         motionManager.startRecording()
         onLocation?()
     }
     
     func stopRecording() {
-        locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocationIfNeeded()
         onMotionStop?()
         motionManager.stopRecording()
     }
     
     func pauseRecording() {
-        locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocationIfNeeded()
         motionManager.pauseRecording()
+        onMotionPause?()
     }
     
     func resumeRecording() {
+        if !LocationManager.isEnable() {
+            if UIApplication.shared.applicationState != .active {
+                LocalNotificationManager.sendNotificationIfLocationDisabled()
+            }
+            AlertManager.showAlertLocationNotAuthorized(false)
+            return
+        }
         locationManager.requestLocation()
         motionManager.resumeRecording()
+        onMotionResume?()
     }
     
     

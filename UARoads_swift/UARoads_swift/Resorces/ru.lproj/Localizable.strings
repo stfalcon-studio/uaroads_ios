@@ -39,6 +39,8 @@
 "RecordTrackVC.stopButtonTitle" = "Стоп";
 "RecordTrackVC.currTrackView.title" = "Текущая поездка";
 "RecordTrackVC.sendDistanceToServer" = "Обработанное расстояние\nна сервере";
+"RecordTrackVC.startRecordWithoutLocation" = "Для начала записи включите службу геолокации в настройках";
+"RecordTrackVC.startRecordWithoutLocationAuto" = "Невозможно автоматически начать запись, так как выключены службы геолокации. Вы можете включить их в настройках";
 
 "TracksVC.title" = "Записанные треки";
 "TracksVC.emptyDataSet.buttonTitle" = "Начать";
@@ -76,6 +78,8 @@
 "Alert.autostart" = "Автоматическая запись не может быть включена для вашего устройства";
 "Alert.uidCopied" = "Uid скопирован";
 "Alert.minDistanceRoute" = "Расстояние маршрута - %d. Вы не можете построить маршрут между пунктами, если расстояние меньше %d метров.";
+
+"Notification.locationServiceDisabled" = "Автоматическая запись не начнеться, потому что служба геолокации выключена";
 
 "TrackStateActive" = "Активен";
 "TrackStateSaved" = "Сохранен";

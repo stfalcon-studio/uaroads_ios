@@ -15,7 +15,7 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
     
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h )
     let Max_speed_to_stop_recording: Double = 4.67  /// m/s ( 15 km/h )
-    let autorecordPauseDuration: TimeInterval = 150
+    let autorecordPauseDuration: TimeInterval = 10
     
     // MARK: Properies
     static let shared = AutostartManager()
@@ -31,6 +31,8 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
         } didSet {
             if self.autostartActive == true {
                 startMonitoringMotion()
+            } else {
+                stopMonitoringMotion()
             }
         }
     }
@@ -51,7 +53,7 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
     class func isAutostartAvailable() -> Bool {
         let isAvailable = CMMotionActivityManager.isActivityAvailable()
         pl("CMMotionActivityManager.isActivityAvailable() = \(isAvailable)")
-        
+
         return isAvailable
     }
     
@@ -67,14 +69,23 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
     
     // MARK: Private funcs
     
+    func stopMonitoringMotion() {
+        self.motionActivityManager?.stopActivityUpdates()
+    }
+    
     func startMonitoringMotion() {
-        if !AutostartManager.isAutostartAvailable() {
-            return
-        }
-        
         self.motionActivityManager?.startActivityUpdates(to: OperationQueue.main,
                                                          withHandler: { [weak self] (data: CMMotionActivity!) -> Void in
                                                             self?.handleMotionActivityChanging(data)
+        })
+    }
+    
+    func isAvailableAutoStart(_ completion:@escaping (_ isAvailable:Bool) -> () ) {
+        self.motionActivityManager?.queryActivityStarting(from: Date(),
+                                                          to: Date(),
+                                                          to: OperationQueue.main,
+                                                          withHandler: { (activities, error) in
+            completion(error == nil)
         })
     }
     
@@ -90,15 +101,15 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
         } else if data.cycling == true {
             return MotionActivity.cycling
         }
-        
         return MotionActivity.unknown
     }
     
     private func handleMotionActivityChanging(_ motionActivity: CMMotionActivity) {
+        
         let mActivityType = self.motionActivity(from: motionActivity)
         pl("motion activity type ocurred -> \(mActivityType)")
         
-        if mActivityType == .automotive {
+        if mActivityType == .stationary {
             startOrResumeRecording()
         } else {
             pauseRecording()
@@ -106,13 +117,16 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
     }
     
     private func startOrResumeRecording() {
+        if !SettingsManager.sharedInstance.routeRecordingAutostart {
+            return
+        }
+        stopTimer()
         let recordStatus: RecordStatus = RecordService.shared.motionManager.status
         switch recordStatus {
         case .paused:
             RecordService.shared.resumeRecording()
         case .notActive:
             RecordService.shared.startRecording()
-            
         default:
             break
         }

@@ -39,6 +39,9 @@
 "RecordTrackVC.stopButtonTitle" = "Stop";
 "RecordTrackVC.currTrackView.title" = "Current track";
 "RecordTrackVC.sendDistanceToServer" = "Processed distance\non server";
+"RecordTrackVC.startRecordWithoutLocation" = "To start recording, turn on Location Services in Settings";
+"RecordTrackVC.startRecordWithoutLocationAuto" = "The application can not start automatic recording because the geolocation service is turned off. You can turn on the geolocation service in the settings";
+
 
 "TracksVC.title" = "Recorded tracks";
 "TracksVC.emptyDataSet.buttonTitle" = "Start";
@@ -76,6 +79,8 @@
 "Alert.autostart" = "Autostart isn't enable on your device";
 "Alert.uidCopied" = "Uid is copied to clipboard";
 "Alert.minDistanceRoute" = "Route distance - %d. You can not build the route between locations where distance is less %d meters.";
+
+"Notification.locationServiceDisabled" = "Record not started because location is disabled";
 
 "TrackStateActive" = "Active";
 "TrackStateSaved" = "Saved";

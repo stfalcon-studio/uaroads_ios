@@ -68,7 +68,8 @@ class RecordTrackVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
-        updateUIAuthUser()
+        
+        updateUI()
         viewModel.getUserStatistic(completion: {[weak self] (response, error) in
             let distance = response ?? "0.00"
             self?.totalDistanceLabel.text = distance + " " + "km".localized
@@ -92,6 +93,10 @@ class RecordTrackVC: UIViewController {
     }
     
     @IBAction func startButtonTapped(_ sender: BorderButton) {
+        guard LocationManager.isEnable() else {
+            AlertManager.showAlertLocationNotAuthorized(true)
+            return
+        }
         if UIApplication.shared.backgroundRefreshStatus == .available {
             RecordService.shared.startRecording()
             updateUiForRecordStart()
@@ -133,7 +138,7 @@ class RecordTrackVC: UIViewController {
     }
     
     func updateUIForRecordStop() {
-        pauseButton.isSelected = false
+        updateUiForRecordPause()
         startButton.isHidden = false
         pauseStopContainerView.isHidden = true
         currentTrackView.isHidden = true
@@ -143,11 +148,19 @@ class RecordTrackVC: UIViewController {
         updateUIAuthUser()
     }
     
+    func updateUI() {
+        if RecordService.shared.motionManager.status != .notActive {
+            updateUiForRecordStart()
+        } else {
+            updateUIForRecordStop()
+        }
+    }
+    
     
     // MARK: Private funcs
     
     private func updateUIAuthUser() {
-        if RecordService.shared.motionManager.status == .active  {
+        if RecordService.shared.motionManager.status != .notActive  {
             totalTrackContainerView.isHidden = true
             loginInfoContainerView.isHidden = true
             return
@@ -190,6 +203,15 @@ class RecordTrackVC: UIViewController {
             }
         }
         
+        RecordService.shared.onMotionPause = { [unowned self] in
+            self.updateUiForRecordPause()
+        }
+        
+        RecordService.shared.onMotionResume = { [unowned self] in
+            self.updateUiForRecordPause()
+        }
+        
+
         RecordService.shared.onMotionStop = { [unowned self] in
             self.graphView.clear()
             self.currentTrackView.distanceLabel.text = self.viewModel.distanceStringInKilometers(0)
@@ -197,6 +219,7 @@ class RecordTrackVC: UIViewController {
         
         RecordService.shared.locationManager.onLocationUpdate = { [unowned self] location in
             let gpsStatus: GPS_Status = self.viewModel.gpsStatus(from: location)
+            print(location)
             self.currentTrackView.gpsStatusView.setGpsStatus(gpsStatus)
         }
         
