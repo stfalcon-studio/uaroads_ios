@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>10</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -47,6 +47,25 @@
 	<string>UA Roads will update your location in background to record the route with road surface defects.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Used to record track automatically when user is driving</string>
+	<key>UIApplicationShortcutItems1</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>settings-normal</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>SETTINGS_ITEM</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).settings</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>tracks-normal</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>TRACKS_ITEM</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).tracks</string>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>external-accessory</string>

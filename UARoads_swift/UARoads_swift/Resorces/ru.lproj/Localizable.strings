@@ -62,6 +62,7 @@
 "SettingsVC.cellTitle.sendTracksAutomatically" = "Отправлять треки автоматически";
 "SettingsVC.cellTitle.autostartRecordRoutes" = "Автоматическая запись";
 "SettingsVC.switchFooter.versionLabel" = "Версия приложения:";
+"SettingsVC.enableActivityAlert" = "Нужно включить отслежевание активности в настройках";
 
 "km" = "км";
 "Settings" = "Настройки";
@@ -86,3 +87,9 @@
 "TrackStateWait" = "Ожидание загрузки";
 "TrackStateUploading" = "Загружается";
 "TrackStateUploaded" = "Загружен";
+
+"ShortCut.item.1.forStart" = "Начать запись";
+"ShortCut.item.1.forPause" = "Остановить запись";
+"ShortCut.item.2" = "Поездки";
+"ShortCut.item.3" = "Настройки";
+

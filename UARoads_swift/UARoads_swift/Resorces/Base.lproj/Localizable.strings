@@ -63,6 +63,7 @@
 "SettingsVC.cellTitle.sendTracksAutomatically" = "Send tracks automatically";
 "SettingsVC.cellTitle.autostartRecordRoutes" = "Route recording autostart";
 "SettingsVC.switchFooter.versionLabel" = "Version:";
+"SettingsVC.enableActivityAlert" = "Need enable activity tracker in Settings";
 
 "km" = "km";
 "Settings" = "Settings";
@@ -87,4 +88,9 @@
 "TrackStateWait" = "Waiting For Upload";
 "TrackStateUploading" = "Uploading";
 "TrackStateUploaded" = "Uploaded";
+
+"ShortCut.item.1.forStart" = "Start record";
+"ShortCut.item.1.forPause" = "Stop record";
+"ShortCut.item.2" = "Tracks";
+"ShortCut.item.3" = "Settings";
 

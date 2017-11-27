@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  UARoads_swift
+
+  Created by Max Vasilevsky on 11/22/17.
+  Copyright © 2017 Victor Amelin. All rights reserved.
+*/
+
+START_RECORD_ITEM = "Start record";
+SETTINGS_ITEM = "Settings";
+TRACKS_ITEM = "Tacks";

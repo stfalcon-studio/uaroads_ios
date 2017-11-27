@@ -123,14 +123,16 @@ extension TracksVC {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecordedCell") as! RecordedCell
-        let item = dataSource?[indexPath.row]
-        
-        DateManager.sharedInstance.setFormat("dd MMMM yyyy HH:mm")
-        cell.dateLbl.text = DateManager.sharedInstance.getDateFormatted(item!.date)
-        cell.stateLbl.text = TrackStatus(rawValue: item!.status)?.title()
-        cell.distLbl.text = NSString(format: "%.2f ", (item?.distance)! / 1000.0) as String + "km".localized
+        guard let item = dataSource?[indexPath.row] else {
+            return cell
+        }
+        cell.configureFromTrack(item)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
     }
 }
 

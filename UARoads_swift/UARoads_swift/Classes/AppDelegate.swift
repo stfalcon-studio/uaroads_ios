@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  UARoads_swift
@@ -62,11 +63,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let documentsUrl = FileManager.default.urls(for: .documentDirectory,
                                                     in: .userDomainMask).first!
         pl("Documents directory path: \n\(documentsUrl)")
-        
         return true
     }
     
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        let bool = handleQuickAction(shortcutItem)
+        completionHandler(bool)
+    }
+    
+    func configureShortCutItems(forKillApp:Bool) {
+        let recordTitle = RecordService.shared.isRecording && !forKillApp ? "ShortCut.item.1.forPause".localized : "ShortCut.item.1.forStart".localized
+        let recordIcon = UIApplicationShortcutIcon(templateImageName: "record-normal")
+        let recordItem = UIMutableApplicationShortcutItem(type: Shortcut.changeRecordState.rawValue, localizedTitle: recordTitle,
+                                                          localizedSubtitle: nil, icon: recordIcon, userInfo: nil)
+        let tracksIcon = UIApplicationShortcutIcon(templateImageName: "tracks-normal")
+        let tracksItem = UIMutableApplicationShortcutItem(type: Shortcut.openTracks.rawValue,
+                                                          localizedTitle: "ShortCut.item.2".localized,
+                                                          localizedSubtitle: nil,
+                                                          icon: tracksIcon, userInfo: nil)
+        let settingsIcon = UIApplicationShortcutIcon(templateImageName: "settings-normal")
+        let settingsItem = UIMutableApplicationShortcutItem(type: Shortcut.openSettings.rawValue,
+                                                            localizedTitle: "ShortCut.item.3".localized,
+                                                            localizedSubtitle: nil,
+                                                            icon: settingsIcon, userInfo: nil)
+        UIApplication.shared.shortcutItems = [settingsItem,tracksItem,recordItem]
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        configureShortCutItems(forKillApp: true)
+    }
+    
+    enum Shortcut: String {
+        case changeRecordState = "startRecord"
+        case openTracks = "tracks"
+        case openSettings = "settings"
+    }
+    
+    func handleQuickAction(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
+        let tabbar = window?.rootViewController as? TabBarVC
+        var quickActionHandled = false
+        if let shortcutType = Shortcut.init(rawValue: shortcutItem.type) {
+            quickActionHandled = true
+            switch shortcutType {
+                case .changeRecordState:
+                    tabbar?.selectedIndex = 1
+                    RecordService.shared.isRecording ? RecordService.shared.stopRecording() : RecordService.shared.startRecording()
+                case .openTracks:
+                    tabbar?.selectedIndex = 2
+                case .openSettings:
+                    tabbar?.selectedIndex = 3
+            }
+        }
+        
+        return quickActionHandled
+    }
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
+        configureShortCutItems(forKillApp: false)
         if SettingsManager.sharedInstance.routeRecordingAutostart && !LocationManager.isEnable() {
             LocalNotificationManager.sendNotificationIfLocationDisabled()
         }

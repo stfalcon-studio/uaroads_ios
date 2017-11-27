@@ -15,7 +15,7 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
     
     let Min_speed_to_start_recording: Double = 5.56 /// m/s ( 20 km/h )
     let Max_speed_to_stop_recording: Double = 4.67  /// m/s ( 15 km/h )
-    let autorecordPauseDuration: TimeInterval = 10
+    let autorecordPauseDuration: TimeInterval = 120
     
     // MARK: Properies
     static let shared = AutostartManager()
@@ -109,7 +109,7 @@ final class AutostartManager: NSObject/*, CLLocationManagerDelegate*/ {
         let mActivityType = self.motionActivity(from: motionActivity)
         pl("motion activity type ocurred -> \(mActivityType)")
         
-        if mActivityType == .stationary {
+        if mActivityType == .automotive {
             startOrResumeRecording()
         } else {
             pauseRecording()

@@ -142,7 +142,7 @@ class SettingsVC: BaseTVC {
             AutostartManager.shared.switchAutostart(to: value)
             AnalyticManager.sharedInstance.reportEvent(category: "Settings", action: "Auto Record")
             if !isAvailable {
-                self.showAlertToSettings("", msg: "Need enable activity in Settings")
+                self.showAlertToSettings("SettingsVC.enableActivityAlert".localized, msg: "")
             }
         }
         

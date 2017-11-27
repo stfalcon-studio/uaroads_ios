@@ -62,6 +62,7 @@
 "SettingsVC.cellTitle.sendTracksAutomatically" = "Відправляти записи автоматично";
 "SettingsVC.cellTitle.autostartRecordRoutes" = "Автоматичний запис";
 "SettingsVC.switchFooter.versionLabel" = "Версія додатку:";
+"SettingsVC.enableActivityAlert" = "Необхідно ввімкнути відслідковування активності в парамтрах";
 
 "km" = "км";
 "Settings" = "Параметри";
@@ -86,3 +87,8 @@
 "TrackStateWait" = "Чекає на відправлення";
 "TrackStateUploading" = "Відправлення";
 "TrackStateUploaded" = "Відправлено";
+
+"ShortCut.item.1.forStart" = "Почати запис";
+"ShortCut.item.1.forPause" = "Зупинити запис";
+"ShortCut.item.2" = "Поїздки";
+"ShortCut.item.3" = "Параметри";

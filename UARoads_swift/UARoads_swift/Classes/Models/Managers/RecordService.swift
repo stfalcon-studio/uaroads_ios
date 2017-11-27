@@ -68,18 +68,21 @@ final class RecordService {
             AlertManager.showAlertLocationNotAuthorized(false)
             return
         }
+        isRecording = true
         locationManager.requestLocation()
         motionManager.startRecording()
         onLocation?()
     }
     
     func stopRecording() {
+        isRecording = false
         locationManager.stopUpdatingLocationIfNeeded()
         onMotionStop?()
         motionManager.stopRecording()
     }
     
     func pauseRecording() {
+        isRecording = false
         locationManager.stopUpdatingLocationIfNeeded()
         motionManager.pauseRecording()
         onMotionPause?()
@@ -93,6 +96,7 @@ final class RecordService {
             AlertManager.showAlertLocationNotAuthorized(false)
             return
         }
+        isRecording = true
         locationManager.requestLocation()
         motionManager.resumeRecording()
         onMotionResume?()
