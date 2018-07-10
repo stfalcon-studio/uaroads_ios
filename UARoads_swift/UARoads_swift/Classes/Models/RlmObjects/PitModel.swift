@@ -10,13 +10,13 @@ import RealmSwift
 import CoreLocation
 
 class PitModel: Object, PitProtocol {
-    dynamic var latitude: Double = 0.0
-    dynamic var longitude: Double = 0.0
-    dynamic var time: String = ""
-    dynamic var value: Double = 0.0
-    dynamic var tag: String = ""
-    dynamic var horizontalAccuracy: Double = 0.0
-    dynamic var speed: Double = 0.0
+    @objc dynamic var latitude: Double = 0.0
+    @objc dynamic var longitude: Double = 0.0
+    @objc dynamic var time: String = ""
+    @objc dynamic var value: Double = 0.0
+    @objc dynamic var tag: String = ""
+    @objc dynamic var horizontalAccuracy: Double = 0.0
+    @objc dynamic var speed: Double = 0.0
     
     override static func primaryKey() -> String? {
         return "time"

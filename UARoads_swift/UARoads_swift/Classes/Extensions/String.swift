@@ -114,7 +114,7 @@ extension String {
         textStorage.addLayoutManager(layoutManager)
         
         let range = NSRange.init(location: 0, length: textStorage.length)
-        textStorage.addAttribute(NSFontAttributeName, value: font, range: range)
+        textStorage.addAttribute(NSAttributedStringKey.font, value: font, range: range)
         textContainer.lineFragmentPadding = 0.0
         
         layoutManager.glyphRange(for: textContainer)

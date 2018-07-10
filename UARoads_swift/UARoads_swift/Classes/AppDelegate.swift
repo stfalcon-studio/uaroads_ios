@@ -144,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //navigation bar appearance
         let navBar = UINavigationBar.appearance()
         navBar.isTranslucent = false
-        navBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
         navBar.barTintColor = UIColor.colorPrimary
         
         //tabBar appearance

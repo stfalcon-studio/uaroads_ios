@@ -139,16 +139,16 @@ extension TracksVC {
 extension TracksVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let titleStr = NSLocalizedString("TracksVC.emptyDataSet.title", comment: "")
-        let attrs = [NSForegroundColorAttributeName : UIColor.colorPrimaryDark,
-                     NSFontAttributeName : UIFont.systemFont(ofSize: 18.0)]
+        let attrs = [NSAttributedStringKey.foregroundColor : UIColor.colorPrimaryDark,
+                     NSAttributedStringKey.font : UIFont.systemFont(ofSize: 18.0)]
         
         return NSMutableAttributedString(string: titleStr, attributes: attrs)
     }
     
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
         let btnTitle = NSLocalizedString("start", comment: "").uppercased()
-        let attrs = [NSForegroundColorAttributeName:UIColor.colorAccent,
-                     NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)]
+        let attrs = [NSAttributedStringKey.foregroundColor:UIColor.colorAccent,
+                     NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 14.0)]
         return NSMutableAttributedString(string: btnTitle, attributes: attrs)
     }
     

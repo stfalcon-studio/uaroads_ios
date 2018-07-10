@@ -96,7 +96,7 @@ class SendTracksService: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     // MARK: Notification observers
     
-    func networkStatusChanged(_ notification: Notification) {
+    @objc func networkStatusChanged(_ notification: Notification) {
         guard let networkStatus = notification.object as? ReachabilityStatus else { return }
         
         if networkStatus == .reachableViaWiFi &&
