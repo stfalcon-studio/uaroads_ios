@@ -35,4 +35,7 @@ target 'UARoads_swift' do
     #extensions
     pod 'StfalconSwiftExtensions'
     
+    #Mapbox
+    pod 'Mapbox-iOS-SDK', '~> 4.1'
+    
 end
