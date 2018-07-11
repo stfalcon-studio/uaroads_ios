@@ -37,5 +37,7 @@ target 'UARoads_swift' do
     
     #Mapbox
     pod 'Mapbox-iOS-SDK', '~> 4.1'
+    pod 'MapboxNavigation', '~> 0.18'
+    pod 'MapboxGeocoder.swift', '~> 0.8'
     
 end
