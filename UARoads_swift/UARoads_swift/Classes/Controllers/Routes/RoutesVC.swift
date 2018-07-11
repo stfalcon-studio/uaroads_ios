@@ -9,12 +9,22 @@
 import UIKit
 import RxKeyboard
 import CoreLocation
+import Mapbox
 
 class RoutesVC: BaseTVC {
+    
     fileprivate let fromTF = UITextField()
     fileprivate let toTF = UITextField()
     fileprivate let lineView = UIView()
-//    fileprivate let webView = UIWebView()
+    
+    private lazy var mapView: MGLMapView = {
+        let map: MGLMapView = MGLMapView(frame: self.view.bounds)
+        map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        //TODO: investigate default center
+        map.setCenter(CLLocationCoordinate2D(latitude: 49.3864569, longitude: 31.61828032), zoomLevel: 12, animated: false)
+        return map
+    }()
+    
     fileprivate let fromLocationBtn = UIButton()
     fileprivate let toLocationBtn = UIButton()
     fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
@@ -25,7 +35,13 @@ class RoutesVC: BaseTVC {
     fileprivate var fromModel: SearchResultModel?
     fileprivate var toModel: SearchResultModel?
     
-    fileprivate var currentLocation: CLLocationCoordinate2D?
+    fileprivate var currentLocation: CLLocationCoordinate2D? {
+        didSet {
+            if let sValue = currentLocation {
+                mapView.setCenter(sValue, zoomLevel: 14, animated: true)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,20 +53,14 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        loadWebView()
-//    }
-    
     func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
         view.addSubview(lineView)
-//        view.addSubview(webView)
+        view.addSubview(mapView)
         view.addSubview(buildBtn)
         
-        //TODO: add table as subview of MapboxView
-        //        webView.addSubview(tableView)
+        mapView.addSubview(tableView)
         
         fromTF.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
@@ -80,17 +90,16 @@ class RoutesVC: BaseTVC {
             make.centerX.equalToSuperview()
         }
         
-//        webView.snp.makeConstraints { (make) in
-//            make.width.equalToSuperview()
-//            make.top.equalTo(toTF.snp.bottom)
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalToSuperview()
-//        }
+        mapView.snp.makeConstraints { maker in
+            maker.width.equalToSuperview()
+            maker.top.equalTo(toTF.snp.bottom)
+            maker.centerX.equalToSuperview()
+            maker.bottom.equalToSuperview()
+        }
         
-        //temporary behaviour for table
-//        tableView.snp.makeConstraints { (make) in
-//            make.edges.equalToSuperview()
-//        }
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
     }
     
     override func setupInterface() {
@@ -102,8 +111,6 @@ class RoutesVC: BaseTVC {
         lineView.alpha = 0.5
         
         clearBtn.tintColor = UIColor.white
-        
-//        webView.scalesPageToFit = true
         
         customizeLocationButtons()
         customizeFromTF()
@@ -223,15 +230,6 @@ class RoutesVC: BaseTVC {
                 self?.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, offset, 0.0)
                 }, onCompleted: nil, onDisposed: nil)
             .addDisposableTo(disposeBag)
-        
-        //webview
-//        webView
-//            .rx
-//            .didFinishLoad
-//            .bind {
-//
-//            }
-//            .addDisposableTo(disposeBag)
     }
     
     
@@ -470,29 +468,10 @@ extension RoutesVC: CLLocationManagerDelegate {
         if let coord = locations.last {
             currentLocation = coord.coordinate
         }
-        //add additional setup for mapbox
-//        loadWebView()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-//        loadWebView()
         print("ERROR: \(error.localizedDescription)")
     }
-    
-//    func loadWebView() {
-//        if let url = webView.request?.url,
-//            !url.absoluteString.isEmpty {
-//            return
-//        }
-//        var urlStr: String!
-//        if let coord = currentLocation {
-//            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
-//        } else {
-//            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-//        }
-//        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-//    }
+
 }
-
-
-
