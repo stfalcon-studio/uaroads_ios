@@ -14,7 +14,7 @@ class RoutesVC: BaseTVC {
     fileprivate let fromTF = UITextField()
     fileprivate let toTF = UITextField()
     fileprivate let lineView = UIView()
-    fileprivate let webView = UIWebView()
+//    fileprivate let webView = UIWebView()
     fileprivate let fromLocationBtn = UIButton()
     fileprivate let toLocationBtn = UIButton()
     fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
@@ -37,19 +37,20 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        loadWebView()
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        loadWebView()
+//    }
     
     func setupConstraints() {
         view.addSubview(fromTF)
         view.addSubview(toTF)
         view.addSubview(lineView)
-        view.addSubview(webView)
+//        view.addSubview(webView)
         view.addSubview(buildBtn)
         
-        webView.addSubview(tableView)
+        //TODO: add table as subview of MapboxView
+        //        webView.addSubview(tableView)
         
         fromTF.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
@@ -79,16 +80,17 @@ class RoutesVC: BaseTVC {
             make.centerX.equalToSuperview()
         }
         
-        webView.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.top.equalTo(toTF.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
+//        webView.snp.makeConstraints { (make) in
+//            make.width.equalToSuperview()
+//            make.top.equalTo(toTF.snp.bottom)
+//            make.centerX.equalToSuperview()
+//            make.bottom.equalToSuperview()
+//        }
         
-        tableView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
+        //temporary behaviour for table
+//        tableView.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//        }
     }
     
     override func setupInterface() {
@@ -101,7 +103,7 @@ class RoutesVC: BaseTVC {
         
         clearBtn.tintColor = UIColor.white
         
-        webView.scalesPageToFit = true
+//        webView.scalesPageToFit = true
         
         customizeLocationButtons()
         customizeFromTF()
@@ -223,13 +225,13 @@ class RoutesVC: BaseTVC {
             .addDisposableTo(disposeBag)
         
         //webview
-        webView
-            .rx
-            .didFinishLoad
-            .bind {
-                
-            }
-            .addDisposableTo(disposeBag)
+//        webView
+//            .rx
+//            .didFinishLoad
+//            .bind {
+//
+//            }
+//            .addDisposableTo(disposeBag)
     }
     
     
@@ -468,27 +470,28 @@ extension RoutesVC: CLLocationManagerDelegate {
         if let coord = locations.last {
             currentLocation = coord.coordinate
         }
-        loadWebView()
+        //add additional setup for mapbox
+//        loadWebView()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        loadWebView()
+//        loadWebView()
         print("ERROR: \(error.localizedDescription)")
     }
     
-    func loadWebView() {
-        if let url = webView.request?.url,
-            !url.absoluteString.isEmpty {
-            return
-        }
-        var urlStr: String!
-        if let coord = currentLocation {
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
-        } else {
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-        }
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-    }
+//    func loadWebView() {
+//        if let url = webView.request?.url,
+//            !url.absoluteString.isEmpty {
+//            return
+//        }
+//        var urlStr: String!
+//        if let coord = currentLocation {
+//            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
+//        } else {
+//            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
+//        }
+//        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
+//    }
 }
 
 
