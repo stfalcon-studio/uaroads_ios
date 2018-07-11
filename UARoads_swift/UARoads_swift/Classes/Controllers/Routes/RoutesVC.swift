@@ -39,6 +39,8 @@ class RoutesVC: BaseTVC {
         didSet {
             if let sValue = currentLocation {
                 mapView.setCenter(sValue, zoomLevel: 14, animated: true)
+                fromModel = SearchResultModel(locationCoordianate: sValue, locationName: "current location", locationDescription: nil)
+                fromTF.text = fromModel?.locationName
             }
         }
     }
