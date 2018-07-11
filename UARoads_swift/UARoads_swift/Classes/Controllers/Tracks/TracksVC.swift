@@ -80,7 +80,7 @@ class TracksVC: BaseTVC {
     }
     
     deinit {
-        notificationToken?.stop()
+        notificationToken?.invalidate()
     }
     
     override func setupInterface() {

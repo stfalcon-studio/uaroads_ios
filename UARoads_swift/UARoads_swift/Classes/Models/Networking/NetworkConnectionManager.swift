@@ -8,7 +8,7 @@
 
 import Foundation
 import SystemConfiguration
-import ReachabilitySwift
+import Reachability//Swift
 
 
 let networkStatusChangedNotification = "networkStatusChangedNotification"
@@ -36,14 +36,14 @@ class NetworkConnectionManager {
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(networkStatusChanged(notification:)),
-                                               name: ReachabilityChangedNotification,
+                                               name: Notification.Name.reachabilityChanged,
                                                object: reachability)
     }
     
     func stopMonitoring() {
         reachability.stopNotifier()
         NotificationCenter.default.removeObserver(self,
-                                                  name: ReachabilityChangedNotification,
+                                                  name: Notification.Name.reachabilityChanged,
                                                   object: reachability)
     }
     
