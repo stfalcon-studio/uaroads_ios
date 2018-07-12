@@ -13,7 +13,7 @@ import Mapbox
 
 class RoutesVC: BaseTVC {
     
-    fileprivate let toTF = UITextField()
+    fileprivate let toTF = LocationTextField()
     fileprivate let lineView = UIView()
     
     private lazy var mapView: MGLMapView = {

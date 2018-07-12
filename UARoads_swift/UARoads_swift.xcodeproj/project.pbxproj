@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1C20F774AA0096E857 /* LocationTextField.swift */; };
 		301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */; };
 		301F50F31F276BBC00B86B10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AD1F276BBC00B86B10 /* AppDelegate.swift */; };
 		301F50F41F276BBC00B86B10 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AE1F276BBC00B86B10 /* Closures.swift */; };
@@ -111,6 +112,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		175EDB1C20F774AA0096E857 /* LocationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTextField.swift; sourceTree = "<group>"; };
 		301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		301F50AD1F276BBC00B86B10 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		301F50AE1F276BBC00B86B10 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				301F516D1F276EF100B86B10 /* CustomButtons */,
 				301F51641F276EE400B86B10 /* XibViews */,
 				301F51321F276BE900B86B10 /* GraphView.swift */,
+				175EDB1C20F774AA0096E857 /* LocationTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -997,6 +1000,7 @@
 				301F51761F276F6200B86B10 /* TrackModel.swift in Sources */,
 				301F51781F276FB600B86B10 /* SearchResultModel.swift in Sources */,
 				F40DBF501EAF6C54002F6C11 /* UARInstruction.m in Sources */,
+				175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */,
 				3D16F4A71FA9B7D200C6436A /* StatisticRequest.swift in Sources */,
 				301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */,
 				F40DBF4E1EAF6C54002F6C11 /* UIColor+UARColor.m in Sources */,
