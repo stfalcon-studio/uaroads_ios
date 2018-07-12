@@ -23,6 +23,7 @@
 "RoutesVC.buildButtonTitle" = "Построить";
 "RoutesVC.myCurrentLocation" = "Моя текущая позиция";
 "RoutesVC.goToLocationSetting" = "Геолокация выключена. Открыть настройки, чтобы включить геолокацию?";
+"RoutesVC.navigationTitle" = "Navi";
 
 "RouteBuidVC.cancelButtonTitle" = "Отмена";
 "RouteBuidVC.title" = "Маршрут";

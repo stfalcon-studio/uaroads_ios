@@ -28,6 +28,7 @@ class RoutesVC: BaseTVC {
     fileprivate let toLocationBtn = UIButton()
     fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     fileprivate let buildBtn = UIButton()
+    private let navigateButton: UIButton = UIButton()
     
     fileprivate let locationManager = CLLocationManager()
     fileprivate var dataSource = [SearchResultModel]()
@@ -57,6 +58,7 @@ class RoutesVC: BaseTVC {
         view.addSubview(mapView)
         view.addSubview(toTF)
         view.addSubview(buildBtn)
+        view.addSubview(navigateButton)
         
         mapView.addSubview(tableView)
         
@@ -75,6 +77,14 @@ class RoutesVC: BaseTVC {
             make.height.equalTo(50.0)
             make.trailing.equalTo(toTF.snp.trailing).offset(-20)
             buildBtn.layer.cornerRadius = 25
+        }
+        
+        navigateButton.snp.makeConstraints { maker in
+            maker.width.equalTo(50)
+            maker.top.equalTo(buildBtn.snp.top)
+            maker.height.equalTo(50)
+            maker.trailing.equalTo(buildBtn.snp.leading).offset(-10)
+            navigateButton.layer.cornerRadius = 25
         }
         
         mapView.snp.makeConstraints { maker in
@@ -105,6 +115,7 @@ class RoutesVC: BaseTVC {
         customizeLocationButtons()
         customizeToTF()
         customizeBuildButton()
+        customizeNavigationButton()
         
         //hidden by default
         tableView.alpha = 0.0
@@ -124,6 +135,14 @@ class RoutesVC: BaseTVC {
             .tap
             .bind { [weak self] in
                 self?.buildRouteTapped()
+            }
+            .addDisposableTo(disposeBag)
+        
+        navigateButton
+            .rx
+            .tap
+            .bind { [weak self] in
+                self?.startNavigation()
             }
             .addDisposableTo(disposeBag)
         
@@ -212,6 +231,13 @@ class RoutesVC: BaseTVC {
         buildBtn.backgroundColor = UIColor.colorAccent
     }
     
+    private func customizeNavigationButton() {
+        let  buttonTitle = NSLocalizedString("RoutesVC.navigationTitle", comment: "")
+        navigateButton.setTitle(buttonTitle, for: .normal)
+        navigateButton.titleLabel?.textColor = UIColor.white
+        navigateButton.backgroundColor = UIColor.blue
+    }
+    
     private func customizeToTF() {
         toTF.placeholder = NSLocalizedString("RoutesVC.toTextFieldPlaceholder", comment: "")
         toTF.autocorrectionType = .no
@@ -227,6 +253,7 @@ class RoutesVC: BaseTVC {
     private func hideBuildButton() {
         UIView.animate(withDuration: 0.2, animations: {
             self.buildBtn.alpha = 0.0
+            self.navigateButton.alpha = 0.0
         })
     }
     
@@ -309,6 +336,10 @@ class RoutesVC: BaseTVC {
         })
     }
     
+    private func startNavigation() {
+        print("start navigation here")
+    }
+    
     private func handleRouteAbilityResponse(status: Int) {
         switch status {
         case 200, 0:
@@ -364,9 +395,11 @@ class RoutesVC: BaseTVC {
         if fromModel != nil && toModel != nil {
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.buildBtn.alpha = 1.0
+                self?.navigateButton.alpha = 1.0
             })
         } else {
             buildBtn.alpha = 0.0
+            navigateButton.alpha = 0.0
         }
     }
 }
