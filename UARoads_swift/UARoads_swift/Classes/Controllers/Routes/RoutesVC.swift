@@ -10,6 +10,7 @@ import UIKit
 import RxKeyboard
 import CoreLocation
 import Mapbox
+import MapboxNavigation
 
 class RoutesVC: BaseTVC {
     
@@ -337,7 +338,15 @@ class RoutesVC: BaseTVC {
     }
     
     private func startNavigation() {
-        print("start navigation here")
+        guard let fromLocation = fromModel?.locationCoordianate, let toLocation = toModel?.locationCoordianate else { return }
+        RouteBuildHelper.route(from: fromLocation, to: toLocation) { [weak self] route in
+            if let sRoute = route, let sSelf = self {
+                let navigationViewController = NavigationViewController(for: sRoute)
+                sSelf.present(navigationViewController, animated: true, completion: nil)
+            } else {
+                fatalError("Invalid route")
+            }
+        }
     }
     
     private func handleRouteAbilityResponse(status: Int) {
