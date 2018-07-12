@@ -70,10 +70,11 @@ class RoutesVC: BaseTVC {
         }
         
         buildBtn.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.top.equalTo(toTF.snp.bottom)
+            make.width.equalTo(50)
+            make.top.equalTo(toTF.snp.bottom).offset(4)
             make.height.equalTo(50.0)
-            make.centerX.equalToSuperview()
+            make.trailing.equalTo(toTF.snp.trailing).offset(-20)
+            buildBtn.layer.cornerRadius = 25
         }
         
         mapView.snp.makeConstraints { maker in
@@ -212,8 +213,6 @@ class RoutesVC: BaseTVC {
     private func customizeToTF() {
         toTF.placeholder = NSLocalizedString("RoutesVC.toTextFieldPlaceholder", comment: "")
         toTF.autocorrectionType = .no
-        toTF.rightView = toLocationBtn
-        toTF.rightViewMode = .unlessEditing
         toTF.clearButtonMode = .whileEditing
         toTF.clearsOnBeginEditing = true
     }
