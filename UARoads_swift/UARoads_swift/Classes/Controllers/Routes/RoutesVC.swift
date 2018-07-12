@@ -192,7 +192,6 @@ class RoutesVC: BaseTVC {
             .addDisposableTo(disposeBag)
     }
     
-    
     //MARK: Private funcs
     
     private func customizeLocationButtons() {
@@ -270,7 +269,6 @@ class RoutesVC: BaseTVC {
     
     private func clearButtonTapped() {
         self.toModel = nil
-        self.fromModel = nil
         self.toTF.text = ""
         self.dataSource = []
         self.tableView.reloadData()
