@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import MapboxDirections
+import MapboxCoreNavigation
+import MapboxNavigation
 
 class RouteBuidVC: BaseVC {
     private lazy var cancelBtn: UIBarButtonItem = {
@@ -17,7 +20,18 @@ class RouteBuidVC: BaseVC {
                                            action: nil)
         return cancelButton
     }()
-    fileprivate let webView = UIWebView()
+
+    private lazy var routeView: NavigationMapView = {
+        let map = NavigationMapView(frame: self.view.bounds)
+        
+        
+        map.delegate = self
+        
+        map.showsUserLocation = true
+        map.setUserTrackingMode(.follow, animated: true)
+        
+        return map
+    }()
     fileprivate let fromLbl = UILabel()
     fileprivate let fromDetailLbl = UILabel()
     fileprivate let toLbl = UILabel()
@@ -26,12 +40,27 @@ class RouteBuidVC: BaseVC {
     
     fileprivate var fromModel: SearchResultModel!
     fileprivate var toModel: SearchResultModel!
+    private var directionsRoute: Route!
     
     init(from: SearchResultModel, to: SearchResultModel) {
         super.init()
         
         self.fromModel = from
         self.toModel = to
+        
+        //refactor
+        let origin = Waypoint(coordinate: fromModel.locationCoordianate!, coordinateAccuracy: -1, name: "Start")
+        let destination = Waypoint(coordinate: toModel.locationCoordianate!, coordinateAccuracy: -1, name: "Finish")
+        
+        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
+        
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+            if let sRoutes = routes {
+                self.directionsRoute = sRoutes.first
+                self.draw(route: self.directionsRoute)
+            }
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,18 +73,10 @@ class RouteBuidVC: BaseVC {
         setupConstraints()
         setupInterface()
         setupRx()
-        
-        let urlStr = "http://uaroads.com/routing/\(fromModel.locationCoordianate!.latitude),\(fromModel.locationCoordianate!.longitude)/\(toModel.locationCoordianate!.latitude),\(toModel.locationCoordianate!.longitude)?mob=true"
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
     }
     
     func setupConstraints() {
-        view.addSubview(webView)
+        view.addSubview(routeView)
         view.addSubview(fromLbl)
         view.addSubview(toLbl)
         view.addSubview(goBtn)
@@ -97,7 +118,7 @@ class RouteBuidVC: BaseVC {
             make.centerY.equalTo(fromLbl)
         }
         
-        webView.snp.makeConstraints { (make) in
+        routeView.snp.makeConstraints { (make) in
             make.bottom.equalTo(fromLbl.snp.top)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
@@ -130,8 +151,6 @@ class RouteBuidVC: BaseVC {
         goBtn.setTitle(goBtnTitle, for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         goBtn.backgroundColor = UIColor.colorAccent
-        
-        webView.scalesPageToFit = true
     }
     
     func setupRx() {
@@ -147,26 +166,61 @@ class RouteBuidVC: BaseVC {
             .rx
             .tap
             .bind { [weak self] in
-                let storyboard = UIStoryboard(name: "Navigation", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "UARRoadController") as! UARRoadController
-
-                self?.navigationController?.pushViewController(vc, animated: true)
-                DispatchQueue.main.async {
-                    if let strongSelf = self {
-                        vc.requestRoute(withCoordinates: "loc=\(strongSelf.fromModel.locationCoordianate!.latitude),\(strongSelf.fromModel.locationCoordianate!.longitude)&loc=\(strongSelf.toModel.locationCoordianate!.latitude),\(strongSelf.toModel.locationCoordianate!.longitude)")
-                    }
-                }
-            }
-            .addDisposableTo(disposeBag)
-        
-        webView
-            .rx
-            .didFinishLoad
-            .bind {
-                
+                self?.startNavigation()
             }
             .addDisposableTo(disposeBag)
     }
+    
+    private func calculateRoute(from origin: CLLocationCoordinate2D,
+                                to destination: CLLocationCoordinate2D,
+                                completion: @escaping (Route?, Error?) -> ()) {
+        
+        let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
+        let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
+        
+        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
+        
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+            if let sRoutes = routes {
+                self.directionsRoute = sRoutes.first
+                self.draw(route: self.directionsRoute)
+            }
+        }
+    }
+    
+    private func draw(route: Route) {
+        guard route.coordinateCount > 0 else { return }
+        
+        var routeCoordinates = route.coordinates!
+        let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+        
+        if let source = routeView.style?.source(withIdentifier: "route-source-1") as? MGLShapeSource {
+            source.shape = polyline
+        } else {
+            let source = MGLShapeSource(identifier: "route-source-1", features: [polyline], options: nil)
+            
+            let lineStyle = MGLLineStyleLayer(identifier: "route-style-1", source: source)
+            lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
+            lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+            
+            routeView.style?.addSource(source)
+            routeView.style?.addLayer(lineStyle)
+        }
+    }
+    
+    private func startNavigation() {
+        let navigationViewController = NavigationViewController(for: directionsRoute)
+        present(navigationViewController, animated: true, completion: nil)
+    }
+
+}
+
+extension RouteBuidVC: MGLMapViewDelegate {
+    
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
+    
 }
 
 

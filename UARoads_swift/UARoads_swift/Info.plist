@@ -36,6 +36,8 @@
 	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoiYW5kcmV3eWFuaXYiLCJhIjoiY2pqNnoxc3d4MXpqMzNrcDZkdWQxazVkZSJ9.vUSMJEeh0QYNPbEsxxcnKw</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -68,6 +70,7 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>external-accessory</string>
 		<string>fetch</string>
 		<string>location</string>
@@ -91,7 +94,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>MGLMapboxAccessToken</key>
-	<string>pk.eyJ1IjoiYW5kcmV3eWFuaXYiLCJhIjoiY2pqNnoxc3d4MXpqMzNrcDZkdWQxazVkZSJ9.vUSMJEeh0QYNPbEsxxcnKw</string>
 </dict>
 </plist>
