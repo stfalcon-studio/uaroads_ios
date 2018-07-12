@@ -13,7 +13,6 @@ import Mapbox
 
 class RoutesVC: BaseTVC {
     
-    fileprivate let fromTF = UITextField()
     fileprivate let toTF = UITextField()
     fileprivate let lineView = UIView()
     
@@ -40,7 +39,6 @@ class RoutesVC: BaseTVC {
             if let sValue = currentLocation {
                 mapView.setCenter(sValue, zoomLevel: 14, animated: true)
                 fromModel = SearchResultModel(locationCoordianate: sValue, locationName: "current location", locationDescription: nil)
-                fromTF.text = fromModel?.locationName
             }
         }
     }
@@ -56,33 +54,19 @@ class RoutesVC: BaseTVC {
     }
     
     func setupConstraints() {
-        view.addSubview(fromTF)
-        view.addSubview(toTF)
-        view.addSubview(lineView)
         view.addSubview(mapView)
+        view.addSubview(toTF)
         view.addSubview(buildBtn)
         
         mapView.addSubview(tableView)
         
-        fromTF.snp.makeConstraints { (make) in
+        toTF.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
             make.right.equalTo(-15.0)
-            make.top.equalToSuperview()
+            make.top.equalTo(16)
             make.height.equalTo(50.0)
-        }
-        
-        lineView.snp.makeConstraints { (make) in
-            make.height.equalTo(1.0)
-            make.left.equalTo(fromTF)
-            make.right.equalTo(fromTF)
-            make.top.equalTo(fromTF.snp.bottom)
-        }
-        
-        toTF.snp.makeConstraints { (make) in
-            make.left.equalTo(fromTF)
-            make.right.equalTo(fromTF)
-            make.height.equalTo(fromTF)
-            make.top.equalTo(lineView)
+            toTF.backgroundColor = .white
+            toTF.layer.cornerRadius = 10
         }
         
         buildBtn.snp.makeConstraints { (make) in
@@ -94,7 +78,7 @@ class RoutesVC: BaseTVC {
         
         mapView.snp.makeConstraints { maker in
             maker.width.equalToSuperview()
-            maker.top.equalTo(toTF.snp.bottom)
+            maker.top.equalTo(view.snp.top)
             maker.centerX.equalToSuperview()
             maker.bottom.equalToSuperview()
         }
@@ -115,7 +99,6 @@ class RoutesVC: BaseTVC {
         clearBtn.tintColor = UIColor.white
         
         customizeLocationButtons()
-        customizeFromTF()
         customizeToTF()
         customizeBuildButton()
         
@@ -173,29 +156,11 @@ class RoutesVC: BaseTVC {
             }
             .addDisposableTo(disposeBag)
         
-        //change values
-        fromTF
-            .rx
-            .controlEvent(.editingChanged)
-            .bind { [weak self] in
-                self?.textFieldValueChanged(self?.fromTF)
-            }
-            .addDisposableTo(disposeBag)
-        
         toTF
             .rx
             .controlEvent(.editingChanged)
             .bind { [weak self] in
                 self?.textFieldValueChanged(self?.toTF)
-            }
-            .addDisposableTo(disposeBag)
-        
-        //all touches
-        fromTF
-            .rx
-            .controlEvent(.editingDidBegin)
-            .bind { [weak self] in
-                self?.hideBuildButton()
             }
             .addDisposableTo(disposeBag)
         
@@ -209,14 +174,6 @@ class RoutesVC: BaseTVC {
         
         //end editing (enter clicked)
         toTF
-            .rx
-            .controlEvent(.editingDidEndOnExit)
-            .bind { [weak self] in
-                self?.textFieldDidEndEditing()
-            }
-            .addDisposableTo(disposeBag)
-        
-        fromTF
             .rx
             .controlEvent(.editingDidEndOnExit)
             .bind { [weak self] in
@@ -252,15 +209,6 @@ class RoutesVC: BaseTVC {
         buildBtn.backgroundColor = UIColor.colorAccent
     }
     
-    private func customizeFromTF() {
-        fromTF.placeholder = NSLocalizedString("RoutesVC.fromTextFieldPlaceholder", comment: "")
-        fromTF.autocorrectionType = .no
-        fromTF.rightView = fromLocationBtn
-        fromTF.rightViewMode = .unlessEditing
-        fromTF.clearButtonMode = .whileEditing
-        fromTF.clearsOnBeginEditing = true
-    }
-    
     private func customizeToTF() {
         toTF.placeholder = NSLocalizedString("RoutesVC.toTextFieldPlaceholder", comment: "")
         toTF.autocorrectionType = .no
@@ -289,18 +237,6 @@ class RoutesVC: BaseTVC {
         }
         checkLocationAuthStatus()
         if let text = tf.text, let coordinates = locationManager.location?.coordinate {
-//            let req = SearchGeoRequest { (result) in
-//                switch result {
-//                case .success(let value):
-//                    let json = JSON(value)
-//                    self.parsePlaseFromJson(json)
-//                case .error(let error) :
-//                    self.delegate?.searchPlacesWith(error: error)
-//                }
-//            }
-//            req.locationName = placeName
-//            req.perform()
-            
             NetworkManager.sharedInstance.searchResults(location: text,
                                                         coord: coordinates,
                                                         handler: { [weak self] (results) in
@@ -325,10 +261,8 @@ class RoutesVC: BaseTVC {
     
     private func fromLocationTapped() {
         if let coord = self.currentLocation {
-            self.fromTF.text = NSLocalizedString("RoutesVC.myCurrentLocation", comment: "")
-            self.fromTF.resignFirstResponder()
             self.fromModel = SearchResultModel(locationCoordianate: coord,
-                                               locationName: self.fromTF.text,
+                                               locationName: "current location",
                                                locationDescription: nil)
         }
         checkLocationAuthStatus()
@@ -338,7 +272,6 @@ class RoutesVC: BaseTVC {
     private func clearButtonTapped() {
         self.toModel = nil
         self.fromModel = nil
-        self.fromTF.text = ""
         self.toTF.text = ""
         self.dataSource = []
         self.tableView.reloadData()
@@ -350,11 +283,8 @@ class RoutesVC: BaseTVC {
     
     private func tableviewDidSelectItem(at indexPath: IndexPath) {
         let selectedItem = dataSource[indexPath.row]
-        if fromTF.isFirstResponder {
-            fromModel = selectedItem
-            fromTF.text = fromModel?.locationName
-            
-        } else if toTF.isFirstResponder {
+        
+        if toTF.isFirstResponder {
             toModel = selectedItem
             toTF.text = toModel?.locationName
         }
