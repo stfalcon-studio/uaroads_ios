@@ -49,15 +49,12 @@ class RouteBuidVC: BaseVC {
         self.toModel = to
         
         //refactor
-        let origin = Waypoint(coordinate: fromModel.locationCoordianate!, coordinateAccuracy: -1, name: "Start")
-        let destination = Waypoint(coordinate: toModel.locationCoordianate!, coordinateAccuracy: -1, name: "Finish")
-        
-        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
-        
-        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
-            if let sRoutes = routes {
-                self.directionsRoute = sRoutes.first
-                self.draw(route: self.directionsRoute)
+        RouteBuildHelper.route(from: from.locationCoordianate!, to: to.locationCoordianate!) { [weak self] route in
+            if let sRoute = route, let sSelf = self {
+                sSelf.directionsRoute = sRoute
+                sSelf.draw(route: sSelf.directionsRoute)
+            } else {
+                fatalError("Invalid route")
             }
         }
         

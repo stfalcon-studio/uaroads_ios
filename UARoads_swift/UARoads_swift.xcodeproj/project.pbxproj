@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1C20F774AA0096E857 /* LocationTextField.swift */; };
+		175EDB1F20F791C10096E857 /* RouteBuildHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */; };
 		301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */; };
 		301F50F31F276BBC00B86B10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AD1F276BBC00B86B10 /* AppDelegate.swift */; };
 		301F50F41F276BBC00B86B10 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AE1F276BBC00B86B10 /* Closures.swift */; };
@@ -113,6 +114,7 @@
 
 /* Begin PBXFileReference section */
 		175EDB1C20F774AA0096E857 /* LocationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTextField.swift; sourceTree = "<group>"; };
+		175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBuildHelper.swift; sourceTree = "<group>"; };
 		301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		301F50AD1F276BBC00B86B10 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		301F50AE1F276BBC00B86B10 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */,
 				301F50CC1F276BBC00B86B10 /* Utilities.swift */,
 				8454F1D71F9E12C800D59ACB /* Storyboard.swift */,
+				175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1049,6 +1052,7 @@
 				301F51851F2771F100B86B10 /* RouteBuidVC.swift in Sources */,
 				301F50F51F276BBC00B86B10 /* Constants.swift in Sources */,
 				301F51101F276BBC00B86B10 /* MotionManager.swift in Sources */,
+				175EDB1F20F791C10096E857 /* RouteBuildHelper.swift in Sources */,
 				301F51191F276BBC00B86B10 /* MainVCProtocol.swift in Sources */,
 				301F51071F276BBC00B86B10 /* NSString+MD5.m in Sources */,
 				301F51041F276BBC00B86B10 /* GFunctions.swift in Sources */,
