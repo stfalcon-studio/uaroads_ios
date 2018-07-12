@@ -85,7 +85,10 @@ class RoutesVC: BaseTVC {
         }
         
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(toTF.snp.bottom)
+            make.bottom.equalToSuperview()
         }
     }
     
