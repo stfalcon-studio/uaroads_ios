@@ -38,22 +38,34 @@ class RouteBuidVC: BaseVC {
     
     private let originTextField: LocationTextField = LocationTextField()
     private let destinationTextField: LocationTextField = LocationTextField()
+    private let tableView: UITableView = UITableView()
     
-    fileprivate var fromModel: SearchResultModel!
-    fileprivate var toModel: SearchResultModel!
+    fileprivate var fromModel: SearchResultModel! {
+        didSet {
+            buildRoute()
+        }
+    }
+    fileprivate var toModel: SearchResultModel! {
+        didSet {
+            buildRoute()
+        }
+    }
     private var directionsRoute: Route!
+    
+    private var dataSource = [SearchResultModel]()
+    private let locationManager = CLLocationManager()
+    private let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     
     init(from: SearchResultModel, to: SearchResultModel) {
         super.init()
         
         self.fromModel = from
         self.toModel = to
-        
-        originTextField.delegate = self
-        destinationTextField.delegate = self
-        
-        //refactor
-        RouteBuildHelper.route(from: from.locationCoordianate!, to: to.locationCoordianate!) { [weak self] route in
+        buildRoute()
+    }
+    
+    private func buildRoute() {
+        RouteBuildHelper.route(from: fromModel.locationCoordianate!, to: toModel.locationCoordianate!) { [weak self] route in
             if let sRoute = route, let sSelf = self {
                 sSelf.directionsRoute = sRoute
                 sSelf.draw(route: sSelf.directionsRoute)
@@ -61,7 +73,6 @@ class RouteBuidVC: BaseVC {
                 fatalError("Invalid route")
             }
         }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -83,6 +94,7 @@ class RouteBuidVC: BaseVC {
         view.addSubview(goBtn)
         view.addSubview(originTextField)
         view.addSubview(destinationTextField)
+        view.addSubview(tableView)
         
         goBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -126,6 +138,12 @@ class RouteBuidVC: BaseVC {
             make.top.equalTo(destinationTextField.snp.bottom).offset(4)
         }
         
+        tableView.snp.makeConstraints { maker in
+            maker.leading.equalToSuperview()
+            maker.trailing.equalToSuperview()
+            maker.top.equalTo(destinationTextField.snp.bottom).offset(4)
+            maker.bottom.equalToSuperview()
+        }
     }
     
     func setupInterface() {
@@ -146,19 +164,13 @@ class RouteBuidVC: BaseVC {
         originTextField.text = fromModel.locationName
         destinationTextField.text = toModel.locationName
         
-        originTextField.font = UIFont.systemFont(ofSize: 14.0)
-        destinationTextField.font = UIFont.systemFont(ofSize: 14.0)
-        
-        originTextField.layer.borderWidth = 0.3
-        destinationTextField.layer.borderWidth = 0.3
-        
-        originTextField.layer.cornerRadius = 10
-        destinationTextField.layer.cornerRadius = 10
-        
         let goBtnTitle = NSLocalizedString("RouteBuidVC.goButtonTitle", comment: "").uppercased()
         goBtn.setTitle(goBtnTitle, for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         goBtn.backgroundColor = UIColor.colorAccent
+        setupTableUI()
+        setupTextFieldUI(originTextField)
+        setupTextFieldUI(destinationTextField)
     }
     
     func setupRx() {
@@ -175,6 +187,38 @@ class RouteBuidVC: BaseVC {
             .tap
             .bind { [weak self] in
                 self?.startNavigation()
+            }
+            .addDisposableTo(disposeBag)
+        
+        clearBtn
+            .rx
+            .tap
+            .bind { [weak self] in
+                self?.clearButtonTapped()
+            }
+            .addDisposableTo(disposeBag)
+        
+        originTextField
+            .rx
+            .controlEvent(.editingChanged)
+            .bind { [weak self] in
+                self?.textFieldValueChanged(self?.originTextField)
+            }
+            .addDisposableTo(disposeBag)
+        
+        destinationTextField
+            .rx
+            .controlEvent(.editingChanged)
+            .bind { [weak self] in
+                self?.textFieldValueChanged(self?.destinationTextField)
+            }
+            .addDisposableTo(disposeBag)
+        
+        tableView
+            .rx
+            .itemSelected
+            .bind { [weak self] indexPath in
+                self?.tableviewDidSelectItem(at: indexPath)
             }
             .addDisposableTo(disposeBag)
     }
@@ -220,6 +264,74 @@ class RouteBuidVC: BaseVC {
         let navigationViewController = NavigationViewController(for: directionsRoute)
         present(navigationViewController, animated: true, completion: nil)
     }
+    
+    private func setupTableUI() {
+        tableView.alpha = 0.0
+        tableView.dataSource = self
+    }
+    
+    private func setupTextFieldUI(_ textField: LocationTextField) {
+        textField.autocorrectionType = .no
+        textField.clearButtonMode = .whileEditing
+        textField.clearsOnBeginEditing = true
+        textField.font = UIFont.systemFont(ofSize: 14.0)
+        textField.layer.borderWidth = 0.3
+        textField.layer.cornerRadius = 10
+    }
+    
+    private func showTable(by textField: UITextField) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.tableView.alpha = 1.0
+        })
+    }
+    
+    private func hideTable() {
+        view.endEditing(true)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.tableView.alpha = 0.0
+        })
+    }
+    
+    private func textFieldValueChanged(_ textField: UITextField?) {
+        locationManager.startUpdatingLocation()
+        guard let tf = textField else { return }
+        if navigationItem.rightBarButtonItem == nil {
+            navigationItem.rightBarButtonItem = clearBtn
+        }
+        
+        if let text = tf.text, let coordinates = locationManager.location?.coordinate {
+            NetworkManager.sharedInstance.searchResults(location: text,
+                                                        coord: coordinates,
+                                                        handler: { [weak self] (results) in
+                                                            self?.dataSource = results
+                                                            self?.tableView.reloadData()
+                                                            self?.showTable(by: tf)
+            })
+        }
+    }
+    
+    private func clearButtonTapped() {
+        originTextField.text = fromModel.locationName
+        destinationTextField.text = toModel.locationName
+        dataSource = []
+        tableView.reloadData()
+        view.endEditing(true)
+        navigationItem.rightBarButtonItem = nil
+        hideTable()
+    }
+    
+    private func tableviewDidSelectItem(at indexPath: IndexPath) {
+        let selectedItem = dataSource[indexPath.row]
+        
+        if originTextField.isFirstResponder {
+            fromModel = selectedItem
+            originTextField.text = fromModel?.locationName
+        } else {
+            toModel = selectedItem
+            destinationTextField.text = toModel?.locationName
+        }
+        hideTable()
+    }
 
 }
 
@@ -231,15 +343,26 @@ extension RouteBuidVC: MGLMapViewDelegate {
     
 }
 
-extension RouteBuidVC: UITextFieldDelegate {
+extension RouteBuidVC: UITableViewDataSource {
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == originTextField {
-            print("orig")
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var searchCell: UITableViewCell!
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
+            searchCell = cell
         } else {
-            print("dest")
+            searchCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
         }
-        return false
+        
+        let item = dataSource[indexPath.row]
+        
+        searchCell.detailTextLabel?.text = item.locationDescription
+        searchCell.textLabel?.text = item.locationName
+        
+        return searchCell
     }
     
 }
