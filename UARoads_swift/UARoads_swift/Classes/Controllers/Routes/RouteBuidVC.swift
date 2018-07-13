@@ -49,6 +49,9 @@ class RouteBuidVC: BaseVC {
         self.fromModel = from
         self.toModel = to
         
+        originTextField.delegate = self
+        destinationTextField.delegate = self
+        
         //refactor
         RouteBuildHelper.route(from: from.locationCoordianate!, to: to.locationCoordianate!) { [weak self] route in
             if let sRoute = route, let sSelf = self {
@@ -88,9 +91,23 @@ class RouteBuidVC: BaseVC {
             make.width.equalToSuperview()
         }
         
+        fromLbl.snp.makeConstraints { (make) in
+            make.left.equalTo(15.0)
+            make.height.equalTo(toLbl)
+            make.top.equalToSuperview().offset(8)
+            make.width.equalTo(40)
+        }
+        
+        originTextField.snp.makeConstraints { maker in
+            maker.leading.equalTo(fromLbl.snp.trailing).offset(8)
+            maker.height.equalTo(fromLbl.snp.height).offset(8)
+            maker.centerY.equalTo(fromLbl.snp.centerY)
+            maker.trailing.equalToSuperview().offset(-12)
+        }
+        
         toLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
-            make.bottom.equalTo(goBtn.snp.top).offset(-10.0)
+            make.top.equalTo(fromLbl.snp.bottom).offset(16)
             make.height.equalTo(30.0)
             make.width.equalTo(40)
         }
@@ -102,26 +119,13 @@ class RouteBuidVC: BaseVC {
             maker.trailing.equalToSuperview().offset(-12)
         }
         
-        originTextField.snp.makeConstraints { maker in
-            maker.leading.equalTo(fromLbl.snp.trailing).offset(8)
-            maker.height.equalTo(fromLbl.snp.height).offset(8)
-            maker.centerY.equalTo(fromLbl.snp.centerY)
-            maker.trailing.equalToSuperview().offset(-12)
-        }
-        
-        fromLbl.snp.makeConstraints { (make) in
-            make.left.equalTo(toLbl)
-            make.height.equalTo(toLbl)
-            make.bottom.equalTo(toLbl.snp.top).offset(-16)
-            make.width.equalTo(40)
-        }
-        
         routeView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(originTextField.snp.top).offset(-8)
+            make.bottom.equalTo(goBtn.snp.top)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(destinationTextField.snp.bottom).offset(4)
         }
+        
     }
     
     func setupInterface() {
@@ -223,6 +227,19 @@ extension RouteBuidVC: MGLMapViewDelegate {
     
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
+    }
+    
+}
+
+extension RouteBuidVC: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == originTextField {
+            print("orig")
+        } else {
+            print("dest")
+        }
+        return false
     }
     
 }
