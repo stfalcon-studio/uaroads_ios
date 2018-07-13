@@ -69,7 +69,6 @@ class RoutesVC: BaseTVC {
             make.top.equalTo(16)
             make.height.equalTo(50.0)
             toTF.backgroundColor = .white
-            toTF.layer.cornerRadius = 10
         }
         
         buildBtn.snp.makeConstraints { (make) in
@@ -77,7 +76,6 @@ class RoutesVC: BaseTVC {
             make.top.equalTo(toTF.snp.bottom).offset(4)
             make.height.equalTo(50.0)
             make.trailing.equalTo(toTF.snp.trailing).offset(-20)
-            buildBtn.layer.cornerRadius = 25
         }
         
         navigateButton.snp.makeConstraints { maker in
@@ -85,7 +83,6 @@ class RoutesVC: BaseTVC {
             maker.top.equalTo(buildBtn.snp.top)
             maker.height.equalTo(50)
             maker.trailing.equalTo(buildBtn.snp.leading).offset(-10)
-            navigateButton.layer.cornerRadius = 25
         }
         
         mapView.snp.makeConstraints { maker in
@@ -230,6 +227,7 @@ class RoutesVC: BaseTVC {
         buildBtn.setTitle(buttonTitle, for: .normal)
         buildBtn.titleLabel?.textColor = UIColor.white
         buildBtn.backgroundColor = UIColor.colorAccent
+        buildBtn.layer.cornerRadius = 25
     }
     
     private func customizeNavigationButton() {
@@ -237,6 +235,7 @@ class RoutesVC: BaseTVC {
         navigateButton.setTitle(buttonTitle, for: .normal)
         navigateButton.titleLabel?.textColor = UIColor.white
         navigateButton.backgroundColor = UIColor.blue
+        navigateButton.layer.cornerRadius = 25
     }
     
     private func customizeToTF() {
@@ -244,6 +243,16 @@ class RoutesVC: BaseTVC {
         toTF.autocorrectionType = .no
         toTF.clearButtonMode = .whileEditing
         toTF.clearsOnBeginEditing = true
+        
+        toTF.layer.shadowColor = UIColor.darkGray.cgColor
+        toTF.layer.shadowOpacity = 2
+        toTF.layer.masksToBounds = false
+        toTF.layer.shadowRadius = 2
+        
+        toTF.layer.cornerRadius = 10
+        
+        toTF.layer.borderColor = UIColor.black.cgColor
+        toTF.layer.borderWidth = 0.3
     }
     
     private func textFieldDidEndEditing() {
