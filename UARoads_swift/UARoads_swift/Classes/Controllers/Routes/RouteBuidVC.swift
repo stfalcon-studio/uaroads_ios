@@ -164,6 +164,8 @@ class RouteBuidVC: BaseVC {
         originTextField.text = fromModel.locationName
         destinationTextField.text = toModel.locationName
         
+        clearBtn.tintColor = UIColor.white
+        
         let goBtnTitle = NSLocalizedString("RouteBuidVC.goButtonTitle", comment: "").uppercased()
         goBtn.setTitle(goBtnTitle, for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
@@ -285,8 +287,9 @@ class RouteBuidVC: BaseVC {
         })
     }
     
-    private func hideTable() {
+    private func endInput() {
         view.endEditing(true)
+        navigationItem.rightBarButtonItem = nil
         UIView.animate(withDuration: 0.2, animations: {
             self.tableView.alpha = 0.0
         })
@@ -317,7 +320,7 @@ class RouteBuidVC: BaseVC {
         tableView.reloadData()
         view.endEditing(true)
         navigationItem.rightBarButtonItem = nil
-        hideTable()
+        endInput()
     }
     
     private func tableviewDidSelectItem(at indexPath: IndexPath) {
@@ -330,7 +333,7 @@ class RouteBuidVC: BaseVC {
             toModel = selectedItem
             destinationTextField.text = toModel?.locationName
         }
-        hideTable()
+        endInput ()
     }
 
 }
@@ -366,11 +369,3 @@ extension RouteBuidVC: UITableViewDataSource {
     }
     
 }
-
-
-
-
-
-
-
-

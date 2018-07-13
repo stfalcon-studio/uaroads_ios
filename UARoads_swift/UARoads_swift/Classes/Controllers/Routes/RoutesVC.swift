@@ -300,7 +300,7 @@ class RoutesVC: BaseTVC {
     private func fromLocationTapped() {
         if let coord = self.currentLocation {
             self.fromModel = SearchResultModel(locationCoordianate: coord,
-                                               locationName: "current location",
+                                               locationName: "RoutesVC.myCurrentLocation",
                                                locationDescription: nil)
         }
         checkLocationAuthStatus()
