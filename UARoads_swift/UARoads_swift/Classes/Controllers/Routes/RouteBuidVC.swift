@@ -33,10 +33,11 @@ class RouteBuidVC: BaseVC {
         return map
     }()
     fileprivate let fromLbl = UILabel()
-    fileprivate let fromDetailLbl = UILabel()
     fileprivate let toLbl = UILabel()
-    fileprivate let toDetailLbl = UILabel()
     fileprivate let goBtn = UIButton()
+    
+    private let originTextField: LocationTextField = LocationTextField()
+    private let destinationTextField: LocationTextField = LocationTextField()
     
     fileprivate var fromModel: SearchResultModel!
     fileprivate var toModel: SearchResultModel!
@@ -77,8 +78,8 @@ class RouteBuidVC: BaseVC {
         view.addSubview(fromLbl)
         view.addSubview(toLbl)
         view.addSubview(goBtn)
-        view.addSubview(fromDetailLbl)
-        view.addSubview(toDetailLbl)
+        view.addSubview(originTextField)
+        view.addSubview(destinationTextField)
         
         goBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -89,34 +90,34 @@ class RouteBuidVC: BaseVC {
         
         toLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
-            make.right.equalTo(-15.0)
             make.bottom.equalTo(goBtn.snp.top).offset(-10.0)
             make.height.equalTo(30.0)
+            make.width.equalTo(40)
         }
         
-        toDetailLbl.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(65.0)
-            make.centerY.equalTo(toLbl)
-            make.right.equalTo(toLbl)
-            make.height.equalTo(toLbl)
+        destinationTextField.snp.makeConstraints { maker in
+            maker.leading.equalTo(toLbl.snp.trailing).offset(8)
+            maker.height.equalTo(toLbl.snp.height).offset(8)
+            maker.centerY.equalTo(toLbl.snp.centerY)
+            maker.trailing.equalToSuperview().offset(-12)
+        }
+        
+        originTextField.snp.makeConstraints { maker in
+            maker.leading.equalTo(fromLbl.snp.trailing).offset(8)
+            maker.height.equalTo(fromLbl.snp.height).offset(8)
+            maker.centerY.equalTo(fromLbl.snp.centerY)
+            maker.trailing.equalToSuperview().offset(-12)
         }
         
         fromLbl.snp.makeConstraints { (make) in
             make.left.equalTo(toLbl)
-            make.right.equalTo(toLbl)
             make.height.equalTo(toLbl)
-            make.bottom.equalTo(toLbl.snp.top)
-        }
-        
-        fromDetailLbl.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(65.0)
-            make.height.equalTo(fromLbl)
-            make.right.equalTo(fromLbl)
-            make.centerY.equalTo(fromLbl)
+            make.bottom.equalTo(toLbl.snp.top).offset(-16)
+            make.width.equalTo(40)
         }
         
         routeView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(fromLbl.snp.top)
+            make.bottom.equalTo(originTextField.snp.top).offset(-8)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.top.equalToSuperview()
@@ -138,11 +139,17 @@ class RouteBuidVC: BaseVC {
         fromLbl.font = UIFont.systemFont(ofSize: 14.0)
         toLbl.font = UIFont.systemFont(ofSize: 14.0)
         
-        fromDetailLbl.text = fromModel.locationName
-        toDetailLbl.text = toModel.locationName
+        originTextField.text = fromModel.locationName
+        destinationTextField.text = toModel.locationName
         
-        fromDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
-        toDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
+        originTextField.font = UIFont.systemFont(ofSize: 14.0)
+        destinationTextField.font = UIFont.systemFont(ofSize: 14.0)
+        
+        originTextField.layer.borderWidth = 0.3
+        destinationTextField.layer.borderWidth = 0.3
+        
+        originTextField.layer.cornerRadius = 10
+        destinationTextField.layer.cornerRadius = 10
         
         let goBtnTitle = NSLocalizedString("RouteBuidVC.goButtonTitle", comment: "").uppercased()
         goBtn.setTitle(goBtnTitle, for: .normal)
