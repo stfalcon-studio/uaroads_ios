@@ -32,9 +32,6 @@ target 'UARoads_swift' do
     pod 'TSValidatedTextField'
     pod 'DZNEmptyDataSet'
     
-    #extensions
-    pod 'StfalconSwiftExtensions'
-    
     #Mapbox
     pod 'Mapbox-iOS-SDK', '~> 4.1'
     pod 'MapboxNavigation', '~> 0.18'

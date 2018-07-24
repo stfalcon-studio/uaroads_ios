@@ -9,7 +9,6 @@
 
 import UIKit
 import UserNotifications
-import StfalconSwiftExtensions
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

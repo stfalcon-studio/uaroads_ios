@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		174ABB2D21071CD700A432AD /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2321071CD600A432AD /* UIScrollView.swift */; };
+		174ABB2E21071CD700A432AD /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2421071CD600A432AD /* UIView.swift */; };
+		174ABB2F21071CD700A432AD /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2521071CD600A432AD /* Realm.swift */; };
+		174ABB3021071CD700A432AD /* OperatorOverloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2621071CD600A432AD /* OperatorOverloading.swift */; };
+		174ABB3121071CD700A432AD /* MutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2721071CD600A432AD /* MutableData.swift */; };
+		174ABB3221071CD700A432AD /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2821071CD600A432AD /* Dispatch.swift */; };
+		174ABB3321071CD700A432AD /* UARString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2921071CD600A432AD /* UARString.swift */; };
+		174ABB3421071CD700A432AD /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2A21071CD600A432AD /* UIViewController.swift */; };
+		174ABB3521071CD700A432AD /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2B21071CD600A432AD /* DeviceType.swift */; };
+		174ABB3621071CD700A432AD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2C21071CD600A432AD /* UILabel.swift */; };
 		175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1C20F774AA0096E857 /* LocationTextField.swift */; };
 		175EDB1F20F791C10096E857 /* RouteBuildHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */; };
 		301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */; };
@@ -113,6 +123,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		174ABB2321071CD600A432AD /* UIScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		174ABB2421071CD600A432AD /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		174ABB2521071CD600A432AD /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
+		174ABB2621071CD600A432AD /* OperatorOverloading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverloading.swift; sourceTree = "<group>"; };
+		174ABB2721071CD600A432AD /* MutableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableData.swift; sourceTree = "<group>"; };
+		174ABB2821071CD600A432AD /* Dispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
+		174ABB2921071CD600A432AD /* UARString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARString.swift; sourceTree = "<group>"; };
+		174ABB2A21071CD600A432AD /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		174ABB2B21071CD600A432AD /* DeviceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
+		174ABB2C21071CD600A432AD /* UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		175EDB1C20F774AA0096E857 /* LocationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTextField.swift; sourceTree = "<group>"; };
 		175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBuildHelper.swift; sourceTree = "<group>"; };
 		301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -252,6 +272,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		174ABB2221071CD600A432AD /* UARoads_extension */ = {
+			isa = PBXGroup;
+			children = (
+				174ABB2321071CD600A432AD /* UIScrollView.swift */,
+				174ABB2421071CD600A432AD /* UIView.swift */,
+				174ABB2521071CD600A432AD /* Realm.swift */,
+				174ABB2621071CD600A432AD /* OperatorOverloading.swift */,
+				174ABB2721071CD600A432AD /* MutableData.swift */,
+				174ABB2821071CD600A432AD /* Dispatch.swift */,
+				174ABB2921071CD600A432AD /* UARString.swift */,
+				174ABB2A21071CD600A432AD /* UIViewController.swift */,
+				174ABB2B21071CD600A432AD /* DeviceType.swift */,
+				174ABB2C21071CD600A432AD /* UILabel.swift */,
+			);
+			path = UARoads_extension;
+			sourceTree = "<group>";
+		};
 		301F50AC1F276BBC00B86B10 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +334,7 @@
 		301F50BD1F276BBC00B86B10 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				174ABB2221071CD600A432AD /* UARoads_extension */,
 				301F50BE1F276BBC00B86B10 /* CGFloat.swift */,
 				301F50BF1F276BBC00B86B10 /* CLLocation.swift */,
 				301F50C01F276BBC00B86B10 /* Color.swift */,
@@ -909,7 +947,6 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
-				"${BUILT_PRODUCTS_DIR}/StfalconSwiftExtensions/StfalconSwiftExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TSValidatedTextField/TSValidatedTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
@@ -938,7 +975,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StfalconSwiftExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TSValidatedTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
@@ -992,6 +1028,7 @@
 				301F511A1F276BBC00B86B10 /* PitProtocol.swift in Sources */,
 				301F51051F276BBC00B86B10 /* String.swift in Sources */,
 				301F51011F276BBC00B86B10 /* CGFloat.swift in Sources */,
+				174ABB3221071CD700A432AD /* Dispatch.swift in Sources */,
 				301F51021F276BBC00B86B10 /* CLLocation.swift in Sources */,
 				301F51861F2771F100B86B10 /* RoutesVC.swift in Sources */,
 				301F513D1F276BE900B86B10 /* FooterText.swift in Sources */,
@@ -1004,6 +1041,7 @@
 				301F51781F276FB600B86B10 /* SearchResultModel.swift in Sources */,
 				F40DBF501EAF6C54002F6C11 /* UARInstruction.m in Sources */,
 				175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */,
+				174ABB3321071CD700A432AD /* UARString.swift in Sources */,
 				3D16F4A71FA9B7D200C6436A /* StatisticRequest.swift in Sources */,
 				301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */,
 				F40DBF4E1EAF6C54002F6C11 /* UIColor+UARColor.m in Sources */,
@@ -1019,11 +1057,13 @@
 				F40DBF4C1EAF6C54002F6C11 /* MKPolyline+UARPolylineEncodedString.m in Sources */,
 				301F51111F276BBC00B86B10 /* RealmManager.swift in Sources */,
 				301F510B1F276BBC00B86B10 /* AnalyticManager.swift in Sources */,
+				174ABB3121071CD700A432AD /* MutableData.swift in Sources */,
 				F40DBF531EAF6C54002F6C11 /* UARRoadController.m in Sources */,
 				301F51421F276BE900B86B10 /* RecordedCell.swift in Sources */,
 				3D16F4A41FA9B7C800C6436A /* BaseRequestProtocol.swift in Sources */,
 				301F51691F276EE400B86B10 /* CurrentTrackView.swift in Sources */,
 				3D16F4A81FA9B7D400C6436A /* SendRecordTrackRequest.swift in Sources */,
+				174ABB3621071CD700A432AD /* UILabel.swift in Sources */,
 				301F510C1F276BBC00B86B10 /* AutostartManager.swift in Sources */,
 				301F510A1F276BBC00B86B10 /* AlertManager.swift in Sources */,
 				301F51751F276F6200B86B10 /* PitModel.swift in Sources */,
@@ -1033,16 +1073,21 @@
 				3D16F4AB1FA9B9F900C6436A /* BaseRequest.swift in Sources */,
 				301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */,
 				301F51151F276BBC00B86B10 /* NetworkManager.swift in Sources */,
+				174ABB3521071CD700A432AD /* DeviceType.swift in Sources */,
 				3D16F4A91FA9B7D600C6436A /* SearchGeoRequest.swift in Sources */,
 				301F51711F276EF100B86B10 /* BorderButton.swift in Sources */,
 				301F51031F276BBC00B86B10 /* Color.swift in Sources */,
 				3D16F4A61FA9B7D000C6436A /* SignInRequest.swift in Sources */,
 				F40DBF541EAF6C54002F6C11 /* UARRouteJSONParser.m in Sources */,
+				174ABB2D21071CD700A432AD /* UIScrollView.swift in Sources */,
 				301F51841F2771F100B86B10 /* SettingsVC.swift in Sources */,
 				F40DBF4D1EAF6C54002F6C11 /* NSString+UARString.m in Sources */,
 				301F51701F276EF100B86B10 /* ArcButton.swift in Sources */,
+				174ABB2F21071CD700A432AD /* Realm.swift in Sources */,
+				174ABB3421071CD700A432AD /* UIViewController.swift in Sources */,
 				301F50FA1F276BBC00B86B10 /* BaseVC.swift in Sources */,
 				301F51411F276BE900B86B10 /* BaseCell.swift in Sources */,
+				174ABB2E21071CD700A432AD /* UIView.swift in Sources */,
 				301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */,
 				301F51091F276BBC00B86B10 /* Utilities.swift in Sources */,
 				3D1C92171FC47D85008137E5 /* LocalNotificationManager.swift in Sources */,
@@ -1050,6 +1095,7 @@
 				301F51441F276BE900B86B10 /* SettingsTFCell.swift in Sources */,
 				301F51821F2771F100B86B10 /* TutorialVC.swift in Sources */,
 				301F51851F2771F100B86B10 /* RouteBuidVC.swift in Sources */,
+				174ABB3021071CD700A432AD /* OperatorOverloading.swift in Sources */,
 				301F50F51F276BBC00B86B10 /* Constants.swift in Sources */,
 				301F51101F276BBC00B86B10 /* MotionManager.swift in Sources */,
 				175EDB1F20F791C10096E857 /* RouteBuildHelper.swift in Sources */,

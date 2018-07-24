@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import StfalconSwiftExtensions
 import RealmSwift
 import DZNEmptyDataSet
 

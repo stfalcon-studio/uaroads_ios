@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreLocation
-import StfalconSwiftExtensions
 
 class RecordTrackVC: UIViewController {
     
