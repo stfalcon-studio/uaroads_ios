@@ -85,7 +85,7 @@ class TracksVC: BaseTVC {
     override func setupInterface() {
         super.setupInterface()
         
-        title = NSLocalizedString("RecordTrackVC.title", comment: "")
+        title = NSLocalizedString("TracksVC.title", comment: "")
         
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
         tableView.tableFooterView = UIView()        
