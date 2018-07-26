@@ -84,7 +84,7 @@ class TracksVC: BaseTVC {
     
     override func setupInterface() {
         super.setupInterface()
-        
+        navigationController?.navigationBar.tintColor = .white
         title = NSLocalizedString("TracksVC.title", comment: "")
         
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
