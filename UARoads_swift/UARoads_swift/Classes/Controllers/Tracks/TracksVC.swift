@@ -11,8 +11,9 @@ import RealmSwift
 import DZNEmptyDataSet
 
 class TracksVC: BaseTVC {
-    fileprivate var dataSource = RealmHelper.objects(type: TrackModel.self)
-    fileprivate var notificationToken: NotificationToken? = nil
+    
+    private var dataSource = RealmHelper.objects(type: TrackModel.self)
+    private var notificationToken: NotificationToken? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,10 +91,7 @@ class TracksVC: BaseTVC {
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
         tableView.tableFooterView = UIView()        
     }
-    
-    private func deleteTracks() {
-        
-    }
+
 }
 
 extension TracksVC {
