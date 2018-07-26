@@ -31,10 +31,9 @@ class TabBarVC: UITabBarController {
     func setupInterface() {
         let routesNVC = UINavigationController(rootViewController: RoutesVC())
         let recordNVC = UINavigationController(rootViewController: RecordTrackVC.initFromStoryboard())
-        let tracksNVC = UINavigationController(rootViewController: TracksVC())
         let settingsNVC = UINavigationController(rootViewController: SettingsVC())
         
-        setViewControllers([routesNVC, recordNVC, tracksNVC, settingsNVC], animated: false)
+        setViewControllers([routesNVC, recordNVC, settingsNVC], animated: false)
         
         let routesItem = tabBar.items?[TabbarItem.buildRoute.rawValue]
         routesItem?.title = TabbarItem.buildRoute.title()
@@ -45,11 +44,6 @@ class TabBarVC: UITabBarController {
         recordsItem?.title = TabbarItem.recordTrack.title()
         recordsItem?.selectedImage = UIImage(named: "record-active")
         recordsItem?.image = UIImage(named: "record-normal")
-        
-        let tracksItem = tabBar.items?[TabbarItem.tracks.rawValue]
-        tracksItem?.title = TabbarItem.tracks.title()
-        tracksItem?.selectedImage = UIImage(named: "tracks-active")
-        tracksItem?.image = UIImage(named: "tracks-normal")
         
         let settingsItem = tabBar.items?[TabbarItem.settings.rawValue]
         settingsItem?.title = TabbarItem.settings.title()

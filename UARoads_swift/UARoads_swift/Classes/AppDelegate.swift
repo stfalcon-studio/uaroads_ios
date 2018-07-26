@@ -75,17 +75,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let recordIcon = UIApplicationShortcutIcon(templateImageName: "record-normal")
         let recordItem = UIMutableApplicationShortcutItem(type: Shortcut.changeRecordState.rawValue, localizedTitle: recordTitle,
                                                           localizedSubtitle: nil, icon: recordIcon, userInfo: nil)
-        let tracksIcon = UIApplicationShortcutIcon(templateImageName: "tracks-normal")
-        let tracksItem = UIMutableApplicationShortcutItem(type: Shortcut.openTracks.rawValue,
-                                                          localizedTitle: "ShortCut.item.2".localized,
-                                                          localizedSubtitle: nil,
-                                                          icon: tracksIcon, userInfo: nil)
+
         let settingsIcon = UIApplicationShortcutIcon(templateImageName: "settings-normal")
         let settingsItem = UIMutableApplicationShortcutItem(type: Shortcut.openSettings.rawValue,
                                                             localizedTitle: "ShortCut.item.3".localized,
                                                             localizedSubtitle: nil,
                                                             icon: settingsIcon, userInfo: nil)
-        UIApplication.shared.shortcutItems = [settingsItem,tracksItem,recordItem]
+        UIApplication.shared.shortcutItems = [settingsItem, recordItem]
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -94,7 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     enum Shortcut: String {
         case changeRecordState = "startRecord"
-        case openTracks = "tracks"
         case openSettings = "settings"
     }
     
@@ -107,10 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .changeRecordState:
                     tabbar?.selectedIndex = 1
                     RecordService.shared.isRecording ? RecordService.shared.stopRecording() : RecordService.shared.startRecording()
-                case .openTracks:
-                    tabbar?.selectedIndex = 2
                 case .openSettings:
-                    tabbar?.selectedIndex = 3
+                    tabbar?.selectedIndex = 2
             }
         }
         

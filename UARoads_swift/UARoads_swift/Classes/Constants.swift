@@ -55,7 +55,6 @@ enum RecordStatus {
 enum TabbarItem: Int {
     case buildRoute
     case recordTrack
-    case tracks
     case settings
     
     func title() -> String {
@@ -65,8 +64,6 @@ enum TabbarItem: Int {
             titleStr = NSLocalizedString("tabbar.item.0", comment: "")
         case .recordTrack:
             titleStr = NSLocalizedString("tabbar.item.1", comment: "")
-        case .tracks:
-            titleStr = NSLocalizedString("tabbar.item.2", comment: "")
         case .settings:
             titleStr = NSLocalizedString("tabbar.item.3", comment: "")
         }
