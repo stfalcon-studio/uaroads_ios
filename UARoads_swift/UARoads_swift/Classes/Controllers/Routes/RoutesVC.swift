@@ -18,7 +18,8 @@ class RoutesVC: BaseTVC {
     fileprivate let lineView = UIView()
     
     private lazy var mapView: MGLMapView = {
-        let map: MGLMapView = MGLMapView(frame: self.view.bounds)
+        let url: URL? = URL(string: "mapbox://styles/andrewyaniv/cjj73k6qq214k2socmr7vr5ml")
+        let map: MGLMapView = MGLMapView(frame: self.view.bounds, styleURL: url)
         map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         //TODO: investigate default center
         map.setCenter(CLLocationCoordinate2D(latitude: 49.3864569, longitude: 31.61828032), zoomLevel: 12, animated: false)

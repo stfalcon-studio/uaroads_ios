@@ -22,9 +22,8 @@ class RouteBuidVC: BaseVC {
     }()
 
     private lazy var routeView: NavigationMapView = {
-        let map = NavigationMapView(frame: self.view.bounds)
-        
-        
+        let url: URL? = URL(string: "mapbox://styles/andrewyaniv/cjj73k6qq214k2socmr7vr5ml")
+        let map = NavigationMapView(frame: self.view.bounds, styleURL: url)
         map.delegate = self
         
         map.showsUserLocation = true
