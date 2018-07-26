@@ -88,8 +88,8 @@ class RecordTrackVC: UIViewController {
     // MARK: Action funcs
     
     @objc private func presentTracks() {
-        let vc = TracksVC()
-        self.present(vc, animated: true, completion: nil)
+        let tracksVC = TracksVC()
+        navigationController?.pushViewController(tracksVC, animated: true)
     }
     
     @IBAction func signInTapped(_ sender: UIButton) {
