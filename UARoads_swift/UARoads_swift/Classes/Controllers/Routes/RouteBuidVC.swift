@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import MapboxDirections
+import MapboxCoreNavigation
+import MapboxNavigation
 
 class RouteBuidVC: BaseVC {
     private lazy var cancelBtn: UIBarButtonItem = {
@@ -17,21 +20,58 @@ class RouteBuidVC: BaseVC {
                                            action: nil)
         return cancelButton
     }()
-    fileprivate let webView = UIWebView()
+
+    private lazy var routeView: NavigationMapView = {
+        let url: URL? = URL(string: "mapbox://styles/andrewyaniv/cjj73k6qq214k2socmr7vr5ml")
+        let map = NavigationMapView(frame: self.view.bounds, styleURL: url)
+        map.delegate = self
+        
+        map.showsUserLocation = true
+        map.setUserTrackingMode(.follow, animated: true)
+        
+        return map
+    }()
     fileprivate let fromLbl = UILabel()
-    fileprivate let fromDetailLbl = UILabel()
     fileprivate let toLbl = UILabel()
-    fileprivate let toDetailLbl = UILabel()
     fileprivate let goBtn = UIButton()
     
-    fileprivate var fromModel: SearchResultModel!
-    fileprivate var toModel: SearchResultModel!
+    private let originTextField: LocationTextField = LocationTextField()
+    private let destinationTextField: LocationTextField = LocationTextField()
+    private let tableView: UITableView = UITableView()
+    
+    fileprivate var fromModel: SearchResultModel! {
+        didSet {
+            buildRoute()
+        }
+    }
+    fileprivate var toModel: SearchResultModel! {
+        didSet {
+            buildRoute()
+        }
+    }
+    private var directionsRoute: Route!
+    
+    private var dataSource = [SearchResultModel]()
+    private let locationManager = CLLocationManager()
+    private let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     
     init(from: SearchResultModel, to: SearchResultModel) {
         super.init()
         
         self.fromModel = from
         self.toModel = to
+        buildRoute()
+    }
+    
+    private func buildRoute() {
+        RouteBuildHelper.route(from: fromModel.locationCoordianate!, to: toModel.locationCoordianate!) { [weak self] route in
+            if let sRoute = route, let sSelf = self {
+                sSelf.directionsRoute = sRoute
+                sSelf.draw(route: sSelf.directionsRoute)
+            } else {
+                fatalError("Invalid route")
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,23 +84,16 @@ class RouteBuidVC: BaseVC {
         setupConstraints()
         setupInterface()
         setupRx()
-        
-        let urlStr = "http://uaroads.com/routing/\(fromModel.locationCoordianate!.latitude),\(fromModel.locationCoordianate!.longitude)/\(toModel.locationCoordianate!.latitude),\(toModel.locationCoordianate!.longitude)?mob=true"
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
     }
     
     func setupConstraints() {
-        view.addSubview(webView)
+        view.addSubview(routeView)
         view.addSubview(fromLbl)
         view.addSubview(toLbl)
         view.addSubview(goBtn)
-        view.addSubview(fromDetailLbl)
-        view.addSubview(toDetailLbl)
+        view.addSubview(originTextField)
+        view.addSubview(destinationTextField)
+        view.addSubview(tableView)
         
         goBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -69,39 +102,46 @@ class RouteBuidVC: BaseVC {
             make.width.equalToSuperview()
         }
         
+        fromLbl.snp.makeConstraints { (make) in
+            make.left.equalTo(15.0)
+            make.height.equalTo(toLbl)
+            make.top.equalToSuperview().offset(8)
+            make.width.equalTo(40)
+        }
+        
+        originTextField.snp.makeConstraints { maker in
+            maker.leading.equalTo(fromLbl.snp.trailing).offset(8)
+            maker.height.equalTo(fromLbl.snp.height).offset(8)
+            maker.centerY.equalTo(fromLbl.snp.centerY)
+            maker.trailing.equalToSuperview().offset(-12)
+        }
+        
         toLbl.snp.makeConstraints { (make) in
             make.left.equalTo(15.0)
-            make.right.equalTo(-15.0)
-            make.bottom.equalTo(goBtn.snp.top).offset(-10.0)
+            make.top.equalTo(fromLbl.snp.bottom).offset(16)
             make.height.equalTo(30.0)
+            make.width.equalTo(40)
         }
         
-        toDetailLbl.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(65.0)
-            make.centerY.equalTo(toLbl)
-            make.right.equalTo(toLbl)
-            make.height.equalTo(toLbl)
+        destinationTextField.snp.makeConstraints { maker in
+            maker.leading.equalTo(toLbl.snp.trailing).offset(8)
+            maker.height.equalTo(toLbl.snp.height).offset(8)
+            maker.centerY.equalTo(toLbl.snp.centerY)
+            maker.trailing.equalToSuperview().offset(-12)
         }
         
-        fromLbl.snp.makeConstraints { (make) in
-            make.left.equalTo(toLbl)
-            make.right.equalTo(toLbl)
-            make.height.equalTo(toLbl)
-            make.bottom.equalTo(toLbl.snp.top)
-        }
-        
-        fromDetailLbl.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(65.0)
-            make.height.equalTo(fromLbl)
-            make.right.equalTo(fromLbl)
-            make.centerY.equalTo(fromLbl)
-        }
-        
-        webView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(fromLbl.snp.top)
+        routeView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(goBtn.snp.top)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(destinationTextField.snp.bottom).offset(4)
+        }
+        
+        tableView.snp.makeConstraints { maker in
+            maker.leading.equalToSuperview()
+            maker.trailing.equalToSuperview()
+            maker.top.equalTo(destinationTextField.snp.bottom).offset(4)
+            maker.bottom.equalToSuperview()
         }
     }
     
@@ -120,18 +160,18 @@ class RouteBuidVC: BaseVC {
         fromLbl.font = UIFont.systemFont(ofSize: 14.0)
         toLbl.font = UIFont.systemFont(ofSize: 14.0)
         
-        fromDetailLbl.text = fromModel.locationName
-        toDetailLbl.text = toModel.locationName
+        originTextField.text = fromModel.locationName
+        destinationTextField.text = toModel.locationName
         
-        fromDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
-        toDetailLbl.font = UIFont.systemFont(ofSize: 14.0)
+        clearBtn.tintColor = UIColor.white
         
         let goBtnTitle = NSLocalizedString("RouteBuidVC.goButtonTitle", comment: "").uppercased()
         goBtn.setTitle(goBtnTitle, for: .normal)
         goBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14.0)
         goBtn.backgroundColor = UIColor.colorAccent
-        
-        webView.scalesPageToFit = true
+        setupTableUI()
+        setupTextFieldUI(originTextField)
+        setupTextFieldUI(destinationTextField)
     }
     
     func setupRx() {
@@ -147,32 +187,184 @@ class RouteBuidVC: BaseVC {
             .rx
             .tap
             .bind { [weak self] in
-                let storyboard = UIStoryboard(name: "Navigation", bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "UARRoadController") as! UARRoadController
-
-                self?.navigationController?.pushViewController(vc, animated: true)
-                DispatchQueue.main.async {
-                    if let strongSelf = self {
-                        vc.requestRoute(withCoordinates: "loc=\(strongSelf.fromModel.locationCoordianate!.latitude),\(strongSelf.fromModel.locationCoordianate!.longitude)&loc=\(strongSelf.toModel.locationCoordianate!.latitude),\(strongSelf.toModel.locationCoordianate!.longitude)")
-                    }
-                }
+                self?.startNavigation()
             }
             .addDisposableTo(disposeBag)
         
-        webView
+        clearBtn
             .rx
-            .didFinishLoad
-            .bind {
-                
+            .tap
+            .bind { [weak self] in
+                self?.clearButtonTapped()
+            }
+            .addDisposableTo(disposeBag)
+        
+        originTextField
+            .rx
+            .controlEvent(.editingChanged)
+            .bind { [weak self] in
+                self?.textFieldValueChanged(self?.originTextField)
+            }
+            .addDisposableTo(disposeBag)
+        
+        destinationTextField
+            .rx
+            .controlEvent(.editingChanged)
+            .bind { [weak self] in
+                self?.textFieldValueChanged(self?.destinationTextField)
+            }
+            .addDisposableTo(disposeBag)
+        
+        tableView
+            .rx
+            .itemSelected
+            .bind { [weak self] indexPath in
+                self?.tableviewDidSelectItem(at: indexPath)
             }
             .addDisposableTo(disposeBag)
     }
+    
+    private func calculateRoute(from origin: CLLocationCoordinate2D,
+                                to destination: CLLocationCoordinate2D,
+                                completion: @escaping (Route?, Error?) -> ()) {
+        
+        let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
+        let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
+        
+        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
+        
+        _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
+            if let sRoutes = routes {
+                self.directionsRoute = sRoutes.first
+                self.draw(route: self.directionsRoute)
+            }
+        }
+    }
+    
+    private func draw(route: Route) {
+        guard route.coordinateCount > 0 else { return }
+        
+        var routeCoordinates = route.coordinates!
+        let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: route.coordinateCount)
+        
+        if let source = routeView.style?.source(withIdentifier: "route-source-1") as? MGLShapeSource {
+            source.shape = polyline
+        } else {
+            let source = MGLShapeSource(identifier: "route-source-1", features: [polyline], options: nil)
+            
+            let lineStyle = MGLLineStyleLayer(identifier: "route-style-1", source: source)
+            lineStyle.lineColor = NSExpression(forConstantValue: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
+            lineStyle.lineWidth = NSExpression(forConstantValue: 3)
+            
+            routeView.style?.addSource(source)
+            routeView.style?.addLayer(lineStyle)
+        }
+    }
+    
+    private func startNavigation() {
+        let navigationViewController = NavigationViewController(for: directionsRoute)
+        present(navigationViewController, animated: true, completion: nil)
+    }
+    
+    private func setupTableUI() {
+        tableView.alpha = 0.0
+        tableView.dataSource = self
+    }
+    
+    private func setupTextFieldUI(_ textField: LocationTextField) {
+        textField.autocorrectionType = .no
+        textField.clearButtonMode = .whileEditing
+        textField.clearsOnBeginEditing = true
+        textField.font = UIFont.systemFont(ofSize: 14.0)
+        textField.layer.borderWidth = 0.3
+        textField.layer.cornerRadius = 10
+    }
+    
+    private func showTable(by textField: UITextField) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.tableView.alpha = 1.0
+        })
+    }
+    
+    private func endInput() {
+        view.endEditing(true)
+        navigationItem.rightBarButtonItem = nil
+        UIView.animate(withDuration: 0.2, animations: {
+            self.tableView.alpha = 0.0
+        })
+    }
+    
+    private func textFieldValueChanged(_ textField: UITextField?) {
+        locationManager.startUpdatingLocation()
+        guard let tf = textField else { return }
+        if navigationItem.rightBarButtonItem == nil {
+            navigationItem.rightBarButtonItem = clearBtn
+        }
+        
+        if let text = tf.text, let coordinates = locationManager.location?.coordinate {
+            NetworkManager.sharedInstance.searchResults(location: text,
+                                                        coord: coordinates,
+                                                        handler: { [weak self] (results) in
+                                                            self?.dataSource = results
+                                                            self?.tableView.reloadData()
+                                                            self?.showTable(by: tf)
+            })
+        }
+    }
+    
+    private func clearButtonTapped() {
+        originTextField.text = fromModel.locationName
+        destinationTextField.text = toModel.locationName
+        dataSource = []
+        tableView.reloadData()
+        view.endEditing(true)
+        navigationItem.rightBarButtonItem = nil
+        endInput()
+    }
+    
+    private func tableviewDidSelectItem(at indexPath: IndexPath) {
+        let selectedItem = dataSource[indexPath.row]
+        
+        if originTextField.isFirstResponder {
+            fromModel = selectedItem
+            originTextField.text = fromModel?.locationName
+        } else {
+            toModel = selectedItem
+            destinationTextField.text = toModel?.locationName
+        }
+        endInput ()
+    }
+
 }
 
+extension RouteBuidVC: MGLMapViewDelegate {
+    
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
+    
+}
 
-
-
-
-
-
-
+extension RouteBuidVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var searchCell: UITableViewCell!
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") {
+            searchCell = cell
+        } else {
+            searchCell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+        }
+        
+        let item = dataSource[indexPath.row]
+        
+        searchCell.detailTextLabel?.text = item.locationDescription
+        searchCell.textLabel?.text = item.locationName
+        
+        return searchCell
+    }
+    
+}

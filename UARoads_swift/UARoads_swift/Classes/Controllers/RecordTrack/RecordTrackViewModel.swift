@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreLocation
-import StfalconSwiftExtensions
 
 class RecordTrackViewModel {
     
@@ -83,8 +82,8 @@ class RecordTrackViewModel {
         let kmStr = "km".localized
         let text = distanceStr + kmStr
         let rangeKm = text.nsRange(of: kmStr)
-        let attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 19),
-                          NSForegroundColorAttributeName: UIColor.darkGray]
+        let attributes = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 19),
+                          NSAttributedStringKey.foregroundColor: UIColor.darkGray]
         let attrStr = NSMutableAttributedString(string: text)
         attrStr.addAttributes(attributes, range: rangeKm)
         return attrStr

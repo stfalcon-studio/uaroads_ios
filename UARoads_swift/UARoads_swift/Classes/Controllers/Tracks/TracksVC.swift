@@ -3,17 +3,17 @@
 //  UARoads_swift
 //
 //  Created by Victor Amelin on 4/7/17.
-//  Copyright © 2017 Victor Amelin. All rights reserved.
+//  Copyright © 2017 UARoads. All rights reserved.
 //
 
 import UIKit
-import StfalconSwiftExtensions
 import RealmSwift
 import DZNEmptyDataSet
 
 class TracksVC: BaseTVC {
-    fileprivate var dataSource = RealmHelper.objects(type: TrackModel.self)
-    fileprivate var notificationToken: NotificationToken? = nil
+    
+    private var dataSource = RealmHelper.objects(type: TrackModel.self)
+    private var notificationToken: NotificationToken? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,26 +80,18 @@ class TracksVC: BaseTVC {
     }
     
     deinit {
-        notificationToken?.stop()
+        notificationToken?.invalidate()
     }
     
     override func setupInterface() {
         super.setupInterface()
-        
-        title = NSLocalizedString("RecordTrackVC.title", comment: "")
+        navigationController?.navigationBar.tintColor = .white
+        title = NSLocalizedString("TracksVC.title", comment: "")
         
         tableView.register(RecordedCell.self, forCellReuseIdentifier: "RecordedCell")
-        tableView.tableFooterView = UIView()
-        
-        if let tabbar: UITabBar = self.tabBarController?.tabBar {
-            guard let tracksItem: UITabBarItem = tabbar.items?[TabbarItem.tracks.rawValue] else { return }
-            tracksItem.title = TabbarItem.tracks.title()
-        }
+        tableView.tableFooterView = UIView()        
     }
-    
-    private func deleteTracks() {
-        
-    }
+
 }
 
 extension TracksVC {
@@ -139,16 +131,16 @@ extension TracksVC {
 extension TracksVC: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let titleStr = NSLocalizedString("TracksVC.emptyDataSet.title", comment: "")
-        let attrs = [NSForegroundColorAttributeName : UIColor.colorPrimaryDark,
-                     NSFontAttributeName : UIFont.systemFont(ofSize: 18.0)]
+        let attrs = [NSAttributedStringKey.foregroundColor : UIColor.colorPrimaryDark,
+                     NSAttributedStringKey.font : UIFont.systemFont(ofSize: 18.0)]
         
         return NSMutableAttributedString(string: titleStr, attributes: attrs)
     }
     
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
         let btnTitle = NSLocalizedString("start", comment: "").uppercased()
-        let attrs = [NSForegroundColorAttributeName:UIColor.colorAccent,
-                     NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14.0)]
+        let attrs = [NSAttributedStringKey.foregroundColor:UIColor.colorAccent,
+                     NSAttributedStringKey.font:UIFont.boldSystemFont(ofSize: 14.0)]
         return NSMutableAttributedString(string: btnTitle, attributes: attrs)
     }
     

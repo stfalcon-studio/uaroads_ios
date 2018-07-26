@@ -9,23 +9,42 @@
 import UIKit
 import RxKeyboard
 import CoreLocation
+import Mapbox
+import MapboxNavigation
 
 class RoutesVC: BaseTVC {
-    fileprivate let fromTF = UITextField()
-    fileprivate let toTF = UITextField()
+    
+    fileprivate let toTF = LocationTextField()
     fileprivate let lineView = UIView()
-    fileprivate let webView = UIWebView()
+    
+    private lazy var mapView: MGLMapView = {
+        let url: URL? = URL(string: "mapbox://styles/andrewyaniv/cjj73k6qq214k2socmr7vr5ml")
+        let map: MGLMapView = MGLMapView(frame: self.view.bounds, styleURL: url)
+        map.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        //TODO: investigate default center
+        map.setCenter(CLLocationCoordinate2D(latitude: 49.3864569, longitude: 31.61828032), zoomLevel: 12, animated: false)
+        return map
+    }()
+    
     fileprivate let fromLocationBtn = UIButton()
     fileprivate let toLocationBtn = UIButton()
     fileprivate let clearBtn = UIBarButtonItem(image: UIImage(named: "reset-normal"), style: .plain, target: nil, action: nil)
     fileprivate let buildBtn = UIButton()
+    private let navigateButton: UIButton = UIButton()
     
     fileprivate let locationManager = CLLocationManager()
     fileprivate var dataSource = [SearchResultModel]()
     fileprivate var fromModel: SearchResultModel?
     fileprivate var toModel: SearchResultModel?
     
-    fileprivate var currentLocation: CLLocationCoordinate2D?
+    fileprivate var currentLocation: CLLocationCoordinate2D? {
+        didSet {
+            if let sValue = currentLocation {
+                mapView.setCenter(sValue, zoomLevel: 14, animated: true)
+                fromModel = SearchResultModel(locationCoordianate: sValue, locationName: "current location", locationDescription: nil)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,57 +56,48 @@ class RoutesVC: BaseTVC {
         updateLocation()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        loadWebView()
-    }
-    
     func setupConstraints() {
-        view.addSubview(fromTF)
+        view.addSubview(mapView)
         view.addSubview(toTF)
-        view.addSubview(lineView)
-        view.addSubview(webView)
         view.addSubview(buildBtn)
+        view.addSubview(navigateButton)
         
-        webView.addSubview(tableView)
-        
-        fromTF.snp.makeConstraints { (make) in
-            make.left.equalTo(15.0)
-            make.right.equalTo(-15.0)
-            make.top.equalToSuperview()
-            make.height.equalTo(50.0)
-        }
-        
-        lineView.snp.makeConstraints { (make) in
-            make.height.equalTo(1.0)
-            make.left.equalTo(fromTF)
-            make.right.equalTo(fromTF)
-            make.top.equalTo(fromTF.snp.bottom)
-        }
+        mapView.addSubview(tableView)
         
         toTF.snp.makeConstraints { (make) in
-            make.left.equalTo(fromTF)
-            make.right.equalTo(fromTF)
-            make.height.equalTo(fromTF)
-            make.top.equalTo(lineView)
+            make.left.equalTo(15.0)
+            make.right.equalTo(-15.0)
+            make.top.equalTo(16)
+            make.height.equalTo(50.0)
+            toTF.backgroundColor = .white
         }
         
         buildBtn.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.top.equalTo(toTF.snp.bottom)
+            make.width.equalTo(50)
+            make.top.equalTo(toTF.snp.bottom).offset(4)
             make.height.equalTo(50.0)
-            make.centerX.equalToSuperview()
+            make.trailing.equalTo(toTF.snp.trailing).offset(-20)
         }
         
-        webView.snp.makeConstraints { (make) in
-            make.width.equalToSuperview()
-            make.top.equalTo(toTF.snp.bottom)
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview()
+        navigateButton.snp.makeConstraints { maker in
+            maker.width.equalTo(50)
+            maker.top.equalTo(buildBtn.snp.top)
+            maker.height.equalTo(50)
+            maker.trailing.equalTo(buildBtn.snp.leading).offset(-10)
+        }
+        
+        mapView.snp.makeConstraints { maker in
+            maker.width.equalToSuperview()
+            maker.top.equalTo(view.snp.top)
+            maker.centerX.equalToSuperview()
+            maker.bottom.equalToSuperview()
         }
         
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.top.equalTo(toTF.snp.bottom)
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -101,12 +111,10 @@ class RoutesVC: BaseTVC {
         
         clearBtn.tintColor = UIColor.white
         
-        webView.scalesPageToFit = true
-        
         customizeLocationButtons()
-        customizeFromTF()
         customizeToTF()
         customizeBuildButton()
+        customizeNavigationButton()
         
         //hidden by default
         tableView.alpha = 0.0
@@ -126,6 +134,14 @@ class RoutesVC: BaseTVC {
             .tap
             .bind { [weak self] in
                 self?.buildRouteTapped()
+            }
+            .addDisposableTo(disposeBag)
+        
+        navigateButton
+            .rx
+            .tap
+            .bind { [weak self] in
+                self?.startNavigation()
             }
             .addDisposableTo(disposeBag)
         
@@ -162,29 +178,11 @@ class RoutesVC: BaseTVC {
             }
             .addDisposableTo(disposeBag)
         
-        //change values
-        fromTF
-            .rx
-            .controlEvent(.editingChanged)
-            .bind { [weak self] in
-                self?.textFieldValueChanged(self?.fromTF)
-            }
-            .addDisposableTo(disposeBag)
-        
         toTF
             .rx
             .controlEvent(.editingChanged)
             .bind { [weak self] in
                 self?.textFieldValueChanged(self?.toTF)
-            }
-            .addDisposableTo(disposeBag)
-        
-        //all touches
-        fromTF
-            .rx
-            .controlEvent(.editingDidBegin)
-            .bind { [weak self] in
-                self?.hideBuildButton()
             }
             .addDisposableTo(disposeBag)
         
@@ -205,14 +203,6 @@ class RoutesVC: BaseTVC {
             }
             .addDisposableTo(disposeBag)
         
-        fromTF
-            .rx
-            .controlEvent(.editingDidEndOnExit)
-            .bind { [weak self] in
-                self?.textFieldDidEndEditing()
-            }
-            .addDisposableTo(disposeBag)
-        
         //keyboard appearance
         RxKeyboard
             .instance
@@ -221,17 +211,7 @@ class RoutesVC: BaseTVC {
                 self?.tableView.contentInset = UIEdgeInsetsMake(0.0, 0.0, offset, 0.0)
                 }, onCompleted: nil, onDisposed: nil)
             .addDisposableTo(disposeBag)
-        
-        //webview
-        webView
-            .rx
-            .didFinishLoad
-            .bind {
-                
-            }
-            .addDisposableTo(disposeBag)
     }
-    
     
     //MARK: Private funcs
     
@@ -248,24 +228,32 @@ class RoutesVC: BaseTVC {
         buildBtn.setTitle(buttonTitle, for: .normal)
         buildBtn.titleLabel?.textColor = UIColor.white
         buildBtn.backgroundColor = UIColor.colorAccent
+        buildBtn.layer.cornerRadius = 25
     }
     
-    private func customizeFromTF() {
-        fromTF.placeholder = NSLocalizedString("RoutesVC.fromTextFieldPlaceholder", comment: "")
-        fromTF.autocorrectionType = .no
-        fromTF.rightView = fromLocationBtn
-        fromTF.rightViewMode = .unlessEditing
-        fromTF.clearButtonMode = .whileEditing
-        fromTF.clearsOnBeginEditing = true
+    private func customizeNavigationButton() {
+        let  buttonTitle = NSLocalizedString("RoutesVC.navigationTitle", comment: "")
+        navigateButton.setTitle(buttonTitle, for: .normal)
+        navigateButton.titleLabel?.textColor = UIColor.white
+        navigateButton.backgroundColor = UIColor.blue
+        navigateButton.layer.cornerRadius = 25
     }
     
     private func customizeToTF() {
         toTF.placeholder = NSLocalizedString("RoutesVC.toTextFieldPlaceholder", comment: "")
         toTF.autocorrectionType = .no
-        toTF.rightView = toLocationBtn
-        toTF.rightViewMode = .unlessEditing
         toTF.clearButtonMode = .whileEditing
         toTF.clearsOnBeginEditing = true
+        
+        toTF.layer.shadowColor = UIColor.darkGray.cgColor
+        toTF.layer.shadowOpacity = 2
+        toTF.layer.masksToBounds = false
+        toTF.layer.shadowRadius = 2
+        
+        toTF.layer.cornerRadius = 10
+        
+        toTF.layer.borderColor = UIColor.black.cgColor
+        toTF.layer.borderWidth = 0.3
     }
     
     private func textFieldDidEndEditing() {
@@ -276,6 +264,7 @@ class RoutesVC: BaseTVC {
     private func hideBuildButton() {
         UIView.animate(withDuration: 0.2, animations: {
             self.buildBtn.alpha = 0.0
+            self.navigateButton.alpha = 0.0
         })
     }
     
@@ -287,18 +276,6 @@ class RoutesVC: BaseTVC {
         }
         checkLocationAuthStatus()
         if let text = tf.text, let coordinates = locationManager.location?.coordinate {
-//            let req = SearchGeoRequest { (result) in
-//                switch result {
-//                case .success(let value):
-//                    let json = JSON(value)
-//                    self.parsePlaseFromJson(json)
-//                case .error(let error) :
-//                    self.delegate?.searchPlacesWith(error: error)
-//                }
-//            }
-//            req.locationName = placeName
-//            req.perform()
-            
             NetworkManager.sharedInstance.searchResults(location: text,
                                                         coord: coordinates,
                                                         handler: { [weak self] (results) in
@@ -323,10 +300,8 @@ class RoutesVC: BaseTVC {
     
     private func fromLocationTapped() {
         if let coord = self.currentLocation {
-            self.fromTF.text = NSLocalizedString("RoutesVC.myCurrentLocation", comment: "")
-            self.fromTF.resignFirstResponder()
             self.fromModel = SearchResultModel(locationCoordianate: coord,
-                                               locationName: self.fromTF.text,
+                                               locationName: "RoutesVC.myCurrentLocation",
                                                locationDescription: nil)
         }
         checkLocationAuthStatus()
@@ -335,8 +310,6 @@ class RoutesVC: BaseTVC {
     
     private func clearButtonTapped() {
         self.toModel = nil
-        self.fromModel = nil
-        self.fromTF.text = ""
         self.toTF.text = ""
         self.dataSource = []
         self.tableView.reloadData()
@@ -348,11 +321,8 @@ class RoutesVC: BaseTVC {
     
     private func tableviewDidSelectItem(at indexPath: IndexPath) {
         let selectedItem = dataSource[indexPath.row]
-        if fromTF.isFirstResponder {
-            fromModel = selectedItem
-            fromTF.text = fromModel?.locationName
-            
-        } else if toTF.isFirstResponder {
+        
+        if toTF.isFirstResponder {
             toModel = selectedItem
             toTF.text = toModel?.locationName
         }
@@ -375,6 +345,18 @@ class RoutesVC: BaseTVC {
                                                              handler: { [weak self] status in
                                                                 self?.handleRouteAbilityResponse(status: status)
         })
+    }
+    
+    private func startNavigation() {
+        guard let fromLocation = fromModel?.locationCoordianate, let toLocation = toModel?.locationCoordianate else { return }
+        RouteBuildHelper.route(from: fromLocation, to: toLocation) { [weak self] route in
+            if let sRoute = route, let sSelf = self {
+                let navigationViewController = NavigationViewController(for: sRoute)
+                sSelf.present(navigationViewController, animated: true, completion: nil)
+            } else {
+                fatalError("Invalid route")
+            }
+        }
     }
     
     private func handleRouteAbilityResponse(status: Int) {
@@ -432,9 +414,11 @@ class RoutesVC: BaseTVC {
         if fromModel != nil && toModel != nil {
             UIView.animate(withDuration: 0.2, animations: { [weak self] in
                 self?.buildBtn.alpha = 1.0
+                self?.navigateButton.alpha = 1.0
             })
         } else {
             buildBtn.alpha = 0.0
+            navigateButton.alpha = 0.0
         }
     }
 }
@@ -468,28 +452,10 @@ extension RoutesVC: CLLocationManagerDelegate {
         if let coord = locations.last {
             currentLocation = coord.coordinate
         }
-        loadWebView()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        loadWebView()
         print("ERROR: \(error.localizedDescription)")
     }
-    
-    func loadWebView() {
-        if let url = webView.request?.url,
-            !url.absoluteString.isEmpty {
-            return
-        }
-        var urlStr: String!
-        if let coord = currentLocation {
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=\(coord.latitude)&lon=\(coord.longitude)&zoom=14"
-        } else {
-            urlStr = "http://uaroads.com/static-map?mob=true&lat=49.3864569&lon=31.6182803&zoom=6"
-        }
-        webView.loadRequest(URLRequest(url: URL(string: urlStr)!))
-    }
+
 }
-
-
-

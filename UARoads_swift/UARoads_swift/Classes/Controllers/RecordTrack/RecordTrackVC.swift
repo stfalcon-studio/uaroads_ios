@@ -3,12 +3,11 @@
 //  UARoads_swift
 //
 //  Created by Roman Rybachenko on 7/13/17.
-//  Copyright © 2017 Victor Amelin. All rights reserved.
+//  Copyright © 2017 UARoads. All rights reserved.
 //
 
 import UIKit
 import CoreLocation
-import StfalconSwiftExtensions
 
 class RecordTrackVC: UIViewController {
     
@@ -47,10 +46,8 @@ class RecordTrackVC: UIViewController {
     }
     @IBOutlet weak var graphView: GraphView!
     
-//    
-//    fileprivate let graphView = GraphView()
+
     let viewModel: RecordTrackViewModel = RecordTrackViewModel()
-    
 
     // MARK: Overriden funcs
     override func viewDidLoad() {
@@ -59,6 +56,8 @@ class RecordTrackVC: UIViewController {
         navigationItem.title = NSLocalizedString("RecordTrackVC.title", comment: "")
       
         RecordService.shared.motionManager.delegate = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tracks-normal"), style: .done, target: self, action: #selector(presentTracks))
         
         setupInterface()
         setupRx()
@@ -87,6 +86,11 @@ class RecordTrackVC: UIViewController {
     
 
     // MARK: Action funcs
+    
+    @objc private func presentTracks() {
+        let tracksVC = TracksVC()
+        navigationController?.pushViewController(tracksVC, animated: true)
+    }
     
     @IBAction func signInTapped(_ sender: UIButton) {
         self.tabBarController?.selectedIndex = 3

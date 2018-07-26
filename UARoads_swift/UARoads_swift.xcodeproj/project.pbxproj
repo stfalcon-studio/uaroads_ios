@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		174ABB2D21071CD700A432AD /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2321071CD600A432AD /* UIScrollView.swift */; };
+		174ABB2E21071CD700A432AD /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2421071CD600A432AD /* UIView.swift */; };
+		174ABB2F21071CD700A432AD /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2521071CD600A432AD /* Realm.swift */; };
+		174ABB3021071CD700A432AD /* OperatorOverloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2621071CD600A432AD /* OperatorOverloading.swift */; };
+		174ABB3121071CD700A432AD /* MutableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2721071CD600A432AD /* MutableData.swift */; };
+		174ABB3221071CD700A432AD /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2821071CD600A432AD /* Dispatch.swift */; };
+		174ABB3321071CD700A432AD /* UARString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2921071CD600A432AD /* UARString.swift */; };
+		174ABB3421071CD700A432AD /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2A21071CD600A432AD /* UIViewController.swift */; };
+		174ABB3521071CD700A432AD /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2B21071CD600A432AD /* DeviceType.swift */; };
+		174ABB3621071CD700A432AD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174ABB2C21071CD600A432AD /* UILabel.swift */; };
+		175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1C20F774AA0096E857 /* LocationTextField.swift */; };
+		175EDB1F20F791C10096E857 /* RouteBuildHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */; };
 		301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */; };
 		301F50F31F276BBC00B86B10 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AD1F276BBC00B86B10 /* AppDelegate.swift */; };
 		301F50F41F276BBC00B86B10 /* Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301F50AE1F276BBC00B86B10 /* Closures.swift */; };
@@ -111,6 +123,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		174ABB2321071CD600A432AD /* UIScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
+		174ABB2421071CD600A432AD /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		174ABB2521071CD600A432AD /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
+		174ABB2621071CD600A432AD /* OperatorOverloading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorOverloading.swift; sourceTree = "<group>"; };
+		174ABB2721071CD600A432AD /* MutableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableData.swift; sourceTree = "<group>"; };
+		174ABB2821071CD600A432AD /* Dispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
+		174ABB2921071CD600A432AD /* UARString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UARString.swift; sourceTree = "<group>"; };
+		174ABB2A21071CD600A432AD /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		174ABB2B21071CD600A432AD /* DeviceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
+		174ABB2C21071CD600A432AD /* UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
+		175EDB1C20F774AA0096E857 /* LocationTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTextField.swift; sourceTree = "<group>"; };
+		175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBuildHelper.swift; sourceTree = "<group>"; };
 		301F22F51F2F4807003A2DC7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		301F50AD1F276BBC00B86B10 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		301F50AE1F276BBC00B86B10 /* Closures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Closures.swift; sourceTree = "<group>"; };
@@ -248,6 +272,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		174ABB2221071CD600A432AD /* UARoads_extension */ = {
+			isa = PBXGroup;
+			children = (
+				174ABB2321071CD600A432AD /* UIScrollView.swift */,
+				174ABB2421071CD600A432AD /* UIView.swift */,
+				174ABB2521071CD600A432AD /* Realm.swift */,
+				174ABB2621071CD600A432AD /* OperatorOverloading.swift */,
+				174ABB2721071CD600A432AD /* MutableData.swift */,
+				174ABB2821071CD600A432AD /* Dispatch.swift */,
+				174ABB2921071CD600A432AD /* UARString.swift */,
+				174ABB2A21071CD600A432AD /* UIViewController.swift */,
+				174ABB2B21071CD600A432AD /* DeviceType.swift */,
+				174ABB2C21071CD600A432AD /* UILabel.swift */,
+			);
+			path = UARoads_extension;
+			sourceTree = "<group>";
+		};
 		301F50AC1F276BBC00B86B10 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +334,7 @@
 		301F50BD1F276BBC00B86B10 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				174ABB2221071CD600A432AD /* UARoads_extension */,
 				301F50BE1F276BBC00B86B10 /* CGFloat.swift */,
 				301F50BF1F276BBC00B86B10 /* CLLocation.swift */,
 				301F50C01F276BBC00B86B10 /* Color.swift */,
@@ -336,6 +378,7 @@
 				8436D3141F98DF1100C4C3C9 /* AlertRenderer.swift */,
 				301F50CC1F276BBC00B86B10 /* Utilities.swift */,
 				8454F1D71F9E12C800D59ACB /* Storyboard.swift */,
+				175EDB1E20F791C10096E857 /* RouteBuildHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -397,6 +440,7 @@
 				301F516D1F276EF100B86B10 /* CustomButtons */,
 				301F51641F276EE400B86B10 /* XibViews */,
 				301F51321F276BE900B86B10 /* GraphView.swift */,
+				175EDB1C20F774AA0096E857 /* LocationTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -785,7 +829,6 @@
 				F40D92D91E97768B00647D5E /* Frameworks */,
 				F40D92DA1E97768B00647D5E /* Resources */,
 				AE83F917CB5E2AC416B6383B /* [CP] Embed Pods Frameworks */,
-				09792A97201CE18B522BD7EA /* [CP] Copy Pods Resources */,
 				F418248F1EA8A0A30075872C /* ShellScript */,
 			);
 			buildRules = (
@@ -804,14 +847,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Victor Amelin";
 				TargetAttributes = {
 					F40D92DB1E97768B00647D5E = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = B53N648P93;
-						LastSwiftMigration = 0830;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = NJ28S6SDYJ;
+						LastSwiftMigration = 0940;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -876,21 +919,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		09792A97201CE18B522BD7EA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AE83F917CB5E2AC416B6383B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -898,36 +926,58 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-UARoads_swift/Pods-UARoads_swift-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
+				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MapboxCoreNavigation/MapboxCoreNavigation.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxDirections.swift/MapboxDirections.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxMobileEvents/MapboxMobileEvents.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxNavigation/MapboxNavigation.framework",
+				"${BUILT_PRODUCTS_DIR}/MapboxSpeech/MapboxSpeech.framework",
+				"${BUILT_PRODUCTS_DIR}/Polyline/Polyline.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxKeyboard/RxKeyboard.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/StfalconSwiftExtensions/StfalconSwiftExtensions.framework",
+				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TSValidatedTextField/TSValidatedTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/Turf/Turf.framework",
 				"${BUILT_PRODUCTS_DIR}/UIViewController+ODStatusBar/UIViewController_ODStatusBar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JGProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxCoreNavigation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxDirections.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxNavigation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxSpeech.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyline.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxKeyboard.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StfalconSwiftExtensions.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TSValidatedTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Turf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIViewController_ODStatusBar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,7 +1000,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F418248F1EA8A0A30075872C /* ShellScript */ = {
@@ -978,6 +1028,7 @@
 				301F511A1F276BBC00B86B10 /* PitProtocol.swift in Sources */,
 				301F51051F276BBC00B86B10 /* String.swift in Sources */,
 				301F51011F276BBC00B86B10 /* CGFloat.swift in Sources */,
+				174ABB3221071CD700A432AD /* Dispatch.swift in Sources */,
 				301F51021F276BBC00B86B10 /* CLLocation.swift in Sources */,
 				301F51861F2771F100B86B10 /* RoutesVC.swift in Sources */,
 				301F513D1F276BE900B86B10 /* FooterText.swift in Sources */,
@@ -989,6 +1040,8 @@
 				301F51761F276F6200B86B10 /* TrackModel.swift in Sources */,
 				301F51781F276FB600B86B10 /* SearchResultModel.swift in Sources */,
 				F40DBF501EAF6C54002F6C11 /* UARInstruction.m in Sources */,
+				175EDB1D20F774AA0096E857 /* LocationTextField.swift in Sources */,
+				174ABB3321071CD700A432AD /* UARString.swift in Sources */,
 				3D16F4A71FA9B7D200C6436A /* StatisticRequest.swift in Sources */,
 				301F22F61F2F4807003A2DC7 /* SettingsViewModel.swift in Sources */,
 				F40DBF4E1EAF6C54002F6C11 /* UIColor+UARColor.m in Sources */,
@@ -1004,11 +1057,13 @@
 				F40DBF4C1EAF6C54002F6C11 /* MKPolyline+UARPolylineEncodedString.m in Sources */,
 				301F51111F276BBC00B86B10 /* RealmManager.swift in Sources */,
 				301F510B1F276BBC00B86B10 /* AnalyticManager.swift in Sources */,
+				174ABB3121071CD700A432AD /* MutableData.swift in Sources */,
 				F40DBF531EAF6C54002F6C11 /* UARRoadController.m in Sources */,
 				301F51421F276BE900B86B10 /* RecordedCell.swift in Sources */,
 				3D16F4A41FA9B7C800C6436A /* BaseRequestProtocol.swift in Sources */,
 				301F51691F276EE400B86B10 /* CurrentTrackView.swift in Sources */,
 				3D16F4A81FA9B7D400C6436A /* SendRecordTrackRequest.swift in Sources */,
+				174ABB3621071CD700A432AD /* UILabel.swift in Sources */,
 				301F510C1F276BBC00B86B10 /* AutostartManager.swift in Sources */,
 				301F510A1F276BBC00B86B10 /* AlertManager.swift in Sources */,
 				301F51751F276F6200B86B10 /* PitModel.swift in Sources */,
@@ -1018,16 +1073,21 @@
 				3D16F4AB1FA9B9F900C6436A /* BaseRequest.swift in Sources */,
 				301F518F1F289AB200B86B10 /* TracksFileManager.swift in Sources */,
 				301F51151F276BBC00B86B10 /* NetworkManager.swift in Sources */,
+				174ABB3521071CD700A432AD /* DeviceType.swift in Sources */,
 				3D16F4A91FA9B7D600C6436A /* SearchGeoRequest.swift in Sources */,
 				301F51711F276EF100B86B10 /* BorderButton.swift in Sources */,
 				301F51031F276BBC00B86B10 /* Color.swift in Sources */,
 				3D16F4A61FA9B7D000C6436A /* SignInRequest.swift in Sources */,
 				F40DBF541EAF6C54002F6C11 /* UARRouteJSONParser.m in Sources */,
+				174ABB2D21071CD700A432AD /* UIScrollView.swift in Sources */,
 				301F51841F2771F100B86B10 /* SettingsVC.swift in Sources */,
 				F40DBF4D1EAF6C54002F6C11 /* NSString+UARString.m in Sources */,
 				301F51701F276EF100B86B10 /* ArcButton.swift in Sources */,
+				174ABB2F21071CD700A432AD /* Realm.swift in Sources */,
+				174ABB3421071CD700A432AD /* UIViewController.swift in Sources */,
 				301F50FA1F276BBC00B86B10 /* BaseVC.swift in Sources */,
 				301F51411F276BE900B86B10 /* BaseCell.swift in Sources */,
+				174ABB2E21071CD700A432AD /* UIView.swift in Sources */,
 				301F51941F29E0E000B86B10 /* NetworkConnectionManager.swift in Sources */,
 				301F51091F276BBC00B86B10 /* Utilities.swift in Sources */,
 				3D1C92171FC47D85008137E5 /* LocalNotificationManager.swift in Sources */,
@@ -1035,8 +1095,10 @@
 				301F51441F276BE900B86B10 /* SettingsTFCell.swift in Sources */,
 				301F51821F2771F100B86B10 /* TutorialVC.swift in Sources */,
 				301F51851F2771F100B86B10 /* RouteBuidVC.swift in Sources */,
+				174ABB3021071CD700A432AD /* OperatorOverloading.swift in Sources */,
 				301F50F51F276BBC00B86B10 /* Constants.swift in Sources */,
 				301F51101F276BBC00B86B10 /* MotionManager.swift in Sources */,
+				175EDB1F20F791C10096E857 /* RouteBuildHelper.swift in Sources */,
 				301F51191F276BBC00B86B10 /* MainVCProtocol.swift in Sources */,
 				301F51071F276BBC00B86B10 /* NSString+MD5.m in Sources */,
 				301F51041F276BBC00B86B10 /* GFunctions.swift in Sources */,
@@ -1098,21 +1160,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1148,21 +1219,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1193,10 +1273,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = B53N648P93;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NJ28S6SDYJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1222,11 +1302,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.uaroads3;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE = "e0d5d7c8-608b-4f56-9bd8-b471c5a9a7c3";
-				PROVISIONING_PROFILE_SPECIFIER = uaRoadsDev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/Classes/UARoads_swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1237,10 +1318,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Stepan Tanasiychuk (LEV354M4R3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = B53N648P93;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NJ28S6SDYJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/UARoads_swift/uaroads-com-ios/Pods/Crashlytics",
@@ -1266,10 +1347,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stfalcon.uaroads3;
 				PRODUCT_NAME = "UA Roads";
-				PROVISIONING_PROFILE = "33614a3d-a39b-4c99-bde0-fb9a131a527e";
-				PROVISIONING_PROFILE_SPECIFIER = uaRoadsDistr;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UARoads_swift/Classes/UARoads_swift-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -14,7 +14,7 @@ final class HUDManager {
     static let sharedInstance = HUDManager()
     
     fileprivate var HUD: JGProgressHUD = {
-        let hud = JGProgressHUD(style: JGProgressHUDStyle.extraLight)!
+        let hud = JGProgressHUD(style: JGProgressHUDStyle.extraLight)
         hud.interactionType = .blockAllTouches
         hud.position = .center
         
@@ -22,7 +22,7 @@ final class HUDManager {
     }()
     
     func show(from: UIViewController) {
-        DispatchQueue.main.async { [weak self] _ in
+        DispatchQueue.main.async { [weak self] in
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             self?.HUD.show(in: from.view)
         }

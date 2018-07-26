@@ -9,15 +9,15 @@
 import RealmSwift
 
 class TrackModel: Object {
-    dynamic var trackID: String = ""
-    dynamic var title: String = ""
-    dynamic var date: Date = Date()
-    dynamic var distance: CGFloat = 0.0
-    dynamic var maxPit: Double = 0.0
-    dynamic var status = TrackStatus.active.rawValue
-    dynamic var autoRecord: Bool = false
-    dynamic var debug: Bool = false
-    dynamic var trackFileName: String = ""
+    @objc dynamic var trackID: String = ""
+    @objc dynamic var title: String = ""
+    @objc dynamic var date: Date = Date()
+    @objc dynamic var distance: CGFloat = 0.0
+    @objc dynamic var maxPit: Double = 0.0
+    @objc dynamic var status = TrackStatus.active.rawValue
+    @objc dynamic var autoRecord: Bool = false
+    @objc dynamic var debug: Bool = false
+    @objc dynamic var trackFileName: String = ""
     let pits = List<PitModel>()
     
     override static func primaryKey() -> String? {

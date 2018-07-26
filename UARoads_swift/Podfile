@@ -3,7 +3,7 @@ target 'UARoads_swift' do
     use_frameworks!
     
     #Constraints
-    pod 'SnapKit',  ‘~> 3.2.0’
+    pod 'SnapKit'#,  ‘~> 3.2.0’
     
     #Crashlytics and Analytics
     pod 'Fabric'
@@ -12,7 +12,7 @@ target 'UARoads_swift' do
     pod 'Heap'
     
     #Realm
-    pod 'RealmSwift', '~> 2.5.1'
+    pod 'RealmSwift'#, '~> 2.5.1'
     
     #Rx stuff
     pod 'RxSwift'
@@ -23,8 +23,8 @@ target 'UARoads_swift' do
     pod 'SwiftyJSON'
     
     #Connection
-    pod 'ReachabilitySwift', '~> 3'    
-    pod 'Alamofire', '~> 4.5'
+    pod 'ReachabilitySwift'#, '~> 3'
+    pod 'Alamofire'#, '~> 4.5'
     
     #UI elements
     pod 'JGProgressHUD'
@@ -32,7 +32,9 @@ target 'UARoads_swift' do
     pod 'TSValidatedTextField'
     pod 'DZNEmptyDataSet'
     
-    #extensions
-    pod 'StfalconSwiftExtensions'
+    #Mapbox
+    pod 'Mapbox-iOS-SDK', '~> 4.1'
+    pod 'MapboxNavigation', '~> 0.18'
+    pod 'MapboxGeocoder.swift', '~> 0.8'
     
 end

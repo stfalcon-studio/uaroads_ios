@@ -23,6 +23,7 @@
 "RoutesVC.buildButtonTitle" = "Побудувати";
 "RoutesVC.myCurrentLocation" = "Моє поточне місце розташування";
 "RoutesVC.goToLocationSetting" = "Геолокацію вимкнено. Бажаєте відкрити Параметри, щоб увімкнути геолокацію?";
+"RoutesVC.navigationTitle" = "Navi";
 
 "RouteBuidVC.cancelButtonTitle" = "Скасувати";
 "RouteBuidVC.title" = "Маршрут";

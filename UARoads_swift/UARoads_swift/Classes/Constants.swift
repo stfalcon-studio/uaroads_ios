@@ -3,7 +3,7 @@
 //  UARoads_swift
 //
 //  Created by Roman Rybachenko on 7/4/17.
-//  Copyright © 2017 Victor Amelin. All rights reserved.
+//  Copyright © 2017 UARoads. All rights reserved.
 //
 
 import Foundation
@@ -55,7 +55,6 @@ enum RecordStatus {
 enum TabbarItem: Int {
     case buildRoute
     case recordTrack
-    case tracks
     case settings
     
     func title() -> String {
@@ -65,8 +64,6 @@ enum TabbarItem: Int {
             titleStr = NSLocalizedString("tabbar.item.0", comment: "")
         case .recordTrack:
             titleStr = NSLocalizedString("tabbar.item.1", comment: "")
-        case .tracks:
-            titleStr = NSLocalizedString("tabbar.item.2", comment: "")
         case .settings:
             titleStr = NSLocalizedString("tabbar.item.3", comment: "")
         }
