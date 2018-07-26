@@ -3,7 +3,7 @@
 //  iseeds
 //
 //  Created by Victor Amelin on 1/25/17.
-//  Copyright © 2017 Victor Amelin. All rights reserved.
+//  Copyright © 2017 UARoads. All rights reserved.
 //
 
 import UIKit
